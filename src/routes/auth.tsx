@@ -17,14 +17,32 @@ function AuthPage() {
   const [email, setEmail] = useState("recepcao@ilhadomeio.com.br");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const navigate = useNavigate();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
+      if (mode === "signup") {
+        const { error: signErr } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+        });
+        if (signErr) throw signErr;
+        const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInErr) throw signInErr;
+        const { error: claimErr } = await supabase.rpc("claim_first_admin" as never);
+        if (claimErr && !/admin_already_exists/.test(claimErr.message)) {
+          toast.error("Conta criada, mas falha ao conceder admin: " + claimErr.message);
+        } else {
+          toast.success("Conta administradora criada.");
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+      }
       navigate({ to: "/dashboard" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Falha ao autenticar");
