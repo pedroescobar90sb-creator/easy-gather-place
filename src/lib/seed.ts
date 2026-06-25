@@ -96,7 +96,7 @@ export const seedGuests = (): Guest[] =>
     createdAt: iso(addDays(today, -60 - i * 3)),
   }));
 
-const channels: Reservation["channel"][] = ["direto", "booking", "whatsapp", "site", "telefone"];
+const channels: Reservation["channel"][] = ["booking", "booking", "booking", "whatsapp", "whatsapp", "instagram", "direto", "site", "telefone"];
 
 export const seedReservations = (rooms: Room[], guests: Guest[]): Reservation[] => {
   const list: Reservation[] = [];
@@ -173,39 +173,39 @@ export const seedBlocks = (rooms: Room[]): RoomBlock[] => [
 export const seedPromotions = (rooms: Room[]): Promotion[] => [
   {
     id: "promo-1",
-    name: "Pacote Romântico",
-    description: "Café da manhã na varanda + jantar à luz de velas",
+    name: "Reserva Antecipada",
+    description: "10% de desconto para reservas feitas com antecedência no canal direto.",
     from: iso(addDays(today, -10)),
-    to: iso(addDays(today, 60)),
+    to: iso(addDays(today, 120)),
     discountPct: 10,
-    roomIds: [rooms[0].id, rooms[12].id],
+    roomIds: rooms.map((r) => r.id),
     active: true,
-    conversions: 14,
-    revenue: 18760,
+    conversions: 22,
+    revenue: 18900,
   },
   {
     id: "promo-2",
-    name: "Meio de Semana",
-    description: "3 noites de terça a sexta com 20% off",
+    name: "Domingo a Quinta",
+    description: "Tarifa reduzida de domingo a quinta — casal R$400, triplo R$500, quádruplo R$600.",
     from: iso(addDays(today, 0)),
     to: iso(addDays(today, 90)),
-    discountPct: 20,
-    roomIds: rooms.slice(5, 11).map((r) => r.id),
+    discountPct: 11,
+    roomIds: rooms.map((r) => r.id),
     active: true,
-    conversions: 9,
-    revenue: 11200,
+    conversions: 17,
+    revenue: 13400,
   },
   {
     id: "promo-3",
-    name: "Baixa Temporada",
-    description: "Estadias de 5+ noites com benefício especial",
-    from: iso(addDays(today, 30)),
-    to: iso(addDays(today, 120)),
-    discountPct: 15,
+    name: "Reserva Direta sem Comissão",
+    description: "Reservas via WhatsApp ou Instagram da pousada — sem taxa de plataforma.",
+    from: iso(addDays(today, -30)),
+    to: iso(addDays(today, 180)),
+    discountPct: 8,
     roomIds: rooms.map((r) => r.id),
-    active: false,
-    conversions: 0,
-    revenue: 0,
+    active: true,
+    conversions: 11,
+    revenue: 9600,
   },
 ];
 
