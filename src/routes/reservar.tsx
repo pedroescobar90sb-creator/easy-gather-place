@@ -148,16 +148,16 @@ function BookingEngine() {
                   <div className="md:hidden">
                     <Popover>
                       <PopoverTrigger asChild>
-                        <button className="w-full rounded-xl border bg-card p-4 text-left active:scale-[0.99] transition">
-                          <div className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                            <CalendarDays className="h-3 w-3" /> Datas da estadia
+                        <button className="w-full rounded-xl border-2 bg-card p-4 text-left active:scale-[0.99] transition hover:border-primary/50">
+                          <div className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
+                            <CalendarDays className="h-3.5 w-3.5" /> Datas da estadia
                           </div>
-                          <div className="mt-1.5 font-display text-lg">
+                          <div className="mt-2 font-display text-xl text-foreground font-medium">
                             {range?.from ? fmtBR(range.from) : "Check-in"}
-                            <span className="mx-2 text-muted-foreground">→</span>
+                            <span className="mx-2 text-foreground/40">→</span>
                             {range?.to ? fmtBR(range.to) : "Check-out"}
                           </div>
-                          {nights > 0 && <div className="text-xs text-muted-foreground mt-0.5">{nights} noite{nights > 1 ? "s" : ""}</div>}
+                          {nights > 0 && <div className="text-sm text-foreground/70 mt-1 font-medium">{nights} noite{nights > 1 ? "s" : ""}</div>}
                         </button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="center">
