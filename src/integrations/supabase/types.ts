@@ -77,6 +77,33 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       promotions: {
         Row: {
           active: boolean
@@ -116,6 +143,42 @@ export type Database = {
           revenue?: number
           room_ids?: string[]
           to_date?: string
+        }
+        Relationships: []
+      }
+      property_settings: {
+        Row: {
+          address: string | null
+          cancellation_policy: string | null
+          check_in: string
+          check_out: string
+          created_at: string
+          id: string
+          name: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          cancellation_policy?: string | null
+          check_in?: string
+          check_out?: string
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          cancellation_policy?: string | null
+          check_in?: string
+          check_out?: string
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -269,6 +332,7 @@ export type Database = {
           code: string
           created_at: string
           description: string | null
+          floor: number | null
           id: string
           image: string | null
           name: string
@@ -282,6 +346,7 @@ export type Database = {
           code: string
           created_at?: string
           description?: string | null
+          floor?: number | null
           id?: string
           image?: string | null
           name: string
@@ -295,6 +360,7 @@ export type Database = {
           code?: string
           created_at?: string
           description?: string | null
+          floor?: number | null
           id?: string
           image?: string | null
           name?: string
@@ -380,7 +446,14 @@ export type Database = {
         | "cancelled"
         | "no_show"
       room_status: "active" | "inactive" | "maintenance" | "blocked"
-      room_type: "suite" | "bangalo" | "standard" | "master"
+      room_type:
+        | "suite"
+        | "bangalo"
+        | "standard"
+        | "master"
+        | "duplo_casal"
+        | "triplo"
+        | "quadruplo"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -528,7 +601,15 @@ export const Constants = {
         "no_show",
       ],
       room_status: ["active", "inactive", "maintenance", "blocked"],
-      room_type: ["suite", "bangalo", "standard", "master"],
+      room_type: [
+        "suite",
+        "bangalo",
+        "standard",
+        "master",
+        "duplo_casal",
+        "triplo",
+        "quadruplo",
+      ],
     },
   },
 } as const
