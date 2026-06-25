@@ -215,7 +215,7 @@ function BookingEngine() {
 
               <Button
                 size="lg"
-                className="w-full h-12 text-base font-medium"
+                className="w-full h-14 text-base font-semibold tracking-wide"
                 disabled={!datesValid}
                 onClick={() => setStep(2)}
               >
