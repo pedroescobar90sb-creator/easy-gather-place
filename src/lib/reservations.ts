@@ -20,12 +20,14 @@ export function checkConflict(opts: {
   checkIn: string;
   checkOut: string;
   excludeId?: string;
-  reservations: Reservation[];
-  blocks: RoomBlock[];
+  reservations?: Reservation[];
+  blocks?: RoomBlock[];
 }): ConflictResult {
   const conflicts: ConflictResult["conflicts"] = [];
+  const reservations = opts.reservations ?? [];
+  const blocks = opts.blocks ?? [];
 
-  for (const r of opts.reservations) {
+  for (const r of reservations) {
     if (r.id === opts.excludeId) continue;
     if (r.roomId !== opts.roomId) continue;
     if (r.status === "cancelled" || r.status === "no_show") continue;
@@ -33,7 +35,7 @@ export function checkConflict(opts: {
       conflicts.push({ type: "reservation", id: r.id, label: `Reserva ${r.code}` });
     }
   }
-  for (const b of opts.blocks) {
+  for (const b of blocks) {
     if (b.roomId !== opts.roomId) continue;
     if (hasOverlap(opts.checkIn, opts.checkOut, b.from, b.to)) {
       conflicts.push({
