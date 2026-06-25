@@ -34,6 +34,11 @@ function AuthPage() {
           options: { emailRedirectTo: window.location.origin },
         });
         if (error) throw error;
+        // First user becomes admin; subsequent users default to "user" role and need an admin to promote them.
+        const { error: claimErr } = await supabase.rpc("claim_first_admin");
+        if (claimErr && !/admin_already_exists/.test(claimErr.message)) {
+          console.warn("[auth] claim_first_admin:", claimErr.message);
+        }
         toast.success("Conta criada. Confirme o e-mail se exigido pelo projeto.");
       }
       navigate({ to: "/dashboard" });
