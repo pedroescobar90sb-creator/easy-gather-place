@@ -99,7 +99,7 @@ function RootComponent() {
 function Shell() {
   useSupabaseBootstrap();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isPublic = pathname === "/auth" || pathname.startsWith("/reservar");
+  const isPublic = pathname === "/" || pathname === "/auth" || pathname.startsWith("/reservar");
 
   if (isPublic) {
     return <Outlet />;
