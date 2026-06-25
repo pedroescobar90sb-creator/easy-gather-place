@@ -374,7 +374,7 @@ function BookingEngine() {
 
               <div className="grid sm:grid-cols-3 gap-3 pt-2 text-xs">
                 <Benefit icon={<ShieldCheck className="h-4 w-4" />} text="Melhor tarifa garantida" />
-                <Benefit icon={<Heart className="h-4 w-4" />} text="Chegada surpresa no quarto" />
+                <Benefit icon={<Heart className="h-4 w-4" />} text="Chave e pagamento na recepção" />
                 <Benefit icon={<CheckCircle2 className="h-4 w-4" />} text="Cancelamento flexível" />
               </div>
 
