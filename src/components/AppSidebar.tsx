@@ -15,7 +15,7 @@ import { useApp } from "@/lib/store";
 import { supabase } from "@/lib/supabase/client";
 
 const nav = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/calendario", label: "Calendário", icon: CalendarRange },
   { to: "/reservas", label: "Reservas", icon: BookOpen },
   { to: "/quartos", label: "Quartos", icon: BedDouble },
