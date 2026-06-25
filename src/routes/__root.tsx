@@ -49,12 +49,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Pousada Ilha do Meio · PMS" },
-      { name: "description", content: "Sistema de gestão da Pousada Ilha do Meio em Itacimirim — controle dos 17 quartos, reservas diretas e prevenção de overbooking." },
-      { property: "og:title", content: "Pousada Ilha do Meio · PMS" },
-      { name: "twitter:title", content: "Pousada Ilha do Meio · PMS" },
-      { property: "og:description", content: "Gestão dos 17 quartos da Pousada Ilha do Meio: reservas, canais, promoções e operação diária." },
-      { name: "twitter:description", content: "Gestão dos 17 quartos da Pousada Ilha do Meio: reservas, canais, promoções e operação diária." },
+      { title: "Pousada Ilha do Meio" },
+      { name: "description", content: "Bring It Here is a project management tool that consolidates all your project components into one accessible location." },
+      { property: "og:title", content: "Pousada Ilha do Meio" },
+      { name: "twitter:title", content: "Pousada Ilha do Meio" },
+      { property: "og:description", content: "Bring It Here is a project management tool that consolidates all your project components into one accessible location." },
+      { name: "twitter:description", content: "Bring It Here is a project management tool that consolidates all your project components into one accessible location." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e413be66-ac06-4880-bd43-bd970a9617ef/id-preview-4784c7db--cc643a4f-4fbb-41b7-8447-ad068861259e.lovable.app-1782343105920.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e413be66-ac06-4880-bd43-bd970a9617ef/id-preview-4784c7db--cc643a4f-4fbb-41b7-8447-ad068861259e.lovable.app-1782343105920.png" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -101,7 +101,7 @@ function RootComponent() {
 function Shell() {
   useSupabaseBootstrap();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isPublic = pathname === "/" || pathname === "/auth" || pathname.startsWith("/reservar");
+  const isPublic = pathname === "/auth" || pathname.startsWith("/reservar");
 
   if (isPublic) {
     return <Outlet />;
