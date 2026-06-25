@@ -68,7 +68,7 @@ function RoomsPage() {
                       <div className="text-xs text-muted-foreground">#{String(room.code ?? "—")} · {String(room.type ?? "duplo_casal").replace("_", " ")} · {Number(room.capacity) || 1}p</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-display text-lg">{(room.basePrice ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}</div>
+                      <div className="font-display text-lg">{(Number(room.basePrice) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}</div>
                       <div className="text-[10px] text-muted-foreground">/noite</div>
                     </div>
                   </div>
