@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { nightsBetween } from "@/lib/reservations";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — Pousada Ilha do Meio" }] }),
   component: Dashboard,
 });
