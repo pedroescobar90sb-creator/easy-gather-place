@@ -41,6 +41,8 @@ const toISO = (d: Date) => {
 };
 const fromISO = (s: string) => new Date(s + "T00:00:00");
 const fmtBR = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
+const fixedGuestsByType = (type?: "duplo_casal" | "triplo" | "quadruplo") =>
+  type === "duplo_casal" ? 2 : type === "triplo" ? 3 : type === "quadruplo" ? 4 : undefined;
 
 function BookingEngine() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -55,7 +57,8 @@ function BookingEngine() {
     return { from: a, to: b };
   });
   const [roomId, setRoomId] = useState(preselectedRoom ?? "");
-  const initialGuests = search.guests ?? (preselectedType === "triplo" ? 3 : preselectedType === "quadruplo" ? 4 : 2);
+  const fixedGuests = fixedGuestsByType(preselectedType);
+  const initialGuests = fixedGuests ?? Math.min(4, Math.max(1, search.guests ?? 2));
   const [guestN, setGuestN] = useState(initialGuests);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
