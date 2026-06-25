@@ -331,7 +331,7 @@ function Steps({ current }: { current: Step }) {
         return (
           <div key={l} className="flex-1">
             <div className={cn("h-1 rounded-full transition-colors", active || done ? "bg-primary" : "bg-muted")} />
-            <div className={cn("text-[11px] md:text-xs mt-1.5", active ? "font-medium text-foreground" : "text-muted-foreground")}>{l}</div>
+            <div className={cn("text-xs md:text-sm mt-2 font-medium", active ? "text-foreground" : done ? "text-foreground/70" : "text-foreground/40")}>{l}</div>
           </div>
         );
       })}
@@ -340,15 +340,15 @@ function Steps({ current }: { current: Step }) {
 }
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-1.5">
-      <Label className="text-xs uppercase tracking-wider text-muted-foreground">{label}</Label>
+    <div className="space-y-2">
+      <Label className="text-xs font-semibold uppercase tracking-wider text-foreground/70">{label}</Label>
       {children}
     </div>
   );
 }
 function Benefit({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
-    <div className="flex items-center gap-2 text-muted-foreground">
+    <div className="flex items-center gap-2 text-foreground/80 font-medium">
       <span className="text-primary">{icon}</span>{text}
     </div>
   );
@@ -356,8 +356,8 @@ function Benefit({ icon, text }: { icon: React.ReactNode; text: string }) {
 function Summary({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-center text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="font-medium tabular-nums">{value}</span>
+      <span className="text-foreground/60 font-medium">{label}</span>
+      <span className="font-semibold tabular-nums text-foreground">{value}</span>
     </div>
   );
 }
