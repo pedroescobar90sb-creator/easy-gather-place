@@ -323,8 +323,8 @@ function BookingEngine() {
                 {/* Resumo lateral */}
                 <aside className="space-y-4">
                   <div className="rounded-xl border bg-card p-4 space-y-3">
-                    <Summary label="Check-in" value={range?.from ? fmtBR(range.from) : "—"} />
-                    <Summary label="Check-out" value={range?.to ? fmtBR(range.to) : "—"} />
+                    <Summary label="Check-in" value={range?.from ? `${fmtBR(range.from)} · a partir das 14h` : "—"} />
+                    <Summary label="Check-out" value={range?.to ? `${fmtBR(range.to)} · até 11h` : "—"} />
                     <div className="border-t pt-3">
                       <Summary label="Noites" value={nights > 0 ? String(nights) : "—"} />
                     </div>
@@ -382,7 +382,7 @@ function BookingEngine() {
 
               <div className="grid sm:grid-cols-3 gap-3 pt-2 text-xs">
                 <Benefit icon={<ShieldCheck className="h-4 w-4" />} text="Melhor tarifa garantida" />
-                <Benefit icon={<Heart className="h-4 w-4" />} text="Chave e pagamento na recepção" />
+                <Benefit icon={<Heart className="h-4 w-4" />} text="Check-in 14h · Check-out 11h" />
                 <Benefit icon={<CheckCircle2 className="h-4 w-4" />} text="Cancelamento flexível" />
               </div>
 
