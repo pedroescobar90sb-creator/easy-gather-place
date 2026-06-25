@@ -108,7 +108,7 @@ function BookingEngine() {
       toast.error("Selecione datas e quarto antes de confirmar");
       return;
     }
-    if (!isUuid(roomId) || !safeRooms.some((r) => r.id === roomId)) {
+    if (!isUuid(roomId) || !rooms.some((r) => r.id === roomId)) {
       toast.error("Estamos sincronizando os quartos. Selecione novamente o quarto desejado.");
       setRoomId("");
       setStep(2);
