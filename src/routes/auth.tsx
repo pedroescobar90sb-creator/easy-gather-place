@@ -36,7 +36,7 @@ function AuthPage() {
         if (error) throw error;
         toast.success("Conta criada. Confirme o e-mail se exigido pelo projeto.");
       }
-      navigate({ to: "/" });
+      navigate({ to: "/dashboard" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Falha ao autenticar");
     } finally {

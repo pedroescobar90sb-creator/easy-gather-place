@@ -16,6 +16,7 @@ import { Route as PromocoesRouteImport } from './routes/promocoes'
 import { Route as IntegracoesRouteImport } from './routes/integracoes'
 import { Route as HospedesRouteImport } from './routes/hospedes'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CalendarioRouteImport } from './routes/calendario'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -58,6 +59,11 @@ const HospedesRoute = HospedesRouteImport.update({
 const FinanceiroRoute = FinanceiroRouteImport.update({
   id: '/financeiro',
   path: '/financeiro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/dashboard': typeof DashboardRoute
   '/financeiro': typeof FinanceiroRoute
   '/hospedes': typeof HospedesRoute
   '/integracoes': typeof IntegracoesRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/dashboard': typeof DashboardRoute
   '/financeiro': typeof FinanceiroRoute
   '/hospedes': typeof HospedesRoute
   '/integracoes': typeof IntegracoesRoute
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/dashboard': typeof DashboardRoute
   '/financeiro': typeof FinanceiroRoute
   '/hospedes': typeof HospedesRoute
   '/integracoes': typeof IntegracoesRoute
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/calendario'
     | '/configuracoes'
+    | '/dashboard'
     | '/financeiro'
     | '/hospedes'
     | '/integracoes'
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/calendario'
     | '/configuracoes'
+    | '/dashboard'
     | '/financeiro'
     | '/hospedes'
     | '/integracoes'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/calendario'
     | '/configuracoes'
+    | '/dashboard'
     | '/financeiro'
     | '/hospedes'
     | '/integracoes'
@@ -211,6 +223,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CalendarioRoute: typeof CalendarioRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
+  DashboardRoute: typeof DashboardRoute
   FinanceiroRoute: typeof FinanceiroRoute
   HospedesRoute: typeof HospedesRoute
   IntegracoesRoute: typeof IntegracoesRoute
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/financeiro'
       fullPath: '/financeiro'
       preLoaderRoute: typeof FinanceiroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/configuracoes': {
@@ -352,6 +372,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CalendarioRoute: CalendarioRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
+  DashboardRoute: DashboardRoute,
   FinanceiroRoute: FinanceiroRoute,
   HospedesRoute: HospedesRoute,
   IntegracoesRoute: IntegracoesRoute,

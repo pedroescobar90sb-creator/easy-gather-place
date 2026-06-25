@@ -15,7 +15,7 @@ import { useApp } from "@/lib/store";
 import { supabase } from "@/lib/supabase/client";
 
 const nav = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/calendario", label: "Calendário", icon: CalendarRange },
   { to: "/reservas", label: "Reservas", icon: BookOpen },
   { to: "/quartos", label: "Quartos", icon: BedDouble },
@@ -38,7 +38,7 @@ export function AppSidebar() {
 
       <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-0.5">
         {nav.map((item) => {
-          const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+          const active = pathname === item.to || pathname.startsWith(item.to + "/");
           const Icon = item.icon;
           return (
             <Link
