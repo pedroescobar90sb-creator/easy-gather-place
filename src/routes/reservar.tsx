@@ -117,6 +117,10 @@ function BookingEngine() {
   const room = rooms.find((r) => r.id === roomId);
   const total = (room?.basePrice ?? 0) * nights;
 
+  useEffect(() => {
+    if (fixedGuests) setGuestN(fixedGuests);
+  }, [fixedGuests]);
+
   const handleRangeSelect = (r: DateRange | undefined) => {
     if (r?.from && !r.to) {
       // auto-suggest next day
