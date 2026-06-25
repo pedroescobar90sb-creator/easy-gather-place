@@ -144,8 +144,26 @@ function BookingEngine() {
         if (matched === "room_unavailable" || matched === "over_capacity") setStep(2);
         return;
       }
-      toast.success("Reserva enviada! Em breve entraremos em contato.");
+      try {
+        const { sendReservationConfirmation } = await import("@/lib/email.functions");
+        await sendReservationConfirmation({
+          data: {
+            to: email.trim(),
+            name: name.trim(),
+            roomName: room?.name ?? "Quarto",
+            checkIn,
+            checkOut,
+            nights,
+            guests: guestN,
+            total,
+          },
+        });
+      } catch (mailErr) {
+        console.warn("[reservar] envio de e-mail falhou", mailErr);
+      }
+      toast.success("Reserva enviada! Confirmação por e-mail a caminho.");
       setStep(4);
+
     } catch (e) {
       toast.error(`Erro ao enviar reserva: ${e instanceof Error ? e.message : "tente novamente"}`);
     } finally {
@@ -373,20 +391,41 @@ function BookingEngine() {
                   {total.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}
                 </div>
               </div>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <Field label="Nome completo"><Input value={name} onChange={(e) => setName(e.target.value)} required /></Field>
-                <Field label="E-mail"><Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></Field>
-                <Field label="WhatsApp"><Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(71) 9 ..." required /></Field>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setStep(2)} className="flex-1">Voltar</Button>
-                <Button onClick={confirm} disabled={!name || !email || !phone || submitting} className="flex-1">
-                  {submitting ? "Enviando..." : "Confirmar reserva"}
-                </Button>
-              </div>
-              <p className="text-[11px] text-muted-foreground text-center">
-                A reserva fica pendente até a confirmação manual. Sem cobrança agora.
-              </p>
+              {(() => {
+                const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+                const phoneDigits = phone.replace(/\D/g, "");
+                const phoneOk = phoneDigits.length >= 10 && phoneDigits.length <= 13;
+                const nameOk = name.trim().length >= 3 && name.trim().includes(" ");
+                const allOk = emailOk && phoneOk && nameOk;
+                return (
+                  <>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <Field label="Nome completo">
+                        <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex: Maria da Silva" required />
+                        {name && !nameOk && <p className="text-[11px] text-destructive mt-1">Informe nome e sobrenome.</p>}
+                      </Field>
+                      <Field label="E-mail">
+                        <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="voce@email.com" required />
+                        {email && !emailOk && <p className="text-[11px] text-destructive mt-1">E-mail inválido.</p>}
+                      </Field>
+                      <Field label="WhatsApp">
+                        <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(71) 99999-9999" required />
+                        {phone && !phoneOk && <p className="text-[11px] text-destructive mt-1">Inclua DDD + número (10 a 13 dígitos).</p>}
+                      </Field>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" onClick={() => setStep(2)} className="flex-1">Voltar</Button>
+                      <Button onClick={confirm} disabled={!allOk || submitting} className="flex-1">
+                        {submitting ? "Enviando..." : "Confirmar reserva"}
+                      </Button>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground text-center">
+                      Você receberá a confirmação por e-mail e WhatsApp. Sem cobrança agora.
+                    </p>
+                  </>
+                );
+              })()}
+
             </CardContent>
           </Card>
         )}
