@@ -77,9 +77,17 @@ function BookingEngine() {
     }
   };
 
+  const isUuid = (s: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
+
   const confirm = async () => {
     if (!roomId || !checkIn || !checkOut) {
       toast.error("Selecione datas e quarto antes de confirmar");
+      return;
+    }
+    if (!isUuid(roomId) || !rooms.some((r) => r.id === roomId)) {
+      toast.error("Estamos sincronizando os quartos. Selecione novamente o quarto desejado.");
+      setRoomId("");
+      setStep(2);
       return;
     }
     setSubmitting(true);
