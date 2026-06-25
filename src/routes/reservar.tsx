@@ -137,8 +137,8 @@ function BookingEngine() {
           <Card className="mt-6 border-border/60 shadow-sm">
             <CardContent className="p-5 md:p-8 space-y-6">
               <div>
-                <h2 className="font-display text-2xl md:text-3xl">Quando você vem?</h2>
-                <p className="text-sm text-muted-foreground mt-1">Escolha check-in e check-out no calendário.</p>
+                <h2 className="font-display text-3xl md:text-4xl text-foreground tracking-tight">Quando você vem?</h2>
+                <p className="text-base text-foreground/70 mt-2">Escolha check-in e check-out no calendário.</p>
               </div>
 
               <div className="grid md:grid-cols-[1fr_280px] gap-6">
