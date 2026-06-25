@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useApp } from "./store";
 import { fetchAll, mapRoom } from "./remote";
+import { toast } from "sonner";
 
 export async function refreshFromSupabase(authenticated: boolean) {
   try {
@@ -32,10 +33,10 @@ export function useSupabaseBootstrap() {
 
   useEffect(() => {
     let cancelled = false;
+    let realtimeChannel: ReturnType<typeof supabase.channel> | null = null;
+    const knownReservationIds = new Set<string>();
 
     // PUBLIC: always hydrate rooms from Supabase so /reservar has real UUIDs.
-    // Drop any local seed reservations/blocks that reference stale room ids
-    // (otherwise the admin pages render orphan rows like "QUARTO #· · pessoas").
     (async () => {
       try {
         const { data, error } = await supabase
@@ -61,9 +62,41 @@ export function useSupabaseBootstrap() {
       try {
         const data = await fetchAll();
         if (cancelled) return;
-        if (data.rooms.length > 0) replaceAll(data);
+        if (data.rooms.length > 0) {
+          replaceAll(data);
+          data.reservations.forEach((r: { id: string }) => knownReservationIds.add(r.id));
+        }
       } catch (err) {
         console.error("[bootstrap] falha ao carregar dados do Supabase", err);
+      }
+    };
+
+    const startRealtime = (email: string) => {
+      if (realtimeChannel) return;
+      realtimeChannel = supabase
+        .channel("admin-sync")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "reservations" },
+          (payload) => {
+            const newRow = payload.new as { id?: string; code?: string; channel?: string } | null;
+            void hydrate(email);
+            if (payload.eventType === "INSERT" && newRow?.id && !knownReservationIds.has(newRow.id)) {
+              knownReservationIds.add(newRow.id);
+              const ch = newRow.channel ?? "site";
+              toast.success(`Nova reserva (${ch}): ${newRow.code ?? "—"}`);
+            }
+          },
+        )
+        .on("postgres_changes", { event: "*", schema: "public", table: "guests" }, () => void hydrate(email))
+        .on("postgres_changes", { event: "*", schema: "public", table: "room_blocks" }, () => void hydrate(email))
+        .subscribe();
+    };
+
+    const stopRealtime = () => {
+      if (realtimeChannel) {
+        supabase.removeChannel(realtimeChannel);
+        realtimeChannel = null;
       }
     };
 
@@ -71,7 +104,7 @@ export function useSupabaseBootstrap() {
       const email = data.session?.user.email ?? null;
       if (email) {
         login(email);
-        void hydrate(email);
+        void hydrate(email).then(() => startRealtime(email));
       }
     });
 
@@ -80,27 +113,26 @@ export function useSupabaseBootstrap() {
         const email = session?.user.email ?? null;
         if (email) {
           login(email);
-          void hydrate(email);
+          void hydrate(email).then(() => startRealtime(email));
         }
       }
-      if (event === "SIGNED_OUT") logout();
+      if (event === "SIGNED_OUT") {
+        stopRealtime();
+        logout();
+      }
     });
 
     const onFocus = () => {
       const u = useApp.getState().session.user;
       if (u) void hydrate(u.name);
-
     };
     window.addEventListener("focus", onFocus);
-    const interval = window.setInterval(onFocus, 20000);
 
     return () => {
       cancelled = true;
       sub.subscription.unsubscribe();
+      stopRealtime();
       window.removeEventListener("focus", onFocus);
-      window.clearInterval(interval);
     };
   }, [replaceAll, login, logout]);
 }
-
-
