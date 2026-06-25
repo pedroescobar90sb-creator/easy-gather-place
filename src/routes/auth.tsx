@@ -16,7 +16,6 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const [email, setEmail] = useState("recepcao@ilhadomeio.com.br");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -24,23 +23,8 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin },
-        });
-        if (error) throw error;
-        // First user becomes admin; subsequent users default to "user" role and need an admin to promote them.
-        const { error: claimErr } = await supabase.rpc("claim_first_admin");
-        if (claimErr && !/admin_already_exists/.test(claimErr.message)) {
-          console.warn("[auth] claim_first_admin:", claimErr.message);
-        }
-        toast.success("Conta criada. Confirme o e-mail se exigido pelo projeto.");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
       navigate({ to: "/dashboard" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Falha ao autenticar");
@@ -84,19 +68,11 @@ function AuthPage() {
           </div>
 
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Aguarde…" : mode === "signin" ? "Entrar no painel" : "Criar conta"}
+            {loading ? "Aguarde…" : "Entrar no painel"}
           </Button>
 
-          <button
-            type="button"
-            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-            className="block w-full text-xs text-muted-foreground hover:text-foreground"
-          >
-            {mode === "signin" ? "Primeiro acesso? Criar conta" : "Já tem conta? Entrar"}
-          </button>
-
           <p className="text-[11px] text-muted-foreground text-center">
-            Acesso restrito à equipe da pousada.
+            Acesso restrito à equipe da pousada. Novas contas somente pelo administrador.
           </p>
         </form>
       </div>
