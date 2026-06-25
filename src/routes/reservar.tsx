@@ -97,13 +97,13 @@ function BookingEngine() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--background))]">
-      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition">
+      <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b">
+        <div className="max-w-5xl mx-auto px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <a href="/" className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-foreground transition">
             <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Voltar ao site</span>
           </a>
           <Logo className="h-9 w-9" showText />
-          <a href="/auth" className="text-xs text-muted-foreground hover:text-foreground">Acesso interno</a>
+          <span />
         </div>
       </header>
 
@@ -137,8 +137,8 @@ function BookingEngine() {
           <Card className="mt-6 border-border/60 shadow-sm">
             <CardContent className="p-5 md:p-8 space-y-6">
               <div>
-                <h2 className="font-display text-2xl md:text-3xl">Quando você vem?</h2>
-                <p className="text-sm text-muted-foreground mt-1">Escolha check-in e check-out no calendário.</p>
+                <h2 className="font-display text-3xl md:text-4xl text-foreground tracking-tight">Quando você vem?</h2>
+                <p className="text-base text-foreground/70 mt-2">Escolha check-in e check-out no calendário.</p>
               </div>
 
               <div className="grid md:grid-cols-[1fr_280px] gap-6">
@@ -148,16 +148,16 @@ function BookingEngine() {
                   <div className="md:hidden">
                     <Popover>
                       <PopoverTrigger asChild>
-                        <button className="w-full rounded-xl border bg-card p-4 text-left active:scale-[0.99] transition">
-                          <div className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                            <CalendarDays className="h-3 w-3" /> Datas da estadia
+                        <button className="w-full rounded-xl border-2 bg-card p-4 text-left active:scale-[0.99] transition hover:border-primary/50">
+                          <div className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
+                            <CalendarDays className="h-3.5 w-3.5" /> Datas da estadia
                           </div>
-                          <div className="mt-1.5 font-display text-lg">
+                          <div className="mt-2 font-display text-xl text-foreground font-medium">
                             {range?.from ? fmtBR(range.from) : "Check-in"}
-                            <span className="mx-2 text-muted-foreground">→</span>
+                            <span className="mx-2 text-foreground/40">→</span>
                             {range?.to ? fmtBR(range.to) : "Check-out"}
                           </div>
-                          {nights > 0 && <div className="text-xs text-muted-foreground mt-0.5">{nights} noite{nights > 1 ? "s" : ""}</div>}
+                          {nights > 0 && <div className="text-sm text-foreground/70 mt-1 font-medium">{nights} noite{nights > 1 ? "s" : ""}</div>}
                         </button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="center">
@@ -195,13 +195,13 @@ function BookingEngine() {
                   </div>
 
                   <div className="rounded-xl border bg-card p-4">
-                    <Label className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                      <Users className="h-3 w-3" /> Hóspedes
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
+                      <Users className="h-3.5 w-3.5" /> Hóspedes
                     </Label>
-                    <div className="flex items-center gap-3 mt-2">
-                      <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => setGuestN(Math.max(1, guestN - 1))}>−</Button>
-                      <div className="font-display text-2xl tabular-nums w-8 text-center">{guestN}</div>
-                      <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => setGuestN(Math.min(6, guestN + 1))}>+</Button>
+                    <div className="flex items-center justify-between gap-3 mt-3">
+                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.max(1, guestN - 1))}>−</Button>
+                      <div className="font-display text-3xl tabular-nums text-foreground font-medium">{guestN}</div>
+                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.min(6, guestN + 1))}>+</Button>
                     </div>
                   </div>
                 </aside>
@@ -215,7 +215,7 @@ function BookingEngine() {
 
               <Button
                 size="lg"
-                className="w-full h-12 text-base font-medium"
+                className="w-full h-14 text-base font-semibold tracking-wide"
                 disabled={!datesValid}
                 onClick={() => setStep(2)}
               >
@@ -331,7 +331,7 @@ function Steps({ current }: { current: Step }) {
         return (
           <div key={l} className="flex-1">
             <div className={cn("h-1 rounded-full transition-colors", active || done ? "bg-primary" : "bg-muted")} />
-            <div className={cn("text-[11px] md:text-xs mt-1.5", active ? "font-medium text-foreground" : "text-muted-foreground")}>{l}</div>
+            <div className={cn("text-xs md:text-sm mt-2 font-medium", active ? "text-foreground" : done ? "text-foreground/70" : "text-foreground/40")}>{l}</div>
           </div>
         );
       })}
@@ -340,15 +340,15 @@ function Steps({ current }: { current: Step }) {
 }
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-1.5">
-      <Label className="text-xs uppercase tracking-wider text-muted-foreground">{label}</Label>
+    <div className="space-y-2">
+      <Label className="text-xs font-semibold uppercase tracking-wider text-foreground/70">{label}</Label>
       {children}
     </div>
   );
 }
 function Benefit({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
-    <div className="flex items-center gap-2 text-muted-foreground">
+    <div className="flex items-center gap-2 text-foreground/80 font-medium">
       <span className="text-primary">{icon}</span>{text}
     </div>
   );
@@ -356,8 +356,8 @@ function Benefit({ icon, text }: { icon: React.ReactNode; text: string }) {
 function Summary({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-center text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="font-medium tabular-nums">{value}</span>
+      <span className="text-foreground/60 font-medium">{label}</span>
+      <span className="font-semibold tabular-nums text-foreground">{value}</span>
     </div>
   );
 }

@@ -298,7 +298,7 @@ function HomePage() {
             <a href={WHATSAPP} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1">
               <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
             </a>
-            <Link to="/auth" className="hover:text-foreground">Acesso interno</Link>
+            
           </div>
         </div>
       </footer>
