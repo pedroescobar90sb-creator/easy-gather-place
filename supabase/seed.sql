@@ -15,7 +15,11 @@ insert into public.rooms (code, name, type, capacity, base_price, status, amenit
 ('110','Quarto Atobá','standard',2,420,'active',array['Ar-condicionado'],'Quarto com vista para piscina.'),
 ('111','Quarto Itacimirim','suite',4,780,'active',array['Família','Cozinha','Varanda'],'Suíte família com cozinha americana.'),
 ('112','Quarto Praia do Forte','standard',2,460,'active',array['Ar-condicionado'],'Quarto sereno no jardim interno.'),
-('113','Quarto Ilha do Meio','master',2,950,'active',array['Vista mar','Ofurô','Varanda privativa'],'Suíte signature da pousada com ofurô externo.')
+('113','Quarto Ilha do Meio','master',2,950,'active',array['Vista mar','Ofurô','Varanda privativa'],'Suíte signature da pousada com ofurô externo.'),
+('114','Bangalô Sereia','bangalo',2,560,'active',array['Rede','Varanda','Vista jardim'],'Bangalô aconchegante próximo à piscina.'),
+('115','Suíte Coqueiros','suite',3,640,'active',array['Ar-condicionado','Varanda','Vista jardim'],'Suíte espaçosa com vista para os coqueiros.'),
+('116','Quarto Sol Nascente','standard',2,440,'active',array['Ar-condicionado','Varanda'],'Quarto com varanda voltada para o nascer do sol.'),
+('117','Suíte Lua Cheia','master',2,920,'active',array['Vista mar','Hidromassagem','Varanda privativa'],'Suíte master com vista panorâmica do mar.')
 on conflict (code) do nothing;
 
 insert into public.sync_state (channel, status, last_sync, imported_count, errors)
