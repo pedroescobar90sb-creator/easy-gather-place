@@ -16,11 +16,11 @@ import { Route as PromocoesRouteImport } from './routes/promocoes'
 import { Route as IntegracoesRouteImport } from './routes/integracoes'
 import { Route as HospedesRouteImport } from './routes/hospedes'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CalendarioRouteImport } from './routes/calendario'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuditoriaRouteImport } from './routes/auditoria'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReservasIndexRouteImport } from './routes/reservas.index'
 import { Route as ReservasNovaRouteImport } from './routes/reservas.nova'
 import { Route as ReservasIdRouteImport } from './routes/reservas.$id'
@@ -60,6 +60,11 @@ const FinanceiroRoute = FinanceiroRouteImport.update({
   path: '/financeiro',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
   id: '/configuracoes',
   path: '/configuracoes',
@@ -80,11 +85,6 @@ const AuditoriaRoute = AuditoriaRouteImport.update({
   path: '/auditoria',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ReservasIndexRoute = ReservasIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -102,11 +102,11 @@ const ReservasIdRoute = ReservasIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/dashboard': typeof DashboardRoute
   '/financeiro': typeof FinanceiroRoute
   '/hospedes': typeof HospedesRoute
   '/integracoes': typeof IntegracoesRoute
@@ -119,11 +119,11 @@ export interface FileRoutesByFullPath {
   '/reservas/': typeof ReservasIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/dashboard': typeof DashboardRoute
   '/financeiro': typeof FinanceiroRoute
   '/hospedes': typeof HospedesRoute
   '/integracoes': typeof IntegracoesRoute
@@ -136,11 +136,11 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/auth': typeof AuthRoute
   '/calendario': typeof CalendarioRoute
   '/configuracoes': typeof ConfiguracoesRoute
+  '/dashboard': typeof DashboardRoute
   '/financeiro': typeof FinanceiroRoute
   '/hospedes': typeof HospedesRoute
   '/integracoes': typeof IntegracoesRoute
@@ -155,11 +155,11 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/auditoria'
     | '/auth'
     | '/calendario'
     | '/configuracoes'
+    | '/dashboard'
     | '/financeiro'
     | '/hospedes'
     | '/integracoes'
@@ -172,11 +172,11 @@ export interface FileRouteTypes {
     | '/reservas/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/auditoria'
     | '/auth'
     | '/calendario'
     | '/configuracoes'
+    | '/dashboard'
     | '/financeiro'
     | '/hospedes'
     | '/integracoes'
@@ -188,11 +188,11 @@ export interface FileRouteTypes {
     | '/reservas'
   id:
     | '__root__'
-    | '/'
     | '/auditoria'
     | '/auth'
     | '/calendario'
     | '/configuracoes'
+    | '/dashboard'
     | '/financeiro'
     | '/hospedes'
     | '/integracoes'
@@ -206,11 +206,11 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AuditoriaRoute: typeof AuditoriaRoute
   AuthRoute: typeof AuthRoute
   CalendarioRoute: typeof CalendarioRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
+  DashboardRoute: typeof DashboardRoute
   FinanceiroRoute: typeof FinanceiroRoute
   HospedesRoute: typeof HospedesRoute
   IntegracoesRoute: typeof IntegracoesRoute
@@ -271,6 +271,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanceiroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/configuracoes': {
       id: '/configuracoes'
       path: '/configuracoes'
@@ -297,13 +304,6 @@ declare module '@tanstack/react-router' {
       path: '/auditoria'
       fullPath: '/auditoria'
       preLoaderRoute: typeof AuditoriaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reservas/': {
@@ -347,11 +347,11 @@ const ReservasRouteWithChildren = ReservasRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AuditoriaRoute: AuditoriaRoute,
   AuthRoute: AuthRoute,
   CalendarioRoute: CalendarioRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
+  DashboardRoute: DashboardRoute,
   FinanceiroRoute: FinanceiroRoute,
   HospedesRoute: HospedesRoute,
   IntegracoesRoute: IntegracoesRoute,
