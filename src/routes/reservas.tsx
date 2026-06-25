@@ -15,6 +15,6 @@ export function StatusBadge({ status }: { status: ReservationStatus }) {
     cancelled: { label: "Cancelada", cls: "bg-destructive/15 text-destructive border-destructive/30" },
     no_show: { label: "No-show", cls: "bg-destructive/15 text-destructive border-destructive/30" },
   };
-  const cfg = map[status];
+  const cfg = map[status] ?? { label: String(status ?? "—"), cls: "bg-muted text-muted-foreground" };
   return <span className={`inline-flex px-2 py-0.5 rounded-full text-[11px] border ${cfg.cls}`}>{cfg.label}</span>;
 }
