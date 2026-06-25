@@ -182,6 +182,15 @@ function BookingEngine() {
           room_unavailable: "Quarto indisponível no momento. Escolha outro quarto disponível.",
           over_capacity: "Acima da capacidade do quarto.",
         };
+        const isOverlap = raw.includes("no_overlap") || raw.includes("exclusion constraint") || raw.includes("conflicting key");
+        if (isOverlap) {
+          toast.error("Este quarto já está reservado nessas datas. Escolha outro quarto disponível.");
+          setRoomId("");
+          setStep(2);
+          // refresh busy list
+          setBusyRoomIds((prev) => new Set([...prev, roomId]));
+          return;
+        }
         const matched = Object.keys(map).find((k) => raw.includes(k));
         toast.error(matched ? map[matched] : `Não foi possível concluir: ${error.message}`);
         if (matched === "room_unavailable" || matched === "over_capacity") setStep(2);
