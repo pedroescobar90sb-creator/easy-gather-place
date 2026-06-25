@@ -103,15 +103,16 @@ function BookingEngine() {
     return () => { cancelled = true; };
   }, [datesValid, checkIn, checkOut]);
 
+  const selectedTypeForGuests = preselectedType ?? (guestN === 3 ? "triplo" : guestN === 4 ? "quadruplo" : "duplo_casal");
 
   const available = useMemo(
     () => datesValid ? rooms.filter((r) =>
       r.status === "active"
-      && r.capacity >= guestN
-      && (!preselectedType || r.type === preselectedType)
+      && r.capacity === guestN
+      && r.type === selectedTypeForGuests
       && !busyRoomIds.has(r.id)
     ) : [],
-    [rooms, datesValid, guestN, preselectedType, busyRoomIds],
+    [rooms, datesValid, guestN, selectedTypeForGuests, busyRoomIds],
   );
 
   const room = rooms.find((r) => r.id === roomId);
