@@ -97,13 +97,13 @@ function BookingEngine() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--background))]">
-      <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition">
+      <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b">
+        <div className="max-w-5xl mx-auto px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <a href="/" className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-foreground transition">
             <ArrowLeft className="h-4 w-4" /> <span className="hidden sm:inline">Voltar ao site</span>
           </a>
           <Logo className="h-9 w-9" showText />
-          <a href="/auth" className="text-xs text-muted-foreground hover:text-foreground">Acesso interno</a>
+          <span />
         </div>
       </header>
 
