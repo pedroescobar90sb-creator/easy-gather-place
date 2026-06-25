@@ -19,9 +19,19 @@ function SettingsPage() {
         <h3 className="font-display text-xl">Pousada</h3>
         <div className="grid sm:grid-cols-2 gap-4">
           <Field label="Nome"><Input defaultValue="Pousada Ilha do Meio" /></Field>
-          <Field label="Telefone"><Input defaultValue="(71) 99999-0000" /></Field>
+          <Field label="WhatsApp / Telefone"><Input defaultValue="+55 71 91263-0996" /></Field>
         </div>
-        <Field label="Endereço"><Input defaultValue="Estrada do Coco, Itacimirim — BA" /></Field>
+        <Field label="Endereço">
+          <Input defaultValue="Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8 · Itacimirim, Camaçari — BA · CEP 42823-000" />
+        </Field>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <Field label="Instagram">
+            <Input defaultValue="https://www.instagram.com/pousadailhadomeio/" />
+          </Field>
+          <Field label="WhatsApp (link)">
+            <Input defaultValue="https://api.whatsapp.com/send/?phone=557191263096" />
+          </Field>
+        </div>
       </CardContent></Card>
 
       <Card><CardContent className="p-6 space-y-4">
@@ -41,11 +51,10 @@ function SettingsPage() {
       <Card><CardContent className="p-6 space-y-3">
         <h3 className="font-display text-xl">Canais ativos</h3>
         {[
-          { name: "Site próprio", status: "Ativo" },
-          { name: "WhatsApp", status: "Ativo" },
-          { name: "Recepção", status: "Ativo" },
-          { name: "Booking.com", status: "Conectado" },
-          { name: "Airbnb", status: "Não conectado" },
+          { name: "Booking.com", status: "Conectado · canal externo principal" },
+          { name: "WhatsApp da pousada", status: "Ativo · atendimento e reserva direta" },
+          { name: "Instagram @pousadailhadomeio", status: "Ativo · captação e DM" },
+          { name: "Recepção / Telefone", status: "Ativo" },
         ].map((c) => (
           <div key={c.name} className="flex justify-between items-center py-2 border-b last:border-0">
             <span className="text-sm font-medium">{c.name}</span>
@@ -53,6 +62,7 @@ function SettingsPage() {
           </div>
         ))}
       </CardContent></Card>
+
 
       <Card><CardContent className="p-6 space-y-3">
         <h3 className="font-display text-xl">Usuários e permissões</h3>
