@@ -3,6 +3,28 @@ import { supabase } from "@/integrations/supabase/client";
 import { useApp } from "./store";
 import { fetchAll, mapRoom } from "./remote";
 
+export async function refreshFromSupabase(authenticated: boolean) {
+  try {
+    const { data, error } = await supabase
+      .from("rooms" as never)
+      .select("*")
+      .order("code");
+    if (!error && data?.length) {
+      useApp.setState({ rooms: data.map(mapRoom) });
+    }
+  } catch (err) {
+    console.error("[refresh:rooms]", err);
+  }
+  if (!authenticated) return;
+  try {
+    const data = await fetchAll();
+    if (data.rooms.length > 0) useApp.getState().replaceAll(data);
+  } catch (err) {
+    console.error("[refresh:full]", err);
+  }
+}
+
+
 export function useSupabaseBootstrap() {
   const replaceAll = useApp((s) => s.replaceAll);
   const login = useApp((s) => s.login);
