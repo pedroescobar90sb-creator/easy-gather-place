@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
-import { useApp } from "@/lib/store";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Logo } from "@/components/Logo";
-import { checkConflict, nightsBetween } from "@/lib/reservations";
+import { nightsBetween } from "@/lib/reservations";
+import { supabase } from "@/integrations/supabase/client";
+import { mapRoom } from "@/lib/remote";
+import type { Room } from "@/lib/types";
 import heroAsset from "@/assets/pousada-0.jpg.asset.json";
 import { CheckCircle2, ShieldCheck, Heart, CalendarDays, Users, ArrowLeft, MapPin } from "lucide-react";
 import { toast } from "sonner";
@@ -41,7 +43,7 @@ const fromISO = (s: string) => new Date(s + "T00:00:00");
 const fmtBR = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
 
 function BookingEngine() {
-  const { rooms, reservations, blocks } = useApp();
+  const [rooms, setRooms] = useState<Room[]>([]);
   const search = Route.useSearch();
   const preselectedRoom = search.room;
   const preselectedType = search.type;
@@ -59,25 +61,34 @@ function BookingEngine() {
   const [phone, setPhone] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  // Public booking is decoupled from the internal store: fetch rooms directly.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from("rooms")
+        .select("*")
+        .eq("status", "active")
+        .order("code");
+      if (!cancelled && !error && Array.isArray(data)) setRooms(data.map(mapRoom));
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   const checkIn = range?.from ? toISO(range.from) : "";
   const checkOut = range?.to ? toISO(range.to) : "";
   const datesValid = !!(range?.from && range?.to && range.from < range.to);
   const nights = datesValid ? nightsBetween(checkIn, checkOut) : 0;
 
-  const safeRooms = useMemo(() => (Array.isArray(rooms) ? rooms.filter((r) => r && typeof r === "object") : []), [rooms]);
-  const safeReservations = useMemo(() => (Array.isArray(reservations) ? reservations.filter((r) => r && typeof r === "object") : []), [reservations]);
-  const safeBlocks = useMemo(() => (Array.isArray(blocks) ? blocks.filter((b) => b && typeof b === "object") : []), [blocks]);
-
   const available = useMemo(
-    () => datesValid ? safeRooms.filter((r) =>
+    () => datesValid ? rooms.filter((r) =>
       r.status === "active"
       && r.capacity >= guestN
       && (!preselectedType || r.type === preselectedType)
-      && checkConflict({ roomId: r.id, checkIn, checkOut, reservations: safeReservations, blocks: safeBlocks }).ok
     ) : [],
-    [safeRooms, safeReservations, safeBlocks, checkIn, checkOut, datesValid, guestN, preselectedType],
+    [rooms, datesValid, guestN, preselectedType],
   );
-  const room = safeRooms.find((r) => r.id === roomId);
+  const room = rooms.find((r) => r.id === roomId);
   const total = (room?.basePrice ?? 0) * nights;
 
   const handleRangeSelect = (r: DateRange | undefined) => {
@@ -97,7 +108,7 @@ function BookingEngine() {
       toast.error("Selecione datas e quarto antes de confirmar");
       return;
     }
-    if (!isUuid(roomId) || !safeRooms.some((r) => r.id === roomId)) {
+    if (!isUuid(roomId) || !rooms.some((r) => r.id === roomId)) {
       toast.error("Estamos sincronizando os quartos. Selecione novamente o quarto desejado.");
       setRoomId("");
       setStep(2);

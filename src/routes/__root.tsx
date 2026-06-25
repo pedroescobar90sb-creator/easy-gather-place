@@ -98,14 +98,19 @@ function RootComponent() {
 }
 
 function Shell() {
-  useSupabaseBootstrap();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isPublic = pathname === "/" || pathname === "/auth" || pathname.startsWith("/reservar");
 
   if (isPublic) {
+    // Site público é 100% independente do sistema interno (sem store, sem bootstrap).
     return <Outlet />;
   }
 
+  return <InternalShell />;
+}
+
+function InternalShell() {
+  useSupabaseBootstrap();
   return (
     <div className="flex min-h-screen w-full bg-background text-foreground">
       <AppSidebar />
