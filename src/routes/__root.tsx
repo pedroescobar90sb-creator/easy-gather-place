@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { AppSidebar } from "@/components/AppSidebar";
+import { BackBar } from "@/components/BackBar";
 import { useApp } from "@/lib/store";
 import { useSupabaseBootstrap } from "@/lib/useSupabaseBootstrap";
 import { Toaster } from "@/components/ui/sonner";
@@ -109,6 +110,7 @@ function Shell() {
     <div className="flex min-h-screen w-full bg-background text-foreground">
       <AppSidebar />
       <main className="flex-1 min-w-0 overflow-x-hidden">
+        <BackBar />
         <Outlet />
       </main>
     </div>
