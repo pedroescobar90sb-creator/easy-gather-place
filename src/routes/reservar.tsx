@@ -41,6 +41,8 @@ const toISO = (d: Date) => {
 };
 const fromISO = (s: string) => new Date(s + "T00:00:00");
 const fmtBR = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
+const fixedGuestsByType = (type?: "duplo_casal" | "triplo" | "quadruplo") =>
+  type === "duplo_casal" ? 2 : type === "triplo" ? 3 : type === "quadruplo" ? 4 : undefined;
 
 function BookingEngine() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -55,7 +57,8 @@ function BookingEngine() {
     return { from: a, to: b };
   });
   const [roomId, setRoomId] = useState(preselectedRoom ?? "");
-  const initialGuests = search.guests ?? (preselectedType === "triplo" ? 3 : preselectedType === "quadruplo" ? 4 : 2);
+  const fixedGuests = fixedGuestsByType(preselectedType);
+  const initialGuests = fixedGuests ?? Math.min(4, Math.max(1, search.guests ?? 2));
   const [guestN, setGuestN] = useState(initialGuests);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -100,19 +103,24 @@ function BookingEngine() {
     return () => { cancelled = true; };
   }, [datesValid, checkIn, checkOut]);
 
+  const selectedTypeForGuests = preselectedType ?? (guestN === 3 ? "triplo" : guestN === 4 ? "quadruplo" : "duplo_casal");
 
   const available = useMemo(
     () => datesValid ? rooms.filter((r) =>
       r.status === "active"
-      && r.capacity >= guestN
-      && (!preselectedType || r.type === preselectedType)
+      && r.capacity === guestN
+      && r.type === selectedTypeForGuests
       && !busyRoomIds.has(r.id)
     ) : [],
-    [rooms, datesValid, guestN, preselectedType, busyRoomIds],
+    [rooms, datesValid, guestN, selectedTypeForGuests, busyRoomIds],
   );
 
   const room = rooms.find((r) => r.id === roomId);
   const total = (room?.basePrice ?? 0) * nights;
+
+  useEffect(() => {
+    if (fixedGuests) setGuestN(fixedGuests);
+  }, [fixedGuests]);
 
   const handleRangeSelect = (r: DateRange | undefined) => {
     if (r?.from && !r.to) {
@@ -142,7 +150,7 @@ function BookingEngine() {
       const { supabase } = await import("@/integrations/supabase/client");
       const { data: freshRoom, error: roomError } = await supabase
         .from("rooms")
-        .select("id, status, capacity")
+        .select("id, status, capacity, type")
         .eq("id", roomId)
         .maybeSingle();
 
@@ -153,7 +161,8 @@ function BookingEngine() {
         return;
       }
 
-      if (guestN > Number(freshRoom.capacity ?? 0)) {
+      const expectedGuests = fixedGuestsByType(freshRoom.type as "duplo_casal" | "triplo" | "quadruplo") ?? Number(freshRoom.capacity ?? 0);
+      if (guestN !== expectedGuests || guestN > Number(freshRoom.capacity ?? 0)) {
         toast.error("Este quarto não comporta a quantidade de hóspedes selecionada.");
         setStep(2);
         return;
@@ -315,8 +324,8 @@ function BookingEngine() {
                 {/* Resumo lateral */}
                 <aside className="space-y-4">
                   <div className="rounded-xl border bg-card p-4 space-y-3">
-                    <Summary label="Check-in" value={range?.from ? fmtBR(range.from) : "—"} />
-                    <Summary label="Check-out" value={range?.to ? fmtBR(range.to) : "—"} />
+                    <Summary label="Check-in" value={range?.from ? `${fmtBR(range.from)} · a partir das 14h` : "—"} />
+                    <Summary label="Check-out" value={range?.to ? `${fmtBR(range.to)} · até 11h` : "—"} />
                     <div className="border-t pt-3">
                       <Summary label="Noites" value={nights > 0 ? String(nights) : "—"} />
                     </div>
@@ -374,7 +383,7 @@ function BookingEngine() {
 
               <div className="grid sm:grid-cols-3 gap-3 pt-2 text-xs">
                 <Benefit icon={<ShieldCheck className="h-4 w-4" />} text="Melhor tarifa garantida" />
-                <Benefit icon={<Heart className="h-4 w-4" />} text="Chave e pagamento na recepção" />
+                <Benefit icon={<Heart className="h-4 w-4" />} text="Check-in 14h · Check-out 11h" />
                 <Benefit icon={<CheckCircle2 className="h-4 w-4" />} text="Cancelamento flexível" />
               </div>
 
@@ -404,7 +413,7 @@ function BookingEngine() {
             <div className="grid sm:grid-cols-2 gap-4">
               {available.length === 0 && (
                 <p className="text-muted-foreground col-span-full text-center py-10">
-                  Sem disponibilidade para esta data e capacidade. Tente outro período.
+                  Não há vaga disponível para esse tipo de quarto nessas datas. Escolha outro período.
                 </p>
               )}
               {available.map((r) => (
@@ -449,7 +458,7 @@ function BookingEngine() {
                 <div className="flex-1 min-w-0">
                    <div className="font-medium truncate">{String(room.name ?? "Quarto")}</div>
                   <div className="text-muted-foreground text-xs">
-                    {range?.from && fmtBR(range.from)} → {range?.to && fmtBR(range.to)} · {nights} noite{nights > 1 ? "s" : ""} · {guestN} hósp.
+                    {range?.from && fmtBR(range.from)} 14h → {range?.to && fmtBR(range.to)} 11h · {nights} noite{nights > 1 ? "s" : ""} · {guestN} hósp.
                   </div>
                 </div>
                 <div className="font-display text-xl shrink-0">
@@ -485,7 +494,7 @@ function BookingEngine() {
                       </Button>
                     </div>
                     <p className="text-[11px] text-muted-foreground text-center">
-                      Você receberá a confirmação por e-mail e WhatsApp. Sem cobrança agora.
+                      A pousada receberá seus dados e enviará a confirmação por e-mail e WhatsApp.
                     </p>
                   </>
                 );
@@ -501,13 +510,13 @@ function BookingEngine() {
               <CheckCircle2 className="h-16 w-16 mx-auto" />
               <h2 className="font-display text-3xl">Reserva confirmada!</h2>
               <p className="opacity-95 max-w-md mx-auto">
-                Seu quarto está garantido para {range?.from && fmtBR(range.from)} → {range?.to && fmtBR(range.to)}.
+                Seu quarto está garantido para {range?.from && fmtBR(range.from)} às 14h → {range?.to && fmtBR(range.to)} às 11h.
               </p>
               <div className="mt-4 rounded-xl bg-primary-foreground/10 border border-primary-foreground/20 p-4 text-sm text-left max-w-md mx-auto space-y-1.5">
-                <div className="font-semibold uppercase tracking-wider text-xs opacity-90">No dia do check-in</div>
-                <div>• Pague o valor da estadia direto na recepção.</div>
-                <div>• Retire a chave do seu quarto com a recepção.</div>
-                <div>• Apresente um documento com foto.</div>
+                <div className="font-semibold uppercase tracking-wider text-xs opacity-90">Horários da estadia</div>
+                <div>• Check-in: a partir das 14h.</div>
+                <div>• Check-out: até 11h.</div>
+                <div>• A chave do quarto é retirada na recepção.</div>
               </div>
               <a href="/" className="inline-block mt-4 text-sm underline opacity-90 hover:opacity-100">Voltar ao site</a>
             </CardContent>

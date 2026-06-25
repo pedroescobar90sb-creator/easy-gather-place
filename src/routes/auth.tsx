@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,6 +42,10 @@ function AuthPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        const { error: claimErr } = await supabase.rpc("claim_first_admin" as never);
+        if (claimErr && !/admin_already_exists/.test(claimErr.message)) {
+          console.warn("[auth] não foi possível validar primeiro admin", claimErr.message);
+        }
       }
       navigate({ to: "/dashboard" });
     } catch (err) {

@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { useApp } from "@/lib/store";
-import { supabase } from "@/lib/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },

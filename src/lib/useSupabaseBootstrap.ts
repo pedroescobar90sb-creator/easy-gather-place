@@ -105,6 +105,8 @@ export function useSupabaseBootstrap() {
       if (email) {
         login(email);
         void hydrate(email).then(() => startRealtime(email));
+      } else {
+        logout();
       }
     });
 
