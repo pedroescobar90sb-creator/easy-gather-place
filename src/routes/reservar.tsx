@@ -21,6 +21,9 @@ export const Route = createFileRoute("/reservar")({
     { title: "Reservar direto — Pousada Ilha do Meio" },
     { name: "description", content: "Reserve direto com a Pousada Ilha do Meio em Itacimirim. Sem comissão, melhor tarifa garantida." },
   ] }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    room: typeof s.room === "string" ? s.room : undefined,
+  }),
   component: BookingEngine,
 });
 
