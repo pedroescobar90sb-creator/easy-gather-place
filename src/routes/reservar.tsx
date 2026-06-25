@@ -259,10 +259,34 @@ function BookingEngine() {
                     <div className="flex items-center justify-between gap-3 mt-3">
                       <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.max(1, guestN - 1))}>−</Button>
                       <div className="font-display text-3xl tabular-nums text-foreground font-medium">{guestN}</div>
-                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.min(6, guestN + 1))}>+</Button>
+                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.min(4, guestN + 1))}>+</Button>
+                    </div>
+                    <div className="text-[11px] text-foreground/60 mt-2 text-center">
+                      {guestN <= 2 ? "Quarto duplo casal" : guestN === 3 ? "Quarto triplo" : "Quarto quádruplo"}
                     </div>
                   </div>
+
+                  {(() => {
+                    const nightly = guestN <= 2 ? 450 : guestN === 3 ? 550 : 650;
+                    const estTotal = nightly * (nights || 0);
+                    return (
+                      <div className="rounded-xl border-2 border-primary/30 bg-primary/5 p-4 space-y-2">
+                        <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">Estimativa</div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-foreground/70">{nightly.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })} × {nights || 0} noite{nights === 1 ? "" : "s"}</span>
+                        </div>
+                        <div className="border-t border-primary/20 pt-2 flex justify-between items-baseline">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-foreground/70">Total</span>
+                          <span className="font-display text-2xl font-semibold text-primary tabular-nums">
+                            {estTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}
+                          </span>
+                        </div>
+                        <div className="text-[10px] text-foreground/50 text-center">Valor final pode variar conforme o quarto escolhido</div>
+                      </div>
+                    );
+                  })()}
                 </aside>
+
               </div>
 
               <div className="grid sm:grid-cols-3 gap-3 pt-2 text-xs">
