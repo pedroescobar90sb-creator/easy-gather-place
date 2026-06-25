@@ -40,13 +40,15 @@ const fmtBR = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month
 
 function BookingEngine() {
   const { rooms, reservations, blocks } = useApp();
-  const [step, setStep] = useState<Step>(1);
+  const search = Route.useSearch();
+  const preselectedRoom = search.room;
+  const [step, setStep] = useState<Step>(preselectedRoom ? 3 : 1);
   const today = useMemo(() => { const d = new Date(); d.setHours(0,0,0,0); return d; }, []);
   const [range, setRange] = useState<DateRange | undefined>(() => {
     const a = new Date(); const b = new Date(); b.setDate(b.getDate() + 2);
     return { from: a, to: b };
   });
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState(preselectedRoom ?? "");
   const [guestN, setGuestN] = useState(2);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
