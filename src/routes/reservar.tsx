@@ -412,7 +412,7 @@ function BookingEngine() {
             <div className="grid sm:grid-cols-2 gap-4">
               {available.length === 0 && (
                 <p className="text-muted-foreground col-span-full text-center py-10">
-                  Sem disponibilidade para esta data e capacidade. Tente outro período.
+                  Não há vaga disponível para esse tipo de quarto nessas datas. Escolha outro período.
                 </p>
               )}
               {available.map((r) => (
@@ -457,7 +457,7 @@ function BookingEngine() {
                 <div className="flex-1 min-w-0">
                    <div className="font-medium truncate">{String(room.name ?? "Quarto")}</div>
                   <div className="text-muted-foreground text-xs">
-                    {range?.from && fmtBR(range.from)} → {range?.to && fmtBR(range.to)} · {nights} noite{nights > 1 ? "s" : ""} · {guestN} hósp.
+                    {range?.from && fmtBR(range.from)} 14h → {range?.to && fmtBR(range.to)} 11h · {nights} noite{nights > 1 ? "s" : ""} · {guestN} hósp.
                   </div>
                 </div>
                 <div className="font-display text-xl shrink-0">
@@ -493,7 +493,7 @@ function BookingEngine() {
                       </Button>
                     </div>
                     <p className="text-[11px] text-muted-foreground text-center">
-                      Você receberá a confirmação por e-mail e WhatsApp. Sem cobrança agora.
+                      A pousada receberá seus dados e enviará a confirmação por e-mail e WhatsApp.
                     </p>
                   </>
                 );
@@ -509,13 +509,13 @@ function BookingEngine() {
               <CheckCircle2 className="h-16 w-16 mx-auto" />
               <h2 className="font-display text-3xl">Reserva confirmada!</h2>
               <p className="opacity-95 max-w-md mx-auto">
-                Seu quarto está garantido para {range?.from && fmtBR(range.from)} → {range?.to && fmtBR(range.to)}.
+                Seu quarto está garantido para {range?.from && fmtBR(range.from)} às 14h → {range?.to && fmtBR(range.to)} às 11h.
               </p>
               <div className="mt-4 rounded-xl bg-primary-foreground/10 border border-primary-foreground/20 p-4 text-sm text-left max-w-md mx-auto space-y-1.5">
-                <div className="font-semibold uppercase tracking-wider text-xs opacity-90">No dia do check-in</div>
-                <div>• Pague o valor da estadia direto na recepção.</div>
-                <div>• Retire a chave do seu quarto com a recepção.</div>
-                <div>• Apresente um documento com foto.</div>
+                <div className="font-semibold uppercase tracking-wider text-xs opacity-90">Horários da estadia</div>
+                <div>• Check-in: a partir das 14h.</div>
+                <div>• Check-out: até 11h.</div>
+                <div>• A chave do quarto é retirada na recepção.</div>
               </div>
               <a href="/" className="inline-block mt-4 text-sm underline opacity-90 hover:opacity-100">Voltar ao site</a>
             </CardContent>
