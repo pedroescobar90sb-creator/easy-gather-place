@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { supabase } from "./supabase/client";
 import { useApp } from "./store";
-import { fetchAll } from "./remote";
+import { fetchAll, mapRoom } from "./remote";
 
 export function useSupabaseBootstrap() {
   const replaceAll = useApp((s) => s.replaceAll);
@@ -11,15 +11,28 @@ export function useSupabaseBootstrap() {
   useEffect(() => {
     let cancelled = false;
 
+    // PUBLIC: always hydrate rooms from Supabase so /reservar has real UUIDs.
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("rooms" as never)
+          .select("*")
+          .order("code");
+        if (error) throw error;
+        if (cancelled || !data?.length) return;
+        const rooms = data.map(mapRoom);
+        useApp.setState({ rooms });
+      } catch (err) {
+        console.error("[bootstrap:public] falha ao carregar quartos", err);
+      }
+    })();
+
     const hydrate = async (email: string | null) => {
       if (!email) return;
       try {
         const data = await fetchAll();
         if (cancelled) return;
-        // Only replace if Supabase actually returned content; otherwise keep seed
-        if (data.rooms.length > 0) {
-          replaceAll(data);
-        }
+        if (data.rooms.length > 0) replaceAll(data);
       } catch (err) {
         console.error("[bootstrap] falha ao carregar dados do Supabase", err);
       }
@@ -41,9 +54,7 @@ export function useSupabaseBootstrap() {
           void hydrate(email);
         }
       }
-      if (event === "SIGNED_OUT") {
-        logout();
-      }
+      if (event === "SIGNED_OUT") logout();
     });
 
     return () => {
@@ -52,3 +63,4 @@ export function useSupabaseBootstrap() {
     };
   }, [replaceAll, login, logout]);
 }
+
