@@ -7,10 +7,8 @@ import {
   Users,
   Tag,
   Plug,
-  Wallet,
   Settings,
   LogOut,
-  ScrollText,
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { useApp } from "@/lib/store";
@@ -24,9 +22,7 @@ const nav = [
   { to: "/hospedes", label: "Hóspedes", icon: Users },
   { to: "/promocoes", label: "Promoções", icon: Tag },
   { to: "/integracoes", label: "Integrações", icon: Plug },
-  { to: "/financeiro", label: "Financeiro", icon: Wallet },
-  { to: "/auditoria", label: "Auditoria", icon: ScrollText },
-  { to: "/configuracoes", label: "Configurações", icon: Settings },
+  { to: "/configuracoes", label: "Ajustes", icon: Settings },
 ] as const;
 
 export function AppSidebar() {
