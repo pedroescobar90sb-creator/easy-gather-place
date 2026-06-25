@@ -23,6 +23,8 @@ export const Route = createFileRoute("/reservar")({
   ] }),
   validateSearch: (s: Record<string, unknown>) => ({
     room: typeof s.room === "string" ? s.room : undefined,
+    type: typeof s.type === "string" && ["duplo_casal", "triplo", "quadruplo"].includes(s.type) ? (s.type as "duplo_casal" | "triplo" | "quadruplo") : undefined,
+    guests: typeof s.guests === "number" ? s.guests : undefined,
   }),
   component: BookingEngine,
 });
@@ -42,6 +44,7 @@ function BookingEngine() {
   const { rooms, reservations, blocks } = useApp();
   const search = Route.useSearch();
   const preselectedRoom = search.room;
+  const preselectedType = search.type;
   const [step, setStep] = useState<Step>(preselectedRoom ? 3 : 1);
   const today = useMemo(() => { const d = new Date(); d.setHours(0,0,0,0); return d; }, []);
   const [range, setRange] = useState<DateRange | undefined>(() => {
@@ -49,7 +52,8 @@ function BookingEngine() {
     return { from: a, to: b };
   });
   const [roomId, setRoomId] = useState(preselectedRoom ?? "");
-  const [guestN, setGuestN] = useState(2);
+  const initialGuests = search.guests ?? (preselectedType === "triplo" ? 3 : preselectedType === "quadruplo" ? 4 : 2);
+  const [guestN, setGuestN] = useState(initialGuests);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -65,8 +69,13 @@ function BookingEngine() {
   const safeBlocks = useMemo(() => (Array.isArray(blocks) ? blocks.filter((b) => b && typeof b === "object") : []), [blocks]);
 
   const available = useMemo(
-    () => datesValid ? safeRooms.filter((r) => r.status === "active" && r.capacity >= guestN && checkConflict({ roomId: r.id, checkIn, checkOut, reservations: safeReservations, blocks: safeBlocks }).ok) : [],
-    [safeRooms, safeReservations, safeBlocks, checkIn, checkOut, datesValid, guestN],
+    () => datesValid ? safeRooms.filter((r) =>
+      r.status === "active"
+      && r.capacity >= guestN
+      && (!preselectedType || r.type === preselectedType)
+      && checkConflict({ roomId: r.id, checkIn, checkOut, reservations: safeReservations, blocks: safeBlocks }).ok
+    ) : [],
+    [safeRooms, safeReservations, safeBlocks, checkIn, checkOut, datesValid, guestN, preselectedType],
   );
   const room = safeRooms.find((r) => r.id === roomId);
   const total = (room?.basePrice ?? 0) * nights;

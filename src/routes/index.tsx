@@ -140,11 +140,11 @@ function HomePage() {
         </div>
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { img: f2.url, name: "Duplo Casal", capacity: "2 pessoas", count: 10, price: "R$ 450" },
-            { img: f3.url, name: "Triplo", capacity: "3 pessoas", count: 3, price: "R$ 550" },
-            { img: f4.url, name: "Quádruplo", capacity: "4 pessoas", count: 4, price: "R$ 650" },
-          ].map((r) => (
+          {([
+            { img: f2.url, name: "Duplo Casal", capacity: "2 pessoas", count: 10, price: "R$ 450", type: "duplo_casal" as const, guests: 2 },
+            { img: f3.url, name: "Triplo", capacity: "3 pessoas", count: 3, price: "R$ 550", type: "triplo" as const, guests: 3 },
+            { img: f4.url, name: "Quádruplo", capacity: "4 pessoas", count: 4, price: "R$ 650", type: "quadruplo" as const, guests: 4 },
+          ]).map((r) => (
             <article key={r.name} className="group overflow-hidden rounded-2xl bg-card border border-border/60 flex flex-col hover:shadow-xl hover:shadow-black/5 hover:-translate-y-0.5 transition-all duration-300">
               <div className="aspect-[4/3] overflow-hidden">
                 <img src={r.img} alt={r.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
@@ -168,6 +168,7 @@ function HomePage() {
                   </div>
                   <Link
                     to="/reservar"
+                    search={{ type: r.type, guests: r.guests }}
                     className="rounded-full bg-primary text-primary-foreground hover:opacity-90 px-4 py-2.5 text-sm font-medium"
                   >
                     Reservar
