@@ -283,15 +283,27 @@ function BookingEngine() {
                     <Label className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
                       <Users className="h-3.5 w-3.5" /> Hóspedes
                     </Label>
-                    <div className="flex items-center justify-between gap-3 mt-3">
-                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" disabled={!!preselectedType} onClick={() => setGuestN(Math.max(1, guestN - 1))}>−</Button>
-                      <div className="font-display text-3xl tabular-nums text-foreground font-medium">{guestN}</div>
-                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" disabled={!!preselectedType} onClick={() => setGuestN(Math.min(4, guestN + 1))}>+</Button>
-                    </div>
-                    <div className="text-[11px] text-foreground/60 mt-2 text-center">
-                      {preselectedType === "duplo_casal" ? "Quarto duplo casal (fixo · 2)" : preselectedType === "triplo" ? "Quarto triplo (fixo · 3)" : preselectedType === "quadruplo" ? "Quarto quádruplo (fixo · 4)" : guestN <= 2 ? "Quarto duplo casal" : guestN === 3 ? "Quarto triplo" : "Quarto quádruplo"}
-                    </div>
+                    {preselectedType ? (
+                      <div className="mt-3 text-center">
+                        <div className="font-display text-3xl tabular-nums text-foreground font-medium">{guestN}</div>
+                        <div className="text-[11px] text-foreground/60 mt-2">
+                          {preselectedType === "duplo_casal" ? "Quarto duplo casal · fixo 2" : preselectedType === "triplo" ? "Quarto triplo · fixo 3" : "Quarto quádruplo · fixo 4"}
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex items-center justify-between gap-3 mt-3">
+                          <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.max(1, guestN - 1))}>−</Button>
+                          <div className="font-display text-3xl tabular-nums text-foreground font-medium">{guestN}</div>
+                          <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.min(4, guestN + 1))}>+</Button>
+                        </div>
+                        <div className="text-[11px] text-foreground/60 mt-2 text-center">
+                          {guestN <= 2 ? "Quarto duplo casal" : guestN === 3 ? "Quarto triplo" : "Quarto quádruplo"}
+                        </div>
+                      </>
+                    )}
                   </div>
+
 
 
                   {(() => {
