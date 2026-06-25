@@ -441,6 +441,12 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _uid: string }; Returns: boolean }
+      public_busy_room_ids: {
+        Args: { p_check_in: string; p_check_out: string }
+        Returns: {
+          room_id: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "operacao"
