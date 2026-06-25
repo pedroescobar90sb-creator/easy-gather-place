@@ -44,6 +44,7 @@ const fmtBR = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month
 
 function BookingEngine() {
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [busyRoomIds, setBusyRoomIds] = useState<Set<string>>(new Set());
   const search = Route.useSearch();
   const preselectedRoom = search.room;
   const preselectedType = search.type;
@@ -80,14 +81,40 @@ function BookingEngine() {
   const datesValid = !!(range?.from && range?.to && range.from < range.to);
   const nights = datesValid ? nightsBetween(checkIn, checkOut) : 0;
 
+  // Fetch room IDs that already have overlapping reservations or blocks
+  useEffect(() => {
+    if (!datesValid) { setBusyRoomIds(new Set()); return; }
+    let cancelled = false;
+    (async () => {
+      const busy = new Set<string>();
+      const [{ data: res }, { data: blk }] = await Promise.all([
+        supabase.from("reservations")
+          .select("room_id, check_in, check_out, status")
+          .lt("check_in", checkOut)
+          .gt("check_out", checkIn)
+          .in("status", ["pending", "confirmed", "checked_in"]),
+        supabase.from("room_blocks")
+          .select("room_id, start_date, end_date")
+          .lt("start_date", checkOut)
+          .gt("end_date", checkIn),
+      ]);
+      (res ?? []).forEach((r: { room_id: string | null }) => r.room_id && busy.add(r.room_id));
+      (blk ?? []).forEach((b: { room_id: string | null }) => b.room_id && busy.add(b.room_id));
+      if (!cancelled) setBusyRoomIds(busy);
+    })();
+    return () => { cancelled = true; };
+  }, [datesValid, checkIn, checkOut]);
+
   const available = useMemo(
     () => datesValid ? rooms.filter((r) =>
       r.status === "active"
       && r.capacity >= guestN
       && (!preselectedType || r.type === preselectedType)
+      && !busyRoomIds.has(r.id)
     ) : [],
-    [rooms, datesValid, guestN, preselectedType],
+    [rooms, datesValid, guestN, preselectedType, busyRoomIds],
   );
+
   const room = rooms.find((r) => r.id === roomId);
   const total = (room?.basePrice ?? 0) * nights;
 
