@@ -11,6 +11,8 @@ export const Route = createFileRoute("/quartos")({
 
 function RoomsPage() {
   const { rooms, reservations } = useApp();
+  const safeRooms = Array.isArray(rooms) ? rooms.filter((room) => room && typeof room === "object") : [];
+  const safeReservations = Array.isArray(reservations) ? reservations.filter((reservation) => reservation && typeof reservation === "object") : [];
   const today = new Date().toISOString().slice(0, 10);
 
   const occByRoom = (id: string) => {
@@ -20,7 +22,7 @@ function RoomsPage() {
       const d = new Date();
       d.setDate(d.getDate() + i);
       const iso = d.toISOString().slice(0, 10);
-      if (reservations.some((r) => r.roomId === id && r.status !== "cancelled" && r.checkIn <= iso && r.checkOut > iso)) count++;
+      if (safeReservations.some((r) => r.roomId === id && r.status !== "cancelled" && r.checkIn <= iso && r.checkOut > iso)) count++;
     }
     return Math.round((count / days30) * 100);
   };
@@ -43,11 +45,11 @@ function RoomsPage() {
       <PageHeader title="Quartos" description="17 quartos · 42 hóspedes · 10 duplo casal · 3 triplo · 4 quádruplo" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {(rooms ?? []).filter(Boolean).map((room) => {
+        {safeRooms.map((room) => {
           const status = room.status ?? "active";
-          const amenities = room.amenities ?? [];
+          const amenities = Array.isArray(room.amenities) ? room.amenities.filter((a) => typeof a === "string" && a.trim()) : [];
           const occ = occByRoom(room.id);
-          const isOccupied = (reservations ?? []).some((r) => r.roomId === room.id && r.status !== "cancelled" && r.checkIn <= today && r.checkOut > today);
+          const isOccupied = safeReservations.some((r) => r.roomId === room.id && r.status !== "cancelled" && r.checkIn <= today && r.checkOut > today);
           return (
             <Card key={room.id} className="overflow-hidden group">
               <div className="aspect-[4/3] overflow-hidden bg-muted relative">
@@ -62,8 +64,8 @@ function RoomsPage() {
                 <div>
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-display text-lg leading-tight">{room.name}</div>
-                      <div className="text-xs text-muted-foreground">#{room.code} · {room.type} · {room.capacity}p</div>
+                      <div className="font-display text-lg leading-tight">{String(room.name ?? "Quarto")}</div>
+                      <div className="text-xs text-muted-foreground">#{String(room.code ?? "—")} · {String(room.type ?? "duplo_casal").replace("_", " ")} · {Number(room.capacity) || 1}p</div>
                     </div>
                     <div className="text-right">
                       <div className="font-display text-lg">{(room.basePrice ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}</div>
@@ -71,7 +73,7 @@ function RoomsPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground line-clamp-2">{room.description}</p>
+                <p className="text-xs text-muted-foreground line-clamp-2">{String(room.description ?? "Quarto confortável com ar-condicionado, TV, frigobar e Wi-Fi.")}</p>
                 <div className="flex flex-wrap gap-1">
                   {amenities.slice(0, 3).map((a) => <Badge key={a} variant="secondary" className="text-[10px]">{a}</Badge>)}
                 </div>

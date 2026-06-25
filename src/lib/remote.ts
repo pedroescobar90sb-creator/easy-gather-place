@@ -1,5 +1,5 @@
-import { supabase as supabaseTyped } from "./supabase/client";
-import type { Database } from "./supabase/types";
+import { supabase as supabaseTyped } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
 // Loose alias for INSERT/UPDATE/DELETE — typing Insert payloads manually
 // against zero-config supabase-js helpers is brittle, and we already validate
@@ -27,10 +27,25 @@ type AuditRow = Database["public"]["Tables"]["audit_logs"]["Row"];
 type SyncRow = Database["public"]["Tables"]["sync_state"]["Row"];
 
 // ---------- mappers ----------
+const asText = (value: unknown, fallback = "") =>
+  typeof value === "string" || typeof value === "number" ? String(value) : fallback;
+
+const asTextArray = (value: unknown): string[] =>
+  Array.isArray(value)
+    ? value.map((item) => asText(item).trim()).filter(Boolean)
+    : [];
+
 export const mapRoom = (r: RoomRow): Room => ({
-  id: r.id, code: r.code, name: r.name, type: r.type, capacity: r.capacity,
-  basePrice: Number(r.base_price), status: r.status, amenities: r.amenities ?? [],
-  image: r.image ?? "", description: r.description ?? "",
+  id: asText(r.id),
+  code: asText(r.code),
+  name: asText(r.name, "Quarto"),
+  type: asText(r.type, "duplo_casal") as Room["type"],
+  capacity: Number(r.capacity) || 1,
+  basePrice: Number(r.base_price) || 0,
+  status: asText(r.status, "active") as Room["status"],
+  amenities: asTextArray(r.amenities),
+  image: asText(r.image),
+  description: asText(r.description),
 });
 
 export const mapGuest = (g: GuestRow): Guest => ({
