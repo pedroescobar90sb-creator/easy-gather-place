@@ -4,10 +4,11 @@ import {
   Link,
   createRootRouteWithContext,
   useRouterState,
+  useNavigate,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -15,6 +16,7 @@ import { BackBar } from "@/components/BackBar";
 import { useApp } from "@/lib/store";
 import { useSupabaseBootstrap } from "@/lib/useSupabaseBootstrap";
 import { Toaster } from "@/components/ui/sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -110,7 +112,30 @@ function Shell() {
 }
 
 function InternalShell() {
+  const navigate = useNavigate();
+  const logout = useApp((s) => s.logout);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase.auth.getSession().then(({ data }) => {
+      if (cancelled) return;
+      if (!data.session) {
+        logout();
+        void navigate({ to: "/auth" });
+      } else {
+        setCheckingAuth(false);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [logout, navigate]);
+
   useSupabaseBootstrap();
+
+  if (checkingAuth) {
+    return <div className="min-h-screen grid place-items-center text-sm text-muted-foreground">Verificando acesso…</div>;
+  }
+
   return (
     <div className="flex min-h-screen w-full bg-background text-foreground">
       <AppSidebar />
