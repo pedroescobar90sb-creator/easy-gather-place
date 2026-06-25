@@ -79,10 +79,21 @@ export function useSupabaseBootstrap() {
       if (event === "SIGNED_OUT") logout();
     });
 
+    const onFocus = () => {
+      const u = useApp.getState().session.user;
+      if (u) void hydrate(u.name);
+
+    };
+    window.addEventListener("focus", onFocus);
+    const interval = window.setInterval(onFocus, 20000);
+
     return () => {
       cancelled = true;
       sub.subscription.unsubscribe();
+      window.removeEventListener("focus", onFocus);
+      window.clearInterval(interval);
     };
   }, [replaceAll, login, logout]);
 }
+
 
