@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, Wifi, Wind, Tv, Refrigerator, Star, MessageCircle, Calendar, ShieldCheck, Heart, Instagram, Check } from "lucide-react";
+import { MapPin, Wifi, Wind, Tv, Refrigerator, Star, Calendar, ShieldCheck, Heart, Instagram, Check } from "lucide-react";
+import { Logo } from "@/components/Logo";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import f0 from "@/assets/pousada-0.jpg.asset.json";
 import f1 from "@/assets/pousada-1.jpg.asset.json";
 import f2 from "@/assets/pousada-2.jpg.asset.json";
@@ -18,10 +20,10 @@ const INSTAGRAM = "https://www.instagram.com/pousadailhadomeio/";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pousada Ilha do Meio · Itacimirim, Bahia" },
-      { name: "description", content: "Pousada boutique em Itacimirim a 2 minutos do mar. 17 quartos com ar, TV e frigobar. Reserve direto e ganhe 10% off." },
-      { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim" },
-      { property: "og:description", content: "Sua estadia tranquila em Itacimirim — Costa dos Coqueiros, Bahia. Reserve direto e economize." },
+      { title: "Pousada Ilha do Meio · Itacimirim, Camaçari — BA" },
+      { name: "description", content: "Pousada boutique em Itacimirim (Camaçari, BA) a 2 minutos do mar. 17 quartos com ar, TV e frigobar. Reserve direto e ganhe 10% off." },
+      { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Camaçari — BA" },
+      { property: "og:description", content: "Sua estadia tranquila em Itacimirim — Camaçari, Bahia. Reserve direto e economize." },
       { property: "og:image", content: f0.url },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/" },
@@ -35,28 +37,33 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* TOP BAR */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b border-border/50">
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-background/85 border-b border-border/50">
         <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
-          <a href="#top" className="font-display text-base sm:text-lg tracking-tight">
-            Pousada <span className="text-primary">Ilha do Meio</span>
+          <a href="#top" className="flex items-center gap-2.5">
+            <Logo className="h-9 w-9" />
+            <div className="leading-tight">
+              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">Pousada</div>
+              <div className="font-display text-base sm:text-lg leading-none">Ilha do Meio</div>
+            </div>
           </a>
           <div className="flex items-center gap-2">
-            <Link
-              to="/reservar"
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition"
-            >
-              <Calendar className="h-4 w-4" />
-              Reservar direto
-            </Link>
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 text-white px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium hover:bg-emerald-700 transition"
+              aria-label="WhatsApp"
+              title="WhatsApp"
+              className="inline-flex items-center justify-center h-10 w-10 rounded-full text-emerald-700 hover:bg-emerald-50 transition"
             >
-              <MessageCircle className="h-4 w-4" />
-              WhatsApp
+              <WhatsAppIcon className="h-5 w-5" />
             </a>
+            <Link
+              to="/reservar"
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 sm:px-5 py-2.5 text-sm font-semibold hover:opacity-90 transition"
+            >
+              <Calendar className="h-4 w-4" />
+              Reservar
+            </Link>
           </div>
         </div>
       </header>
@@ -70,7 +77,7 @@ function HomePage() {
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-3 py-1.5 text-xs ring-1 ring-white/20">
             <MapPin className="h-3.5 w-3.5" />
-            Itacimirim · Costa dos Coqueiros · BA
+            Itacimirim, Camaçari — BA
           </div>
           <h1 className="mt-5 font-display font-medium text-5xl sm:text-7xl leading-[1.02] tracking-tight max-w-3xl">
             Sua pausa tranquila<br />a 2 minutos do mar.
@@ -80,10 +87,10 @@ function HomePage() {
             <span className="text-white font-medium">Reserve direto e ganhe 10% off.</span>
           </p>
 
-          <div className="mt-7 flex flex-col sm:flex-row gap-3 max-w-lg">
+          <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 max-w-lg">
             <Link
               to="/reservar"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary hover:opacity-95 text-primary-foreground px-6 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary hover:opacity-95 text-primary-foreground px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <Calendar className="h-5 w-5" />
               Reservar online agora
@@ -92,10 +99,10 @@ function HomePage() {
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-4 text-base font-semibold shadow-lg shadow-emerald-900/30 transition"
+              className="inline-flex items-center justify-center gap-2 text-white/95 hover:text-white text-sm font-medium underline-offset-4 hover:underline"
             >
-              <MessageCircle className="h-5 w-5" />
-              WhatsApp
+              <WhatsAppIcon className="h-4 w-4" />
+              ou falar no WhatsApp
             </a>
           </div>
 
@@ -195,23 +202,14 @@ function HomePage() {
               </div>
             ))}
           </div>
-          <div className="mt-10 flex flex-col sm:flex-row gap-3">
+          <div className="mt-10">
             <Link
               to="/reservar"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-95 px-6 py-4 text-base font-semibold shadow-lg shadow-primary/20"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-95 px-7 py-4 text-base font-semibold shadow-lg shadow-primary/20"
             >
               <Calendar className="h-5 w-5" />
               Reservar online com 10% off
             </Link>
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-4 text-base font-semibold"
-            >
-              <MessageCircle className="h-5 w-5" />
-              Falar no WhatsApp
-            </a>
           </div>
         </div>
       </section>
@@ -236,18 +234,23 @@ function HomePage() {
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Localização</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Itacimirim, Bahia.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">A poucos minutos das praias de Itacimirim, Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
-            <address className="not-italic mt-6 text-sm text-foreground/85 leading-relaxed">
-              Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8<br />
-              Itacimirim, Camaçari — BA · CEP 42823-000
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Itacimirim, Camaçari — BA.</h2>
+            <p className="mt-4 text-muted-foreground sm:text-lg">Praia da Espera, a poucos minutos de Itacimirim, Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
+            <address className="not-italic mt-6 rounded-xl border border-border/60 bg-background p-5 text-sm text-foreground/90 leading-relaxed">
+              <div className="font-medium text-foreground">Pousada Ilha do Meio</div>
+              <div className="mt-1.5 space-y-0.5">
+                <div>Rua Sítio Novo, 7</div>
+                <div>Loteamento Santa Maria, Lote 8</div>
+                <div>Itacimirim, Camaçari — BA</div>
+                <div className="text-muted-foreground">CEP 42823-000</div>
+              </div>
             </address>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href={WHATSAPP} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 text-sm font-medium">
-                <MessageCircle className="h-4 w-4" /> WhatsApp
-              </a>
-              <a href={INSTAGRAM} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full border border-border bg-background hover:bg-muted px-5 py-3 text-sm font-medium">
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href={INSTAGRAM} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full border border-border bg-background hover:bg-muted px-5 py-2.5 text-sm font-medium">
                 <Instagram className="h-4 w-4" /> @pousadailhadomeio
+              </a>
+              <a href={WHATSAPP} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 px-5 py-2.5 text-sm font-medium">
+                <WhatsAppIcon className="h-4 w-4" /> WhatsApp
               </a>
             </div>
           </div>
@@ -266,10 +269,10 @@ function HomePage() {
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua estadia.</h2>
           <p className="mt-4 text-white/85 sm:text-lg">Disponibilidade limitada para os próximos finais de semana.</p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="mt-8 flex flex-col items-center gap-4">
             <Link
               to="/reservar"
-              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-95 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/40"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-95 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40"
             >
               <Calendar className="h-5 w-5" />
               Reservar online
@@ -278,10 +281,9 @@ function HomePage() {
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-7 py-4 text-base font-semibold shadow-lg shadow-emerald-900/40"
+              className="inline-flex items-center gap-2 text-white/85 hover:text-white text-sm font-medium underline-offset-4 hover:underline"
             >
-              <MessageCircle className="h-5 w-5" />
-              WhatsApp
+              <WhatsAppIcon className="h-4 w-4" /> ou falar no WhatsApp
             </a>
           </div>
         </div>
@@ -289,38 +291,42 @@ function HomePage() {
 
       {/* FOOTER */}
       <footer className="border-t border-border/60 bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <div>© {new Date().getFullYear()} Pousada Ilha do Meio · Itacimirim, BA</div>
+        <div className="mx-auto max-w-6xl px-4 py-10 flex flex-col sm:flex-row items-center justify-between gap-5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-2.5">
+            <Logo className="h-7 w-7" />
+            <div>
+              <div className="font-display text-sm text-foreground leading-none">Pousada Ilha do Meio</div>
+              <div className="mt-1">© {new Date().getFullYear()} · Itacimirim, Camaçari — BA</div>
+            </div>
+          </div>
           <div className="flex items-center gap-5">
-            <a href={INSTAGRAM} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1">
+            <a href={INSTAGRAM} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
               <Instagram className="h-3.5 w-3.5" /> Instagram
             </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1">
-              <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
+            <a href={WHATSAPP} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
+              <WhatsAppIcon className="h-3.5 w-3.5" /> WhatsApp
             </a>
-            
           </div>
         </div>
       </footer>
 
-      {/* MOBILE STICKY DUAL CTA */}
+      {/* MOBILE STICKY CTA */}
       <div className="md:hidden fixed bottom-3 inset-x-3 z-50 flex gap-2">
         <Link
           to="/reservar"
           className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-3.5 text-sm font-semibold shadow-2xl shadow-black/30"
         >
           <Calendar className="h-4 w-4" />
-          Reservar
+          Reservar online
         </Link>
         <a
           href={WHATSAPP}
           target="_blank"
           rel="noopener"
           aria-label="WhatsApp"
-          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-3.5 text-sm font-semibold shadow-2xl shadow-emerald-900/40"
+          className="inline-flex items-center justify-center h-[46px] w-[46px] rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-2xl shadow-emerald-900/40"
         >
-          <MessageCircle className="h-4 w-4" />
-          WhatsApp
+          <WhatsAppIcon className="h-5 w-5" />
         </a>
       </div>
     </div>
