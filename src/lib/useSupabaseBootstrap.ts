@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { supabase } from "./supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { useApp } from "./store";
 import { fetchAll, mapRoom } from "./remote";
 
