@@ -86,24 +86,20 @@ function BookingEngine() {
     if (!datesValid) { setBusyRoomIds(new Set()); return; }
     let cancelled = false;
     (async () => {
+      const { data, error } = await supabase.rpc("public_busy_room_ids", {
+        p_check_in: checkIn,
+        p_check_out: checkOut,
+      });
+      if (cancelled || error || !Array.isArray(data)) return;
       const busy = new Set<string>();
-      const [{ data: res }, { data: blk }] = await Promise.all([
-        supabase.from("reservations")
-          .select("room_id, check_in, check_out, status")
-          .lt("check_in", checkOut)
-          .gt("check_out", checkIn)
-          .in("status", ["pending", "confirmed", "checked_in"]),
-        supabase.from("room_blocks")
-          .select("room_id, start_date, end_date")
-          .lt("start_date", checkOut)
-          .gt("end_date", checkIn),
-      ]);
-      (res ?? []).forEach((r: { room_id: string | null }) => r.room_id && busy.add(r.room_id));
-      (blk ?? []).forEach((b: { room_id: string | null }) => b.room_id && busy.add(b.room_id));
-      if (!cancelled) setBusyRoomIds(busy);
+      (data as Array<{ room_id: string | null }>).forEach((r) => {
+        if (r.room_id) busy.add(r.room_id);
+      });
+      setBusyRoomIds(busy);
     })();
     return () => { cancelled = true; };
   }, [datesValid, checkIn, checkOut]);
+
 
   const available = useMemo(
     () => datesValid ? rooms.filter((r) =>
