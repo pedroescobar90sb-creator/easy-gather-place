@@ -5,15 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  TrendingUp,
   CalendarCheck,
   CalendarX,
   BedDouble,
   AlertTriangle,
   Plus,
-  ArrowUpRight,
+  Sparkles,
+  TrendingDown,
 } from "lucide-react";
-import { nightsBetween } from "@/lib/reservations";
+import { checkConflict } from "@/lib/reservations";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — Pousada Ilha do Meio" }] }),
@@ -24,61 +24,63 @@ const fmtBRL = (n: number) =>
   n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
 
 function Dashboard() {
-  const { rooms, reservations, audit, sync } = useApp();
+  const { rooms, reservations, blocks, promotions, guests } = useApp();
   const today = new Date().toISOString().slice(0, 10);
-  const endMonth = new Date();
-  endMonth.setMonth(endMonth.getMonth() + 1);
-  const monthEnd = endMonth.toISOString().slice(0, 10);
+  const monthStart = today.slice(0, 8) + "01";
+  const d2 = new Date(); d2.setMonth(d2.getMonth() + 1); d2.setDate(0);
+  const monthEnd = d2.toISOString().slice(0, 10);
 
   const activeRooms = rooms.filter((r) => r.status === "active");
   const occupiedToday = reservations.filter(
     (r) => (r.status === "checked_in" || r.status === "confirmed") && r.checkIn <= today && r.checkOut > today,
   );
   const availableToday = activeRooms.length - occupiedToday.length;
-  const occupancyPct = Math.round((occupiedToday.length / activeRooms.length) * 100);
+  const occupancyPct = activeRooms.length ? Math.round((occupiedToday.length / activeRooms.length) * 100) : 0;
 
   const checkinsToday = reservations.filter((r) => r.checkIn === today && r.status !== "cancelled");
   const checkoutsToday = reservations.filter((r) => r.checkOut === today && r.status !== "cancelled");
 
   const monthReservations = reservations.filter(
-    (r) => r.status !== "cancelled" && r.checkIn <= monthEnd && r.checkOut >= today,
+    (r) => r.status !== "cancelled" && r.checkIn <= monthEnd && r.checkOut >= monthStart,
   );
   const revenueForecast = monthReservations.reduce((sum, r) => sum + r.totalValue, 0);
-  const adr =
-    monthReservations.length > 0
-      ? Math.round(
-          monthReservations.reduce((s, r) => s + r.totalValue / nightsBetween(r.checkIn, r.checkOut), 0) /
-            monthReservations.length,
-        )
-      : 0;
 
-  const cancelledCount = reservations.filter((r) => r.status === "cancelled").length;
+  // Booking vs direta
+  const nonCancelled = reservations.filter((r) => r.status !== "cancelled");
+  const bookingCount = nonCancelled.filter((r) => r.channel === "booking").length;
+  const diretoCount = nonCancelled.filter((r) => r.channel === "direto" || r.channel === "site" || r.channel === "whatsapp" || r.channel === "instagram").length;
+  const totalCh = bookingCount + diretoCount || 1;
+  const bookingPct = Math.round((bookingCount / totalCh) * 100);
+  const diretoPct = 100 - bookingPct;
 
-  const channelBreakdown = reservations.reduce<Record<string, number>>((acc, r) => {
-    if (r.status === "cancelled") return acc;
-    acc[r.channel] = (acc[r.channel] ?? 0) + 1;
-    return acc;
-  }, {});
-
-  // 30-day heatmap
-  const days: Array<{ date: string; pct: number }> = [];
-  for (let i = 0; i < 30; i++) {
-    const d = new Date();
-    d.setDate(d.getDate() + i);
+  // 7 dias com destaque para dias fracos
+  const days: Array<{ date: string; pct: number; weak: boolean }> = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(); d.setDate(d.getDate() + i);
     const iso = d.toISOString().slice(0, 10);
-    const occupied = reservations.filter(
-      (r) => r.status !== "cancelled" && r.checkIn <= iso && r.checkOut > iso,
-    ).length;
-    days.push({ date: iso, pct: Math.round((occupied / activeRooms.length) * 100) });
+    const occ = reservations.filter((r) => r.status !== "cancelled" && r.checkIn <= iso && r.checkOut > iso).length;
+    const pct = activeRooms.length ? Math.round((occ / activeRooms.length) * 100) : 0;
+    days.push({ date: iso, pct, weak: pct < 50 });
+  }
+  const weakDays = days.filter((d) => d.weak).length;
+
+  // Conflitos / risco overbooking
+  const conflicts: Array<{ label: string; detail: string }> = [];
+  for (const r of nonCancelled) {
+    const c = checkConflict({ roomId: r.roomId, checkIn: r.checkIn, checkOut: r.checkOut, excludeId: r.id, reservations: nonCancelled, blocks });
+    if (!c.ok) {
+      const room = rooms.find((x) => x.id === r.roomId);
+      conflicts.push({ label: `${room?.name ?? "Quarto"} · ${r.code}`, detail: c.conflicts.map((x) => x.label).join(", ") });
+    }
   }
 
-  const alerts = audit.filter((a) => a.severity !== "info").slice(0, 4);
+  const activePromo = promotions.find((p) => p.active);
 
   return (
     <div className="p-6 md:p-10 max-w-[1400px] mx-auto">
       <PageHeader
-        title="Bom dia, equipe Ilha do Meio"
-        description={`Operação de hoje · ${new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}`}
+        title="Operação de hoje"
+        description={new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}
         actions={
           <>
             <Button asChild variant="outline"><Link to="/calendario">Calendário</Link></Button>
@@ -89,36 +91,40 @@ function Dashboard() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Kpi label="Ocupação hoje" value={`${occupancyPct}%`} sub={`${occupiedToday.length}/${activeRooms.length} quartos`} icon={<BedDouble className="h-5 w-5" />} />
-        <Kpi label="Diária média (ADR)" value={fmtBRL(adr)} sub="próximos 30 dias" icon={<TrendingUp className="h-5 w-5" />} />
-        <Kpi label="Receita prevista" value={fmtBRL(revenueForecast)} sub={`${monthReservations.length} reservas`} icon={<ArrowUpRight className="h-5 w-5" />} />
-        <Kpi label="Disponíveis hoje" value={`${availableToday}`} sub={`de ${activeRooms.length} ativos`} icon={<CalendarCheck className="h-5 w-5" />} />
+        <Kpi label="Livres hoje" value={`${availableToday}`} sub="prontos pra vender" icon={<BedDouble className="h-5 w-5" />} />
+        <Kpi label="Check-ins hoje" value={`${checkinsToday.length}`} sub="chegadas previstas" icon={<CalendarCheck className="h-5 w-5" />} />
+        <Kpi label="Check-outs hoje" value={`${checkoutsToday.length}`} sub="saídas previstas" icon={<CalendarX className="h-5 w-5" />} />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6 mb-6">
         <Card className="lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="font-display text-xl">Próximos 30 dias</CardTitle>
-            <Badge variant="secondary">{Math.round(days.reduce((s, d) => s + d.pct, 0) / days.length)}% média</Badge>
+            <CardTitle className="font-display text-xl">Próximos 7 dias</CardTitle>
+            {weakDays > 0 ? (
+              <Badge variant="destructive" className="gap-1"><TrendingDown className="h-3 w-3" />{weakDays} {weakDays === 1 ? "dia fraco" : "dias fracos"}</Badge>
+            ) : (
+              <Badge variant="secondary">Ocupação saudável</Badge>
+            )}
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-15 gap-1" style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}>
-              {days.map((d) => (
-                <div key={d.date} title={`${new Date(d.date).toLocaleDateString("pt-BR")} · ${d.pct}%`} className="aspect-square rounded-sm border border-border/40" style={{ background: heatColor(d.pct) }} />
-              ))}
+            <div className="grid grid-cols-7 gap-2">
+              {days.map((d) => {
+                const date = new Date(d.date + "T00:00:00");
+                return (
+                  <div key={d.date} className={`rounded-md border p-3 text-center ${d.weak ? "border-destructive/40 bg-destructive/5" : "border-border"}`}>
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{date.toLocaleDateString("pt-BR", { weekday: "short" })}</div>
+                    <div className="font-display text-lg mt-1">{date.getDate()}</div>
+                    <div className={`text-xs mt-1 ${d.weak ? "text-destructive font-medium" : "text-muted-foreground"}`}>{d.pct}%</div>
+                  </div>
+                );
+              })}
             </div>
-            <div className="flex items-center justify-between mt-4 text-[11px] text-muted-foreground">
-              <span>Hoje</span>
-              <div className="flex items-center gap-2">
-                <span>Baixa</span>
-                <div className="flex gap-0.5">
-                  {[10, 30, 50, 70, 90].map((p) => (
-                    <div key={p} className="h-3 w-3 rounded-sm" style={{ background: heatColor(p) }} />
-                  ))}
-                </div>
-                <span>Alta</span>
+            {weakDays > 0 && (
+              <div className="mt-4 flex items-center justify-between rounded-md bg-muted/50 p-3 text-sm">
+                <span className="text-muted-foreground">Considere ativar uma promoção para os dias fracos.</span>
+                <Button asChild size="sm" variant="outline"><Link to="/promocoes">Ver promoções</Link></Button>
               </div>
-              <span>+30d</span>
-            </div>
+            )}
           </CardContent>
         </Card>
 
@@ -126,76 +132,109 @@ function Dashboard() {
           <CardHeader>
             <CardTitle className="font-display text-xl flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-warning" />
-              Alertas operacionais
+              Alertas
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {alerts.length === 0 && <p className="text-sm text-muted-foreground">Sem alertas. Operação tranquila.</p>}
-            {alerts.map((a) => (
-              <div key={a.id} className="flex gap-3 text-sm border-l-2 pl-3" style={{ borderColor: a.severity === "critical" ? "var(--destructive)" : "var(--warning)" }}>
-                <div className="flex-1">
-                  <div className="font-medium">{a.action}</div>
-                  <div className="text-muted-foreground text-xs">{a.target} · {a.detail}</div>
+            {conflicts.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Sem conflitos. Operação tranquila.</p>
+            ) : (
+              conflicts.slice(0, 4).map((c, i) => (
+                <div key={i} className="border-l-2 border-destructive pl-3 text-sm">
+                  <div className="font-medium">Risco de overbooking</div>
+                  <div className="text-xs text-muted-foreground">{c.label} — {c.detail}</div>
                 </div>
-              </div>
-            ))}
-            <Link to="/auditoria" className="block text-xs text-primary hover:underline pt-2">Ver tudo →</Link>
+              ))
+            )}
           </CardContent>
         </Card>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
         <Card>
-          <CardHeader><CardTitle className="font-display text-xl flex items-center gap-2"><CalendarCheck className="h-5 w-5 text-success" />Check-ins de hoje</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="font-display text-xl">Receita prevista do mês</CardTitle></CardHeader>
           <CardContent>
-            <div className="text-3xl font-display font-semibold mb-3">{checkinsToday.length}</div>
-            <div className="space-y-2 text-sm">
-              {checkinsToday.slice(0, 4).map((r) => <Row key={r.id} reservation={r} />)}
-              {checkinsToday.length === 0 && <p className="text-muted-foreground text-sm">Nenhum check-in agendado.</p>}
-            </div>
+            <div className="font-display text-4xl font-semibold">{fmtBRL(revenueForecast)}</div>
+            <div className="text-xs text-muted-foreground mt-2">{monthReservations.length} reservas neste mês</div>
           </CardContent>
         </Card>
+
         <Card>
-          <CardHeader><CardTitle className="font-display text-xl flex items-center gap-2"><CalendarX className="h-5 w-5" />Check-outs de hoje</CardTitle></CardHeader>
-          <CardContent>
-            <div className="text-3xl font-display font-semibold mb-3">{checkoutsToday.length}</div>
-            <div className="space-y-2 text-sm">
-              {checkoutsToday.slice(0, 4).map((r) => <Row key={r.id} reservation={r} />)}
-              {checkoutsToday.length === 0 && <p className="text-muted-foreground text-sm">Nenhum check-out hoje.</p>}
-            </div>
+          <CardHeader><CardTitle className="font-display text-xl">Booking.com vs Direta</CardTitle></CardHeader>
+          <CardContent className="space-y-3">
+            <ChannelBar label="Booking.com" pct={bookingPct} count={bookingCount} tone="muted" />
+            <ChannelBar label="Reserva direta" pct={diretoPct} count={diretoCount} tone="primary" />
+            {bookingPct > 60 && (
+              <p className="text-xs text-warning pt-2">Alta dependência do Booking.com. Reforce reserva direta.</p>
+            )}
           </CardContent>
         </Card>
+
         <Card>
           <CardHeader>
-            <CardTitle className="font-display text-xl">Reservas por canal</CardTitle>
+            <CardTitle className="font-display text-xl flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              Promoção ativa
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
-            {Object.entries(channelBreakdown).sort((a, b) => b[1] - a[1]).map(([ch, n]) => {
-              const total = Object.values(channelBreakdown).reduce((s, v) => s + v, 0);
-              const pct = Math.round((n / total) * 100);
-              return (
-                <div key={ch}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="capitalize">{ch}</span>
-                    <span className="text-muted-foreground">{n} · {pct}%</span>
-                  </div>
-                  <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                    <div className="h-full bg-primary" style={{ width: `${pct}%` }} />
-                  </div>
+          <CardContent>
+            {activePromo ? (
+              <>
+                <div className="font-display text-lg">{activePromo.name}</div>
+                <div className="text-sm text-muted-foreground mt-1">{activePromo.description}</div>
+                <div className="mt-3 flex items-center gap-2">
+                  <Badge>-{activePromo.discountPct}%</Badge>
+                  <span className="text-xs text-muted-foreground">{activePromo.conversions} conversões</span>
                 </div>
-              );
-            })}
-            <div className="pt-3 mt-3 border-t text-xs text-muted-foreground flex justify-between">
-              <span>Cancelamentos</span>
-              <span>{cancelledCount}</span>
-            </div>
-            <div className="text-xs text-muted-foreground flex justify-between">
-              <span>Booking.com sync</span>
-              <Badge variant={sync.status === "ok" ? "secondary" : "destructive"} className="text-[10px]">{sync.status}</Badge>
-            </div>
+              </>
+            ) : (
+              <>
+                <p className="text-sm text-muted-foreground">Nenhuma promoção ativa.</p>
+                <Button asChild size="sm" variant="outline" className="mt-3"><Link to="/promocoes">Criar promoção</Link></Button>
+              </>
+            )}
           </CardContent>
         </Card>
       </div>
+
+      {(checkinsToday.length > 0 || checkoutsToday.length > 0) && (
+        <div className="grid lg:grid-cols-2 gap-6 mt-6">
+          {checkinsToday.length > 0 && (
+            <Card>
+              <CardHeader><CardTitle className="font-display text-lg flex items-center gap-2"><CalendarCheck className="h-5 w-5 text-success" />Check-ins de hoje</CardTitle></CardHeader>
+              <CardContent className="space-y-2">
+                {checkinsToday.map((r) => {
+                  const room = rooms.find((x) => x.id === r.roomId);
+                  const guest = guests.find((g) => g.id === r.guestId);
+                  return (
+                    <Link key={r.id} to="/reservas/$id" params={{ id: r.id }} className="flex justify-between text-sm py-1.5 hover:text-primary">
+                      <span className="font-medium">{guest?.name ?? "—"}</span>
+                      <span className="text-muted-foreground">{room?.name} · {r.code}</span>
+                    </Link>
+                  );
+                })}
+              </CardContent>
+            </Card>
+          )}
+          {checkoutsToday.length > 0 && (
+            <Card>
+              <CardHeader><CardTitle className="font-display text-lg flex items-center gap-2"><CalendarX className="h-5 w-5" />Check-outs de hoje</CardTitle></CardHeader>
+              <CardContent className="space-y-2">
+                {checkoutsToday.map((r) => {
+                  const room = rooms.find((x) => x.id === r.roomId);
+                  const guest = guests.find((g) => g.id === r.guestId);
+                  return (
+                    <Link key={r.id} to="/reservas/$id" params={{ id: r.id }} className="flex justify-between text-sm py-1.5 hover:text-primary">
+                      <span className="font-medium">{guest?.name ?? "—"}</span>
+                      <span className="text-muted-foreground">{room?.name} · {r.code}</span>
+                    </Link>
+                  );
+                })}
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -215,25 +254,16 @@ function Kpi({ label, value, sub, icon }: { label: string; value: string; sub: s
   );
 }
 
-function Row({ reservation }: { reservation: import("@/lib/types").Reservation }) {
-  const { rooms, guests } = useApp();
-  const room = rooms.find((r) => r.id === reservation.roomId);
-  const guest = guests.find((g) => g.id === reservation.guestId);
+function ChannelBar({ label, pct, count, tone }: { label: string; pct: number; count: number; tone: "primary" | "muted" }) {
   return (
-    <Link to="/reservas/$id" params={{ id: reservation.id }} className="flex items-center justify-between gap-3 py-1.5 hover:text-primary transition-colors">
-      <div className="min-w-0">
-        <div className="font-medium truncate">{guest?.name ?? "—"}</div>
-        <div className="text-xs text-muted-foreground truncate">{room?.name} · {reservation.code}</div>
+    <div>
+      <div className="flex justify-between text-sm mb-1">
+        <span>{label}</span>
+        <span className="text-muted-foreground">{count} · {pct}%</span>
       </div>
-      <Badge variant="outline" className="capitalize text-[10px]">{reservation.channel}</Badge>
-    </Link>
+      <div className="h-2 bg-muted rounded-full overflow-hidden">
+        <div className={`h-full ${tone === "primary" ? "bg-primary" : "bg-muted-foreground/40"}`} style={{ width: `${pct}%` }} />
+      </div>
+    </div>
   );
-}
-
-function heatColor(pct: number) {
-  if (pct === 0) return "color-mix(in oklab, var(--muted) 60%, transparent)";
-  if (pct < 30) return "color-mix(in oklab, var(--accent) 25%, transparent)";
-  if (pct < 60) return "color-mix(in oklab, var(--accent) 55%, transparent)";
-  if (pct < 85) return "color-mix(in oklab, var(--primary) 70%, transparent)";
-  return "var(--primary)";
 }
