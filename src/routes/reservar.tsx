@@ -43,17 +43,25 @@ function BookingEngine() {
   const nights = nightsBetween(checkIn, checkOut);
   const total = (room?.basePrice ?? 0) * nights;
 
-  const confirm = () => {
-    const guestId = `guest-pub-${Date.now()}`;
-    useApp.setState((s) => ({
-      guests: [...s.guests, { id: guestId, name, email, phone, tags: ["lead site"], createdAt: new Date().toISOString().slice(0, 10) }],
-    }));
-    const res = createReservation({
-      roomId, guestId, checkIn, checkOut, guests: guestN, channel: "site",
-      status: "pending", paymentStatus: "pending", totalValue: total,
+  const confirm = async () => {
+    const { supabase } = await import("@/integrations/supabase/client");
+    const { error } = await supabase.rpc("create_public_reservation", {
+      p_name: name, p_email: email, p_phone: phone,
+      p_room_id: roomId, p_check_in: checkIn, p_check_out: checkOut,
+      p_guests: guestN, p_total: total,
     });
-    if (res.ok) { toast.success("Reserva enviada! Em breve entraremos em contato."); setStep(4); }
-    else toast.error(res.error || "Erro");
+    if (error) {
+      const map: Record<string, string> = {
+        invalid_name: "Nome inválido", invalid_email: "E-mail inválido", invalid_phone: "WhatsApp inválido",
+        invalid_dates: "Datas inválidas", stay_too_long: "Estadia muito longa",
+        invalid_guest_count: "Número de hóspedes inválido", invalid_total: "Valor inválido",
+        room_unavailable: "Quarto indisponível", over_capacity: "Acima da capacidade do quarto",
+      };
+      toast.error(map[error.message] || "Não foi possível concluir a reserva");
+      return;
+    }
+    toast.success("Reserva enviada! Em breve entraremos em contato.");
+    setStep(4);
   };
 
   return (
