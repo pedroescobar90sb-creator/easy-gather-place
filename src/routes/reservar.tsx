@@ -149,7 +149,7 @@ function BookingEngine() {
       const { supabase } = await import("@/integrations/supabase/client");
       const { data: freshRoom, error: roomError } = await supabase
         .from("rooms")
-        .select("id, status, capacity")
+        .select("id, status, capacity, type")
         .eq("id", roomId)
         .maybeSingle();
 
@@ -160,7 +160,8 @@ function BookingEngine() {
         return;
       }
 
-      if (guestN > Number(freshRoom.capacity ?? 0)) {
+      const expectedGuests = fixedGuestsByType(freshRoom.type as "duplo_casal" | "triplo" | "quadruplo") ?? Number(freshRoom.capacity ?? 0);
+      if (guestN !== expectedGuests || guestN > Number(freshRoom.capacity ?? 0)) {
         toast.error("Este quarto não comporta a quantidade de hóspedes selecionada.");
         setStep(2);
         return;
