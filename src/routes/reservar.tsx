@@ -497,11 +497,19 @@ function BookingEngine() {
 
         {step === 4 && (
           <Card className="mt-6 bg-primary text-primary-foreground">
-            <CardContent className="p-10 text-center">
-              <CheckCircle2 className="h-16 w-16 mx-auto mb-4" />
-              <h2 className="font-display text-3xl">Reserva enviada!</h2>
-              <p className="mt-2 opacity-90">Em até 2 horas você receberá a confirmação por e-mail e WhatsApp.</p>
-              <a href="/" className="inline-block mt-6 text-sm underline opacity-90 hover:opacity-100">Voltar ao site</a>
+            <CardContent className="p-10 text-center space-y-3">
+              <CheckCircle2 className="h-16 w-16 mx-auto" />
+              <h2 className="font-display text-3xl">Reserva confirmada!</h2>
+              <p className="opacity-95 max-w-md mx-auto">
+                Seu quarto está garantido para {range?.from && fmtBR(range.from)} → {range?.to && fmtBR(range.to)}.
+              </p>
+              <div className="mt-4 rounded-xl bg-primary-foreground/10 border border-primary-foreground/20 p-4 text-sm text-left max-w-md mx-auto space-y-1.5">
+                <div className="font-semibold uppercase tracking-wider text-xs opacity-90">No dia do check-in</div>
+                <div>• Pague o valor da estadia direto na recepção.</div>
+                <div>• Retire a chave do seu quarto com a recepção.</div>
+                <div>• Apresente um documento com foto.</div>
+              </div>
+              <a href="/" className="inline-block mt-4 text-sm underline opacity-90 hover:opacity-100">Voltar ao site</a>
             </CardContent>
           </Card>
         )}
