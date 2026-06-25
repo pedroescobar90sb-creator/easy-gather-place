@@ -60,11 +60,15 @@ function BookingEngine() {
   const datesValid = !!(range?.from && range?.to && range.from < range.to);
   const nights = datesValid ? nightsBetween(checkIn, checkOut) : 0;
 
+  const safeRooms = useMemo(() => (Array.isArray(rooms) ? rooms.filter((r) => r && typeof r === "object") : []), [rooms]);
+  const safeReservations = useMemo(() => (Array.isArray(reservations) ? reservations.filter((r) => r && typeof r === "object") : []), [reservations]);
+  const safeBlocks = useMemo(() => (Array.isArray(blocks) ? blocks.filter((b) => b && typeof b === "object") : []), [blocks]);
+
   const available = useMemo(
-    () => datesValid ? rooms.filter((r) => r.status === "active" && r.capacity >= guestN && checkConflict({ roomId: r.id, checkIn, checkOut, reservations, blocks }).ok) : [],
-    [rooms, reservations, blocks, checkIn, checkOut, datesValid, guestN],
+    () => datesValid ? safeRooms.filter((r) => r.status === "active" && r.capacity >= guestN && checkConflict({ roomId: r.id, checkIn, checkOut, reservations: safeReservations, blocks: safeBlocks }).ok) : [],
+    [safeRooms, safeReservations, safeBlocks, checkIn, checkOut, datesValid, guestN],
   );
-  const room = rooms.find((r) => r.id === roomId);
+  const room = safeRooms.find((r) => r.id === roomId);
   const total = (room?.basePrice ?? 0) * nights;
 
   const handleRangeSelect = (r: DateRange | undefined) => {
@@ -84,7 +88,7 @@ function BookingEngine() {
       toast.error("Selecione datas e quarto antes de confirmar");
       return;
     }
-    if (!isUuid(roomId) || !rooms.some((r) => r.id === roomId)) {
+    if (!isUuid(roomId) || !safeRooms.some((r) => r.id === roomId)) {
       toast.error("Estamos sincronizando os quartos. Selecione novamente o quarto desejado.");
       setRoomId("");
       setStep(2);
@@ -93,6 +97,25 @@ function BookingEngine() {
     setSubmitting(true);
     try {
       const { supabase } = await import("@/integrations/supabase/client");
+      const { data: freshRoom, error: roomError } = await supabase
+        .from("rooms")
+        .select("id, status, capacity")
+        .eq("id", roomId)
+        .maybeSingle();
+
+      if (roomError || !freshRoom || freshRoom.status !== "active") {
+        toast.error("Quarto indisponível no momento. Escolha outro quarto disponível.");
+        setRoomId("");
+        setStep(2);
+        return;
+      }
+
+      if (guestN > Number(freshRoom.capacity ?? 0)) {
+        toast.error("Este quarto não comporta a quantidade de hóspedes selecionada.");
+        setStep(2);
+        return;
+      }
+
       const { error } = await supabase.rpc("create_public_reservation", {
         p_name: name.trim(),
         p_email: email.trim(),
@@ -113,11 +136,12 @@ function BookingEngine() {
           stay_too_long: "Estadia muito longa (máx. 60 noites).",
           invalid_guest_count: "Número de hóspedes inválido.",
           invalid_total: "Valor da reserva inválido.",
-          room_unavailable: "Quarto indisponível.",
+          room_unavailable: "Quarto indisponível no momento. Escolha outro quarto disponível.",
           over_capacity: "Acima da capacidade do quarto.",
         };
         const matched = Object.keys(map).find((k) => raw.includes(k));
         toast.error(matched ? map[matched] : `Não foi possível concluir: ${error.message}`);
+        if (matched === "room_unavailable" || matched === "over_capacity") setStep(2);
         return;
       }
       toast.success("Reserva enviada! Em breve entraremos em contato.");
@@ -279,24 +303,28 @@ function BookingEngine() {
               {available.map((r) => (
                 <Card key={r.id} className="overflow-hidden cursor-pointer group hover:shadow-lg transition-all hover:-translate-y-0.5" onClick={() => { setRoomId(r.id); setStep(3); }}>
                   <div className="aspect-[4/3] overflow-hidden bg-muted">
-                    <img src={r.image} alt={r.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    {r.image ? (
+                      <img src={r.image} alt={String(r.name ?? "Quarto")} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    ) : (
+                      <div className="h-full w-full bg-muted" />
+                    )}
                   </div>
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start mb-2 gap-2">
                       <div>
-                        <div className="font-display text-lg leading-tight">{r.name}</div>
-                        <div className="text-xs text-muted-foreground capitalize">{r.capacity} pessoas · {r.type.replace("_", " ")}</div>
+                         <div className="font-display text-lg leading-tight">{String(r.name ?? "Quarto")}</div>
+                         <div className="text-xs text-muted-foreground capitalize">{Number(r.capacity) || 1} pessoas · {String(r.type ?? "duplo_casal").replace("_", " ")}</div>
                       </div>
                       <div className="text-right shrink-0">
-                        <div className="font-display text-xl">{r.basePrice.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}</div>
+                         <div className="font-display text-xl">{(Number(r.basePrice) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}</div>
                         <div className="text-[10px] text-muted-foreground">/noite</div>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1 mb-3">
-                      {r.amenities.slice(0, 3).map((a) => <Badge key={a} variant="secondary" className="text-[10px]">{a}</Badge>)}
+                       {(Array.isArray(r.amenities) ? r.amenities.filter((a) => typeof a === "string" && a.trim()) : []).slice(0, 3).map((a) => <Badge key={a} variant="secondary" className="text-[10px]">{a}</Badge>)}
                     </div>
                     <Button className="w-full" size="sm">
-                      Selecionar · {(r.basePrice * nights).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}
+                       Selecionar · {((Number(r.basePrice) || 0) * nights).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}
                     </Button>
                   </CardContent>
                 </Card>
@@ -310,9 +338,9 @@ function BookingEngine() {
             <CardContent className="p-5 md:p-8 space-y-5">
               <h2 className="font-display text-2xl md:text-3xl">Seus dados</h2>
               <div className="rounded-xl border bg-secondary/50 p-4 flex gap-4 items-center">
-                <img src={room.image} alt={room.name} className="h-16 w-16 rounded-lg object-cover shrink-0" />
+                 {room.image ? <img src={room.image} alt={String(room.name ?? "Quarto")} className="h-16 w-16 rounded-lg object-cover shrink-0" /> : <div className="h-16 w-16 rounded-lg bg-muted shrink-0" />}
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium truncate">{room.name}</div>
+                   <div className="font-medium truncate">{String(room.name ?? "Quarto")}</div>
                   <div className="text-muted-foreground text-xs">
                     {range?.from && fmtBR(range.from)} → {range?.to && fmtBR(range.to)} · {nights} noite{nights > 1 ? "s" : ""} · {guestN} hósp.
                   </div>
