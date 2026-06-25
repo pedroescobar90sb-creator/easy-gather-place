@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApp } from "@/lib/store";
 import { PageHeader } from "@/components/PageHeader";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
+import { refreshFromSupabase } from "@/lib/useSupabaseBootstrap";
 
 export const Route = createFileRoute("/hospedes")({
   head: () => ({ meta: [{ title: "Hóspedes — Ilha do Meio" }] }),
@@ -13,8 +14,12 @@ export const Route = createFileRoute("/hospedes")({
 });
 
 function GuestsPage() {
-  const { guests, reservations } = useApp();
+  const { guests, reservations, session } = useApp();
   const [q, setQ] = useState("");
+
+  useEffect(() => {
+    void refreshFromSupabase(session.authenticated);
+  }, [session.authenticated]);
 
   const realSiteGuestIds = new Set(
     reservations
