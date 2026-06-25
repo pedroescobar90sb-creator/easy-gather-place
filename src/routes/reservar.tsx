@@ -23,7 +23,7 @@ export const Route = createFileRoute("/reservar")({
 type Step = 1 | 2 | 3 | 4;
 
 function BookingEngine() {
-  const { rooms, reservations, blocks, createReservation } = useApp();
+  const { rooms, reservations, blocks } = useApp();
   const [step, setStep] = useState<Step>(1);
   const [checkIn, setCheckIn] = useState(() => new Date().toISOString().slice(0, 10));
   const [checkOut, setCheckOut] = useState(() => {
