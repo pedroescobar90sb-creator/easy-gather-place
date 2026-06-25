@@ -210,11 +210,11 @@ export const seedPromotions = (rooms: Room[]): Promotion[] => [
 ];
 
 export const seedAudit = (): AuditLog[] => [
-  { id: "log-1", at: new Date(Date.now() - 1000 * 60 * 8).toISOString(), actor: "Sistema", action: "Conflito prevenido", target: "Quarto Atobá", detail: "Tentativa de reserva sobreposta via Booking bloqueada", severity: "critical" },
+  { id: "log-1", at: new Date(Date.now() - 1000 * 60 * 8).toISOString(), actor: "Sistema", action: "Conflito prevenido", target: "Quarto 07", detail: "Tentativa de reserva sobreposta via Booking.com bloqueada", severity: "critical" },
   { id: "log-2", at: new Date(Date.now() - 1000 * 60 * 22).toISOString(), actor: "Booking.com", action: "Reserva importada", target: "IDM-1008", detail: "Sincronização OK", severity: "info" },
-  { id: "log-3", at: new Date(Date.now() - 1000 * 60 * 60).toISOString(), actor: "Maria (recepção)", action: "Reserva criada", target: "IDM-1011", detail: "Via WhatsApp", severity: "info" },
+  { id: "log-3", at: new Date(Date.now() - 1000 * 60 * 60).toISOString(), actor: "Recepção", action: "Reserva criada", target: "IDM-1011", detail: "Via WhatsApp da pousada", severity: "info" },
   { id: "log-4", at: new Date(Date.now() - 1000 * 60 * 90).toISOString(), actor: "Sistema", action: "Sync parcial", target: "Booking.com", detail: "1 reserva pendente de revisão manual", severity: "warning" },
-  { id: "log-5", at: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), actor: "Carlos (gerente)", action: "Bloqueio criado", target: "Bangalô Coqueiral 3", detail: "Manutenção 8 dias", severity: "info" },
+  { id: "log-5", at: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), actor: "Gerência", action: "Bloqueio criado", target: "Quarto 15", detail: "Manutenção preventiva 3 dias", severity: "info" },
 ];
 
 export const seedSync = (): SyncState => ({
