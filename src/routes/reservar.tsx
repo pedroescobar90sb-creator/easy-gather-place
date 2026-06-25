@@ -78,26 +78,47 @@ function BookingEngine() {
   };
 
   const confirm = async () => {
-    setSubmitting(true);
-    const { supabase } = await import("@/integrations/supabase/client");
-    const { error } = await supabase.rpc("create_public_reservation", {
-      p_name: name, p_email: email, p_phone: phone,
-      p_room_id: roomId, p_check_in: checkIn, p_check_out: checkOut,
-      p_guests: guestN, p_total: total,
-    });
-    setSubmitting(false);
-    if (error) {
-      const map: Record<string, string> = {
-        invalid_name: "Nome inválido", invalid_email: "E-mail inválido", invalid_phone: "WhatsApp inválido",
-        invalid_dates: "Datas inválidas", stay_too_long: "Estadia muito longa",
-        invalid_guest_count: "Número de hóspedes inválido", invalid_total: "Valor inválido",
-        room_unavailable: "Quarto indisponível", over_capacity: "Acima da capacidade do quarto",
-      };
-      toast.error(map[error.message] || "Não foi possível concluir a reserva");
+    if (!roomId || !checkIn || !checkOut) {
+      toast.error("Selecione datas e quarto antes de confirmar");
       return;
     }
-    toast.success("Reserva enviada! Em breve entraremos em contato.");
-    setStep(4);
+    setSubmitting(true);
+    try {
+      const { supabase } = await import("@/integrations/supabase/client");
+      const { error } = await supabase.rpc("create_public_reservation", {
+        p_name: name.trim(),
+        p_email: email.trim(),
+        p_phone: phone.trim(),
+        p_room_id: roomId,
+        p_check_in: checkIn,
+        p_check_out: checkOut,
+        p_guests: guestN,
+        p_total: total,
+      });
+      if (error) {
+        const raw = (error.message || "").toLowerCase();
+        const map: Record<string, string> = {
+          invalid_name: "Nome inválido (mínimo 2 caracteres).",
+          invalid_email: "E-mail inválido.",
+          invalid_phone: "WhatsApp inválido (mínimo 8 dígitos).",
+          invalid_dates: "Datas inválidas. Verifique check-in e check-out.",
+          stay_too_long: "Estadia muito longa (máx. 60 noites).",
+          invalid_guest_count: "Número de hóspedes inválido.",
+          invalid_total: "Valor da reserva inválido.",
+          room_unavailable: "Quarto indisponível.",
+          over_capacity: "Acima da capacidade do quarto.",
+        };
+        const matched = Object.keys(map).find((k) => raw.includes(k));
+        toast.error(matched ? map[matched] : `Não foi possível concluir: ${error.message}`);
+        return;
+      }
+      toast.success("Reserva enviada! Em breve entraremos em contato.");
+      setStep(4);
+    } catch (e) {
+      toast.error(`Erro ao enviar reserva: ${e instanceof Error ? e.message : "tente novamente"}`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
