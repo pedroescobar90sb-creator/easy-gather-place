@@ -86,11 +86,19 @@ function AuthPage() {
           </div>
 
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Aguarde…" : "Entrar no painel"}
+            {loading ? "Aguarde…" : mode === "signup" ? "Criar conta admin" : "Entrar no painel"}
           </Button>
 
+          <button
+            type="button"
+            className="w-full text-xs text-muted-foreground underline-offset-2 hover:underline"
+            onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
+          >
+            {mode === "signup" ? "Já tenho conta — entrar" : "Criar primeira conta administradora"}
+          </button>
+
           <p className="text-[11px] text-muted-foreground text-center">
-            Acesso restrito à equipe da pousada. Novas contas somente pelo administrador.
+            A opção de criar conta só funciona uma vez (primeiro admin). Demais contas pelo painel.
           </p>
         </form>
       </div>
