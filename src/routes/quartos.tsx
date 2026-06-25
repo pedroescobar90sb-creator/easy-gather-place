@@ -40,7 +40,7 @@ function RoomsPage() {
 
   return (
     <div className="p-6 md:p-10 max-w-[1400px] mx-auto">
-      <PageHeader title="Quartos" description="13 acomodações · gestão de inventário e desempenho individual" />
+      <PageHeader title="Quartos" description="17 quartos · 42 hóspedes · 10 duplo casal · 3 triplo · 4 quádruplo" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {rooms.map((room) => {

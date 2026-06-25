@@ -19,21 +19,48 @@ const addDays = (base: Date, n: number) => {
   return d;
 };
 
+const baseAmenities = ["TV", "Ar-condicionado", "Frigobar"];
+
+type RoomSeed = Omit<Room, "id" | "code">;
+
+const duploCasal = (n: number): RoomSeed => ({
+  name: `Quarto ${String(n).padStart(2, "0")}`,
+  type: "duplo_casal",
+  capacity: 2,
+  basePrice: 450,
+  status: "active",
+  amenities: baseAmenities,
+  image: commonImg,
+  description: "Quarto duplo com cama de casal, TV, ar-condicionado e frigobar.",
+});
+
+const triplo = (n: number): RoomSeed => ({
+  name: `Quarto ${String(n).padStart(2, "0")}`,
+  type: "triplo",
+  capacity: 3,
+  basePrice: 550,
+  status: "active",
+  amenities: baseAmenities,
+  image: bungalowImg,
+  description: "Quarto triplo com TV, ar-condicionado e frigobar.",
+});
+
+const quadruplo = (n: number): RoomSeed => ({
+  name: `Quarto ${String(n).padStart(2, "0")}`,
+  type: "quadruplo",
+  capacity: 4,
+  basePrice: 650,
+  status: "active",
+  amenities: baseAmenities,
+  image: suiteImg,
+  description: "Quarto quádruplo para famílias, com TV, ar-condicionado e frigobar.",
+});
+
 export const seedRooms = (): Room[] => {
-  const base: Array<Omit<Room, "id" | "code">> = [
-    { name: "Suíte Vista Mar", type: "master", capacity: 2, basePrice: 890, status: "active", amenities: ["Vista mar", "Hidromassagem", "Ar-condicionado", "Varanda"], image: suiteImg, description: "Suíte master com vista frontal para o mar de Itacimirim." },
-    { name: "Suíte Jardim", type: "suite", capacity: 3, basePrice: 620, status: "active", amenities: ["Jardim privativo", "Ar-condicionado"], image: suiteImg, description: "Suíte ampla com saída para jardim tropical." },
-    { name: "Bangalô Coqueiral 1", type: "bangalo", capacity: 2, basePrice: 540, status: "active", amenities: ["Rede", "Varanda"], image: bungalowImg, description: "Bangalô em madeira no meio do coqueiral." },
-    { name: "Bangalô Coqueiral 2", type: "bangalo", capacity: 2, basePrice: 540, status: "active", amenities: ["Rede", "Varanda"], image: bungalowImg, description: "Bangalô gêmeo com vista lateral mar." },
-    { name: "Bangalô Coqueiral 3", type: "bangalo", capacity: 4, basePrice: 720, status: "maintenance", amenities: ["Rede", "Varanda", "Família"], image: bungalowImg, description: "Bangalô família com cama extra." },
-    { name: "Quarto Marezia", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto charmoso e silencioso." },
-    { name: "Quarto Maré Alta", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto com janela para o jardim." },
-    { name: "Quarto Maré Baixa", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto aconchegante térreo." },
-    { name: "Quarto Coral", type: "standard", capacity: 3, basePrice: 480, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto triplo com varanda." },
-    { name: "Quarto Atobá", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto com vista para piscina." },
-    { name: "Quarto Itacimirim", type: "suite", capacity: 4, basePrice: 780, status: "active", amenities: ["Família", "Cozinha", "Varanda"], image: suiteImg, description: "Suíte família com cozinha americana." },
-    { name: "Quarto Praia do Forte", type: "standard", capacity: 2, basePrice: 460, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto sereno no jardim interno." },
-    { name: "Quarto Ilha do Meio", type: "master", capacity: 2, basePrice: 950, status: "active", amenities: ["Vista mar", "Ofurô", "Varanda privativa"], image: suiteImg, description: "Suíte signature da pousada com ofurô externo." },
+  const base: RoomSeed[] = [
+    ...Array.from({ length: 10 }, (_, i) => duploCasal(i + 1)),
+    ...Array.from({ length: 3 }, (_, i) => triplo(i + 11)),
+    ...Array.from({ length: 4 }, (_, i) => quadruplo(i + 14)),
   ];
   return base.map((r, i) => ({
     ...r,
@@ -69,7 +96,7 @@ export const seedGuests = (): Guest[] =>
     createdAt: iso(addDays(today, -60 - i * 3)),
   }));
 
-const channels: Reservation["channel"][] = ["direto", "booking", "whatsapp", "site", "telefone"];
+const channels: Reservation["channel"][] = ["booking", "booking", "booking", "whatsapp", "whatsapp", "instagram", "direto", "site", "telefone"];
 
 export const seedReservations = (rooms: Room[], guests: Guest[]): Reservation[] => {
   const list: Reservation[] = [];
@@ -146,48 +173,48 @@ export const seedBlocks = (rooms: Room[]): RoomBlock[] => [
 export const seedPromotions = (rooms: Room[]): Promotion[] => [
   {
     id: "promo-1",
-    name: "Pacote Romântico",
-    description: "Café da manhã na varanda + jantar à luz de velas",
+    name: "Reserva Antecipada",
+    description: "10% de desconto para reservas feitas com antecedência no canal direto.",
     from: iso(addDays(today, -10)),
-    to: iso(addDays(today, 60)),
+    to: iso(addDays(today, 120)),
     discountPct: 10,
-    roomIds: [rooms[0].id, rooms[12].id],
+    roomIds: rooms.map((r) => r.id),
     active: true,
-    conversions: 14,
-    revenue: 18760,
+    conversions: 22,
+    revenue: 18900,
   },
   {
     id: "promo-2",
-    name: "Meio de Semana",
-    description: "3 noites de terça a sexta com 20% off",
+    name: "Domingo a Quinta",
+    description: "Tarifa reduzida de domingo a quinta — casal R$400, triplo R$500, quádruplo R$600.",
     from: iso(addDays(today, 0)),
     to: iso(addDays(today, 90)),
-    discountPct: 20,
-    roomIds: rooms.slice(5, 11).map((r) => r.id),
+    discountPct: 11,
+    roomIds: rooms.map((r) => r.id),
     active: true,
-    conversions: 9,
-    revenue: 11200,
+    conversions: 17,
+    revenue: 13400,
   },
   {
     id: "promo-3",
-    name: "Baixa Temporada",
-    description: "Estadias de 5+ noites com benefício especial",
-    from: iso(addDays(today, 30)),
-    to: iso(addDays(today, 120)),
-    discountPct: 15,
+    name: "Reserva Direta sem Comissão",
+    description: "Reservas via WhatsApp ou Instagram da pousada — sem taxa de plataforma.",
+    from: iso(addDays(today, -30)),
+    to: iso(addDays(today, 180)),
+    discountPct: 8,
     roomIds: rooms.map((r) => r.id),
-    active: false,
-    conversions: 0,
-    revenue: 0,
+    active: true,
+    conversions: 11,
+    revenue: 9600,
   },
 ];
 
 export const seedAudit = (): AuditLog[] => [
-  { id: "log-1", at: new Date(Date.now() - 1000 * 60 * 8).toISOString(), actor: "Sistema", action: "Conflito prevenido", target: "Quarto Atobá", detail: "Tentativa de reserva sobreposta via Booking bloqueada", severity: "critical" },
+  { id: "log-1", at: new Date(Date.now() - 1000 * 60 * 8).toISOString(), actor: "Sistema", action: "Conflito prevenido", target: "Quarto 07", detail: "Tentativa de reserva sobreposta via Booking.com bloqueada", severity: "critical" },
   { id: "log-2", at: new Date(Date.now() - 1000 * 60 * 22).toISOString(), actor: "Booking.com", action: "Reserva importada", target: "IDM-1008", detail: "Sincronização OK", severity: "info" },
-  { id: "log-3", at: new Date(Date.now() - 1000 * 60 * 60).toISOString(), actor: "Maria (recepção)", action: "Reserva criada", target: "IDM-1011", detail: "Via WhatsApp", severity: "info" },
+  { id: "log-3", at: new Date(Date.now() - 1000 * 60 * 60).toISOString(), actor: "Recepção", action: "Reserva criada", target: "IDM-1011", detail: "Via WhatsApp da pousada", severity: "info" },
   { id: "log-4", at: new Date(Date.now() - 1000 * 60 * 90).toISOString(), actor: "Sistema", action: "Sync parcial", target: "Booking.com", detail: "1 reserva pendente de revisão manual", severity: "warning" },
-  { id: "log-5", at: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), actor: "Carlos (gerente)", action: "Bloqueio criado", target: "Bangalô Coqueiral 3", detail: "Manutenção 8 dias", severity: "info" },
+  { id: "log-5", at: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), actor: "Gerência", action: "Bloqueio criado", target: "Quarto 15", detail: "Manutenção preventiva 3 dias", severity: "info" },
 ];
 
 export const seedSync = (): SyncState => ({
