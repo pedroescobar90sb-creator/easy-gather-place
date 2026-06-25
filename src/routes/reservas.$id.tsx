@@ -66,8 +66,10 @@ function ReservationDetail() {
               <div className="flex items-start justify-between">
                 <div>
                   <div className="text-xs uppercase text-muted-foreground">Quarto</div>
-                  <div className="font-display text-2xl">{room?.name}</div>
-                  <div className="text-sm text-muted-foreground">#{room?.code} · {room?.type} · {room?.capacity} pessoas</div>
+                  <div className="font-display text-2xl">{room?.name ?? `Quarto (${r.roomId.slice(0, 8)})`}</div>
+                  <div className="text-sm text-muted-foreground">
+                    #{room?.code ?? "—"} · {room?.type ?? "—"} · {room?.capacity ?? r.guests} pessoas
+                  </div>
                 </div>
                 <StatusBadge status={r.status} />
               </div>
