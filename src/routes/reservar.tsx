@@ -195,13 +195,13 @@ function BookingEngine() {
                   </div>
 
                   <div className="rounded-xl border bg-card p-4">
-                    <Label className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                      <Users className="h-3 w-3" /> Hóspedes
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
+                      <Users className="h-3.5 w-3.5" /> Hóspedes
                     </Label>
-                    <div className="flex items-center gap-3 mt-2">
-                      <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => setGuestN(Math.max(1, guestN - 1))}>−</Button>
-                      <div className="font-display text-2xl tabular-nums w-8 text-center">{guestN}</div>
-                      <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => setGuestN(Math.min(6, guestN + 1))}>+</Button>
+                    <div className="flex items-center justify-between gap-3 mt-3">
+                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.max(1, guestN - 1))}>−</Button>
+                      <div className="font-display text-3xl tabular-nums text-foreground font-medium">{guestN}</div>
+                      <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-full text-lg font-semibold" onClick={() => setGuestN(Math.min(6, guestN + 1))}>+</Button>
                     </div>
                   </div>
                 </aside>
