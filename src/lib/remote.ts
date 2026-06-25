@@ -59,7 +59,7 @@ export const mapReservation = (r: ResRow, events: EventRow[] = []): Reservation 
   checkIn: r.check_in, checkOut: r.check_out, guests: r.guests, channel: r.channel,
   status: r.status, paymentStatus: r.payment_status, totalValue: Number(r.total_value),
   notes: r.notes ?? undefined, externalRef: r.external_ref ?? undefined,
-  createdAt: r.created_at.slice(0, 10),
+  createdAt: r.created_at,
   history: events
     .filter((e) => e.reservation_id === r.id)
     .map((e) => ({ at: e.at, by: e.by_user ?? "sistema", action: e.action, detail: e.detail ?? undefined })),

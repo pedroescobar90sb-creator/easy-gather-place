@@ -33,7 +33,7 @@ export const sendReservationConfirmation = createServerFn({ method: "POST" })
       <table style="width:100%;font-size:14px;color:#333;border-collapse:collapse">
         <tr><td style="padding:6px 0;color:#777">Quarto</td><td style="padding:6px 0;text-align:right;font-weight:600">${escapeHtml(data.roomName)}</td></tr>
         <tr><td style="padding:6px 0;color:#777">Check-in</td><td style="padding:6px 0;text-align:right">${fmtDate(data.checkIn)} · 14h</td></tr>
-        <tr><td style="padding:6px 0;color:#777">Check-out</td><td style="padding:6px 0;text-align:right">${fmtDate(data.checkOut)} · 12h</td></tr>
+        <tr><td style="padding:6px 0;color:#777">Check-out</td><td style="padding:6px 0;text-align:right">${fmtDate(data.checkOut)} · 11h</td></tr>
         <tr><td style="padding:6px 0;color:#777">Noites · Hóspedes</td><td style="padding:6px 0;text-align:right">${data.nights} · ${data.guests}</td></tr>
         <tr><td style="padding:12px 0 0;border-top:1px solid #e3e0d6;font-size:13px;color:#777">Total estimado</td><td style="padding:12px 0 0;border-top:1px solid #e3e0d6;text-align:right;font-size:18px;font-weight:700">${fmtBRL(data.total)}</td></tr>
       </table>

@@ -190,7 +190,7 @@ function ReservasList() {
                       <span className="text-muted-foreground">→</span>
                       <span className="font-medium">{fmtDate(r.checkOut)}</span>
                     </div>
-                    <div className="text-[10px] text-muted-foreground mt-0.5">Check-in 14h · Check-out 12h</div>
+                    <div className="text-[10px] text-muted-foreground mt-0.5">Check-in 14h · Check-out 11h</div>
                   </td>
                   <td className="px-4 py-3 text-center font-medium tabular-nums">{nights}</td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">{fmtDateTime(firstEvent)}</td>
