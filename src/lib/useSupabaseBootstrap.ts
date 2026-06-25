@@ -80,8 +80,9 @@ export function useSupabaseBootstrap() {
     });
 
     const onFocus = () => {
-      const session = useApp.getState().user;
-      if (session) void hydrate(session.name);
+      const u = useApp.getState().session.user;
+      if (u) void hydrate(u.name);
+
     };
     window.addEventListener("focus", onFocus);
     const interval = window.setInterval(onFocus, 20000);
