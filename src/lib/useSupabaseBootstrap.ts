@@ -64,7 +64,7 @@ export function useSupabaseBootstrap() {
         if (cancelled) return;
         if (data.rooms.length > 0) {
           replaceAll(data);
-          data.reservations.forEach((r) => knownReservationIds.add(r.id));
+          data.reservations.forEach((r: { id: string }) => knownReservationIds.add(r.id));
         }
       } catch (err) {
         console.error("[bootstrap] falha ao carregar dados do Supabase", err);
