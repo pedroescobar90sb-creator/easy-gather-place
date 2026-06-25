@@ -44,6 +44,7 @@ const fmtBR = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month
 
 function BookingEngine() {
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [busyRoomIds, setBusyRoomIds] = useState<Set<string>>(new Set());
   const search = Route.useSearch();
   const preselectedRoom = search.room;
   const preselectedType = search.type;
@@ -80,14 +81,36 @@ function BookingEngine() {
   const datesValid = !!(range?.from && range?.to && range.from < range.to);
   const nights = datesValid ? nightsBetween(checkIn, checkOut) : 0;
 
+  // Fetch room IDs that already have overlapping reservations or blocks
+  useEffect(() => {
+    if (!datesValid) { setBusyRoomIds(new Set()); return; }
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase.rpc("public_busy_room_ids", {
+        p_check_in: checkIn,
+        p_check_out: checkOut,
+      });
+      if (cancelled || error || !Array.isArray(data)) return;
+      const busy = new Set<string>();
+      (data as Array<{ room_id: string | null }>).forEach((r) => {
+        if (r.room_id) busy.add(r.room_id);
+      });
+      setBusyRoomIds(busy);
+    })();
+    return () => { cancelled = true; };
+  }, [datesValid, checkIn, checkOut]);
+
+
   const available = useMemo(
     () => datesValid ? rooms.filter((r) =>
       r.status === "active"
       && r.capacity >= guestN
       && (!preselectedType || r.type === preselectedType)
+      && !busyRoomIds.has(r.id)
     ) : [],
-    [rooms, datesValid, guestN, preselectedType],
+    [rooms, datesValid, guestN, preselectedType, busyRoomIds],
   );
+
   const room = rooms.find((r) => r.id === roomId);
   const total = (room?.basePrice ?? 0) * nights;
 
@@ -159,6 +182,15 @@ function BookingEngine() {
           room_unavailable: "Quarto indisponível no momento. Escolha outro quarto disponível.",
           over_capacity: "Acima da capacidade do quarto.",
         };
+        const isOverlap = raw.includes("no_overlap") || raw.includes("exclusion constraint") || raw.includes("conflicting key");
+        if (isOverlap) {
+          toast.error("Este quarto já está reservado nessas datas. Escolha outro quarto disponível.");
+          setRoomId("");
+          setStep(2);
+          // refresh busy list
+          setBusyRoomIds((prev) => new Set([...prev, roomId]));
+          return;
+        }
         const matched = Object.keys(map).find((k) => raw.includes(k));
         toast.error(matched ? map[matched] : `Não foi possível concluir: ${error.message}`);
         if (matched === "room_unavailable" || matched === "over_capacity") setStep(2);
