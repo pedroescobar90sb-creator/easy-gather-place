@@ -19,21 +19,48 @@ const addDays = (base: Date, n: number) => {
   return d;
 };
 
+const baseAmenities = ["TV", "Ar-condicionado", "Frigobar"];
+
+type RoomSeed = Omit<Room, "id" | "code">;
+
+const duploCasal = (n: number): RoomSeed => ({
+  name: `Quarto ${String(n).padStart(2, "0")}`,
+  type: "duplo_casal",
+  capacity: 2,
+  basePrice: 450,
+  status: "active",
+  amenities: baseAmenities,
+  image: commonImg,
+  description: "Quarto duplo com cama de casal, TV, ar-condicionado e frigobar.",
+});
+
+const triplo = (n: number): RoomSeed => ({
+  name: `Quarto ${String(n).padStart(2, "0")}`,
+  type: "triplo",
+  capacity: 3,
+  basePrice: 550,
+  status: "active",
+  amenities: baseAmenities,
+  image: bungalowImg,
+  description: "Quarto triplo com TV, ar-condicionado e frigobar.",
+});
+
+const quadruplo = (n: number): RoomSeed => ({
+  name: `Quarto ${String(n).padStart(2, "0")}`,
+  type: "quadruplo",
+  capacity: 4,
+  basePrice: 650,
+  status: "active",
+  amenities: baseAmenities,
+  image: suiteImg,
+  description: "Quarto quádruplo para famílias, com TV, ar-condicionado e frigobar.",
+});
+
 export const seedRooms = (): Room[] => {
-  const base: Array<Omit<Room, "id" | "code">> = [
-    { name: "Suíte Vista Mar", type: "master", capacity: 2, basePrice: 890, status: "active", amenities: ["Vista mar", "Hidromassagem", "Ar-condicionado", "Varanda"], image: suiteImg, description: "Suíte master com vista frontal para o mar de Itacimirim." },
-    { name: "Suíte Jardim", type: "suite", capacity: 3, basePrice: 620, status: "active", amenities: ["Jardim privativo", "Ar-condicionado"], image: suiteImg, description: "Suíte ampla com saída para jardim tropical." },
-    { name: "Bangalô Coqueiral 1", type: "bangalo", capacity: 2, basePrice: 540, status: "active", amenities: ["Rede", "Varanda"], image: bungalowImg, description: "Bangalô em madeira no meio do coqueiral." },
-    { name: "Bangalô Coqueiral 2", type: "bangalo", capacity: 2, basePrice: 540, status: "active", amenities: ["Rede", "Varanda"], image: bungalowImg, description: "Bangalô gêmeo com vista lateral mar." },
-    { name: "Bangalô Coqueiral 3", type: "bangalo", capacity: 4, basePrice: 720, status: "maintenance", amenities: ["Rede", "Varanda", "Família"], image: bungalowImg, description: "Bangalô família com cama extra." },
-    { name: "Quarto Marezia", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto charmoso e silencioso." },
-    { name: "Quarto Maré Alta", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto com janela para o jardim." },
-    { name: "Quarto Maré Baixa", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto aconchegante térreo." },
-    { name: "Quarto Coral", type: "standard", capacity: 3, basePrice: 480, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto triplo com varanda." },
-    { name: "Quarto Atobá", type: "standard", capacity: 2, basePrice: 420, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto com vista para piscina." },
-    { name: "Quarto Itacimirim", type: "suite", capacity: 4, basePrice: 780, status: "active", amenities: ["Família", "Cozinha", "Varanda"], image: suiteImg, description: "Suíte família com cozinha americana." },
-    { name: "Quarto Praia do Forte", type: "standard", capacity: 2, basePrice: 460, status: "active", amenities: ["Ar-condicionado"], image: commonImg, description: "Quarto sereno no jardim interno." },
-    { name: "Quarto Ilha do Meio", type: "master", capacity: 2, basePrice: 950, status: "active", amenities: ["Vista mar", "Ofurô", "Varanda privativa"], image: suiteImg, description: "Suíte signature da pousada com ofurô externo." },
+  const base: RoomSeed[] = [
+    ...Array.from({ length: 10 }, (_, i) => duploCasal(i + 1)),
+    ...Array.from({ length: 3 }, (_, i) => triplo(i + 11)),
+    ...Array.from({ length: 4 }, (_, i) => quadruplo(i + 14)),
   ];
   return base.map((r, i) => ({
     ...r,

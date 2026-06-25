@@ -1,5 +1,5 @@
 export type RoomStatus = "active" | "inactive" | "maintenance" | "blocked";
-export type RoomType = "suite" | "bangalo" | "standard" | "master";
+export type RoomType = "duplo_casal" | "triplo" | "quadruplo" | "suite" | "bangalo" | "standard" | "master";
 
 export interface Room {
   id: string;
@@ -14,7 +14,7 @@ export interface Room {
   description: string;
 }
 
-export type Channel = "direto" | "booking" | "whatsapp" | "telefone" | "site";
+export type Channel = "direto" | "booking" | "whatsapp" | "instagram" | "telefone" | "site";
 export type ReservationStatus =
   | "pending"
   | "confirmed"
