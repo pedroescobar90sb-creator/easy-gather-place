@@ -16,13 +16,19 @@ function GuestsPage() {
   const { guests, reservations } = useApp();
   const [q, setQ] = useState("");
 
-  const filtered = guests.filter((g) =>
-    !q || [g.name, g.email, g.phone].join(" ").toLowerCase().includes(q.toLowerCase()),
+  const realSiteGuestIds = new Set(
+    reservations
+      .filter((r) => r.channel === "site" && r.status !== "cancelled" && r.status !== "no_show")
+      .map((r) => r.guestId),
   );
+
+  const filtered = guests
+    .filter((g) => realSiteGuestIds.has(g.id))
+    .filter((g) => !q || [g.name, g.email, g.phone].join(" ").toLowerCase().includes(q.toLowerCase()));
 
   return (
     <div className="p-6 md:p-10 max-w-[1400px] mx-auto">
-      <PageHeader title="Hóspedes" description={`${guests.length} contatos · base para fidelização e remarketing`} />
+      <PageHeader title="Hóspedes" description={`${filtered.length} hóspedes reais vindos do site`} />
 
       <div className="relative mb-4 max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -43,7 +49,7 @@ function GuestsPage() {
             </thead>
             <tbody>
               {filtered.map((g) => {
-                const stays = reservations.filter((r) => r.guestId === g.id && r.status !== "cancelled");
+                const stays = reservations.filter((r) => r.guestId === g.id && r.channel === "site" && r.status !== "cancelled" && r.status !== "no_show");
                 const totalSpent = stays.reduce((s, r) => s + r.totalValue, 0);
                 return (
                   <tr key={g.id} className="border-b hover:bg-muted/30">
@@ -61,6 +67,9 @@ function GuestsPage() {
                   </tr>
                 );
               })}
+              {filtered.length === 0 && (
+                <tr><td colSpan={5} className="text-center py-12 text-muted-foreground">Nenhum hóspede real vindo do site encontrado.</td></tr>
+              )}
             </tbody>
           </table>
         </CardContent>
