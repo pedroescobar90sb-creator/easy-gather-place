@@ -96,21 +96,24 @@ function CalendarPage() {
 
                   let stateClass = "state-available";
                   let label = "";
+                  let title = "";
                   if (block) {
                     stateClass = block.reason === "maintenance" ? "state-maintenance" : "state-blocked";
+                    title = `Quarto ${room.code} — ${block.reason === "maintenance" ? "Manutenção" : "Bloqueado"}${block.note ? `: ${block.note}` : ""}`;
                   } else if (res) {
                     if (res.checkIn === iso) stateClass = "state-checkin";
                     else if (res.checkOut === iso) stateClass = "state-checkout";
                     else stateClass = "state-booked";
                     const g = guests.find((x) => x.id === res.guestId);
-                    label = g?.name.split(" ")[0] ?? "";
+                    label = g?.name ?? "Reserva";
+                    title = `Quarto ${room.code} · ${g?.name ?? "Hóspede"}${g?.phone ? ` · ${g.phone}` : ""} · ${res.checkIn} → ${res.checkOut} · ${res.guests}p · ${res.code}`;
                   }
 
                   return (
-                    <div key={iso} className={`cal-cell-base border-b-0 ${stateClass} ${room.status === "inactive" ? "opacity-40" : ""}`}>
+                    <div key={iso} title={title} className={`cal-cell-base border-b-0 ${stateClass} ${room.status === "inactive" ? "opacity-40" : ""}`}>
                       {res ? (
                         <Link to="/reservas/$id" params={{ id: res.id }} className="absolute inset-0 flex items-center justify-center px-1 text-[10px] font-medium truncate hover:ring-2 hover:ring-accent">
-                          {di === 0 || res.checkIn === iso ? label : ""}
+                          <span className="truncate">{di === 0 || res.checkIn === iso ? label : ""}</span>
                         </Link>
                       ) : block ? (
                         <div className="absolute inset-0 flex items-center justify-center text-[9px] uppercase opacity-70">
