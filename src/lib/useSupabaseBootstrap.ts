@@ -34,6 +34,8 @@ export function useSupabaseBootstrap() {
     let cancelled = false;
 
     // PUBLIC: always hydrate rooms from Supabase so /reservar has real UUIDs.
+    // Drop any local seed reservations/blocks that reference stale room ids
+    // (otherwise the admin pages render orphan rows like "QUARTO #· · pessoas").
     (async () => {
       try {
         const { data, error } = await supabase
@@ -43,7 +45,12 @@ export function useSupabaseBootstrap() {
         if (error) throw error;
         if (cancelled || !data?.length) return;
         const rooms = data.map(mapRoom);
-        useApp.setState({ rooms });
+        const validIds = new Set(rooms.map((r) => r.id));
+        useApp.setState((s) => ({
+          rooms,
+          reservations: s.reservations.filter((r) => validIds.has(r.roomId)),
+          blocks: s.blocks.filter((b) => validIds.has(b.roomId)),
+        }));
       } catch (err) {
         console.error("[bootstrap:public] falha ao carregar quartos", err);
       }
