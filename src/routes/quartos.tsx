@@ -1,0 +1,89 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useApp } from "@/lib/store";
+import { PageHeader } from "@/components/PageHeader";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+export const Route = createFileRoute("/quartos")({
+  head: () => ({ meta: [{ title: "Quartos — Ilha do Meio" }] }),
+  component: RoomsPage,
+});
+
+function RoomsPage() {
+  const { rooms, reservations } = useApp();
+  const today = new Date().toISOString().slice(0, 10);
+
+  const occByRoom = (id: string) => {
+    const days30 = 30;
+    let count = 0;
+    for (let i = 0; i < days30; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() + i);
+      const iso = d.toISOString().slice(0, 10);
+      if (reservations.some((r) => r.roomId === id && r.status !== "cancelled" && r.checkIn <= iso && r.checkOut > iso)) count++;
+    }
+    return Math.round((count / days30) * 100);
+  };
+
+  const statusColors: Record<string, string> = {
+    active: "bg-success/15 text-success-foreground border-success/40",
+    maintenance: "bg-warning/20 border-warning/40",
+    inactive: "bg-muted text-muted-foreground",
+    blocked: "bg-destructive/15 text-destructive border-destructive/30",
+  };
+  const statusLabels: Record<string, string> = {
+    active: "Ativo",
+    maintenance: "Manutenção",
+    inactive: "Inativo",
+    blocked: "Bloqueado",
+  };
+
+  return (
+    <div className="p-6 md:p-10 max-w-[1400px] mx-auto">
+      <PageHeader title="Quartos" description="13 acomodações · gestão de inventário e desempenho individual" />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {rooms.map((room) => {
+          const occ = occByRoom(room.id);
+          const isOccupied = reservations.some((r) => r.roomId === room.id && r.status !== "cancelled" && r.checkIn <= today && r.checkOut > today);
+          return (
+            <Card key={room.id} className="overflow-hidden group">
+              <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+                <img src={room.image} alt={room.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                <span className={`absolute top-3 right-3 inline-flex px-2 py-0.5 rounded-full text-[10px] border ${statusColors[room.status]}`}>{statusLabels[room.status]}</span>
+              </div>
+              <CardContent className="p-4 space-y-3">
+                <div>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="font-display text-lg leading-tight">{room.name}</div>
+                      <div className="text-xs text-muted-foreground">#{room.code} · {room.type} · {room.capacity}p</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-display text-lg">{room.basePrice.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}</div>
+                      <div className="text-[10px] text-muted-foreground">/noite</div>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground line-clamp-2">{room.description}</p>
+                <div className="flex flex-wrap gap-1">
+                  {room.amenities.slice(0, 3).map((a) => <Badge key={a} variant="secondary" className="text-[10px]">{a}</Badge>)}
+                </div>
+                <div className="pt-3 border-t">
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="text-muted-foreground">Ocupação 30d</span>
+                    <span className="font-medium">{occ}%</span>
+                  </div>
+                  <div className="h-1 bg-muted rounded-full overflow-hidden">
+                    <div className="h-full bg-primary" style={{ width: `${occ}%` }} />
+                  </div>
+                  <div className="mt-2 text-[11px] text-muted-foreground">{isOccupied ? "Ocupado agora" : "Disponível agora"}</div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
