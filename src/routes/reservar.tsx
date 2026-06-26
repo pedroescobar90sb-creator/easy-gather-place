@@ -324,8 +324,8 @@ function BookingEngine() {
                 {/* Resumo lateral */}
                 <aside className="space-y-4">
                   <div className="rounded-xl border bg-card p-4 space-y-3">
-                    <Summary label="Check-in" value={range?.from ? `${fmtBR(range.from)} · a partir das 14h` : "—"} />
-                    <Summary label="Check-out" value={range?.to ? `${fmtBR(range.to)} · até 11h` : "—"} />
+                    <Summary label="Entrada" value={range?.from ? `${fmtBR(range.from)} · 13h às 22h` : "—"} />
+                    <Summary label="Saída" value={range?.to ? `${fmtBR(range.to)} · 09h às 12h` : "—"} />
                     <div className="border-t pt-3">
                       <Summary label="Noites" value={nights > 0 ? String(nights) : "—"} />
                     </div>
