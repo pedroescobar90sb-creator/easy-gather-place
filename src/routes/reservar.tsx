@@ -649,3 +649,11 @@ function Summary({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+function Rule({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1">
+      <div className="text-xs font-semibold uppercase tracking-wider text-foreground/70">{title}</div>
+      <div className="space-y-0.5 text-foreground/85">{children}</div>
+    </div>
+  );
+}
