@@ -145,9 +145,9 @@ function HomePage() {
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           {([
-            { img: quartoDuplo.url, name: "Duplo Casal", capacity: "2 pessoas", count: 10, price: "R$ 450", type: "duplo_casal" as const, guests: 2 },
+            { img: quartoQuadruplo.url, name: "Duplo Casal", capacity: "2 pessoas", count: 10, price: "R$ 450", type: "duplo_casal" as const, guests: 2 },
             { img: quartoTriplo.url, name: "Triplo", capacity: "3 pessoas", count: 3, price: "R$ 550", type: "triplo" as const, guests: 3 },
-            { img: quartoQuadruplo.url, name: "Quádruplo", capacity: "4 pessoas", count: 4, price: "R$ 650", type: "quadruplo" as const, guests: 4 },
+            { img: quartoDuplo.url, name: "Quádruplo", capacity: "4 pessoas", count: 4, price: "R$ 650", type: "quadruplo" as const, guests: 4 },
           ]).map((r) => (
             <article key={r.name} className="group overflow-hidden rounded-2xl bg-card border border-border/60 flex flex-col hover:shadow-xl hover:shadow-black/5 hover:-translate-y-0.5 transition-all duration-300">
               <div className="aspect-[4/3] overflow-hidden">
