@@ -439,11 +439,16 @@ function BookingEngine() {
               <Button
                 size="lg"
                 className="w-full h-14 text-base font-semibold tracking-wide"
-                disabled={!datesValid}
-                onClick={() => setStep(2)}
+                disabled={!datesValid || nights < 1}
+                onClick={() => { setStep(2); if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" }); }}
               >
-                {datesValid ? `Ver quartos · ${nights} noite${nights > 1 ? "s" : ""}` : "Selecione as datas"}
+                {datesValid && nights >= 1 ? `Ver quartos · ${nights} noite${nights > 1 ? "s" : ""}` : "Selecione datas válidas"}
               </Button>
+              {!datesValid || nights < 1 ? (
+                <p className="text-[11px] text-destructive text-center -mt-2" role="alert">
+                  Check-out precisa ser pelo menos 1 dia depois do check-in.
+                </p>
+              ) : null}
             </CardContent>
           </Card>
         )}
