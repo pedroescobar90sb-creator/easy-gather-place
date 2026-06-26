@@ -79,9 +79,9 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         </div>
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-3 py-1.5 text-xs ring-1 ring-white/20">
+          <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] opacity-90">
             <MapPin className="h-3.5 w-3.5" />
-            Itacimirim, Camaçari — BA
+            Itacimirim · Bahia
           </div>
           <h1 className="mt-5 font-display font-medium text-5xl sm:text-7xl leading-[1.02] tracking-tight max-w-3xl">
             Sua pausa tranquila<br />a 2 minutos do mar.
