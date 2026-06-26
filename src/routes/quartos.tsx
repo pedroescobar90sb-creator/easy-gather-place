@@ -59,13 +59,18 @@ function RoomsPage() {
                   <div className="h-full w-full bg-muted" />
                 )}
                 <span className={`absolute top-3 right-3 inline-flex px-2 py-0.5 rounded-full text-[10px] border ${statusColors[status] ?? statusColors.active}`}>{statusLabels[status] ?? "Ativo"}</span>
+                <div className="absolute top-3 left-3 inline-flex items-baseline gap-1 rounded-lg bg-black/70 backdrop-blur px-3 py-1.5 text-white shadow-lg ring-1 ring-white/10">
+                  <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">Nº</span>
+                  <span className="font-display text-2xl font-semibold leading-none tabular-nums">{String(room.code ?? "—")}</span>
+                </div>
               </div>
               <CardContent className="p-4 space-y-3">
                 <div>
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-display text-lg leading-tight">{String(room.name ?? "Quarto")}</div>
-                      <div className="text-xs text-muted-foreground">#{String(room.code ?? "—")} · {String(room.type ?? "duplo_casal").replace("_", " ")} · {Number(room.capacity) || 1}p</div>
+                      <div className="font-display text-lg leading-tight">Quarto {String(room.code ?? "")}</div>
+                      <div className="text-xs text-muted-foreground">{String(room.type ?? "duplo_casal").replace("_", " ")} · {Number(room.capacity) || 1}p</div>
+
                     </div>
                     <div className="text-right">
                       <div className="font-display text-lg">{(Number(room.basePrice) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}</div>
