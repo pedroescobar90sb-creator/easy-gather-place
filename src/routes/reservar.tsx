@@ -279,47 +279,102 @@ function BookingEngine() {
               </div>
 
               <div className="grid md:grid-cols-[1fr_280px] gap-6">
-                {/* Calendário */}
+                {/* Dois date pickers: entrada e saída */}
                 <div className="space-y-4">
-                  {/* Mobile: popover; Desktop: inline */}
-                  <div className="md:hidden">
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <button className="w-full rounded-xl border-2 bg-card p-4 text-left active:scale-[0.99] transition hover:border-primary/50">
-                          <div className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
-                            <CalendarDays className="h-3.5 w-3.5" /> Datas da estadia
-                          </div>
-                          <div className="mt-2 font-display text-xl text-foreground font-medium">
-                            {range?.from ? fmtBR(range.from) : "Check-in"}
-                            <span className="mx-2 text-foreground/40">→</span>
-                            {range?.to ? fmtBR(range.to) : "Check-out"}
-                          </div>
-                          {nights > 0 && <div className="text-sm text-foreground/70 mt-1 font-medium">{nights} noite{nights > 1 ? "s" : ""}</div>}
-                        </button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="center">
-                        <Calendar
-                          mode="range"
-                          selected={range}
-                          onSelect={handleRangeSelect}
-                          numberOfMonths={1}
-                          disabled={{ before: today }}
-                          className="pointer-events-auto"
-                        />
-                      </PopoverContent>
-                    </Popover>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <Label htmlFor="date-checkin" className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
+                        <CalendarDays className="h-3.5 w-3.5" /> Data de entrada
+                      </Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            id="date-checkin"
+                            type="button"
+                            variant="outline"
+                            aria-label="Selecionar data de entrada"
+                            className={cn(
+                              "w-full h-14 justify-start text-left font-normal rounded-xl border-2",
+                              !range?.from && "text-muted-foreground",
+                            )}
+                          >
+                            <CalendarDays className="mr-2 h-4 w-4" />
+                            {range?.from ? (
+                              <span className="font-display text-base text-foreground font-medium">
+                                {range.from.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
+                              </span>
+                            ) : (
+                              <span>Escolher data</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={range?.from}
+                            onSelect={(d) => {
+                              if (!d) return;
+                              const to = range?.to && range.to > d ? range.to : (() => { const n = new Date(d); n.setDate(n.getDate() + 1); return n; })();
+                              setRange({ from: d, to });
+                            }}
+                            disabled={{ before: today }}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="date-checkout" className="text-[11px] font-semibold uppercase tracking-wider text-foreground/60 flex items-center gap-1.5">
+                        <CalendarDays className="h-3.5 w-3.5" /> Data de saída
+                      </Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            id="date-checkout"
+                            type="button"
+                            variant="outline"
+                            aria-label="Selecionar data de saída"
+                            className={cn(
+                              "w-full h-14 justify-start text-left font-normal rounded-xl border-2",
+                              !range?.to && "text-muted-foreground",
+                            )}
+                          >
+                            <CalendarDays className="mr-2 h-4 w-4" />
+                            {range?.to ? (
+                              <span className="font-display text-base text-foreground font-medium">
+                                {range.to.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
+                              </span>
+                            ) : (
+                              <span>Escolher data</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={range?.to}
+                            onSelect={(d) => {
+                              if (!d) return;
+                              const from = range?.from && range.from < d ? range.from : (() => { const p = new Date(d); p.setDate(p.getDate() - 1); return p; })();
+                              setRange({ from, to: d });
+                            }}
+                            disabled={{ before: range?.from ? (() => { const n = new Date(range.from); n.setDate(n.getDate() + 1); return n; })() : today }}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                   </div>
-                  <div className="hidden md:block rounded-xl border bg-card p-2">
-                    <Calendar
-                      mode="range"
-                      selected={range}
-                      onSelect={handleRangeSelect}
-                      numberOfMonths={2}
-                      disabled={{ before: today }}
-                      className="pointer-events-auto"
-                    />
-                  </div>
+                  {nights > 0 && (
+                    <div className="text-sm text-foreground/70 font-medium">
+                      {nights} noite{nights > 1 ? "s" : ""} de estadia
+                    </div>
+                  )}
                 </div>
+
 
                 {/* Resumo lateral */}
                 <aside className="space-y-4">
