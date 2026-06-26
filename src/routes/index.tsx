@@ -13,6 +13,10 @@ import f7 from "@/assets/pousada-7.jpg.asset.json";
 import f8 from "@/assets/pousada-8.jpg.asset.json";
 import f9 from "@/assets/pousada-9.jpg.asset.json";
 import f11 from "@/assets/pousada-11.jpg.asset.json";
+import quartoDuplo from "@/assets/quarto-duplo.jpg.asset.json";
+import quartoTriplo from "@/assets/quarto-triplo.jpg.asset.json";
+import quartoQuadruplo from "@/assets/quarto-quadruplo.jpg.asset.json";
+
 
 const WHATSAPP = "https://api.whatsapp.com/send/?phone=557191263096&text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20na%20Pousada%20Ilha%20do%20Meio.";
 const INSTAGRAM = "https://www.instagram.com/pousadailhadomeio/";
@@ -141,9 +145,9 @@ function HomePage() {
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           {([
-            { img: f2.url, name: "Duplo Casal", capacity: "2 pessoas", count: 10, price: "R$ 450", type: "duplo_casal" as const, guests: 2 },
-            { img: f3.url, name: "Triplo", capacity: "3 pessoas", count: 3, price: "R$ 550", type: "triplo" as const, guests: 3 },
-            { img: f4.url, name: "Quádruplo", capacity: "4 pessoas", count: 4, price: "R$ 650", type: "quadruplo" as const, guests: 4 },
+            { img: quartoDuplo.url, name: "Duplo Casal", capacity: "2 pessoas", count: 10, price: "R$ 450", type: "duplo_casal" as const, guests: 2 },
+            { img: quartoTriplo.url, name: "Triplo", capacity: "3 pessoas", count: 3, price: "R$ 550", type: "triplo" as const, guests: 3 },
+            { img: quartoQuadruplo.url, name: "Quádruplo", capacity: "4 pessoas", count: 4, price: "R$ 650", type: "quadruplo" as const, guests: 4 },
           ]).map((r) => (
             <article key={r.name} className="group overflow-hidden rounded-2xl bg-card border border-border/60 flex flex-col hover:shadow-xl hover:shadow-black/5 hover:-translate-y-0.5 transition-all duration-300">
               <div className="aspect-[4/3] overflow-hidden">
