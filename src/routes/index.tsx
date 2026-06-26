@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, Wifi, Wind, Tv, Refrigerator, Star, Calendar, ShieldCheck, Heart, Instagram, Check } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { SiteFooter } from "@/components/SiteFooter";
 import f0 from "@/assets/pousada-0.jpg.asset.json";
 import f1 from "@/assets/pousada-1.jpg.asset.json";
 import f2 from "@/assets/pousada-2.jpg.asset.json";
