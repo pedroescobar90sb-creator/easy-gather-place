@@ -306,7 +306,8 @@ function BookingEngine() {
                             selected={range?.from}
                             onSelect={(d) => {
                               if (!d) return;
-                              const to = range?.to && range.to > d ? range.to : (() => { const n = new Date(d); n.setDate(n.getDate() + 1); return n; })();
+                              const nextDay = (base: Date) => { const n = new Date(base); n.setDate(n.getDate() + 1); return n; };
+                              const to = range?.to && range.to.getTime() > d.getTime() ? range.to : nextDay(d);
                               setRange({ from: d, to });
                             }}
                             disabled={{ before: today }}
@@ -349,7 +350,8 @@ function BookingEngine() {
                             selected={range?.to}
                             onSelect={(d) => {
                               if (!d) return;
-                              const from = range?.from && range.from < d ? range.from : (() => { const p = new Date(d); p.setDate(p.getDate() - 1); return p; })();
+                              const prevDay = (base: Date) => { const p = new Date(base); p.setDate(p.getDate() - 1); return p; };
+                              const from = range?.from && range.from.getTime() < d.getTime() ? range.from : prevDay(d);
                               setRange({ from, to: d });
                             }}
                             disabled={{ before: range?.from ? (() => { const n = new Date(range.from); n.setDate(n.getDate() + 1); return n; })() : today }}
