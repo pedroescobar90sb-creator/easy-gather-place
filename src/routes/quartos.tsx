@@ -15,6 +15,13 @@ function RoomsPage() {
   const safeReservations = Array.isArray(reservations) ? reservations.filter((reservation) => reservation && typeof reservation === "object") : [];
   const today = new Date().toISOString().slice(0, 10);
 
+  const formatRoomNumber = (code: unknown) => {
+    const value = String(code ?? "").trim();
+    if (!value) return "—";
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? String(numeric).padStart(2, "0") : value;
+  };
+
   const occByRoom = (id: string) => {
     const days30 = 30;
     let count = 0;
@@ -50,25 +57,32 @@ function RoomsPage() {
           const amenities = Array.isArray(room.amenities) ? room.amenities.filter((a) => typeof a === "string" && a.trim()) : [];
           const occ = occByRoom(room.id);
           const isOccupied = safeReservations.some((r) => r.roomId === room.id && r.status !== "cancelled" && r.checkIn <= today && r.checkOut > today);
+          const roomNumber = formatRoomNumber(room.code);
           return (
-            <Card key={room.id} className="overflow-hidden group">
+            <Card key={room.id} className="overflow-hidden group border-primary/20 shadow-sm">
               <div className="aspect-[4/3] overflow-hidden bg-muted relative">
                 {room.image ? (
                   <img src={room.image} alt={room.name ?? "Quarto"} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 ) : (
                   <div className="h-full w-full bg-muted" />
                 )}
-                <span className={`absolute top-3 right-3 inline-flex px-2 py-0.5 rounded-full text-[10px] border ${statusColors[status] ?? statusColors.active}`}>{statusLabels[status] ?? "Ativo"}</span>
-                <div className="absolute top-3 left-3 inline-flex items-baseline gap-1 rounded-lg bg-black/70 backdrop-blur px-3 py-1.5 text-white shadow-lg ring-1 ring-white/10">
-                  <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">Nº</span>
-                  <span className="font-display text-2xl font-semibold leading-none tabular-nums">{String(room.code ?? "—")}</span>
+                <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 bg-gradient-to-b from-black/85 via-black/45 to-transparent p-3">
+                  <div className="rounded-lg border border-white/40 bg-black/90 px-4 py-3 text-white shadow-2xl ring-2 ring-white/20 backdrop-blur-md">
+                    <div className="text-[10px] font-bold uppercase leading-none tracking-[0.24em] text-white/75">Quarto</div>
+                    <div className="mt-1 font-sans text-5xl font-black leading-none tracking-tight tabular-nums text-white">{roomNumber}</div>
+                  </div>
+                  <span className={`inline-flex shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] shadow-sm backdrop-blur ${statusColors[status] ?? statusColors.active}`}>{statusLabels[status] ?? "Ativo"}</span>
                 </div>
               </div>
               <CardContent className="p-4 space-y-3">
                 <div>
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-display text-lg leading-tight">Quarto {String(room.code ?? "")}</div>
+                      <div className="flex items-center gap-2 leading-tight">
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Nº</span>
+                        <span className="font-sans text-4xl font-black leading-none tracking-tight tabular-nums text-primary">{roomNumber}</span>
+                      </div>
+                      <div className="mt-1 text-sm font-semibold text-foreground">Quarto {roomNumber}</div>
                       <div className="text-xs text-muted-foreground">{String(room.type ?? "duplo_casal").replace("_", " ")} · {Number(room.capacity) || 1}p</div>
 
                     </div>
