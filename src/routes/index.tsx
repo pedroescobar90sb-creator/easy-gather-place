@@ -296,74 +296,21 @@ function HomePage() {
 
       {/* FOOTER */}
       <footer className="border-t border-border/60 bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-14">
-          <div className="grid gap-10 md:grid-cols-4">
-            {/* Marca */}
-            <div className="md:col-span-1">
-              <div className="flex items-center gap-2.5">
-                <Logo className="h-8 w-8" />
-                <div className="font-display text-base text-foreground leading-none">Pousada Ilha do Meio</div>
-              </div>
-              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                Pousada boutique em Itacimirim, a 2 minutos do mar. Hospitalidade familiar, conforto e tranquilidade na costa da Bahia.
-              </p>
-              <div className="mt-5 flex items-center gap-4 text-xs text-muted-foreground">
-                <a href={INSTAGRAM} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
-                  <Instagram className="h-3.5 w-3.5" /> Instagram
-                </a>
-                <a href={WHATSAPP} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
-                  <WhatsAppIcon className="h-3.5 w-3.5" /> WhatsApp
-                </a>
-              </div>
-            </div>
-
-            {/* Contato */}
+        <div className="mx-auto max-w-6xl px-4 py-10 flex flex-col sm:flex-row items-center justify-between gap-5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-2.5">
+            <Logo className="h-7 w-7" />
             <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Contato</div>
-              <ul className="mt-4 space-y-2.5 text-sm text-foreground/85">
-                <li className="flex items-start gap-2">
-                  <MapPin className="h-3.5 w-3.5 mt-1 shrink-0 text-muted-foreground" />
-                  <span>Praia da Espera, Itacimirim<br />Camaçari — BA, Brasil</span>
-                </li>
-                <li><a href="tel:+557191263096" className="hover:text-foreground text-muted-foreground">+55 (71) 9126-3096</a></li>
-                <li><a href={WHATSAPP} target="_blank" rel="noopener" className="hover:text-foreground text-muted-foreground">WhatsApp · resposta em minutos</a></li>
-                <li><a href="mailto:reservas@pousadailhadomeio.com.br" className="hover:text-foreground text-muted-foreground">reservas@pousadailhadomeio.com.br</a></li>
-              </ul>
-            </div>
-
-            {/* Reservas */}
-            <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Reservas</div>
-              <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
-                <li><Link to="/reservar" className="hover:text-foreground">Reservar online</Link></li>
-                <li>Check-in: a partir das 14h</li>
-                <li>Check-out: até as 11h</li>
-                <li>Pagamento e chave na recepção</li>
-                <li>Cancelamento gratuito até 48h antes</li>
-              </ul>
-            </div>
-
-            {/* Institucional */}
-            <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Institucional</div>
-              <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
-                <li><a href="#termos" className="hover:text-foreground">Termos de hospedagem</a></li>
-                <li><a href="#privacidade" className="hover:text-foreground">Política de privacidade</a></li>
-                <li><a href="#regras" className="hover:text-foreground">Regras da casa</a></li>
-                <li><Link to="/auth" className="hover:text-foreground">Acesso restrito</Link></li>
-              </ul>
+              <div className="font-display text-sm text-foreground leading-none">Pousada Ilha do Meio</div>
+              <div className="mt-1">© {new Date().getFullYear()} · Itacimirim, Camaçari — BA</div>
             </div>
           </div>
-
-          <div className="mt-12 pt-6 border-t border-border/60 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-[11px] text-muted-foreground">
-            <div className="space-y-1">
-              <div>© {new Date().getFullYear()} Pousada Ilha do Meio. Todos os direitos reservados.</div>
-              <div>CNPJ 45.688.734/0001-43 · Cadastur ativo · Hospedagem licenciada pelo município de Camaçari/BA.</div>
-            </div>
-            <div className="md:text-right">
-              Tarifas em BRL. Imagens meramente ilustrativas. <br className="hidden md:block" />
-              Reservas sujeitas a disponibilidade e às condições contratuais aceitas no ato da reserva.
-            </div>
+          <div className="flex items-center gap-5">
+            <a href={INSTAGRAM} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
+              <Instagram className="h-3.5 w-3.5" /> Instagram
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
+              <WhatsAppIcon className="h-3.5 w-3.5" /> WhatsApp
+            </a>
           </div>
         </div>
       </footer>
