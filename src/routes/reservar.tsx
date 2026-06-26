@@ -504,8 +504,10 @@ function BookingEngine() {
                 </Card>
               ))}
             </div>
+            <AmenitiesAndRules />
           </div>
         )}
+
 
         {step === 3 && room && (
           <Card className="mt-6">
