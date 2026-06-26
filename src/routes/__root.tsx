@@ -18,6 +18,9 @@ import { useSupabaseBootstrap } from "@/lib/useSupabaseBootstrap";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 
+const SafeHeadContent = typeof HeadContent === "function" ? HeadContent : () => null;
+const SafeScripts = typeof Scripts === "function" ? Scripts : () => null;
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -80,10 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <head><HeadContent /></head>
+      <head><SafeHeadContent /></head>
       <body>
         {children}
-        <Scripts />
+        <SafeScripts />
       </body>
     </html>
   );
