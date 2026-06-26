@@ -453,86 +453,9 @@ function BookingEngine() {
           </Card>
         )}
 
-        {/* COMODIDADES E REGRAS DA CASA — visíveis em todas as etapas */}
-        {step !== 4 && (
-          <section className="mt-10 grid lg:grid-cols-2 gap-6">
-            <Card className="border-border/60">
-              <CardContent className="p-6 space-y-4">
-                <h3 className="font-display text-xl">Principais comodidades</h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-foreground/80">
-                  {[
-                    "Piscina ao ar livre",
-                    "Estacionamento gratuito",
-                    "Wi-Fi gratuito",
-                    "Quartos para famílias",
-                    "Quartos para não fumantes",
-                    "Serviço de quarto",
-                    "Transfer (aeroporto)",
-                    "Café da manhã fantástico",
-                  ].map((a) => (
-                    <li key={a} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                      <span>{a}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-xs text-muted-foreground pt-2 border-t">
-                  A Pousada Ilha do Meio aceita pedidos especiais — adicione na próxima etapa.
-                </p>
-              </CardContent>
-            </Card>
+        {/* COMODIDADES E REGRAS — após datas (step 1) e após lista de quartos (step 2) */}
+        {step === 1 && <AmenitiesAndRules />}
 
-            <Card className="border-border/60">
-              <CardContent className="p-6 space-y-5 text-sm">
-                <h3 className="font-display text-xl">Regras da casa</h3>
-
-                <Rule title="Entrada">
-                  <p>Das 13:00 às 22:00.</p>
-                  <p className="text-muted-foreground">Informe o horário de sua chegada à acomodação com antecedência.</p>
-                </Rule>
-
-                <Rule title="Saída">
-                  <p>Das 09:00 às 12:00.</p>
-                </Rule>
-
-                <Rule title="Cancelamento / pré-pagamento">
-                  <p className="text-muted-foreground">
-                    As políticas variam de acordo com o tipo de acomodação. Informe as datas da sua estadia e verifique as
-                    condições da opção escolhida.
-                  </p>
-                </Rule>
-
-                <Rule title="Crianças e camas">
-                  <p>Crianças maiores de 5 anos são bem-vindas.</p>
-                  <p>Crianças a partir de 6 anos são cobradas como adultos.</p>
-                  <p className="text-muted-foreground">
-                    Berços e camas extras não estão disponíveis nesta acomodação.
-                  </p>
-                </Rule>
-
-                <Rule title="Restrições de idade">
-                  <p>A idade mínima para check-in é 18 anos.</p>
-                </Rule>
-
-                <Rule title="Pets">
-                  <p>Pets não são permitidos.</p>
-                </Rule>
-
-                <Rule title="Pagamento">
-                  <p>Cartões aceitos na propriedade. Dinheiro não é aceito.</p>
-                </Rule>
-
-                <Rule title="Festas">
-                  <p>Festas e eventos não são permitidos.</p>
-                </Rule>
-
-                <Rule title="Horário de silêncio">
-                  <p>Os hóspedes devem fazer silêncio entre 22:00 e 09:00.</p>
-                </Rule>
-              </CardContent>
-            </Card>
-          </section>
-        )}
 
         {step === 2 && (
           <div className="mt-6 space-y-5">
