@@ -13,6 +13,10 @@ export const Route = createFileRoute("/calendario")({
 
 function CalendarPage() {
   const { rooms, reservations, blocks, guests } = useApp();
+  const safeRooms = Array.isArray(rooms) ? rooms.filter((room) => room && typeof room === "object") : [];
+  const safeReservations = Array.isArray(reservations) ? reservations.filter((reservation) => reservation && typeof reservation === "object") : [];
+  const safeBlocks = Array.isArray(blocks) ? blocks.filter((block) => block && typeof block === "object") : [];
+  const safeGuests = Array.isArray(guests) ? guests.filter((guest) => guest && typeof guest === "object") : [];
   const [anchor, setAnchor] = useState(() => {
     const d = new Date();
     d.setDate(d.getDate() - 2);
@@ -34,6 +38,13 @@ function CalendarPage() {
     const d = new Date(anchor);
     d.setDate(d.getDate() + n);
     setAnchor(d);
+  };
+
+  const formatRoomNumber = (code: unknown) => {
+    const value = String(code ?? "").trim();
+    if (!value) return "—";
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? String(numeric).padStart(2, "0") : value;
   };
 
   return (
@@ -79,14 +90,23 @@ function CalendarPage() {
           </div>
 
           {/* Room rows */}
-          {rooms.map((room) => {
-            const roomRes = reservations.filter((r) => r.roomId === room.id && r.status !== "cancelled");
-            const roomBlocks = blocks.filter((b) => b.roomId === room.id);
+          {safeRooms.map((room) => {
+            const roomNumber = formatRoomNumber(room.code);
+            const roomRes = safeReservations.filter((r) => r.roomId === room.id && r.status !== "cancelled");
+            const roomBlocks = safeBlocks.filter((b) => b.roomId === room.id);
             return (
               <div key={room.id} className="grid border-b hover:bg-muted/30 relative" style={{ gridTemplateColumns: `200px repeat(${days}, minmax(40px, 1fr))` }}>
-                <div className="px-3 py-3 border-r flex flex-col justify-center">
-                  <div className="text-sm font-medium leading-tight truncate">{room.name}</div>
-                  <div className="text-[10px] text-muted-foreground">#{room.code} · {room.capacity}p</div>
+                <div className="border-r bg-card px-3 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="grid h-12 w-14 shrink-0 place-items-center rounded-md border border-primary/35 bg-primary text-primary-foreground shadow-sm">
+                      <span className="font-sans text-2xl font-black leading-none tracking-normal tabular-nums">{roomNumber}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Quarto</div>
+                      <div className="text-sm font-semibold leading-tight truncate">{String(room.name ?? `Quarto ${roomNumber}`)}</div>
+                      <div className="text-[10px] text-muted-foreground">{Number(room.capacity) || 1} hóspedes</div>
+                    </div>
+                  </div>
                 </div>
                 {dates.map((d, di) => {
                   const iso = d.toISOString().slice(0, 10);
@@ -104,9 +124,9 @@ function CalendarPage() {
                     if (res.checkIn === iso) stateClass = "state-checkin";
                     else if (res.checkOut === iso) stateClass = "state-checkout";
                     else stateClass = "state-booked";
-                    const g = guests.find((x) => x.id === res.guestId);
+                    const g = safeGuests.find((x) => x.id === res.guestId);
                     label = g?.name ?? "Reserva";
-                    title = `Quarto ${room.code} · ${g?.name ?? "Hóspede"}${g?.phone ? ` · ${g.phone}` : ""} · ${res.checkIn} → ${res.checkOut} · ${res.guests}p · ${res.code}`;
+                    title = `Quarto ${roomNumber} · ${g?.name ?? "Hóspede"}${g?.phone ? ` · ${g.phone}` : ""} · ${res.checkIn} → ${res.checkOut} · ${res.guests}p · ${res.code}`;
                   }
 
                   return (
