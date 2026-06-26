@@ -17,6 +17,7 @@ import { CheckCircle2, ShieldCheck, Heart, CalendarDays, Users, ArrowLeft, MapPi
 import { toast } from "sonner";
 import type { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/reservar")({
   head: () => ({ meta: [
