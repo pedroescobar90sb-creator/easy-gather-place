@@ -66,10 +66,10 @@ function RoomsPage() {
                 ) : (
                   <div className="h-full w-full bg-muted" />
                 )}
-                <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 bg-gradient-to-b from-foreground/75 via-foreground/35 to-transparent p-3">
-                  <div className="rounded-md border border-primary/45 bg-background/95 px-3 py-2 text-foreground shadow-xl backdrop-blur-md">
-                    <div className="text-[10px] font-semibold uppercase leading-none tracking-[0.22em] text-muted-foreground">Quarto</div>
-                    <div className="mt-1 font-sans text-4xl font-black leading-none tracking-normal tabular-nums text-primary">{roomNumber}</div>
+                <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 bg-gradient-to-b from-black/85 via-black/45 to-transparent p-3">
+                  <div className="rounded-lg border border-white/40 bg-black/90 px-4 py-3 text-white shadow-2xl ring-2 ring-white/20 backdrop-blur-md">
+                    <div className="text-[10px] font-bold uppercase leading-none tracking-[0.24em] text-white/75">Quarto</div>
+                    <div className="mt-1 font-sans text-5xl font-black leading-none tracking-tight tabular-nums text-white">{roomNumber}</div>
                   </div>
                   <span className={`inline-flex shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] shadow-sm backdrop-blur ${statusColors[status] ?? statusColors.active}`}>{statusLabels[status] ?? "Ativo"}</span>
                 </div>
@@ -80,7 +80,7 @@ function RoomsPage() {
                     <div>
                       <div className="flex items-center gap-2 leading-tight">
                         <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Nº</span>
-                        <span className="font-sans text-3xl font-black leading-none tracking-normal tabular-nums text-foreground">{roomNumber}</span>
+                        <span className="font-sans text-4xl font-black leading-none tracking-tight tabular-nums text-primary">{roomNumber}</span>
                       </div>
                       <div className="mt-1 text-sm font-semibold text-foreground">Quarto {roomNumber}</div>
                       <div className="text-xs text-muted-foreground">{String(room.type ?? "duplo_casal").replace("_", " ")} · {Number(room.capacity) || 1}p</div>
