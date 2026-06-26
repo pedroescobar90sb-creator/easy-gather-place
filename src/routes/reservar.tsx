@@ -122,15 +122,6 @@ function BookingEngine() {
     if (fixedGuests) setGuestN(fixedGuests);
   }, [fixedGuests]);
 
-  const handleRangeSelect = (r: DateRange | undefined) => {
-    if (r?.from && !r.to) {
-      // auto-suggest next day
-      const next = new Date(r.from); next.setDate(next.getDate() + 1);
-      setRange({ from: r.from, to: next });
-    } else {
-      setRange(r);
-    }
-  };
 
   const isUuid = (s: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
 
