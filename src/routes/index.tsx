@@ -295,25 +295,7 @@ function HomePage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border/60 bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-10 flex flex-col sm:flex-row items-center justify-between gap-5 text-xs text-muted-foreground">
-          <div className="flex items-center gap-2.5">
-            <Logo className="h-7 w-7" />
-            <div>
-              <div className="font-display text-sm text-foreground leading-none">Pousada Ilha do Meio</div>
-              <div className="mt-1">© {new Date().getFullYear()} · Itacimirim, Camaçari — BA</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-5">
-            <a href={INSTAGRAM} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
-              <Instagram className="h-3.5 w-3.5" /> Instagram
-            </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener" className="hover:text-foreground inline-flex items-center gap-1.5">
-              <WhatsAppIcon className="h-3.5 w-3.5" /> WhatsApp
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
       {/* MOBILE STICKY CTA */}
       <div className="md:hidden fixed bottom-3 inset-x-3 z-50 flex gap-2">
