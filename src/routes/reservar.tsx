@@ -17,6 +17,7 @@ import { CheckCircle2, ShieldCheck, Heart, CalendarDays, Users, ArrowLeft, MapPi
 import { toast } from "sonner";
 import type { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/reservar")({
   head: () => ({ meta: [
@@ -305,7 +306,8 @@ function BookingEngine() {
                             selected={range?.from}
                             onSelect={(d) => {
                               if (!d) return;
-                              const to = range?.to && range.to > d ? range.to : (() => { const n = new Date(d); n.setDate(n.getDate() + 1); return n; })();
+                              const nextDay = (base: Date) => { const n = new Date(base); n.setDate(n.getDate() + 1); return n; };
+                              const to = range?.to && range.to.getTime() > d.getTime() ? range.to : nextDay(d);
                               setRange({ from: d, to });
                             }}
                             disabled={{ before: today }}
@@ -348,7 +350,8 @@ function BookingEngine() {
                             selected={range?.to}
                             onSelect={(d) => {
                               if (!d) return;
-                              const from = range?.from && range.from < d ? range.from : (() => { const p = new Date(d); p.setDate(p.getDate() - 1); return p; })();
+                              const prevDay = (base: Date) => { const p = new Date(base); p.setDate(p.getDate() - 1); return p; };
+                              const from = range?.from && range.from.getTime() < d.getTime() ? range.from : prevDay(d);
                               setRange({ from, to: d });
                             }}
                             disabled={{ before: range?.from ? (() => { const n = new Date(range.from); n.setDate(n.getDate() + 1); return n; })() : today }}
@@ -436,95 +439,23 @@ function BookingEngine() {
               <Button
                 size="lg"
                 className="w-full h-14 text-base font-semibold tracking-wide"
-                disabled={!datesValid}
-                onClick={() => setStep(2)}
+                disabled={!datesValid || nights < 1}
+                onClick={() => { setStep(2); if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" }); }}
               >
-                {datesValid ? `Ver quartos · ${nights} noite${nights > 1 ? "s" : ""}` : "Selecione as datas"}
+                {datesValid && nights >= 1 ? `Ver quartos · ${nights} noite${nights > 1 ? "s" : ""}` : "Selecione datas válidas"}
               </Button>
+              {!datesValid || nights < 1 ? (
+                <p className="text-[11px] text-destructive text-center -mt-2" role="alert">
+                  Check-out precisa ser pelo menos 1 dia depois do check-in.
+                </p>
+              ) : null}
             </CardContent>
           </Card>
         )}
 
-        {/* COMODIDADES E REGRAS DA CASA — visíveis em todas as etapas */}
-        {step !== 4 && (
-          <section className="mt-10 grid lg:grid-cols-2 gap-6">
-            <Card className="border-border/60">
-              <CardContent className="p-6 space-y-4">
-                <h3 className="font-display text-xl">Principais comodidades</h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-foreground/80">
-                  {[
-                    "Piscina ao ar livre",
-                    "Estacionamento gratuito",
-                    "Wi-Fi gratuito",
-                    "Quartos para famílias",
-                    "Quartos para não fumantes",
-                    "Serviço de quarto",
-                    "Transfer (aeroporto)",
-                    "Café da manhã fantástico",
-                  ].map((a) => (
-                    <li key={a} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-                      <span>{a}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-xs text-muted-foreground pt-2 border-t">
-                  A Pousada Ilha do Meio aceita pedidos especiais — adicione na próxima etapa.
-                </p>
-              </CardContent>
-            </Card>
+        {/* COMODIDADES E REGRAS — após datas (step 1) e após lista de quartos (step 2) */}
+        {step === 1 && <AmenitiesAndRules />}
 
-            <Card className="border-border/60">
-              <CardContent className="p-6 space-y-5 text-sm">
-                <h3 className="font-display text-xl">Regras da casa</h3>
-
-                <Rule title="Entrada">
-                  <p>Das 13:00 às 22:00.</p>
-                  <p className="text-muted-foreground">Informe o horário de sua chegada à acomodação com antecedência.</p>
-                </Rule>
-
-                <Rule title="Saída">
-                  <p>Das 09:00 às 12:00.</p>
-                </Rule>
-
-                <Rule title="Cancelamento / pré-pagamento">
-                  <p className="text-muted-foreground">
-                    As políticas variam de acordo com o tipo de acomodação. Informe as datas da sua estadia e verifique as
-                    condições da opção escolhida.
-                  </p>
-                </Rule>
-
-                <Rule title="Crianças e camas">
-                  <p>Crianças maiores de 5 anos são bem-vindas.</p>
-                  <p>Crianças a partir de 6 anos são cobradas como adultos.</p>
-                  <p className="text-muted-foreground">
-                    Berços e camas extras não estão disponíveis nesta acomodação.
-                  </p>
-                </Rule>
-
-                <Rule title="Restrições de idade">
-                  <p>A idade mínima para check-in é 18 anos.</p>
-                </Rule>
-
-                <Rule title="Pets">
-                  <p>Pets não são permitidos.</p>
-                </Rule>
-
-                <Rule title="Pagamento">
-                  <p>Cartões aceitos na propriedade. Dinheiro não é aceito.</p>
-                </Rule>
-
-                <Rule title="Festas">
-                  <p>Festas e eventos não são permitidos.</p>
-                </Rule>
-
-                <Rule title="Horário de silêncio">
-                  <p>Os hóspedes devem fazer silêncio entre 22:00 e 09:00.</p>
-                </Rule>
-              </CardContent>
-            </Card>
-          </section>
-        )}
 
         {step === 2 && (
           <div className="mt-6 space-y-5">
@@ -573,8 +504,10 @@ function BookingEngine() {
                 </Card>
               ))}
             </div>
+            <AmenitiesAndRules />
           </div>
         )}
+
 
         {step === 3 && room && (
           <Card className="mt-6">
@@ -650,7 +583,66 @@ function BookingEngine() {
           </Card>
         )}
       </main>
+      <SiteFooter />
     </div>
+  );
+}
+
+function AmenitiesAndRules() {
+  return (
+    <section className="mt-10 grid lg:grid-cols-2 gap-6">
+      <Card className="border-border/60">
+        <CardContent className="p-6 space-y-4">
+          <h3 className="font-display text-xl">Principais comodidades</h3>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-foreground/80">
+            {[
+              "Piscina ao ar livre",
+              "Estacionamento gratuito",
+              "Wi-Fi gratuito",
+              "Quartos para famílias",
+              "Quartos para não fumantes",
+              "Serviço de quarto",
+              "Transfer (aeroporto)",
+              "Café da manhã fantástico",
+            ].map((a) => (
+              <li key={a} className="flex items-start gap-2">
+                <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                <span>{a}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-muted-foreground pt-2 border-t">
+            A Pousada Ilha do Meio aceita pedidos especiais — adicione na próxima etapa.
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card className="border-border/60">
+        <CardContent className="p-6 space-y-5 text-sm">
+          <h3 className="font-display text-xl">Regras da casa</h3>
+          <Rule title="Entrada">
+            <p>Das 13:00 às 22:00.</p>
+            <p className="text-muted-foreground">Informe o horário de sua chegada à acomodação com antecedência.</p>
+          </Rule>
+          <Rule title="Saída"><p>Das 09:00 às 12:00.</p></Rule>
+          <Rule title="Cancelamento / pré-pagamento">
+            <p className="text-muted-foreground">
+              As políticas variam de acordo com o tipo de acomodação. Informe as datas da sua estadia e verifique as condições da opção escolhida.
+            </p>
+          </Rule>
+          <Rule title="Crianças e camas">
+            <p>Crianças maiores de 5 anos são bem-vindas.</p>
+            <p>Crianças a partir de 6 anos são cobradas como adultos.</p>
+            <p className="text-muted-foreground">Berços e camas extras não estão disponíveis nesta acomodação.</p>
+          </Rule>
+          <Rule title="Restrições de idade"><p>A idade mínima para check-in é 18 anos.</p></Rule>
+          <Rule title="Pets"><p>Pets não são permitidos.</p></Rule>
+          <Rule title="Pagamento"><p>Cartões aceitos na propriedade. Dinheiro não é aceito.</p></Rule>
+          <Rule title="Festas"><p>Festas e eventos não são permitidos.</p></Rule>
+          <Rule title="Horário de silêncio"><p>Os hóspedes devem fazer silêncio entre 22:00 e 09:00.</p></Rule>
+        </CardContent>
+      </Card>
+    </section>
   );
 }
 
