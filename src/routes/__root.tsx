@@ -118,13 +118,19 @@ function InternalShell() {
 
   useEffect(() => {
     let cancelled = false;
-    supabase.auth.getSession().then(({ data }) => {
+    supabase.auth.getSession().then((res) => {
       if (cancelled) return;
-      if (!data.session) {
+      const session = res?.data?.session ?? null;
+      if (!session) {
         logout();
         void navigate({ to: "/auth" });
       } else {
         setCheckingAuth(false);
+      }
+    }).catch(() => {
+      if (!cancelled) {
+        logout();
+        void navigate({ to: "/auth" });
       }
     });
     return () => { cancelled = true; };
