@@ -133,7 +133,11 @@ function InternalShell() {
   useSupabaseBootstrap();
 
   if (checkingAuth) {
-    return <div className="min-h-screen grid place-items-center text-sm text-muted-foreground">Verificando acesso…</div>;
+    return (
+      <div className="min-h-screen grid place-items-center text-sm text-muted-foreground">
+        Verificando acesso…
+      </div>
+    );
   }
 
   return (
