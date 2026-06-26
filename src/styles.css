@@ -174,14 +174,21 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     font-synthesis: none;
+    font-weight: 450;
+    letter-spacing: -0.005em;
   }
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     font-optical-sizing: auto;
-    font-variation-settings: "opsz" 144, "SOFT" 50;
-    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    font-weight: 600;
+    color: var(--color-foreground);
   }
+  h1 { font-weight: 650; }
+  p, span, li, a, button, label, input, textarea, select { font-feature-settings: "ss01", "cv11"; }
+  .text-muted-foreground { color: color-mix(in oklab, var(--color-foreground) 65%, transparent); }
+
 }
 
 /* Calendário mestre — estados visuais */
