@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Star, ShieldCheck, Check, Instagram } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -14,7 +14,6 @@ import f9 from "@/assets/pousada-9.jpg.asset.json";
 
 const WHATSAPP_MESSAGE = "Olá! Vim pelo site da Pousada Ilha do Meio e quero reservar. Pode me passar disponibilidade e valores?";
 const WHATSAPP = `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
-const INSTAGRAM = "https://www.instagram.com/pousadailhadomeio/";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,18 +37,14 @@ function HomePage() {
       {/* TOP BAR */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/85 border-b border-border/50">
         <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
-          <a href="#top" className="flex items-center gap-2.5">
-            <Logo className="h-9 w-9" />
-            <div className="leading-tight">
-              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">Pousada</div>
-              <div className="font-display text-base sm:text-lg leading-none">Ilha do Meio</div>
-            </div>
+          <a href="#top" className="flex items-center">
+            <Logo className="h-12 w-12" />
           </a>
           <a
             href={WHATSAPP}
             target="_blank"
             rel="noopener"
-            className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-4 sm:px-5 py-2.5 text-sm font-semibold transition"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-4 sm:px-5 py-2.5 text-sm font-semibold transition"
           >
             <WhatsAppIcon className="h-4 w-4" />
             Reservar pelo WhatsApp
@@ -72,8 +67,8 @@ function HomePage() {
             O sossego da Bahia,<br />a dois minutos do mar.
           </h1>
           <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
-            Pousada autoral em Itacimirim, entre Guarajuba e Praia do Forte.
-            Atendimento direto com a casa, melhor tarifa garantida e reserva em minutos pelo WhatsApp.
+            Hospedagem em Itacimirim, entre Guarajuba e Praia do Forte.
+            Atendimento direto com a recepção e reserva confirmada em minutos pelo WhatsApp.
           </p>
 
           <div className="mt-7">
@@ -81,7 +76,7 @@ function HomePage() {
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Reservar pelo WhatsApp
@@ -125,17 +120,6 @@ function HomePage() {
             </div>
           ))}
         </div>
-        <div className="mt-10 text-center">
-          <a
-            href={WHATSAPP}
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-7 py-4 text-base font-semibold"
-          >
-            <WhatsAppIcon className="h-5 w-5" />
-            Ver opções e valores no WhatsApp
-          </a>
-        </div>
       </section>
 
       {/* LOCALIZAÇÃO */}
@@ -154,17 +138,6 @@ function HomePage() {
                 <div className="text-muted-foreground">CEP 42823-000</div>
               </div>
             </address>
-            <div className="mt-6">
-              <a
-                href={WHATSAPP}
-                target="_blank"
-                rel="noopener"
-                className="inline-flex items-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 text-sm font-semibold"
-              >
-                <WhatsAppIcon className="h-4 w-4" />
-                Tirar dúvidas no WhatsApp
-              </a>
-            </div>
           </div>
           <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-xl shadow-black/10">
             <img src={f7.url} alt="Entorno da pousada em Itacimirim" className="h-full w-full object-cover" loading="lazy" />
@@ -180,13 +153,13 @@ function HomePage() {
         </div>
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua estadia.</h2>
-          <p className="mt-4 text-white/85 sm:text-lg">Disponibilidade limitada para os próximos finais de semana. Responda em minutos.</p>
+          <p className="mt-4 text-white/85 sm:text-lg">Disponibilidade limitada para os próximos finais de semana. Resposta em minutos.</p>
           <div className="mt-8">
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Reservar pelo WhatsApp
@@ -204,15 +177,12 @@ function HomePage() {
           href={WHATSAPP}
           target="_blank"
           rel="noopener"
-          className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-3.5 text-sm font-semibold shadow-2xl shadow-emerald-900/40"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-4 py-3.5 text-sm font-semibold shadow-2xl shadow-black/40"
         >
           <WhatsAppIcon className="h-5 w-5" />
           Reservar pelo WhatsApp
         </a>
       </div>
-
-      {/* hidden link for crawlers */}
-      <a href={INSTAGRAM} className="sr-only">Instagram</a>
     </div>
   );
 }
