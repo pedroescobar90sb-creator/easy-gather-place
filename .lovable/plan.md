@@ -1,114 +1,144 @@
-## Objetivo
-Fechar a pousada para venda: rodapé profissional com CNPJ, fluxo de reserva sem bugs, e-mail Resend em toda confirmação e painel interno 100% sincronizado com o site.
+
+# Plano — Ilha do Meio como Landing Page de Tráfego Pago (foco WhatsApp)
+
+Objetivo único da página pública: **clique no WhatsApp**. Tudo que não serve a isso sai.
 
 ---
 
-## 1. Rodapé profissional (imagem 1)
+## 1. Copy do Hero (final escolhido)
 
-**Arquivo:** `src/routes/index.tsx` (e `src/routes/reservar.tsx` ganha o mesmo rodapé)
+```json
+{
+  "headline": "O sossego da Bahia, a dois minutos do mar.",
+  "subheadline": "Pousada autoral em Itacimirim, entre Guarajuba e Praia do Forte. Atendimento direto com a casa, melhor tarifa garantida e reserva em minutos pelo WhatsApp.",
+  "primary_cta": "Reservar pelo WhatsApp",
+  "whatsapp_prefilled_message": "Olá! Vim pelo site da Pousada Ilha do Meio e quero reservar. Pode me passar disponibilidade e valores?"
+}
+```
 
-Atualizar bloco do `<footer>` para layout 3 colunas:
+### 10 headlines alternativas (premium / conversão)
+1. O sossego da Bahia, a dois minutos do mar.
+2. Itacimirim como ela deve ser vivida.
+3. Sua próxima escapada começa aqui.
+4. O refúgio discreto entre Guarajuba e Praia do Forte.
+5. Acorde com o som do mar. Saia da rotina hoje mesmo.
+6. A pousada que os baianos guardam pra si.
+7. Praia, silêncio e atendimento de casa.
+8. Reserva direta, tarifa real, experiência inesquecível.
+9. O endereço certo pra fugir de Salvador no fim de semana.
+10. Itacimirim sem intermediário. Direto com a pousada.
 
-- **Coluna 1 — Marca:** Logo + "Pousada Ilha do Meio" + tagline curta.
-- **Coluna 2 — Empresa (novo):**
-  - Razão social / nome fantasia: *Pousada Ilha do Meio*
-  - **CNPJ 45.688.734/0001-43**
-  - Endereço: *Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8 · Itacimirim, Camaçari — BA · CEP 42823-000*
-- **Coluna 3 — Contato:** Instagram, WhatsApp +55 71 9126-3096, e-mail.
-- **Barra inferior:** `© {ano} Pousada Ilha do Meio · CNPJ 45.688.734/0001-43 · Todos os direitos reservados.`
+### 5 subheadlines
+1. Atendimento direto com a casa, melhor tarifa garantida e reserva em minutos pelo WhatsApp.
+2. A poucos minutos de Guarajuba, Praia do Forte e Salvador — sem o preço das grandes redes.
+3. Quartos confortáveis, café da manhã da casa e a praia logo ali. Reserve falando direto com a gente.
+4. Sem comissão, sem robô, sem surpresa: você fala com quem cuida da pousada.
+5. Hospedagem tranquila pra casais e famílias que querem voltar pra casa descansados.
 
-Replicar mesmo rodapé como componente compartilhado `<SiteFooter />` em `src/components/SiteFooter.tsx` e usar em `index.tsx` e `reservar.tsx`.
+### 5 CTAs WhatsApp
+1. Reservar pelo WhatsApp
+2. Falar agora com a pousada
+3. Ver disponibilidade no WhatsApp
+4. Quero reservar minha estadia
+5. Conversar direto com a recepção
 
----
+### 3 versões de hero
 
-## 2. Fluxo de reserva: datas → quartos (imagem 2)
+**Premium**
+- H: O sossego da Bahia, a dois minutos do mar.
+- Sub: Pousada autoral em Itacimirim, entre Guarajuba e Praia do Forte. Atendimento direto, sem intermediários.
+- CTA: Reservar pelo WhatsApp
 
-**Arquivo:** `src/routes/reservar.tsx`
+**Elegante**
+- H: Itacimirim como ela deve ser vivida.
+- Sub: Um refúgio discreto na Praia da Espera, pensado pra quem busca silêncio, mar e bom atendimento.
+- CTA: Falar agora com a pousada
 
-Problemas:
-- Hoje as seções "Principais comodidades" e "Regras da casa" aparecem **em cima** da lista de quartos no step 2 (porque o `<section>` está antes do `{step === 2 && ...}` no JSX).
-- Usuário quer: ao confirmar datas → mostrar **lista de quartos primeiro**, e comodidades/regras **embaixo**.
-
-Mudanças:
-1. Mover o bloco `{step !== 4 && (<section …comodidades/regras…/>)}` para **depois** do bloco `{step === 2 && (...)}` no JSX (e idealmente só renderizar nos steps 1 e 2, escondendo no 3).
-2. Garantir que ao clicar "Ver quartos" o `setStep(2)` scrolla suavemente para o topo da lista (`window.scrollTo({ top: 0, behavior: 'smooth' })`).
-3. Reposicionar `<Steps>` sticky no topo do `<main>` para feedback claro.
-
----
-
-## 3. "Datas inválidas. Verifique check-in e check-out." (imagem 3)
-
-**Causa:** O RPC `create_public_reservation` rejeita quando `check_in >= check_out` — mas o erro também aparece em outros caminhos. Investigar dois pontos:
-
-- O `range` default no `useState` é `{from: hoje, to: hoje+2}` — válido.
-- Quando o usuário muda só uma das datas, a lógica de auto-ajuste pode gerar `from === to` em casos extremos (clicar saída igual à entrada).
-
-Correções em `src/routes/reservar.tsx`:
-1. Endurecer `onSelect` dos dois calendários para **nunca** permitir `from >= to`: se igual, mover `to` para `from+1` automaticamente (e vice-versa).
-2. Desabilitar botão "Ver quartos" e "Confirmar" quando `nights < 1`.
-3. Mostrar mensagem inline (em vez de toast) próxima aos date pickers quando inválido.
-4. Tratar erro `invalid_dates` do RPC com toast claro **+ voltar para step 1**.
-
----
-
-## 4. E-mail de confirmação via Resend (em toda reserva)
-
-**Estado atual:** `src/lib/email.functions.ts` usa `process.env.RESEND_API_KEY` direto na API do Resend. Se a key não estiver setada como secret de servidor, o envio é pulado silenciosamente.
-
-Plano:
-1. **Verificar/configurar secret** `RESEND_API_KEY` no ambiente do servidor (TanStack server function). Se não estiver, pedir ao usuário via `add_secret`.
-2. Atualizar `email.functions.ts`:
-   - Remetente: `Pousada Ilha do Meio <reservas@onboarding.resend.dev>` (até domínio próprio verificado) — manter mas adicionar `reply_to` com e-mail real da pousada.
-   - Incluir CNPJ e endereço completo no rodapé do e-mail.
-   - Incluir horários (check-in 14h, check-out 11h) e instrução "chave na recepção".
-   - Retornar erro estruturado em vez de silenciar (logar no console mas não quebrar UX).
-3. **Garantir disparo**: em `confirm()` o `await sendReservationConfirmation(...)` já roda dentro de `try/catch`. Adicionar log de auditoria no Supabase numa tabela `email_log` (template, recipient, status, created_at) para o painel admin ter histórico de envios.
-4. Toast final: "Reserva confirmada — verifique seu e-mail (e caixa de spam)".
+**Alta conversão**
+- H: Sua escapada na Bahia começa com uma mensagem.
+- Sub: Reserve direto com a casa, garanta a melhor tarifa e receba confirmação em minutos pelo WhatsApp.
+- CTA: Quero reservar minha estadia
 
 ---
 
-## 5. Sincronização 100% site ↔ painel interno
+## 2. Plano de limpeza da landing page
 
-**Estado atual:** `useSupabaseBootstrap.ts` já tem realtime + refresh a cada 20s + focus listener. RPC `create_public_reservation` insere em `guests` + `reservations`. Painel deveria ver na hora.
+### Remover do site público
+- **Top bar**: tirar o botão "Reservar" que leva para `/reservar`. Manter só logo + ícone WhatsApp.
+- **Hero**: remover o link secundário "ou falar no WhatsApp" (vira ruído já que o CTA principal vira WhatsApp); remover a frase "Reserve direto e ganhe 10% off" (promessa de desconto sem regra clara enfraquece premium).
+- **Trust bar**: remover o número "17" e o card "10% off reserva direta". Manter só "2 min da praia" e um selo de avaliação.
+- **Seção Acomodações inteira**: remover os 3 cards com preço/“Reservar”. Substituir por um bloco visual único "Acomodações" com 1–2 fotos e CTA "Ver opções no WhatsApp".
+- **Seção "Reserva direta = benefícios"**: remover (duplica argumento e adiciona outro CTA competindo).
+- **Seção "Localização"**: manter, mas remover botão Instagram do bloco e simplificar para endereço + 1 CTA WhatsApp.
+- **CTA final**: manter, mas remover o link secundário "ou falar no WhatsApp" (o botão principal já é WhatsApp).
+- **Mobile sticky**: remover o botão "Reservar online"; deixar apenas a barra "Falar no WhatsApp" ocupando largura total.
+- **Footer**: enxugar — remover coluna "Empresa" detalhada e link "Ligar para a recepção". Manter marca, endereço curto, CNPJ em linha discreta, WhatsApp, Instagram.
+- **Rotas internas do site público**: remover do menu/links públicos qualquer referência a `/reservar`, `/auth`, `/dashboard` e demais rotas administrativas. Rotas continuam existindo no projeto (admin acessa por URL direta), mas **nenhum link público** aponta pra elas.
 
-Validações extras:
-1. Confirmar que `reservations` e `guests` têm publicação realtime ativa (verificar via supabase linter / migration).
-2. No painel `/reservas`, mostrar badge "Nova" nas reservas criadas nas últimas 2h e ordenar por `created_at desc` por padrão.
-3. Em `/hospedes`, garantir que hóspedes vindos do site aparecem com origem `site` (campo `source`). Adicionar coluna "Origem" e badge.
-4. Dashboard: card "Reservas hoje (site)" + "Próximos check-ins (7 dias)".
+### Manter
+- Hero com foto forte, headline, subheadline, 1 CTA WhatsApp.
+- Faixa curta de confiança (avaliação + “a 2 min do mar” + “atendimento direto”).
+- Galeria enxuta (6 fotos no máximo).
+- Bloco de localização com endereço + CTA WhatsApp.
+- CTA final fullscreen com foto + 1 botão WhatsApp.
+- Footer minimalista com CNPJ e contato.
+
+### Acima da dobra (above the fold)
+1. Logo + ícone WhatsApp no topo
+2. Foto hero
+3. Selo "Itacimirim · Bahia"
+4. Headline
+5. Subheadline
+6. **1 botão verde "Reservar pelo WhatsApp"** (único CTA)
+7. Linha curta de prova social (ex.: "Avaliação 9.4 · Atendimento direto com a casa")
+
+### Abaixo da dobra (ordem ideal)
+1. Faixa de confiança (3 selos)
+2. Galeria (6 fotos)
+3. Bloco "A casa" — 2–3 linhas sobre experiência + CTA WhatsApp
+4. Localização com endereço + CTA WhatsApp
+5. CTA final fullscreen
+6. Footer enxuto
 
 ---
 
-## Detalhes técnicos
+## 3. Arquitetura de conversão (resumo)
 
-- **Rodapé compartilhado:** novo `src/components/SiteFooter.tsx`, props `variant: "site" | "booking"`.
-- **Resend:** server function continua `createServerFn({ method: "POST" })`. Se preferir, migrar para connector gateway do Resend (`standard_connectors`) para não depender de env var manual.
-- **email_log table (migration nova):**
-  ```sql
-  CREATE TABLE public.email_log (
-    id uuid primary key default gen_random_uuid(),
-    template text not null,
-    recipient text not null,
-    status text not null,
-    error text,
-    reservation_id uuid references public.reservations(id) on delete set null,
-    created_at timestamptz not null default now()
-  );
-  GRANT SELECT ON public.email_log TO authenticated;
-  GRANT ALL ON public.email_log TO service_role;
-  ALTER TABLE public.email_log ENABLE ROW LEVEL SECURITY;
-  CREATE POLICY "admin reads email_log" ON public.email_log FOR SELECT
-    TO authenticated USING (public.has_role(auth.uid(), 'admin'));
-  ```
-- **Validação de datas:** helper `clampRange(from, to)` que garante `to >= from+1`.
+| Seção | Função | Prioridade |
+|---|---|---|
+| Headline | Capturar atenção em 2s | Muito alta |
+| Subheadline | Reforçar valor + localização | Muito alta |
+| CTA WhatsApp único | Direcionar tráfego pago | Muito alta |
+| Foto hero premium | Desejo e confiança | Alta |
+| Prova social curta | Reduzir objeção | Alta |
+| Galeria enxuta | Sustentar desejo | Alta |
+| Localização | Relevância regional | Alta |
+| Sticky WhatsApp mobile | Conversão móvel | Muito alta |
+| Footer enxuto | Credibilidade (CNPJ) | Média |
 
 ---
 
-## Pergunta antes de executar
+## 4. Mudanças técnicas a implementar (modo build)
 
-Para o envio de e-mail funcionar 100%, preciso de **uma** destas:
+Arquivos a editar:
+- `src/routes/index.tsx`
+  - Trocar todos os `<Link to="/reservar">` por `<a href={WHATSAPP}>`.
+  - Atualizar `WHATSAPP` com a nova mensagem pré-preenchida.
+  - Remover seção "Acomodações" (cards de quartos), seção "Reserva direta", botão Reservar do header e do sticky mobile.
+  - Reescrever hero, trust bar, CTA final com a nova copy.
+  - Remover imports não usados (`quartoDuplo`, `quartoTriplo`, `quartoQuadruplo`, `Calendar`, etc.).
+- `src/components/SiteFooter.tsx`
+  - Remover coluna "Empresa" longa e link "Ligar para a recepção".
+  - Manter marca + endereço resumido + WhatsApp + Instagram + CNPJ em linha discreta.
+- Nenhuma alteração em rotas administrativas (`/auth`, `/dashboard`, `/reservas`, etc.) — apenas deixam de ser linkadas publicamente.
 
-1. Você confirma que **`RESEND_API_KEY` já está como secret de servidor** no projeto? (se não, eu peço pelo add_secret)
-2. Ou prefere que eu migre para o **connector Resend** da Lovable (mais simples, só clicar)?
+Sem mudanças de backend, schema ou auth.
 
-Após sua resposta executo o plano inteiro de uma vez.
+---
+
+## 5. Estimativas
+- Custo: R$ 0
+- Tempo: ~10 min de edição
+- ROI esperado: aumento expressivo de CTR para WhatsApp e qualidade do lead, com página mais limpa, premium e confiável.
+
+Se aprovar, eu aplico tudo isso no `index.tsx` e no `SiteFooter.tsx` em um único passo.
