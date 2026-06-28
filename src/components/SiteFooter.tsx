@@ -143,9 +143,6 @@ export function SiteFooter() {
           <div className="tabular-nums">
             © {year} Pousada Ilha do Meio · CNPJ {CNPJ}
           </div>
-          <div className="text-[10px] uppercase tracking-[0.18em]">
-            Itacimirim · Bahia · Brasil
-          </div>
         </div>
       </div>
     </footer>
