@@ -94,9 +94,10 @@ export function ImmersiveVideoSection() {
             <p className="font-display text-2xl sm:text-3xl md:text-4xl text-foreground leading-tight tracking-tight">
               Da recepção à beira da piscina
             </p>
-            <p className="mt-4 text-sm text-muted-foreground max-w-md mx-auto md:mx-0">
+            <p className="mt-4 text-sm text-foreground/75 max-w-md mx-auto md:mx-0">
               Um passeio cinematográfico pelos ambientes da pousada — em menos de um minuto.
             </p>
+
           </div>
         </div>
       </div>
