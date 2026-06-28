@@ -142,12 +142,13 @@ function HomePage() {
           <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A pousada</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Ambientes pensados pro seu descanso.</h2>
         </div>
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {GALLERY.map((g) => (
             <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-card aspect-video">
               <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-4">
-                <figcaption className="text-white text-sm font-medium tracking-wide">{g.caption}</figcaption>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-4">
+                <figcaption className="text-white text-sm font-semibold tracking-wide">{g.caption}</figcaption>
+                <p className="mt-1 text-xs text-white/85 leading-snug">{g.desc}</p>
               </div>
             </figure>
           ))}
