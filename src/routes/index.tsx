@@ -61,7 +61,7 @@ function HomePage() {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/85 border-b border-border/50">
         <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
           <a href="#top" className="flex items-center">
-            <Logo className="h-12 w-12" />
+            <Logo className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-sm" />
           </a>
           <a
             href={WHATSAPP}
