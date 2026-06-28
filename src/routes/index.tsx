@@ -3,14 +3,16 @@ import { MapPin, Star, ShieldCheck, Check } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
-import f0 from "@/assets/pousada-0.jpg.asset.json";
-import f1 from "@/assets/pousada-1.jpg.asset.json";
-import f2 from "@/assets/pousada-2.jpg.asset.json";
-import f5 from "@/assets/pousada-5.jpg.asset.json";
-import f6 from "@/assets/pousada-6.jpg.asset.json";
-import f7 from "@/assets/pousada-7.jpg.asset.json";
-import f8 from "@/assets/pousada-8.jpg.asset.json";
-import f9 from "@/assets/pousada-9.jpg.asset.json";
+
+import piscinaLagoa from "@/assets/piscina-lagoa.jpg.asset.json";
+import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
+import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
+import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
+import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
+import salaoJogos from "@/assets/salao-jogos.jpg.asset.json";
+import restauranteNoite from "@/assets/restaurante-noite.jpg.asset.json";
+import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
+import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
 
 const WHATSAPP_MESSAGE = "Olá! Vim pelo site da Pousada Ilha do Meio e quero reservar. Pode me passar disponibilidade e valores?";
 const WHATSAPP = `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
@@ -22,7 +24,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Pousada em Itacimirim (BA), a 2 minutos do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia" },
       { property: "og:description", content: "Atendimento direto com a casa. Reserve em minutos pelo WhatsApp." },
-      { property: "og:image", content: f0.url },
+      { property: "og:image", content: piscinaLagoa.url },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/" },
     ],
@@ -30,6 +32,26 @@ export const Route = createFileRoute("/")({
   }),
   component: HomePage,
 });
+
+type RoomCard = { name: string; price: string; image: string; alt: string };
+
+const ROOMS: RoomCard[] = [
+  { name: "Quarto Duplo", price: "R$ 400/noite", image: quartoDuplo.url, alt: "Quarto Duplo da Pousada Ilha do Meio" },
+  { name: "Quarto Triplo", price: "R$ 500/noite", image: quartoTriplo.url, alt: "Quarto Triplo da Pousada Ilha do Meio" },
+  { name: "Quarto Quádruplo", price: "R$ 550/noite", image: quartoTriplo.url, alt: "Quarto Quádruplo da Pousada Ilha do Meio" },
+];
+
+const GALLERY = [
+  { src: recepcaoDia.url, caption: "Recepção" },
+  { src: quiosqueJardim.url, caption: "Área de Convivência" },
+  { src: fachadaNoite.url, caption: "Acomodações" },
+  { src: piscinaNoite.url, caption: "Piscina" },
+];
+
+const LEISURE = [
+  { src: salaoJogos.url, caption: "Salão de Jogos" },
+  { src: restauranteNoite.url, caption: "Restaurante" },
+];
 
 function HomePage() {
   return (
@@ -55,7 +77,7 @@ function HomePage() {
       {/* HERO */}
       <section id="top" className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={f0.url} alt="Pousada Ilha do Meio em Itacimirim" className="h-full w-full object-cover" loading="eager" fetchPriority="high" />
+          <img src={piscinaLagoa.url} alt="Piscina da Pousada Ilha do Meio com vista para a lagoa" className="h-full w-full object-cover" loading="eager" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         </div>
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
@@ -107,17 +129,70 @@ function HomePage() {
         </div>
       </section>
 
-      {/* GALERIA */}
+      {/* A POUSADA — GALERIA */}
       <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A pousada</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Ambientes pensados pro seu descanso.</h2>
         </div>
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
-          {[f5, f6, f7, f8, f9, f1].map((img, i) => (
-            <div key={i} className="overflow-hidden rounded-xl bg-card aspect-square">
-              <img src={img.url} alt={`Pousada Ilha do Meio - ambiente ${i + 1}`} className="h-full w-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
-            </div>
+        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {GALLERY.map((g) => (
+            <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-card aspect-[4/5]">
+              <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-4">
+                <figcaption className="text-white text-sm font-medium tracking-wide">{g.caption}</figcaption>
+              </div>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      {/* LAZER */}
+      <section className="bg-card border-y border-border/60">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Lazer</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Para quem busca conforto e diversão.</h2>
+          </div>
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            {LEISURE.map((g) => (
+              <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-background aspect-[4/3]">
+                <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-5">
+                  <figcaption className="text-white text-base font-medium tracking-wide">{g.caption}</figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ACOMODAÇÕES */}
+      <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <div className="max-w-2xl">
+          <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Acomodações</p>
+          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Escolha seu quarto ideal.</h2>
+        </div>
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          {ROOMS.map((r) => (
+            <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-lg transition-shadow">
+              <div className="aspect-[4/3] overflow-hidden">
+                <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+              </div>
+              <div className="flex flex-col gap-3 p-5 flex-1">
+                <h3 className="font-display text-xl">{r.name}</h3>
+                <div className="text-primary text-lg font-medium tabular-nums">{r.price}</div>
+                <a
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noopener"
+                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Reservar pelo WhatsApp
+                </a>
+              </div>
+            </article>
           ))}
         </div>
       </section>
@@ -140,7 +215,7 @@ function HomePage() {
             </address>
           </div>
           <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-xl shadow-black/10">
-            <img src={f7.url} alt="Entorno da pousada em Itacimirim" className="h-full w-full object-cover" loading="lazy" />
+            <img src={quiosqueJardim.url} alt="Entorno da pousada em Itacimirim" className="h-full w-full object-cover" loading="lazy" />
           </div>
         </div>
       </section>
@@ -148,7 +223,7 @@ function HomePage() {
       {/* FINAL CTA */}
       <section className="relative">
         <div className="absolute inset-0">
-          <img src={f2.url} alt="" className="h-full w-full object-cover" loading="lazy" />
+          <img src={piscinaNoite.url} alt="" className="h-full w-full object-cover" loading="lazy" />
           <div className="absolute inset-0 bg-black/75" />
         </div>
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
