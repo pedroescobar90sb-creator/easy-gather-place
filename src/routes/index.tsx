@@ -5,6 +5,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
+import { VideoTourSection } from "@/components/VideoTourSection";
 
 
 import heroPousada from "@/assets/pousada-0.jpg.asset.json";
@@ -173,6 +174,9 @@ function HomePage() {
           </ul>
         </div>
       </section>
+
+      {/* TOUR EM VÍDEO */}
+      <VideoTourSection />
 
       {/* TRUST BAR */}
       <section className="relative isolate border-y border-border/60 overflow-hidden">
