@@ -3,20 +3,13 @@ import {
   Outlet,
   Link,
   createRootRouteWithContext,
-  useRouterState,
-  useNavigate,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { AppSidebar } from "@/components/AppSidebar";
-import { BackBar } from "@/components/BackBar";
-import { useApp } from "@/lib/store";
-import { useSupabaseBootstrap } from "@/lib/useSupabaseBootstrap";
 import { Toaster } from "@/components/ui/sonner";
-import { supabase } from "@/integrations/supabase/client";
 
 const SafeHeadContent = typeof HeadContent === "function" ? HeadContent : () => null;
 const SafeScripts = typeof Scripts === "function" ? Scripts : () => null;
@@ -29,10 +22,10 @@ function NotFoundComponent() {
         <h1 className="font-display text-7xl">404</h1>
         <h2 className="mt-4 font-display text-2xl">Página não encontrada</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          O endereço solicitado não existe no sistema.
+          O endereço solicitado não existe.
         </p>
         <Link to="/" className="mt-6 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-          Voltar ao dashboard
+          Voltar ao início
         </Link>
       </div>
     </div>
@@ -83,7 +76,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell(props?: { children?: ReactNode } | null) {
   const children = props?.children ?? null;
-
   return (
     <html lang="pt-BR">
       <head><SafeHeadContent /></head>
@@ -100,66 +92,8 @@ function RootComponent() {
   const queryClient = ctx?.queryClient ?? fallbackQueryClient;
   return (
     <QueryClientProvider client={queryClient}>
-      <Shell />
+      <Outlet />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
-  );
-}
-
-function Shell() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isPublic = pathname === "/" || pathname === "/auth" || pathname.startsWith("/reservar");
-
-  if (isPublic) {
-    // Site público é 100% independente do sistema interno (sem store, sem bootstrap).
-    return <Outlet />;
-  }
-
-  return <InternalShell />;
-}
-
-function InternalShell() {
-  const navigate = useNavigate();
-  const logout = useApp((s) => s.logout);
-  const [checkingAuth, setCheckingAuth] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    supabase.auth.getSession().then((res) => {
-      if (cancelled) return;
-      const session = res?.data?.session ?? null;
-      if (!session) {
-        logout();
-        void navigate({ to: "/auth" });
-      } else {
-        setCheckingAuth(false);
-      }
-    }).catch(() => {
-      if (!cancelled) {
-        logout();
-        void navigate({ to: "/auth" });
-      }
-    });
-    return () => { cancelled = true; };
-  }, [logout, navigate]);
-
-  useSupabaseBootstrap();
-
-  if (checkingAuth) {
-    return (
-      <div className="min-h-screen grid place-items-center text-sm text-muted-foreground">
-        Verificando acesso…
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex min-h-screen w-full bg-background text-foreground">
-      <AppSidebar />
-      <main className="flex-1 min-w-0 overflow-x-hidden">
-        <BackBar />
-        <Outlet />
-      </main>
-    </div>
   );
 }
