@@ -87,33 +87,47 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
 
   return (
     <>
-      <div className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4", gridClassName, className)}>
-        {items.map((g, i) => (
-          <button
-            type="button"
-            key={g.caption}
-            onClick={() => {
-              setSlideDir(1);
-              setSlideKey((k) => k + 1);
-              setOpenIdx(i);
-            }}
-            className="group relative overflow-hidden rounded-2xl bg-card aspect-video text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            aria-label={`Abrir imagem: ${g.caption}`}
-          >
-            <img
-              src={g.src}
-              alt={g.caption}
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-4">
-              <div className="text-white text-sm font-semibold tracking-wide">{g.caption}</div>
-              <p className="mt-1 text-xs text-white/85 leading-snug">{g.desc}</p>
-            </div>
-          </button>
-        ))}
-      </div>
+      {trigger ? (
+        <span
+          onClick={() => {
+            setSlideDir(1);
+            setSlideKey((k) => k + 1);
+            setOpenIdx(0);
+          }}
+          className={cn("inline-block", className)}
+        >
+          {trigger}
+        </span>
+      ) : (
+        <div className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4", gridClassName, className)}>
+          {items.map((g, i) => (
+            <button
+              type="button"
+              key={g.caption}
+              onClick={() => {
+                setSlideDir(1);
+                setSlideKey((k) => k + 1);
+                setOpenIdx(i);
+              }}
+              className="group relative overflow-hidden rounded-2xl bg-card aspect-video text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label={`Abrir imagem: ${g.caption}`}
+            >
+              <img
+                src={g.src}
+                alt={g.caption}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-4">
+                <div className="text-white text-sm font-semibold tracking-wide">{g.caption}</div>
+                <p className="mt-1 text-xs text-white/85 leading-snug">{g.desc}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+
 
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
         <DialogContent
