@@ -403,7 +403,7 @@ function HomePage() {
                   ))}
                 </ul>
 
-                <div className="text-xs text-muted-foreground flex items-center gap-3">
+                <div className="text-[13px] text-muted-foreground flex items-center gap-3">
                   <span className="inline-flex items-center gap-1"><Coffee className="h-3.5 w-3.5" /> Café da manhã</span>
                   <span className="inline-flex items-center gap-1"><Wifi className="h-3.5 w-3.5" /> Wi-Fi grátis</span>
                 </div>
