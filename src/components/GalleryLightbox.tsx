@@ -20,44 +20,52 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
   const [entered, setEntered] = React.useState(false);
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
   const [slideKey, setSlideKey] = React.useState(0);
+  const [transitioning, setTransitioning] = React.useState(false);
   const open = openIdx !== null;
   const current = open ? items[openIdx!] : null;
 
   const close = React.useCallback(() => {
     setEntered(false);
-    // brief delay for fade-out feel before unmount
-    window.setTimeout(() => setOpenIdx(null), 200);
+    window.setTimeout(() => setOpenIdx(null), 250);
   }, []);
 
-  const goPrev = React.useCallback(() => {
-    setOpenIdx((i) => {
-      if (i === null) return i;
-      if (i === 0) return i; // do nothing at first
-      setSlideDir(-1);
-      setSlideKey((k) => k + 1);
-      return i - 1;
-    });
-  }, []);
-
-  const goNext = React.useCallback(() => {
-    setOpenIdx((i) => {
-      if (i === null) return i;
-      if (i >= items.length - 1) {
-        // auto-close after last
+  // Premium lateral transition: fade-out current, swap, fade-in next with subtle slide.
+  const navigate = React.useCallback(
+    (dir: 1 | -1) => {
+      if (transitioning) return;
+      setOpenIdx((i) => {
+        if (i === null) return i;
+        const next = i + dir;
+        if (next < 0) return i;
+        if (next > items.length - 1) {
+          setEntered(false);
+          window.setTimeout(() => setOpenIdx(null), 300);
+          return i;
+        }
+        setTransitioning(true);
+        setSlideDir(dir);
         setEntered(false);
-        window.setTimeout(() => setOpenIdx(null), 250);
+        window.setTimeout(() => {
+          setOpenIdx(next);
+          setSlideKey((k) => k + 1);
+          window.setTimeout(() => {
+            setEntered(true);
+            setTransitioning(false);
+          }, 60);
+        }, 260);
         return i;
-      }
-      setSlideDir(1);
-      setSlideKey((k) => k + 1);
-      return i + 1;
-    });
-  }, [items.length]);
+      });
+    },
+    [items.length, transitioning],
+  );
 
-  // Entrance animation
+  const goPrev = React.useCallback(() => navigate(-1), [navigate]);
+  const goNext = React.useCallback(() => navigate(1), [navigate]);
+
+  // Entrance animation on open
   React.useEffect(() => {
     if (open) {
-      const t = window.setTimeout(() => setEntered(true), 20);
+      const t = window.setTimeout(() => setEntered(true), 30);
       return () => window.clearTimeout(t);
     }
   }, [open]);
@@ -84,6 +92,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
     if (Math.abs(dx) > 50) (dx > 0 ? goPrev : goNext)();
     touchX.current = null;
   };
+
 
   return (
     <>
@@ -145,8 +154,10 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                 className="absolute inset-0"
                 style={{
                   opacity: entered ? 1 : 0,
-                  transform: entered ? "translateX(0) scale(1)" : `translateX(${slideDir * 24}px) scale(1.02)`,
-                  transition: `opacity 400ms ${EASE} 150ms, transform 500ms ${EASE} 150ms`,
+                  transform: entered
+                    ? "translateX(0) scale(1)"
+                    : `translateX(${slideDir * 40}px) scale(1.015)`,
+                  transition: `opacity 520ms ${EASE} 80ms, transform 720ms ${EASE} 80ms`,
                   willChange: "opacity, transform",
                 }}
               >
@@ -159,6 +170,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                 {/* subtle vignette so controls/caption stay legible */}
                 <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
               </div>
+
 
 
               {/* Close */}
