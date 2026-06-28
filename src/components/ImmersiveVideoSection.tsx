@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 import poster from "@/assets/paraiso-poster.jpg.asset.json";
 import video from "@/assets/video-paraiso.mp4.asset.json";
+import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
+import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
+
 
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
@@ -33,19 +36,35 @@ export function ImmersiveVideoSection() {
   }, [open]);
 
   return (
-    <section className="relative bg-background py-20 sm:py-28">
+    <section className="relative isolate overflow-hidden py-20 sm:py-28">
+      {/* Background image — responsive (mobile vs desktop) with focal point preserved */}
+      <picture aria-hidden className="absolute inset-0 -z-20">
+        <source media="(min-width: 768px)" srcSet={bgDesktop.url} />
+        <img
+          src={bgMobile.url}
+          alt=""
+          className="h-full w-full object-cover object-[center_60%] md:object-center"
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+      {/* Legibility layers — subtle scrim + soft vignette */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/85 via-background/55 to-background/85 md:from-background/80 md:via-background/40 md:to-background/85" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.18)_100%)]" />
+
       <div className="mx-auto max-w-6xl px-4">
         <div className="mb-12 max-w-2xl">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-primary/80 font-medium">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-primary font-medium">
             Experiência em vídeo
           </p>
           <h2 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground leading-[1.05]">
             Um respiro entre a Bahia e o mar.
           </h2>
-          <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+          <p className="mt-4 text-base text-foreground/75 leading-relaxed">
             Aperte play e veja o ritmo da pousada antes mesmo de chegar.
           </p>
         </div>
+
 
         <div className="grid gap-10 md:grid-cols-[auto,1fr] md:items-center">
           <button
@@ -75,9 +94,10 @@ export function ImmersiveVideoSection() {
             <p className="font-display text-2xl sm:text-3xl md:text-4xl text-foreground leading-tight tracking-tight">
               Da recepção à beira da piscina
             </p>
-            <p className="mt-4 text-sm text-muted-foreground max-w-md mx-auto md:mx-0">
+            <p className="mt-4 text-sm text-foreground/75 max-w-md mx-auto md:mx-0">
               Um passeio cinematográfico pelos ambientes da pousada — em menos de um minuto.
             </p>
+
           </div>
         </div>
       </div>
