@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Play, ChevronLeft } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { Play, ChevronLeft, X } from "lucide-react";
 
 import poster from "@/assets/paraiso-poster.jpg.asset.json";
 import video from "@/assets/video-paraiso.mp4.asset.json";
