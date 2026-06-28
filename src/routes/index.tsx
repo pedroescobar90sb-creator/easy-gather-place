@@ -104,7 +104,7 @@ function HomePage() {
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Reservar pelo WhatsApp
+              Ver disponibilidade no WhatsApp
             </a>
           </div>
 
@@ -113,6 +113,10 @@ function HomePage() {
             <li className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Atendimento direto com a casa</li>
             <li className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> Melhor tarifa garantida</li>
           </ul>
+
+          <p className="mt-5 text-sm text-white/80 italic">
+            Fins de semana têm alta procura — recomendamos reservar com antecedência.
+          </p>
         </div>
       </section>
 
