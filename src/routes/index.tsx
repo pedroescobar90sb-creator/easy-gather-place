@@ -4,6 +4,7 @@ import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox } from "@/components/GalleryLightbox";
+import { Testimonials } from "@/components/Testimonials";
 
 
 import heroPousada from "@/assets/pousada-0.jpg.asset.json";
