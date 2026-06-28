@@ -16,8 +16,9 @@ import restauranteNoite from "@/assets/restaurante-noite.jpg.asset.json";
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
 
-const WHATSAPP_MESSAGE = "Olá! Vim pelo site da Pousada Ilha do Meio e quero reservar. Pode me passar disponibilidade e valores?";
-const WHATSAPP = `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
+const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
+const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
 
 export const Route = createFileRoute("/")({
   head: () => ({
