@@ -3,6 +3,7 @@ import { MapPin, Star, ShieldCheck, Check, ExternalLink } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
+import { InformacoesImportantes } from "@/components/InformacoesImportantes";
 
 import heroPousada from "@/assets/pousada-0.jpg.asset.json";
 import piscinaLagoa from "@/assets/piscina-lagoa.jpg.asset.json";
