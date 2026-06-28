@@ -57,9 +57,9 @@ export function ImmersiveVideoSection() {
           decoding="async"
         />
       </picture>
-      {/* Legibility layers — subtle scrim + soft vignette */}
-      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/85 via-background/55 to-background/85 md:from-background/80 md:via-background/40 md:to-background/85" />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.18)_100%)]" />
+      {/* Legibility layers — leves para preservar nitidez da imagem */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/55 via-transparent to-background/65 md:from-background/45 md:via-transparent md:to-background/55" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.22)_100%)]" />
 
       <div className="mx-auto max-w-6xl px-4">
         <div className="mb-12 max-w-2xl">
