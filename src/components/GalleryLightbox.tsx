@@ -115,42 +115,35 @@ export function GalleryLightbox({ items, className, gridClassName }: Props) {
 
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
         <DialogContent
-          className="max-w-[100vw] sm:max-w-6xl w-full p-0 border-0 bg-transparent shadow-none sm:rounded-2xl overflow-hidden [&>button]:hidden"
+          className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
           <DialogTitle className="sr-only">{current?.caption ?? "Galeria"}</DialogTitle>
           <DialogDescription className="sr-only">{current?.desc ?? ""}</DialogDescription>
 
-          {/* Backdrop with fade */}
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-black"
-            style={{
-              opacity: entered ? 0.96 : 0,
-              transition: `opacity 300ms ${EASE}`,
-            }}
-          />
-
           {current && (
-            <div className="relative flex flex-col items-center justify-center w-full h-[100dvh] sm:h-[85vh]">
+            <div className="relative w-screen h-[100dvh] sm:h-screen overflow-hidden">
               <div
                 key={slideKey}
-                className="relative flex items-center justify-center w-full h-full"
+                className="absolute inset-0"
                 style={{
                   opacity: entered ? 1 : 0,
-                  transform: entered ? "translateX(0) scale(1)" : `translateX(${slideDir * 24}px) scale(0.96)`,
-                  transition: `opacity 400ms ${EASE} 150ms, transform 400ms ${EASE} 150ms`,
+                  transform: entered ? "translateX(0) scale(1)" : `translateX(${slideDir * 24}px) scale(1.02)`,
+                  transition: `opacity 400ms ${EASE} 150ms, transform 500ms ${EASE} 150ms`,
                   willChange: "opacity, transform",
                 }}
               >
                 <img
                   src={current.src}
                   alt={current.caption}
-                  className="max-h-full max-w-full object-contain select-none"
+                  className="w-full h-full object-cover select-none"
                   draggable={false}
                 />
+                {/* subtle vignette so controls/caption stay legible */}
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
               </div>
+
 
               {/* Close */}
               <button
