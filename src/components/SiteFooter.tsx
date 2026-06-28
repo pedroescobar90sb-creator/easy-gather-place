@@ -1,4 +1,4 @@
-import { Instagram, MapPin, Phone, Mail } from "lucide-react";
+import { Instagram, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import {
@@ -15,7 +15,6 @@ const WHATSAPP =
   "https://api.whatsapp.com/send/?phone=557191263096&text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20na%20Pousada%20Ilha%20do%20Meio.";
 const INSTAGRAM = "https://www.instagram.com/pousadailhadomeio/";
 const PHONE_DISPLAY = "+55 (71) 9126-3096";
-const EMAIL = "reservas@pousadailhadomeio.com.br";
 const CNPJ = "49.386.133/0001-37";
 
 function LegalDialog({
