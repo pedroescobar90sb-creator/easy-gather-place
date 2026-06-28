@@ -11,32 +11,67 @@ type Props = {
   gridClassName?: string;
 };
 
+const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+
 export function GalleryLightbox({ items, className, gridClassName }: Props) {
   const [openIdx, setOpenIdx] = React.useState<number | null>(null);
+  const [entered, setEntered] = React.useState(false);
+  const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
+  const [slideKey, setSlideKey] = React.useState(0);
   const open = openIdx !== null;
   const current = open ? items[openIdx!] : null;
 
-  const close = React.useCallback(() => setOpenIdx(null), []);
-  const prev = React.useCallback(
-    () => setOpenIdx((i) => (i === null ? i : (i - 1 + items.length) % items.length)),
-    [items.length],
-  );
-  const next = React.useCallback(
-    () => setOpenIdx((i) => (i === null ? i : (i + 1) % items.length)),
-    [items.length],
-  );
+  const close = React.useCallback(() => {
+    setEntered(false);
+    // brief delay for fade-out feel before unmount
+    window.setTimeout(() => setOpenIdx(null), 200);
+  }, []);
 
+  const goPrev = React.useCallback(() => {
+    setOpenIdx((i) => {
+      if (i === null) return i;
+      if (i === 0) return i; // do nothing at first
+      setSlideDir(-1);
+      setSlideKey((k) => k + 1);
+      return i - 1;
+    });
+  }, []);
+
+  const goNext = React.useCallback(() => {
+    setOpenIdx((i) => {
+      if (i === null) return i;
+      if (i >= items.length - 1) {
+        // auto-close after last
+        setEntered(false);
+        window.setTimeout(() => setOpenIdx(null), 250);
+        return i;
+      }
+      setSlideDir(1);
+      setSlideKey((k) => k + 1);
+      return i + 1;
+    });
+  }, [items.length]);
+
+  // Entrance animation
+  React.useEffect(() => {
+    if (open) {
+      const t = window.setTimeout(() => setEntered(true), 20);
+      return () => window.clearTimeout(t);
+    }
+  }, [open]);
+
+  // Keyboard navigation
   React.useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") prev();
-      else if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") goPrev();
+      else if (e.key === "ArrowRight") goNext();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, prev, next]);
+  }, [open, goPrev, goNext]);
 
-  // Swipe handling
+  // Swipe
   const touchX = React.useRef<number | null>(null);
   const onTouchStart = (e: React.TouchEvent) => {
     touchX.current = e.touches[0]?.clientX ?? null;
@@ -44,7 +79,7 @@ export function GalleryLightbox({ items, className, gridClassName }: Props) {
   const onTouchEnd = (e: React.TouchEvent) => {
     if (touchX.current === null) return;
     const dx = (e.changedTouches[0]?.clientX ?? touchX.current) - touchX.current;
-    if (Math.abs(dx) > 50) (dx > 0 ? prev : next)();
+    if (Math.abs(dx) > 50) (dx > 0 ? goPrev : goNext)();
     touchX.current = null;
   };
 
@@ -55,7 +90,11 @@ export function GalleryLightbox({ items, className, gridClassName }: Props) {
           <button
             type="button"
             key={g.caption}
-            onClick={() => setOpenIdx(i)}
+            onClick={() => {
+              setSlideDir(1);
+              setSlideKey((k) => k + 1);
+              setOpenIdx(i);
+            }}
             className="group relative overflow-hidden rounded-2xl bg-card aspect-video text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label={`Abrir imagem: ${g.caption}`}
           >
@@ -76,21 +115,42 @@ export function GalleryLightbox({ items, className, gridClassName }: Props) {
 
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
         <DialogContent
-          className="max-w-[100vw] sm:max-w-6xl w-full p-0 border-0 bg-black/95 sm:rounded-2xl overflow-hidden [&>button]:hidden"
+          className="max-w-[100vw] sm:max-w-6xl w-full p-0 border-0 bg-transparent shadow-none sm:rounded-2xl overflow-hidden [&>button]:hidden"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
           <DialogTitle className="sr-only">{current?.caption ?? "Galeria"}</DialogTitle>
           <DialogDescription className="sr-only">{current?.desc ?? ""}</DialogDescription>
 
+          {/* Backdrop with fade */}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-black"
+            style={{
+              opacity: entered ? 0.96 : 0,
+              transition: `opacity 300ms ${EASE}`,
+            }}
+          />
+
           {current && (
             <div className="relative flex flex-col items-center justify-center w-full h-[100dvh] sm:h-[85vh]">
-              <img
-                src={current.src}
-                alt={current.caption}
-                className="max-h-full max-w-full object-contain select-none"
-                draggable={false}
-              />
+              <div
+                key={slideKey}
+                className="relative flex items-center justify-center w-full h-full"
+                style={{
+                  opacity: entered ? 1 : 0,
+                  transform: entered ? "translateX(0) scale(1)" : `translateX(${slideDir * 24}px) scale(0.96)`,
+                  transition: `opacity 400ms ${EASE} 150ms, transform 400ms ${EASE} 150ms`,
+                  willChange: "opacity, transform",
+                }}
+              >
+                <img
+                  src={current.src}
+                  alt={current.caption}
+                  className="max-h-full max-w-full object-contain select-none"
+                  draggable={false}
+                />
+              </div>
 
               {/* Close */}
               <button
@@ -105,9 +165,10 @@ export function GalleryLightbox({ items, className, gridClassName }: Props) {
               {/* Prev */}
               <button
                 type="button"
-                onClick={prev}
+                onClick={goPrev}
+                disabled={openIdx === 0}
                 aria-label="Imagem anterior"
-                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -115,8 +176,8 @@ export function GalleryLightbox({ items, className, gridClassName }: Props) {
               {/* Next */}
               <button
                 type="button"
-                onClick={next}
-                aria-label="Próxima imagem"
+                onClick={goNext}
+                aria-label={openIdx === items.length - 1 ? "Concluir galeria" : "Próxima imagem"}
                 className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <ChevronRight className="h-6 w-6" />
