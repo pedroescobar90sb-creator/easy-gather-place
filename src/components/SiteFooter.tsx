@@ -17,7 +17,7 @@ export function SiteFooter() {
         {/* Marca */}
         <div className="space-y-4 md:col-span-1">
           <Logo className="h-16 w-16" />
-          <p className="text-xs leading-relaxed text-muted-foreground max-w-[220px]">
+          <p className="text-[13px] leading-relaxed text-muted-foreground max-w-[240px]">
             Pousada Ilha do Meio · Itacimirim, Bahia. Hospedagem com atendimento próximo e estrutura completa.
           </p>
         </div>
@@ -115,7 +115,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground">
+        <div className="mx-auto max-w-6xl px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[13px] text-muted-foreground">
           <div className="tabular-nums tracking-wide">
             © {year} Pousada Ilha do Meio
           </div>
