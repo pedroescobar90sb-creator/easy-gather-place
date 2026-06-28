@@ -188,51 +188,23 @@ function HomePage() {
           <p className="mt-8 text-sm text-muted-foreground">
             Destaques recorrentes: <strong className="text-foreground">área verde</strong>,{" "}
             <strong className="text-foreground">localização privilegiada</strong> e{" "}
-            <strong className="text-foreground">café da manhã excelente</strong>, com variedade e qualidade constantes.
+            <strong className="text-foreground">café da manhã</strong>, com variedade e qualidade constantes.
           </p>
-        </div>
-      </section>
-
-      {/* CREDIBILIDADE */}
-      <section className="bg-card border-y border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Credibilidade</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Reconhecida entre os melhores de Itacimirim.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">
-              Avaliações reais de hóspedes que já se hospedaram. Sem comentários comprados, apenas a experiência autêntica de quem viveu o sossego da pousada.
-            </p>
-          </div>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-            <div className="rounded-2xl border border-border/60 bg-background p-6 sm:p-8">
+            <div className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
               <div className="flex items-baseline gap-2">
                 <span className="font-display text-5xl text-primary">9,2</span>
                 <span className="text-sm font-medium text-muted-foreground">— Fantástico</span>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">Booking.com · 204 avaliações reais</div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {["Equipe", "Limpeza", "Conforto", "Área verde", "Localização", "Café da manhã"].map((tag) => (
-                  <span key={tag} className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </div>
-
-            <div className="rounded-2xl border border-border/60 bg-background p-6 sm:p-8">
+            <div className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
               <div className="flex items-baseline gap-2">
                 <span className="font-display text-5xl text-primary">4,6</span>
                 <span className="text-sm font-medium text-muted-foreground">de 5</span>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">Google · 272 avaliações</div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {["Atendimento", "Acolhimento", "Organização", "Custo-benefício", "Ambiente", "Descanso"].map((tag) => (
-                  <span key={tag} className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </div>
           </div>
 
