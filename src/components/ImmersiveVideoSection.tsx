@@ -41,9 +41,8 @@ export function ImmersiveVideoSection() {
       // Clean up the synthetic history entry if still present
       if (window.history.state?.videoOpen) window.history.back();
     };
-
-    };
   }, [open]);
+
 
   return (
     <section className="relative isolate overflow-hidden py-20 sm:py-28">
