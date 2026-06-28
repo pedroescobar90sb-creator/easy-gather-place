@@ -57,9 +57,9 @@ export function ImmersiveVideoSection() {
           decoding="async"
         />
       </picture>
-      {/* Legibility layers — leves para preservar nitidez da imagem */}
-      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/55 via-transparent to-background/65 md:from-background/45 md:via-transparent md:to-background/55" />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.22)_100%)]" />
+      {/* Legibility layers — fundo discreto para destacar o player */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-background/80 md:bg-background/75" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/30 to-background/60" />
 
       <div className="mx-auto max-w-6xl px-4">
         <div className="mb-12 max-w-2xl">
