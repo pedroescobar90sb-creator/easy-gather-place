@@ -14,7 +14,7 @@ import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
 import salaoJogosUrl from "@/assets/salao-jogos-v2.jpg";
 const salaoJogos = { url: salaoJogosUrl };
-import restauranteNoite from "@/assets/restaurante-noite.jpg.asset.json";
+
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoDuploAlt from "@/assets/quarto-duplo.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
