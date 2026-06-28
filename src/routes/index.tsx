@@ -16,8 +16,9 @@ import restauranteNoite from "@/assets/restaurante-noite.jpg.asset.json";
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
 
-const WHATSAPP_MESSAGE = "Olá! Vim pelo site da Pousada Ilha do Meio e quero reservar. Pode me passar disponibilidade e valores?";
-const WHATSAPP = `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
+const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
+const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,24 +36,24 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-type RoomCard = { name: string; price: string; image: string; alt: string };
+type RoomCard = { name: string; price: string; image: string; alt: string; capacity: string; cta: string; waMsg: string };
 
 const ROOMS: RoomCard[] = [
-  { name: "Quarto Duplo", price: "R$ 400/noite", image: quartoDuplo.url, alt: "Quarto Duplo da Pousada Ilha do Meio" },
-  { name: "Quarto Triplo", price: "R$ 500/noite", image: quartoTriplo.url, alt: "Quarto Triplo da Pousada Ilha do Meio" },
-  { name: "Quarto Quádruplo", price: "R$ 550/noite", image: quartoTriplo.url, alt: "Quarto Quádruplo da Pousada Ilha do Meio" },
+  { name: "Quarto Duplo", capacity: "Ideal para casal · 2 pessoas", price: "R$ 400/noite", image: quartoDuplo.url, alt: "Quarto Duplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Duplo", waMsg: "Olá! Quero reservar o Quarto Duplo (2 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
+  { name: "Quarto Triplo", capacity: "Ideal para pequenos grupos ou família · 3 pessoas", price: "R$ 500/noite", image: quartoTriplo.url, alt: "Quarto Triplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Triplo", waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
+  { name: "Quarto Quádruplo", capacity: "Ideal para família · 4 pessoas", price: "R$ 550/noite", image: quartoTriplo.url, alt: "Quarto Quádruplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Quádruplo", waMsg: "Olá! Quero reservar o Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
 ];
 
 const GALLERY = [
-  { src: recepcaoDia.url, caption: "Recepção" },
-  { src: quiosqueJardim.url, caption: "Área de Convivência" },
-  { src: fachadaNoite.url, caption: "Acomodações" },
-  { src: piscinaNoite.url, caption: "Piscina" },
+  { src: recepcaoDia.url, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
+  { src: quiosqueJardim.url, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
+  { src: fachadaNoite.url, caption: "Acomodações", desc: "Quartos confortáveis, pensados pro seu descanso." },
+  { src: piscinaNoite.url, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
 ];
 
 const LEISURE = [
-  { src: salaoJogos.url, caption: "Salão de Jogos" },
-  { src: restauranteNoite.url, caption: "Restaurante" },
+  { src: salaoJogos.url, caption: "Salão de Jogos", desc: "Espaço para descontrair entre os passeios." },
+  { src: restauranteNoite.url, caption: "Restaurante", desc: "Restaurante para refeições práticas, sem precisar sair da pousada." },
 ];
 
 function HomePage() {
@@ -103,7 +104,7 @@ function HomePage() {
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Reservar pelo WhatsApp
+              Ver disponibilidade no WhatsApp
             </a>
           </div>
 
@@ -112,6 +113,10 @@ function HomePage() {
             <li className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Atendimento direto com a casa</li>
             <li className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> Melhor tarifa garantida</li>
           </ul>
+
+          <p className="mt-5 text-sm text-white/80 italic">
+            Fins de semana têm alta procura — recomendamos reservar com antecedência.
+          </p>
         </div>
       </section>
 
@@ -137,12 +142,13 @@ function HomePage() {
           <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A pousada</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Ambientes pensados pro seu descanso.</h2>
         </div>
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {GALLERY.map((g) => (
             <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-card aspect-video">
               <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-4">
-                <figcaption className="text-white text-sm font-medium tracking-wide">{g.caption}</figcaption>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-4">
+                <figcaption className="text-white text-sm font-semibold tracking-wide">{g.caption}</figcaption>
+                <p className="mt-1 text-xs text-white/85 leading-snug">{g.desc}</p>
               </div>
             </figure>
           ))}
@@ -182,51 +188,23 @@ function HomePage() {
           <p className="mt-8 text-sm text-muted-foreground">
             Destaques recorrentes: <strong className="text-foreground">área verde</strong>,{" "}
             <strong className="text-foreground">localização privilegiada</strong> e{" "}
-            <strong className="text-foreground">café da manhã excelente</strong>, com variedade e qualidade constantes.
+            <strong className="text-foreground">café da manhã</strong>, com variedade e qualidade constantes.
           </p>
-        </div>
-      </section>
-
-      {/* CREDIBILIDADE */}
-      <section className="bg-card border-y border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Credibilidade</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Reconhecida entre os melhores de Itacimirim.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">
-              Avaliações reais de hóspedes que já se hospedaram. Sem comentários comprados, apenas a experiência autêntica de quem viveu o sossego da pousada.
-            </p>
-          </div>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-            <div className="rounded-2xl border border-border/60 bg-background p-6 sm:p-8">
+            <div className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
               <div className="flex items-baseline gap-2">
                 <span className="font-display text-5xl text-primary">9,2</span>
                 <span className="text-sm font-medium text-muted-foreground">— Fantástico</span>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">Booking.com · 204 avaliações reais</div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {["Equipe", "Limpeza", "Conforto", "Área verde", "Localização", "Café da manhã"].map((tag) => (
-                  <span key={tag} className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </div>
-
-            <div className="rounded-2xl border border-border/60 bg-background p-6 sm:p-8">
+            <div className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
               <div className="flex items-baseline gap-2">
                 <span className="font-display text-5xl text-primary">4,6</span>
                 <span className="text-sm font-medium text-muted-foreground">de 5</span>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">Google · 272 avaliações</div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {["Atendimento", "Acolhimento", "Organização", "Custo-benefício", "Ambiente", "Descanso"].map((tag) => (
-                  <span key={tag} className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </div>
           </div>
 
@@ -267,8 +245,9 @@ function HomePage() {
             {LEISURE.map((g) => (
               <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-background aspect-video">
                 <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-5">
-                  <figcaption className="text-white text-base font-medium tracking-wide">{g.caption}</figcaption>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-5">
+                  <figcaption className="text-white text-base font-semibold tracking-wide">{g.caption}</figcaption>
+                  <p className="mt-1 text-sm text-white/85 leading-snug">{g.desc}</p>
                 </div>
               </figure>
             ))}
@@ -290,15 +269,17 @@ function HomePage() {
               </div>
               <div className="flex flex-col gap-3 p-5 flex-1">
                 <h3 className="font-display text-xl">{r.name}</h3>
+                <div className="text-sm text-muted-foreground">{r.capacity}</div>
+                <div className="text-sm font-medium text-foreground">Café da manhã grátis · Wi-Fi grátis</div>
                 <div className="text-primary text-lg font-medium tabular-nums">{r.price}</div>
                 <a
-                  href={WHATSAPP}
+                  href={wa(r.waMsg)}
                   target="_blank"
                   rel="noopener"
                   className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
-                  Reservar pelo WhatsApp
+                  {r.cta}
                 </a>
               </div>
             </article>
@@ -312,7 +293,7 @@ function HomePage() {
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Localização</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Itacimirim, Camaçari — BA.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">Praia da Espera, a poucos minutos de Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
+            <p className="mt-4 text-muted-foreground sm:text-lg">A 2 minutos da praia, entre Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
             <address className="not-italic mt-6 rounded-xl border border-border/60 bg-background p-5 text-sm text-foreground/90 leading-relaxed">
               <div className="font-medium text-foreground">Pousada Ilha do Meio</div>
               <div className="mt-1.5 space-y-0.5">
@@ -337,16 +318,16 @@ function HomePage() {
         </div>
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
-          <p className="mt-4 text-white/85 sm:text-lg">Disponibilidade limitada para os próximos finais de semana. Resposta em minutos.</p>
+          <p className="mt-4 text-white/85 sm:text-lg">Fins de semana costumam esgotar primeiro. Fale com a recepção e garanta sua data.</p>
           <div className="mt-8">
             <a
-              href={WHATSAPP}
+              href={WHATSAPP_CONFIRM}
               target="_blank"
               rel="noopener"
               className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Reservar pelo WhatsApp
+              Confirmar minha reserva agora
             </a>
           </div>
         </div>
