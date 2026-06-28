@@ -52,7 +52,7 @@ export function ImmersiveVideoSection() {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Assistir vídeo da Pousada Ilha do Meio"
-            className="group relative block mx-auto md:mx-0 w-full max-w-[300px] sm:max-w-[340px] overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] focus:outline-none focus:ring-2 focus:ring-primary"
+            className="group relative block mx-auto md:mx-0 w-full max-w-[200px] sm:max-w-[220px] overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <div className="relative aspect-[9/16] w-full bg-black">
               <img
@@ -63,9 +63,9 @@ export function ImmersiveVideoSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/30" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
+                <span className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
                   <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
-                  <Play className="relative h-8 w-8 sm:h-10 sm:w-10 fill-current ml-1" />
+                  <Play className="relative h-5 w-5 sm:h-6 sm:w-6 fill-current ml-0.5" />
                 </span>
               </div>
             </div>
@@ -111,10 +111,10 @@ export function ImmersiveVideoSection() {
             onEnded={() => setOpen(false)}
             style={{
               opacity: revealed ? 1 : 0,
-              transform: revealed ? "scale(1)" : "scale(0.97)",
-              transition: "opacity 700ms ease-out, transform 700ms ease-out",
+              transform: revealed ? "scale(1)" : "scale(1.02)",
+              transition: "opacity 700ms ease-out, transform 900ms ease-out",
             }}
-            className="max-h-[92vh] max-w-[96vw] sm:max-w-[min(480px,96vw)] rounded-xl shadow-2xl bg-black object-contain"
+            className="absolute inset-0 h-full w-full object-cover bg-black"
           />
         </div>
       )}
