@@ -5,32 +5,37 @@ import video from "@/assets/video-paraiso.mp4.asset.json";
 
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      setRevealed(false);
+      return;
+    }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+
+    // Premium cinematic delay before the video reveals
+    const t = window.setTimeout(() => {
+      setRevealed(true);
+      videoRef.current?.play().catch(() => {});
+    }, 450);
+
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      window.clearTimeout(t);
     };
-  }, [open]);
-
-  useEffect(() => {
-    if (open && videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
-    }
   }, [open]);
 
   return (
     <section className="relative bg-background py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-10 max-w-2xl">
+        <div className="mb-12 max-w-2xl">
           <p className="text-[11px] tracking-[0.3em] uppercase text-primary/80 font-medium">
             Experiência em vídeo
           </p>
@@ -42,43 +47,46 @@ export function ImmersiveVideoSection() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Assistir vídeo da Pousada Ilha do Meio"
-          className="group relative block w-full overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full">
-            <img
-              src={poster.url}
-              alt="Pousada Ilha do Meio — prévia em vídeo"
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/55 via-black/20 to-black/45" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
-                <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
-                <Play className="relative h-8 w-8 sm:h-10 sm:w-10 fill-current ml-1" />
-              </span>
+        <div className="grid gap-10 md:grid-cols-[auto,1fr] md:items-center">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="Assistir vídeo da Pousada Ilha do Meio"
+            className="group relative block mx-auto md:mx-0 w-full max-w-[300px] sm:max-w-[340px] overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <div className="relative aspect-[9/16] w-full bg-black">
+              <img
+                src={poster.url}
+                alt="Pousada Ilha do Meio — prévia em vídeo"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/30" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
+                  <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
+                  <Play className="relative h-8 w-8 sm:h-10 sm:w-10 fill-current ml-1" />
+                </span>
+              </div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-              <p className="text-[11px] tracking-[0.3em] uppercase text-white/80 font-medium">
-                Tour cinematográfico
-              </p>
-              <p className="mt-1 font-display text-xl sm:text-2xl text-white max-w-xl">
-                Da recepção ao quiosque à beira da piscina.
-              </p>
-            </div>
+          </button>
+
+          <div className="text-center md:text-left md:pl-4">
+            <p className="font-display text-2xl sm:text-3xl md:text-4xl text-foreground leading-tight tracking-tight">
+              Da recepção à beira da piscina
+            </p>
+            <p className="mt-4 text-sm text-muted-foreground max-w-md mx-auto md:mx-0">
+              Um passeio cinematográfico pelos ambientes da pousada — em menos de um minuto.
+            </p>
           </div>
-        </button>
+        </div>
       </div>
 
       {open && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-300"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-500"
           onClick={() => setOpen(false)}
         >
           <button
@@ -98,10 +106,15 @@ export function ImmersiveVideoSection() {
             poster={poster.url}
             controls
             playsInline
-            preload="metadata"
+            preload="auto"
             onClick={(e) => e.stopPropagation()}
             onEnded={() => setOpen(false)}
-            className="max-h-[92vh] max-w-[96vw] sm:max-w-[min(540px,96vw)] rounded-xl shadow-2xl bg-black"
+            style={{
+              opacity: revealed ? 1 : 0,
+              transform: revealed ? "scale(1)" : "scale(0.97)",
+              transition: "opacity 700ms ease-out, transform 700ms ease-out",
+            }}
+            className="max-h-[92vh] max-w-[96vw] sm:max-w-[min(480px,96vw)] rounded-xl shadow-2xl bg-black object-contain"
           />
         </div>
       )}
