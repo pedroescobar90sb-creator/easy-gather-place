@@ -194,7 +194,34 @@ function HomePage() {
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Ambientes pensados pro seu descanso.</h2>
         </div>
         <div className="mt-10">
-          <GalleryLightbox items={GALLERY} />
+          <GalleryLightbox
+            items={GALLERY}
+            trigger={
+              <button
+                type="button"
+                className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[16/9] sm:aspect-[21/9] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                aria-label="Abrir galeria de ambientes"
+              >
+                <img
+                  src={GALLERY[0].src}
+                  alt="Ambientes da Pousada Ilha do Meio"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 flex items-end justify-between gap-4">
+                  <div className="text-white">
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/80">Galeria</p>
+                    <p className="mt-1 font-display text-xl sm:text-2xl">Explore os ambientes</p>
+                  </div>
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs sm:text-sm font-medium text-foreground shadow-sm transition group-hover:bg-white">
+                    Ver galeria ({GALLERY.length})
+                  </span>
+                </div>
+              </button>
+            }
+          />
         </div>
       </section>
 
