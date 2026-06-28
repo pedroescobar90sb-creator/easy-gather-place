@@ -13,44 +13,28 @@ type Testimonial = {
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    name: "Mariana Souza",
-    location: "São Paulo · SP",
+    name: "Laura Araújo",
+    location: "Google · Férias em família",
     rating: 5,
-    initials: "MS",
+    initials: "LA",
     quote:
-      "Lugar maravilhoso, café da manhã delicioso e funcionários super atenciosos. A localização é perfeita, pertinho da praia e em um ambiente tranquilo. Voltaremos com certeza!",
+      "O ambiente incrivelmente agradável e super acolhedor, igualmente ao atendimento excelente que tivemos. Todos foram muito cuidadosos, deram o maior suporte para nossa família e principalmente para o nosso avô — até prepararam refeições deliciosas e mais apropriadas para ele. A experiência foi incrível.",
   },
   {
-    name: "Rafael Andrade",
-    location: "Belo Horizonte · MG",
+    name: "David Moisés",
+    location: "Google · Férias em família",
     rating: 5,
-    initials: "RA",
+    initials: "DM",
     quote:
-      "Pousada aconchegante, com uma área verde linda e piscina ótima. O atendimento foi simplesmente impecável. Recomendo demais para famílias e casais.",
+      "A estadia com a família foi ótima! A pousada tem um ambiente muito tranquilo e familiar, além de ser charmosa, bonita e bem cuidada. Marcelo e toda a equipe são muito atenciosos! O café da manhã é uma delícia, e o acesso à praia é perto e pode ser feito a pé.",
   },
   {
-    name: "Camila Ferreira",
-    location: "Rio de Janeiro · RJ",
+    name: "Fátima Barbosa",
+    location: "Google · Avaliação recente",
     rating: 5,
-    initials: "CF",
+    initials: "FB",
     quote:
-      "Estrutura excelente e quartos muito confortáveis. O café da manhã tem variedade e qualidade, e o salão de jogos foi um diferencial pras crianças. Vale cada centavo.",
-  },
-  {
-    name: "João Pedro Lima",
-    location: "Salvador · BA",
-    rating: 5,
-    initials: "JL",
-    quote:
-      "Atendimento humano e acolhedor, do check-in ao check-out. Itacimirim é um sossego, e a pousada combina perfeitamente com essa vibe. Pretendo voltar em breve.",
-  },
-  {
-    name: "Beatriz Almeida",
-    location: "Brasília · DF",
-    rating: 5,
-    initials: "BA",
-    quote:
-      "Limpeza impecável, funcionários simpáticos e localização privilegiada. Foi exatamente o descanso que precisávamos. Indicação certa para quem busca paz.",
+      "Ambiente muito agradável, tudo bem conservado. Cama super confortável, banheiro espaçoso e toalhas bem cheirosas. Recomendo demais.",
   },
 ];
 
