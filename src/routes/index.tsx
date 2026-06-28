@@ -119,7 +119,7 @@ function HomePage() {
         <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-px bg-border/40">
           {[
             { n: "2 min", l: "Da praia" },
-            { n: "9.4", l: "Avaliação dos hóspedes" },
+            { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
             <div key={s.l} className="bg-card px-4 py-6 text-center">
