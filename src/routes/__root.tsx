@@ -11,8 +11,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 
-const SafeHeadContent = typeof HeadContent === "function" ? HeadContent : () => null;
-const SafeScripts = typeof Scripts === "function" ? Scripts : () => null;
 const fallbackQueryClient = new QueryClient();
 
 function NotFoundComponent() {
@@ -78,10 +76,10 @@ function RootShell(props?: { children?: ReactNode } | null) {
   const children = props?.children ?? null;
   return (
     <html lang="pt-BR">
-      <head><SafeHeadContent /></head>
+      <head><HeadContent /></head>
       <body>
         {children}
-        <SafeScripts />
+        <Scripts />
       </body>
     </html>
   );
