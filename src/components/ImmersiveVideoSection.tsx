@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 import poster from "@/assets/paraiso-poster.jpg.asset.json";
 import video from "@/assets/video-paraiso.mp4.asset.json";
+import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
+import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
+
 
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
