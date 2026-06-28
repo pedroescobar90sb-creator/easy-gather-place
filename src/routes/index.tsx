@@ -269,15 +269,17 @@ function HomePage() {
               </div>
               <div className="flex flex-col gap-3 p-5 flex-1">
                 <h3 className="font-display text-xl">{r.name}</h3>
+                <div className="text-sm text-muted-foreground">{r.capacity}</div>
+                <div className="text-sm font-medium text-foreground">Café da manhã grátis · Wi-Fi grátis</div>
                 <div className="text-primary text-lg font-medium tabular-nums">{r.price}</div>
                 <a
-                  href={WHATSAPP}
+                  href={wa(r.waMsg)}
                   target="_blank"
                   rel="noopener"
                   className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
-                  Reservar pelo WhatsApp
+                  {r.cta}
                 </a>
               </div>
             </article>
