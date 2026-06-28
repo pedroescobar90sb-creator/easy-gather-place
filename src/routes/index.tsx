@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Star, ShieldCheck, Check, ExternalLink } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check, ExternalLink, Snowflake, Tv, Refrigerator, Camera, Wifi, Coffee } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
