@@ -110,15 +110,11 @@ function HomePage() {
             </a>
           </div>
 
-          <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/85">
-            <li className="inline-flex items-center gap-1.5"><Star className="h-4 w-4 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
-            <li className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Atendimento direto com a casa</li>
-            <li className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> Melhor tarifa garantida</li>
+          <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
+            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
+            <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
+            <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
           </ul>
-
-          <p className="mt-5 text-sm text-white/80 italic">
-            Fins de semana têm alta procura — recomendamos reservar com antecedência.
-          </p>
         </div>
       </section>
 
