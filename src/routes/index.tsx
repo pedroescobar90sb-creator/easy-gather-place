@@ -423,6 +423,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* DEPOIMENTOS */}
+      <Testimonials />
+
       {/* FINAL CTA */}
       <section className="relative">
         <div className="absolute inset-0">
