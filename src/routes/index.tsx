@@ -353,9 +353,6 @@ function HomePage() {
       </section>
 
       {/* FOOTER */}
-      <InformacoesImportantes />
-
-      {/* FOOTER */}
       <SiteFooter />
 
       {/* MOBILE STICKY CTA */}
