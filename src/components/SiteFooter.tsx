@@ -1,62 +1,34 @@
-import { Instagram, MapPin, Phone, Mail } from "lucide-react";
+import { Instagram, MapPin, Phone } from "lucide-react";
+import { useState } from "react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import type { ReactNode } from "react";
 
 const WHATSAPP =
   "https://api.whatsapp.com/send/?phone=557191263096&text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20na%20Pousada%20Ilha%20do%20Meio.";
 const INSTAGRAM = "https://www.instagram.com/pousadailhadomeio/";
 const PHONE_DISPLAY = "+55 (71) 9126-3096";
-const EMAIL = "reservas@pousadailhadomeio.com.br";
 const CNPJ = "49.386.133/0001-37";
-
-function LegalDialog({
-  trigger,
-  title,
-  children,
-}: {
-  trigger: ReactNode;
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-2xl p-0">
-        <DialogHeader className="px-6 pt-6">
-          <DialogTitle className="font-display text-2xl">{title}</DialogTitle>
-        </DialogHeader>
-        <ScrollArea className="max-h-[70vh] px-6 pb-6 pt-2">
-          <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
-            {children}
-          </div>
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function LinkButton({ children }: { children: ReactNode }) {
-  return (
-    <button
-      type="button"
-      className="text-left hover:text-foreground transition-colors"
-    >
-      {children}
-    </button>
-  );
-}
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const [openItem, setOpenItem] = useState<string>("");
+
+  function open(value: string) {
+    setOpenItem(value);
+    setTimeout(() => {
+      document
+        .getElementById("footer-informacoes")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  }
+
   return (
     <footer className="border-t border-border/60 bg-background">
       <div className="mx-auto max-w-6xl px-4 py-12 grid gap-10 md:grid-cols-4 text-sm text-muted-foreground">
@@ -83,18 +55,11 @@ export function SiteFooter() {
             <span>WhatsApp da recepção</span>
           </a>
           <a
-            href={`tel:+557191263096`}
+            href="tel:+557191263096"
             className="flex items-start gap-2 hover:text-foreground transition-colors"
           >
             <Phone className="h-3.5 w-3.5 mt-0.5 shrink-0" />
             <span className="tabular-nums">{PHONE_DISPLAY}</span>
-          </a>
-          <a
-            href={`mailto:${EMAIL}`}
-            className="flex items-start gap-2 hover:text-foreground transition-colors break-all"
-          >
-            <Mail className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-            <span>{EMAIL}</span>
           </a>
           <a
             href={INSTAGRAM}
@@ -130,22 +95,82 @@ export function SiteFooter() {
           <h4 className="text-foreground font-medium text-xs uppercase tracking-[0.18em]">
             Informações
           </h4>
+          <button
+            type="button"
+            onClick={() => open("faq")}
+            className="block text-left hover:text-foreground transition-colors"
+          >
+            Perguntas frequentes
+          </button>
+          <button
+            type="button"
+            onClick={() => open("termos")}
+            className="block text-left hover:text-foreground transition-colors"
+          >
+            Termos de Uso
+          </button>
+          <button
+            type="button"
+            onClick={() => open("privacidade")}
+            className="block text-left hover:text-foreground transition-colors"
+          >
+            Política de Privacidade
+          </button>
+        </div>
+      </div>
 
-          <LegalDialog trigger={<LinkButton>Perguntas frequentes</LinkButton>} title="Perguntas Frequentes">
-            <FAQContent />
-          </LegalDialog>
+      {/* Conteúdo institucional expansível */}
+      <div id="footer-informacoes" className="border-t border-border/50 bg-card/30">
+        <div className="mx-auto max-w-4xl px-4 py-10">
+          <Accordion
+            type="single"
+            collapsible
+            value={openItem}
+            onValueChange={setOpenItem}
+            className="space-y-3"
+          >
+            <AccordionItem
+              value="faq"
+              className="rounded-2xl border border-border/60 bg-background px-5 sm:px-6"
+            >
+              <AccordionTrigger className="py-4 text-left font-display text-base sm:text-lg hover:no-underline">
+                Perguntas Frequentes
+              </AccordionTrigger>
+              <AccordionContent className="pb-6">
+                <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                  <FAQContent />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
 
-          <div>
-            <LegalDialog trigger={<LinkButton>Termos de Uso</LinkButton>} title="Termos de Uso">
-              <TermsContent />
-            </LegalDialog>
-          </div>
+            <AccordionItem
+              value="termos"
+              className="rounded-2xl border border-border/60 bg-background px-5 sm:px-6"
+            >
+              <AccordionTrigger className="py-4 text-left font-display text-base sm:text-lg hover:no-underline">
+                Termos de Uso
+              </AccordionTrigger>
+              <AccordionContent className="pb-6">
+                <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                  <TermsContent />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
 
-          <div>
-            <LegalDialog trigger={<LinkButton>Política de Privacidade</LinkButton>} title="Política de Privacidade">
-              <PrivacyContent />
-            </LegalDialog>
-          </div>
+            <AccordionItem
+              value="privacidade"
+              className="rounded-2xl border border-border/60 bg-background px-5 sm:px-6"
+            >
+              <AccordionTrigger className="py-4 text-left font-display text-base sm:text-lg hover:no-underline">
+                Política de Privacidade
+              </AccordionTrigger>
+              <AccordionContent className="pb-6">
+                <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                  <PrivacyContent />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
 
@@ -237,8 +262,7 @@ function TermsContent() {
       </Section>
       <Section title="5. Atendimento e contato">
         O canal oficial de atendimento é o WhatsApp da recepção, disponível
-        neste site. Dúvidas sobre estes Termos podem ser enviadas por esse
-        canal.
+        neste site.
       </Section>
     </>
   );
@@ -257,9 +281,8 @@ function PrivacyContent() {
         — Bahia, Brasil.
       </Section>
       <Section title="2. Dados que podemos coletar">
-        Informações fornecidas voluntariamente como nome, telefone, e-mail e
-        mensagens enviadas por formulários ou WhatsApp, além de dados técnicos
-        de navegação no site.
+        Informações fornecidas voluntariamente como nome, telefone e mensagens
+        enviadas por WhatsApp, além de dados técnicos de navegação no site.
       </Section>
       <Section title="3. Finalidade do tratamento">
         Responder solicitações, confirmar reservas, prestar atendimento,
