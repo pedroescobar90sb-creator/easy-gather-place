@@ -148,6 +148,44 @@ function HomePage() {
         </div>
       </section>
 
+      {/* AVALIAÇÕES REAIS */}
+      <section id="avaliacoes" className="bg-background">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Avaliações reais</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Nota 9,2 — Fantástico.</h2>
+            <p className="mt-4 text-muted-foreground">
+              <strong className="text-foreground">204 avaliações reais</strong> de hóspedes em plataformas
+              especializadas de viagem. Nossa meta é manter avaliações 100% autênticas, refletindo a experiência
+              de famílias, casais, grupos de amigos e viajantes individuais que já se hospedaram conosco.
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            {[
+              { score: "9,6", label: "Funcionários", desc: "Simpatia, acolhimento e atendimento próximo." },
+              { score: "9,1", label: "Limpeza", desc: "Quartos sempre bem cuidados e funcionais." },
+              { score: "9,0", label: "Conforto", desc: "Acomodações pensadas pro seu descanso." },
+            ].map((s) => (
+              <div key={s.label} className="rounded-2xl border border-border/60 bg-card p-6">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display text-4xl text-primary">{s.score}</span>
+                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                </div>
+                <div className="mt-2 font-medium">{s.label}</div>
+                <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-8 text-sm text-muted-foreground">
+            Destaques recorrentes: <strong className="text-foreground">área verde</strong>,{" "}
+            <strong className="text-foreground">localização privilegiada</strong> e{" "}
+            <strong className="text-foreground">café da manhã excelente</strong>, com variedade e qualidade constantes.
+          </p>
+        </div>
+      </section>
+
       {/* LAZER */}
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
