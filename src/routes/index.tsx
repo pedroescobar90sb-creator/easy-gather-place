@@ -138,7 +138,7 @@ function HomePage() {
         </div>
         <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {GALLERY.map((g) => (
-            <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-card aspect-[4/5]">
+            <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-card aspect-video">
               <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-4">
                 <figcaption className="text-white text-sm font-medium tracking-wide">{g.caption}</figcaption>
@@ -157,7 +157,7 @@ function HomePage() {
           </div>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {LEISURE.map((g) => (
-              <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-background aspect-[4/3]">
+              <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-background aspect-video">
                 <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-5">
                   <figcaption className="text-white text-base font-medium tracking-wide">{g.caption}</figcaption>
@@ -177,7 +177,7 @@ function HomePage() {
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
           {ROOMS.map((r) => (
             <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-lg transition-shadow">
-              <div className="aspect-[4/3] overflow-hidden">
+              <div className="aspect-video overflow-hidden">
                 <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
               </div>
               <div className="flex flex-col gap-3 p-5 flex-1">
