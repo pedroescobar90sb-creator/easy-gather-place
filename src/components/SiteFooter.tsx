@@ -21,9 +21,13 @@ export function SiteFooter() {
   const [openItem, setOpenItem] = useState<string>("");
 
   function open(value: string) {
-    setOpenItem((curr) => (curr === value ? "" : value));
+    setOpenItem(value);
+    setTimeout(() => {
+      document
+        .getElementById("footer-informacoes")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   }
-
 
   return (
     <footer className="border-t border-border/60 bg-background">
