@@ -355,18 +355,6 @@ function HomePage() {
       {/* FOOTER */}
       <SiteFooter />
 
-      {/* MOBILE STICKY CTA */}
-      <div className="md:hidden fixed bottom-3 inset-x-3 z-50">
-        <a
-          href={WHATSAPP}
-          target="_blank"
-          rel="noopener"
-          className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-4 py-3.5 text-sm font-semibold shadow-2xl shadow-black/40"
-        >
-          <WhatsAppIcon className="h-5 w-5" />
-          Reservar pelo WhatsApp
-        </a>
-      </div>
     </div>
   );
 }
