@@ -15,7 +15,7 @@ type Props = {
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
-export function GalleryLightbox({ items, className, gridClassName }: Props) {
+export function GalleryLightbox({ items, className, gridClassName, trigger }: Props) {
   const [openIdx, setOpenIdx] = React.useState<number | null>(null);
   const [entered, setEntered] = React.useState(false);
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
