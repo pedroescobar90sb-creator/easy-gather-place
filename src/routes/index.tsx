@@ -245,8 +245,9 @@ function HomePage() {
             {LEISURE.map((g) => (
               <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-background aspect-video">
                 <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-5">
-                  <figcaption className="text-white text-base font-medium tracking-wide">{g.caption}</figcaption>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-5">
+                  <figcaption className="text-white text-base font-semibold tracking-wide">{g.caption}</figcaption>
+                  <p className="mt-1 text-sm text-white/85 leading-snug">{g.desc}</p>
                 </div>
               </figure>
             ))}
