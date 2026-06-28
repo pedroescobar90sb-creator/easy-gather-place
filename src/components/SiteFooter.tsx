@@ -12,7 +12,7 @@ export function SiteFooter() {
     <footer className="border-t border-border/60 bg-background">
       <div className="mx-auto max-w-6xl px-4 py-10 grid gap-8 md:grid-cols-2 text-sm text-muted-foreground">
         <div className="space-y-3">
-          <Logo className="h-14 w-14" />
+          <Logo className="h-20 w-20" />
           <div className="flex gap-2 text-xs leading-relaxed max-w-xs">
             <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0 text-foreground/60" />
             <div>Itacimirim, Camaçari — BA</div>
