@@ -318,16 +318,16 @@ function HomePage() {
         </div>
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
-          <p className="mt-4 text-white/85 sm:text-lg">Disponibilidade limitada para os próximos finais de semana. Resposta em minutos.</p>
+          <p className="mt-4 text-white/85 sm:text-lg">Fins de semana costumam esgotar primeiro. Fale com a recepção e garanta sua data.</p>
           <div className="mt-8">
             <a
-              href={WHATSAPP}
+              href={WHATSAPP_CONFIRM}
               target="_blank"
               rel="noopener"
               className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Reservar pelo WhatsApp
+              Confirmar minha reserva agora
             </a>
           </div>
         </div>
