@@ -107,7 +107,7 @@ function HomePage() {
           </div>
 
           <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/85">
-            <li className="inline-flex items-center gap-1.5"><Star className="h-4 w-4 fill-yellow-400 text-yellow-400" /> 9.4 no Booking</li>
+            <li className="inline-flex items-center gap-1.5"><Star className="h-4 w-4 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
             <li className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Atendimento direto com a casa</li>
             <li className="inline-flex items-center gap-1.5"><Check className="h-4 w-4" /> Melhor tarifa garantida</li>
           </ul>
