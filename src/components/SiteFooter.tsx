@@ -62,9 +62,6 @@ export function SiteFooter() {
         {/* Marca */}
         <div className="space-y-3 md:col-span-1">
           <Logo className="h-16 w-16" />
-          <p className="text-xs leading-relaxed max-w-xs">
-            Pousada autoral em Itacimirim, entre Guarajuba e Praia do Forte.
-          </p>
         </div>
 
         {/* Contato */}

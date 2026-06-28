@@ -20,6 +20,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const SafeHeadContent = typeof HeadContent === "function" ? HeadContent : () => null;
 const SafeScripts = typeof Scripts === "function" ? Scripts : () => null;
+const fallbackQueryClient = new QueryClient();
 
 function NotFoundComponent() {
   return (
@@ -96,8 +97,7 @@ function RootShell(props?: { children?: ReactNode } | null) {
 
 function RootComponent() {
   const ctx = Route.useRouteContext() as { queryClient?: QueryClient } | undefined;
-  const [fallbackClient] = useState(() => new QueryClient());
-  const queryClient = ctx?.queryClient ?? fallbackClient;
+  const queryClient = ctx?.queryClient ?? fallbackQueryClient;
   return (
     <QueryClientProvider client={queryClient}>
       <Shell />
