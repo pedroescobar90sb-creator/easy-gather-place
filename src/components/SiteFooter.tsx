@@ -17,15 +17,19 @@ const INSTAGRAM = "https://www.instagram.com/pousadailhadomeio/";
 const PHONE_DISPLAY = "+55 (71) 9126-3096";
 const CNPJ = "49.386.133/0001-37";
 
-function LegalDialog({
-  trigger,
-  title,
-  children,
-}: {
+type LegalDialogProps = {
   trigger: ReactNode;
   title: string;
   children: ReactNode;
-}) {
+};
+
+function LegalDialog(props: LegalDialogProps | null) {
+  const trigger = props?.trigger ?? null;
+  const title = props?.title ?? "Informações";
+  const children = props?.children ?? null;
+
+  if (!trigger) return null;
+
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -43,7 +47,9 @@ function LegalDialog({
   );
 }
 
-function LinkButton({ children }: { children: ReactNode }) {
+function LinkButton(props: { children?: ReactNode } | null) {
+  const children = props?.children ?? null;
+
   return (
     <button
       type="button"
