@@ -7,7 +7,7 @@ import { GalleryLightbox } from "@/components/GalleryLightbox";
 
 
 import heroPousada from "@/assets/pousada-0.jpg.asset.json";
-import piscinaLagoa from "@/assets/piscina-lagoa.jpg.asset.json";
+
 import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
