@@ -243,7 +243,7 @@ function HomePage() {
                     <p className="mt-1 font-display text-xl sm:text-2xl">Explore os ambientes</p>
                   </div>
                   <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs sm:text-sm font-medium text-foreground shadow-sm transition group-hover:bg-white">
-                    Ver galeria ({GALLERY.length})
+                    Acesse os ambientes
                   </span>
                 </div>
               </button>
