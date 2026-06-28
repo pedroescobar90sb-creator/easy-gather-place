@@ -93,7 +93,9 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
+  const ctx = Route.useRouteContext() as { queryClient?: QueryClient } | undefined;
+  const [fallbackClient] = useState(() => new QueryClient());
+  const queryClient = ctx?.queryClient ?? fallbackClient;
   return (
     <QueryClientProvider client={queryClient}>
       <Shell />
