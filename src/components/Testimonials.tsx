@@ -2,13 +2,18 @@ import * as React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
+import avatarLaura from "@/assets/avatar-laura.png.asset.json";
+import avatarCintia from "@/assets/avatar-cintia.png.asset.json";
+import avatarFatima from "@/assets/avatar-fatima.png.asset.json";
+import avatarDavid from "@/assets/avatar-david.png.asset.json";
+import avatarJuliana from "@/assets/avatar-juliana.png.asset.json";
 
 type Testimonial = {
   name: string;
   location: string;
   rating: number;
   quote: string;
-  initials: string;
+  photo: string;
 };
 
 const TESTIMONIALS: Testimonial[] = [
@@ -16,29 +21,43 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Laura Araújo",
     location: "Google · Férias em família",
     rating: 5,
-    initials: "LA",
+    photo: avatarLaura.url,
     quote:
       "O ambiente incrivelmente agradável e super acolhedor, igualmente ao atendimento excelente que tivemos. Todos foram muito cuidadosos, deram o maior suporte para nossa família e principalmente para o nosso avô — até prepararam refeições deliciosas e mais apropriadas para ele. A experiência foi incrível.",
+  },
+  {
+    name: "Juliana Amaro",
+    location: "Google · Família",
+    rating: 5,
+    photo: avatarJuliana.url,
+    quote:
+      "A pousada é muito linda, com área verde, uma vista incrível e uma piscina maravilhosa. Quartos amplos tanto para casal como para família com filhos, e o café maravilhoso que não perde para nenhum resort. As funcionárias são carismáticas, cuidadosas e atenciosas demais. Ambiente familiar e acolhedor — pretendo me hospedar mais vezes.",
   },
   {
     name: "David Moisés",
     location: "Google · Férias em família",
     rating: 5,
-    initials: "DM",
+    photo: avatarDavid.url,
     quote:
       "A estadia com a família foi ótima! A pousada tem um ambiente muito tranquilo e familiar, além de ser charmosa, bonita e bem cuidada. Marcelo e toda a equipe são muito atenciosos! O café da manhã é uma delícia, e o acesso à praia é perto e pode ser feito a pé.",
+  },
+  {
+    name: "Cintia Oliveira",
+    location: "Google · Férias em família",
+    rating: 5,
+    photo: avatarCintia.url,
+    quote:
+      "Ambiente tranquilo, ideal para descansar com a família. Quartos, serviço e localização nota máxima — voltaríamos com certeza.",
   },
   {
     name: "Fátima Barbosa",
     location: "Google · Avaliação recente",
     rating: 5,
-    initials: "FB",
+    photo: avatarFatima.url,
     quote:
       "Ambiente muito agradável, tudo bem conservado. Cama super confortável, banheiro espaçoso e toalhas bem cheirosas. Recomendo demais.",
   },
 ];
-
-const AVATAR_BG = ["bg-primary/10", "bg-amber-100", "bg-emerald-100", "bg-rose-100", "bg-sky-100"];
 
 export function Testimonials() {
   const [emblaRef, embla] = useEmblaCarousel({ loop: true, align: "center", containScroll: "trimSnaps" });
@@ -71,20 +90,17 @@ export function Testimonials() {
         <div className="relative mt-12">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {TESTIMONIALS.map((t, i) => (
+              {TESTIMONIALS.map((t) => (
                 <div key={t.name} className="min-w-0 shrink-0 grow-0 basis-full px-2 sm:px-6">
                   <article className="relative mx-auto max-w-2xl rounded-3xl border border-border/60 bg-background p-7 sm:p-10 shadow-sm">
                     <Quote className="absolute top-6 right-6 h-8 w-8 text-primary/15" aria-hidden />
                     <div className="flex items-center gap-4">
-                      <div
-                        className={cn(
-                          "flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-base font-semibold text-foreground/80",
-                          AVATAR_BG[i % AVATAR_BG.length],
-                        )}
-                        aria-hidden
-                      >
-                        {t.initials}
-                      </div>
+                      <img
+                        src={t.photo}
+                        alt={`Foto de ${t.name}`}
+                        loading="lazy"
+                        className="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-border/60"
+                      />
                       <div className="min-w-0">
                         <div className="font-medium leading-tight">{t.name}</div>
                         <div className="text-sm text-muted-foreground">{t.location}</div>
