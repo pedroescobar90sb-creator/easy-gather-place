@@ -20,8 +20,12 @@ export function ImmersiveVideoSection() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
+    const onPop = () => setOpen(false);
     document.addEventListener("keydown", onKey);
+    window.addEventListener("popstate", onPop);
     document.body.style.overflow = "hidden";
+    // Push a history entry so the browser back button closes the video
+    window.history.pushState({ videoOpen: true }, "");
 
     // Premium cinematic delay before the video reveals
     const t = window.setTimeout(() => {
@@ -31,8 +35,13 @@ export function ImmersiveVideoSection() {
 
     return () => {
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("popstate", onPop);
       document.body.style.overflow = "";
       window.clearTimeout(t);
+      // Clean up the synthetic history entry if still present
+      if (window.history.state?.videoOpen) window.history.back();
+    };
+
     };
   }, [open]);
 
