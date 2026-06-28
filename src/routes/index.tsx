@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Star, ShieldCheck, Check, ExternalLink } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check, ExternalLink, Snowflake, Tv, Refrigerator, Camera, Wifi, Coffee } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -7,16 +7,19 @@ import { GalleryLightbox } from "@/components/GalleryLightbox";
 
 
 import heroPousada from "@/assets/pousada-0.jpg.asset.json";
-import piscinaLagoa from "@/assets/piscina-lagoa.jpg.asset.json";
+
 import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
 import salaoJogosUrl from "@/assets/salao-jogos-v2.jpg";
 const salaoJogos = { url: salaoJogosUrl };
-import restauranteNoite from "@/assets/restaurante-noite.jpg.asset.json";
+
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
+import quartoDuploAlt from "@/assets/quarto-duplo.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
+import quartoTriploAlt from "@/assets/quarto-triplo.jpg.asset.json";
+import quartoQuadruplo from "@/assets/quarto-quadruplo.jpg.asset.json";
 
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
@@ -38,12 +41,66 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-type RoomCard = { name: string; price: string; image: string; alt: string; capacity: string; cta: string; waMsg: string };
+type RoomPhoto = { src: string; caption: string; desc: string };
+type RoomCard = {
+  name: string;
+  price: string;
+  image: string;
+  alt: string;
+  capacity: string;
+  cta: string;
+  waMsg: string;
+  photos: RoomPhoto[];
+};
 
 const ROOMS: RoomCard[] = [
-  { name: "Quarto Duplo", capacity: "Ideal para casal · 2 pessoas", price: "R$ 400/noite", image: quartoDuplo.url, alt: "Quarto Duplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Duplo", waMsg: "Olá! Quero reservar o Quarto Duplo (2 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
-  { name: "Quarto Triplo", capacity: "Ideal para pequenos grupos ou família · 3 pessoas", price: "R$ 500/noite", image: quartoTriplo.url, alt: "Quarto Triplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Triplo", waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
-  { name: "Quarto Quádruplo", capacity: "Ideal para família · 4 pessoas", price: "R$ 550/noite", image: quartoTriplo.url, alt: "Quarto Quádruplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Quádruplo", waMsg: "Olá! Quero reservar o Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
+  {
+    name: "Quarto Duplo",
+    capacity: "Ideal para casal · 2 pessoas",
+    price: "R$ 400/noite",
+    image: quartoDuplo.url,
+    alt: "Quarto Duplo da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Duplo",
+    waMsg: "Olá! Quero reservar o Quarto Duplo (2 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    photos: [
+      { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
+      { src: quartoDuploAlt.url, caption: "Quarto Duplo · Detalhe", desc: "Iluminação suave e acabamento aconchegante." },
+    ],
+  },
+  {
+    name: "Quarto Triplo",
+    capacity: "Ideal para pequenos grupos ou família · 3 pessoas",
+    price: "R$ 500/noite",
+    image: quartoTriplo.url,
+    alt: "Quarto Triplo da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Triplo",
+    waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    photos: [
+      { src: quartoTriplo.url, caption: "Quarto Triplo · Vista geral", desc: "Espaço para três, sem abrir mão do conforto." },
+      { src: quartoTriploAlt.url, caption: "Quarto Triplo · Detalhe", desc: "Camas bem dispostas e ambiente arejado." },
+    ],
+  },
+  {
+    name: "Quarto Quádruplo",
+    capacity: "Ideal para família · 4 pessoas",
+    price: "R$ 550/noite",
+    image: quartoQuadruplo.url,
+    alt: "Quarto Quádruplo da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Quádruplo",
+    waMsg: "Olá! Quero reservar o Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    photos: [
+      { src: quartoQuadruplo.url, caption: "Quarto Quádruplo · Vista geral", desc: "Pensado para a família toda descansar junto." },
+      { src: quartoTriplo.url, caption: "Quarto Quádruplo · Detalhe", desc: "Boa circulação e camas confortáveis." },
+    ],
+  },
+];
+
+const ROOM_AMENITIES = [
+  { icon: Snowflake, label: "Ar-condicionado" },
+  { icon: Tv, label: "TV" },
+  { icon: Refrigerator, label: "Frigobar" },
+  { icon: Coffee, label: "Café da manhã" },
+  { icon: Wifi, label: "Wi-Fi grátis" },
 ];
 
 const GALLERY = [
@@ -53,10 +110,6 @@ const GALLERY = [
   { src: piscinaNoite.url, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
 ];
 
-const LEISURE = [
-  { src: salaoJogos.url, caption: "Salão de Jogos", desc: "Espaço para descontrair entre os passeios." },
-  { src: restauranteNoite.url, caption: "Restaurante", desc: "Restaurante para refeições práticas, sem precisar sair da pousada." },
-];
 
 function HomePage() {
   return (
@@ -224,23 +277,33 @@ function HomePage() {
         </div>
       </section>
 
-      {/* LAZER */}
+      {/* LAZER — SALÃO DE JOGOS */}
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Lazer</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Para quem busca conforto e diversão.</h2>
           </div>
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {LEISURE.map((g) => (
-              <figure key={g.caption} className="group relative overflow-hidden rounded-2xl bg-background aspect-video">
-                <img src={g.src} alt={g.caption} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-5">
-                  <figcaption className="text-white text-base font-semibold tracking-wide">{g.caption}</figcaption>
-                  <p className="mt-1 text-sm text-white/85 leading-snug">{g.desc}</p>
-                </div>
-              </figure>
-            ))}
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
+            <figure className="md:col-span-3 group relative overflow-hidden rounded-2xl bg-background aspect-video">
+              <img src={salaoJogos.url} alt="Salão de Jogos da Pousada Ilha do Meio" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-5">
+                <figcaption className="text-white text-base font-semibold tracking-wide">Salão de Jogos</figcaption>
+              </div>
+            </figure>
+            <div className="md:col-span-2">
+              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">Experiência</p>
+              <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Diversão sem sair da pousada.</h3>
+              <p className="mt-3 text-muted-foreground leading-relaxed">
+                O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos — espaço pensado para quem quer relaxar entre um passeio e outro, com clima leve e descontraído.
+              </p>
+              <ul className="mt-5 space-y-2 text-sm text-foreground/90">
+                <li className="inline-flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Ambiente reservado para hóspedes</li>
+                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Ideal para finais de tarde e noites</li>
+                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Próximo à área de convivência</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -250,18 +313,49 @@ function HomePage() {
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Escolha seu quarto ideal.</h2>
+          <p className="mt-3 text-muted-foreground">Todos os quartos com ar-condicionado, TV, frigobar, café da manhã e Wi-Fi inclusos.</p>
         </div>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
           {ROOMS.map((r) => (
             <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-lg transition-shadow">
-              <div className="aspect-video overflow-hidden">
+              <div className="relative aspect-video overflow-hidden">
                 <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                <GalleryLightbox
+                  items={r.photos}
+                  trigger={
+                    <button
+                      type="button"
+                      aria-label={`Ver fotos do ${r.name}`}
+                      className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    >
+                      <Camera className="h-3.5 w-3.5" />
+                      Ver fotos do quarto
+                    </button>
+                  }
+                />
               </div>
-              <div className="flex flex-col gap-3 p-5 flex-1">
-                <h3 className="font-display text-xl">{r.name}</h3>
-                <div className="text-sm text-muted-foreground">{r.capacity}</div>
-                <div className="text-sm font-medium text-foreground">Café da manhã grátis · Wi-Fi grátis</div>
+              <div className="flex flex-col gap-4 p-5 flex-1">
+                <div>
+                  <h3 className="font-display text-xl">{r.name}</h3>
+                  <div className="mt-1 text-sm text-muted-foreground">{r.capacity}</div>
+                </div>
+
+                <ul className="grid grid-cols-3 gap-2 text-[11px] text-muted-foreground">
+                  {ROOM_AMENITIES.slice(0, 3).map(({ icon: Icon, label }) => (
+                    <li key={label} className="flex flex-col items-center justify-center gap-1.5 rounded-lg border border-border/60 bg-background/50 py-2.5">
+                      <Icon className="h-4 w-4 text-primary" />
+                      <span className="text-center leading-tight">{label}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="text-xs text-muted-foreground flex items-center gap-3">
+                  <span className="inline-flex items-center gap-1"><Coffee className="h-3.5 w-3.5" /> Café da manhã</span>
+                  <span className="inline-flex items-center gap-1"><Wifi className="h-3.5 w-3.5" /> Wi-Fi grátis</span>
+                </div>
+
                 <div className="text-primary text-lg font-medium tabular-nums">{r.price}</div>
+
                 <a
                   href={wa(r.waMsg)}
                   target="_blank"
@@ -275,6 +369,7 @@ function HomePage() {
             </article>
           ))}
         </div>
+
       </section>
 
       {/* LOCALIZAÇÃO */}
