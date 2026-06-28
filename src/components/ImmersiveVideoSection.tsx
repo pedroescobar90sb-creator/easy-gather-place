@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Play, X } from "lucide-react";
+import { Play, ChevronLeft } from "lucide-react";
+
 import poster from "@/assets/paraiso-poster.jpg.asset.json";
 import video from "@/assets/video-paraiso.mp4.asset.json";
 import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
@@ -19,8 +20,12 @@ export function ImmersiveVideoSection() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
+    const onPop = () => setOpen(false);
     document.addEventListener("keydown", onKey);
+    window.addEventListener("popstate", onPop);
     document.body.style.overflow = "hidden";
+    // Push a history entry so the browser back button closes the video
+    window.history.pushState({ videoOpen: true }, "");
 
     // Premium cinematic delay before the video reveals
     const t = window.setTimeout(() => {
@@ -30,10 +35,14 @@ export function ImmersiveVideoSection() {
 
     return () => {
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("popstate", onPop);
       document.body.style.overflow = "";
       window.clearTimeout(t);
+      // Clean up the synthetic history entry if still present
+      if (window.history.state?.videoOpen) window.history.back();
     };
   }, [open]);
+
 
   return (
     <section className="relative isolate overflow-hidden py-20 sm:py-28">
@@ -115,11 +124,13 @@ export function ImmersiveVideoSection() {
               e.stopPropagation();
               setOpen(false);
             }}
-            aria-label="Fechar vídeo"
-            className="absolute top-5 right-5 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            aria-label="Voltar e fechar vídeo"
+            className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-md ring-1 ring-white/25 hover:bg-white/20 hover:ring-white/40 transition-all shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
-            <X className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4" />
+            Voltar
           </button>
+
           <video
             ref={videoRef}
             src={video.url}
