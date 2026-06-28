@@ -115,22 +115,12 @@ export function ImmersiveVideoSection() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-500"
-          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-[9999] bg-black animate-in fade-in duration-300"
+          onClick={() => {
+            videoRef.current?.pause();
+            setOpen(false);
+          }}
         >
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpen(false);
-            }}
-            aria-label="Voltar e fechar vídeo"
-            className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-md ring-1 ring-white/25 hover:bg-white/20 hover:ring-white/40 transition-all shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Voltar
-          </button>
-
           <video
             ref={videoRef}
             src={video.url}
@@ -145,8 +135,38 @@ export function ImmersiveVideoSection() {
               transform: revealed ? "scale(1)" : "scale(1.02)",
               transition: "opacity 700ms ease-out, transform 900ms ease-out",
             }}
-            className="absolute inset-0 h-full w-full object-cover bg-black"
+            className="absolute inset-0 h-full w-full object-contain bg-black"
           />
+
+          {/* Voltar (esquerda) */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              videoRef.current?.pause();
+              setOpen(false);
+            }}
+            aria-label="Voltar"
+            className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-md ring-1 ring-white/30 hover:bg-black/80 transition shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Voltar
+          </button>
+
+          {/* Fechar (direita) — claro e visível */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              videoRef.current?.pause();
+              setOpen(false);
+            }}
+            aria-label="Fechar vídeo"
+            className="absolute top-5 right-5 z-10 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-sm font-semibold text-black hover:bg-white transition shadow-xl ring-1 ring-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <X className="h-4 w-4" />
+            Fechar
+          </button>
         </div>
       )}
     </section>
