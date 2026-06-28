@@ -336,7 +336,7 @@ function HomePage() {
           <div className="absolute inset-0 bg-black/75" />
         </div>
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
-          <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua estadia.</h2>
+          <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
           <p className="mt-4 text-white/85 sm:text-lg">Disponibilidade limitada para os próximos finais de semana. Resposta em minutos.</p>
           <div className="mt-8">
             <a
