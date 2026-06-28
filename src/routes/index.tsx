@@ -196,19 +196,19 @@ function HomePage() {
           loading="lazy"
           className="absolute inset-0 -z-10 h-full w-full object-cover object-center hidden sm:block"
         />
-        {/* Legibility overlays — stronger on mobile, lighter on desktop */}
-        <div aria-hidden className="absolute inset-0 -z-10 bg-card/85 sm:bg-card/70" />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-card/40 via-transparent to-card/40 hidden sm:block" />
+        {/* Legibility overlays — leves para preservar a nitidez do mar */}
+        <div aria-hidden className="absolute inset-0 -z-10 bg-card/25 sm:bg-card/15" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-card/30 via-transparent to-card/30 hidden sm:block" />
 
-        <div className="relative mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-px bg-border/20">
+        <div className="relative mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-px">
           {[
             { n: "2 min", l: "Da praia" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
-            <div key={s.l} className="px-4 py-8 sm:py-10 text-center backdrop-blur-[2px]">
-              <div className="font-display text-3xl sm:text-4xl text-primary drop-shadow-sm">{s.n}</div>
-              <div className="text-xs sm:text-sm text-foreground/80 mt-1.5">{s.l}</div>
+            <div key={s.l} className="px-4 py-8 sm:py-10 text-center">
+              <div className="font-display text-3xl sm:text-4xl text-primary drop-shadow-[0_2px_8px_rgba(255,255,255,0.6)]">{s.n}</div>
+              <div className="text-xs sm:text-sm text-foreground font-medium mt-1.5 drop-shadow-[0_1px_4px_rgba(255,255,255,0.7)]">{s.l}</div>
             </div>
           ))}
         </div>
