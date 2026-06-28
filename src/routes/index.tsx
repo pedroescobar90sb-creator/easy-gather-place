@@ -293,7 +293,7 @@ function HomePage() {
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Localização</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Itacimirim, Camaçari — BA.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">Praia da Espera, a poucos minutos de Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
+            <p className="mt-4 text-muted-foreground sm:text-lg">A 2 minutos da praia, entre Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
             <address className="not-italic mt-6 rounded-xl border border-border/60 bg-background p-5 text-sm text-foreground/90 leading-relaxed">
               <div className="font-medium text-foreground">Pousada Ilha do Meio</div>
               <div className="mt-1.5 space-y-0.5">
