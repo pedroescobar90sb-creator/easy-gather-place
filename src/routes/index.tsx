@@ -394,7 +394,7 @@ function HomePage() {
                   <div className="mt-1 text-sm text-muted-foreground">{r.capacity}</div>
                 </div>
 
-                <ul className="grid grid-cols-3 gap-2 text-[11px] text-muted-foreground">
+                <ul className="grid grid-cols-3 gap-2 text-[13px] text-muted-foreground">
                   {ROOM_AMENITIES.slice(0, 3).map(({ icon: Icon, label }) => (
                     <li key={label} className="flex flex-col items-center justify-center gap-1.5 rounded-lg border border-border/60 bg-background/50 py-2.5">
                       <Icon className="h-4 w-4 text-primary" />
