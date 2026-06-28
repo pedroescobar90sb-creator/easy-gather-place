@@ -117,9 +117,6 @@ function HomePage() {
           </ul>
         </div>
       </section>
-          </p>
-        </div>
-      </section>
 
       {/* TRUST BAR */}
       <section className="border-y border-border/60 bg-card">
