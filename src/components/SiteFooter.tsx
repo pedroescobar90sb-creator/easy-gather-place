@@ -89,13 +89,6 @@ export function SiteFooter() {
             <span className="tabular-nums">{PHONE_DISPLAY}</span>
           </a>
           <a
-            href={`mailto:${EMAIL}`}
-            className="flex items-start gap-2 hover:text-foreground transition-colors break-all"
-          >
-            <Mail className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-            <span>{EMAIL}</span>
-          </a>
-          <a
             href={INSTAGRAM}
             target="_blank"
             rel="noopener noreferrer"
