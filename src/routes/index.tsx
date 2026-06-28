@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Star, ShieldCheck, Check, ExternalLink, Snowflake, Tv, Refrigerator, Camera, Wifi, Coffee } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check, ExternalLink, Snowflake, Tv, Refrigerator, Camera, Wifi, Coffee, Gamepad2, Users, Sunset, Sofa } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -352,10 +352,31 @@ function HomePage() {
               <p className="mt-3 text-muted-foreground leading-relaxed">
                 O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos — espaço pensado para quem quer relaxar entre um passeio e outro, com clima leve e descontraído.
               </p>
-              <ul className="mt-5 space-y-2 text-sm text-foreground/90">
-                <li className="inline-flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Ambiente reservado para hóspedes</li>
-                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Ideal para finais de tarde e noites</li>
-                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Próximo à área de convivência</li>
+              <ul className="mt-5 space-y-3 text-sm text-foreground/90">
+                <li className="flex items-start gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                    <Gamepad2 className="h-4.5 w-4.5" strokeWidth={1.8} />
+                  </span>
+                  <span className="pt-1.5">Sinuca, pebolim e jogos de mesa</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                    <Users className="h-4.5 w-4.5" strokeWidth={1.8} />
+                  </span>
+                  <span className="pt-1.5">Ambiente reservado para hóspedes</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                    <Sunset className="h-4.5 w-4.5" strokeWidth={1.8} />
+                  </span>
+                  <span className="pt-1.5">Ideal para finais de tarde e noites</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                    <Sofa className="h-4.5 w-4.5" strokeWidth={1.8} />
+                  </span>
+                  <span className="pt-1.5">Próximo à área de convivência</span>
+                </li>
               </ul>
             </div>
           </div>
