@@ -156,9 +156,10 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                   opacity: entered ? 1 : 0,
                   transform: entered
                     ? "translateX(0) scale(1)"
-                    : `translateX(${slideDir * 40}px) scale(1.015)`,
-                  transition: `opacity 520ms ${EASE} 80ms, transform 720ms ${EASE} 80ms`,
+                    : `translateX(${slideDir * 56}px) scale(1.02)`,
+                  transition: `opacity 560ms ${EASE} 100ms, transform 780ms ${EASE} 100ms`,
                   willChange: "opacity, transform",
+                  filter: entered ? "blur(0px)" : "blur(4px)",
                 }}
               >
                 <img
