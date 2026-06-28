@@ -10,33 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermosRouteImport } from './routes/termos'
-import { Route as ReservasRouteImport } from './routes/reservas'
 import { Route as ReservarRouteImport } from './routes/reservar'
-import { Route as QuartosRouteImport } from './routes/quartos'
-import { Route as PromocoesRouteImport } from './routes/promocoes'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
-import { Route as IntegracoesRouteImport } from './routes/integracoes'
-import { Route as HospedesRouteImport } from './routes/hospedes'
-import { Route as FinanceiroRouteImport } from './routes/financeiro'
 import { Route as FaqRouteImport } from './routes/faq'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
-import { Route as CalendarioRouteImport } from './routes/calendario'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuditoriaRouteImport } from './routes/auditoria'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ReservasIndexRouteImport } from './routes/reservas.index'
-import { Route as ReservasNovaRouteImport } from './routes/reservas.nova'
-import { Route as ReservasIdRouteImport } from './routes/reservas.$id'
 
 const TermosRoute = TermosRouteImport.update({
   id: '/termos',
   path: '/termos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReservasRoute = ReservasRouteImport.update({
-  id: '/reservas',
-  path: '/reservas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReservarRoute = ReservarRouteImport.update({
@@ -44,34 +25,9 @@ const ReservarRoute = ReservarRouteImport.update({
   path: '/reservar',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QuartosRoute = QuartosRouteImport.update({
-  id: '/quartos',
-  path: '/quartos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PromocoesRoute = PromocoesRouteImport.update({
-  id: '/promocoes',
-  path: '/promocoes',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IntegracoesRoute = IntegracoesRouteImport.update({
-  id: '/integracoes',
-  path: '/integracoes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HospedesRoute = HospedesRouteImport.update({
-  id: '/hospedes',
-  path: '/hospedes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FinanceiroRoute = FinanceiroRouteImport.update({
-  id: '/financeiro',
-  path: '/financeiro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -79,196 +35,47 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
-  id: '/configuracoes',
-  path: '/configuracoes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalendarioRoute = CalendarioRouteImport.update({
-  id: '/calendario',
-  path: '/calendario',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuditoriaRoute = AuditoriaRouteImport.update({
-  id: '/auditoria',
-  path: '/auditoria',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReservasIndexRoute = ReservasIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ReservasRoute,
-} as any)
-const ReservasNovaRoute = ReservasNovaRouteImport.update({
-  id: '/nova',
-  path: '/nova',
-  getParentRoute: () => ReservasRoute,
-} as any)
-const ReservasIdRoute = ReservasIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => ReservasRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auditoria': typeof AuditoriaRoute
-  '/auth': typeof AuthRoute
-  '/calendario': typeof CalendarioRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
-  '/financeiro': typeof FinanceiroRoute
-  '/hospedes': typeof HospedesRoute
-  '/integracoes': typeof IntegracoesRoute
   '/privacidade': typeof PrivacidadeRoute
-  '/promocoes': typeof PromocoesRoute
-  '/quartos': typeof QuartosRoute
   '/reservar': typeof ReservarRoute
-  '/reservas': typeof ReservasRouteWithChildren
   '/termos': typeof TermosRoute
-  '/reservas/$id': typeof ReservasIdRoute
-  '/reservas/nova': typeof ReservasNovaRoute
-  '/reservas/': typeof ReservasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auditoria': typeof AuditoriaRoute
-  '/auth': typeof AuthRoute
-  '/calendario': typeof CalendarioRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
-  '/financeiro': typeof FinanceiroRoute
-  '/hospedes': typeof HospedesRoute
-  '/integracoes': typeof IntegracoesRoute
   '/privacidade': typeof PrivacidadeRoute
-  '/promocoes': typeof PromocoesRoute
-  '/quartos': typeof QuartosRoute
   '/reservar': typeof ReservarRoute
   '/termos': typeof TermosRoute
-  '/reservas/$id': typeof ReservasIdRoute
-  '/reservas/nova': typeof ReservasNovaRoute
-  '/reservas': typeof ReservasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/auditoria': typeof AuditoriaRoute
-  '/auth': typeof AuthRoute
-  '/calendario': typeof CalendarioRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
-  '/financeiro': typeof FinanceiroRoute
-  '/hospedes': typeof HospedesRoute
-  '/integracoes': typeof IntegracoesRoute
   '/privacidade': typeof PrivacidadeRoute
-  '/promocoes': typeof PromocoesRoute
-  '/quartos': typeof QuartosRoute
   '/reservar': typeof ReservarRoute
-  '/reservas': typeof ReservasRouteWithChildren
   '/termos': typeof TermosRoute
-  '/reservas/$id': typeof ReservasIdRoute
-  '/reservas/nova': typeof ReservasNovaRoute
-  '/reservas/': typeof ReservasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/auditoria'
-    | '/auth'
-    | '/calendario'
-    | '/configuracoes'
-    | '/dashboard'
-    | '/faq'
-    | '/financeiro'
-    | '/hospedes'
-    | '/integracoes'
-    | '/privacidade'
-    | '/promocoes'
-    | '/quartos'
-    | '/reservar'
-    | '/reservas'
-    | '/termos'
-    | '/reservas/$id'
-    | '/reservas/nova'
-    | '/reservas/'
+  fullPaths: '/' | '/faq' | '/privacidade' | '/reservar' | '/termos'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/auditoria'
-    | '/auth'
-    | '/calendario'
-    | '/configuracoes'
-    | '/dashboard'
-    | '/faq'
-    | '/financeiro'
-    | '/hospedes'
-    | '/integracoes'
-    | '/privacidade'
-    | '/promocoes'
-    | '/quartos'
-    | '/reservar'
-    | '/termos'
-    | '/reservas/$id'
-    | '/reservas/nova'
-    | '/reservas'
-  id:
-    | '__root__'
-    | '/'
-    | '/auditoria'
-    | '/auth'
-    | '/calendario'
-    | '/configuracoes'
-    | '/dashboard'
-    | '/faq'
-    | '/financeiro'
-    | '/hospedes'
-    | '/integracoes'
-    | '/privacidade'
-    | '/promocoes'
-    | '/quartos'
-    | '/reservar'
-    | '/reservas'
-    | '/termos'
-    | '/reservas/$id'
-    | '/reservas/nova'
-    | '/reservas/'
+  to: '/' | '/faq' | '/privacidade' | '/reservar' | '/termos'
+  id: '__root__' | '/' | '/faq' | '/privacidade' | '/reservar' | '/termos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuditoriaRoute: typeof AuditoriaRoute
-  AuthRoute: typeof AuthRoute
-  CalendarioRoute: typeof CalendarioRoute
-  ConfiguracoesRoute: typeof ConfiguracoesRoute
-  DashboardRoute: typeof DashboardRoute
   FaqRoute: typeof FaqRoute
-  FinanceiroRoute: typeof FinanceiroRoute
-  HospedesRoute: typeof HospedesRoute
-  IntegracoesRoute: typeof IntegracoesRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
-  PromocoesRoute: typeof PromocoesRoute
-  QuartosRoute: typeof QuartosRoute
   ReservarRoute: typeof ReservarRoute
-  ReservasRoute: typeof ReservasRouteWithChildren
   TermosRoute: typeof TermosRoute
 }
 
@@ -281,32 +88,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reservas': {
-      id: '/reservas'
-      path: '/reservas'
-      fullPath: '/reservas'
-      preLoaderRoute: typeof ReservasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/reservar': {
       id: '/reservar'
       path: '/reservar'
       fullPath: '/reservar'
       preLoaderRoute: typeof ReservarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quartos': {
-      id: '/quartos'
-      path: '/quartos'
-      fullPath: '/quartos'
-      preLoaderRoute: typeof QuartosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/promocoes': {
-      id: '/promocoes'
-      path: '/promocoes'
-      fullPath: '/promocoes'
-      preLoaderRoute: typeof PromocoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidade': {
@@ -316,67 +102,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/integracoes': {
-      id: '/integracoes'
-      path: '/integracoes'
-      fullPath: '/integracoes'
-      preLoaderRoute: typeof IntegracoesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hospedes': {
-      id: '/hospedes'
-      path: '/hospedes'
-      fullPath: '/hospedes'
-      preLoaderRoute: typeof HospedesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/financeiro': {
-      id: '/financeiro'
-      path: '/financeiro'
-      fullPath: '/financeiro'
-      preLoaderRoute: typeof FinanceiroRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/faq': {
       id: '/faq'
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/configuracoes': {
-      id: '/configuracoes'
-      path: '/configuracoes'
-      fullPath: '/configuracoes'
-      preLoaderRoute: typeof ConfiguracoesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/calendario': {
-      id: '/calendario'
-      path: '/calendario'
-      fullPath: '/calendario'
-      preLoaderRoute: typeof CalendarioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auditoria': {
-      id: '/auditoria'
-      path: '/auditoria'
-      fullPath: '/auditoria'
-      preLoaderRoute: typeof AuditoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -386,62 +116,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reservas/': {
-      id: '/reservas/'
-      path: '/'
-      fullPath: '/reservas/'
-      preLoaderRoute: typeof ReservasIndexRouteImport
-      parentRoute: typeof ReservasRoute
-    }
-    '/reservas/nova': {
-      id: '/reservas/nova'
-      path: '/nova'
-      fullPath: '/reservas/nova'
-      preLoaderRoute: typeof ReservasNovaRouteImport
-      parentRoute: typeof ReservasRoute
-    }
-    '/reservas/$id': {
-      id: '/reservas/$id'
-      path: '/$id'
-      fullPath: '/reservas/$id'
-      preLoaderRoute: typeof ReservasIdRouteImport
-      parentRoute: typeof ReservasRoute
-    }
   }
 }
 
-interface ReservasRouteChildren {
-  ReservasIdRoute: typeof ReservasIdRoute
-  ReservasNovaRoute: typeof ReservasNovaRoute
-  ReservasIndexRoute: typeof ReservasIndexRoute
-}
-
-const ReservasRouteChildren: ReservasRouteChildren = {
-  ReservasIdRoute: ReservasIdRoute,
-  ReservasNovaRoute: ReservasNovaRoute,
-  ReservasIndexRoute: ReservasIndexRoute,
-}
-
-const ReservasRouteWithChildren = ReservasRoute._addFileChildren(
-  ReservasRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuditoriaRoute: AuditoriaRoute,
-  AuthRoute: AuthRoute,
-  CalendarioRoute: CalendarioRoute,
-  ConfiguracoesRoute: ConfiguracoesRoute,
-  DashboardRoute: DashboardRoute,
   FaqRoute: FaqRoute,
-  FinanceiroRoute: FinanceiroRoute,
-  HospedesRoute: HospedesRoute,
-  IntegracoesRoute: IntegracoesRoute,
   PrivacidadeRoute: PrivacidadeRoute,
-  PromocoesRoute: PromocoesRoute,
-  QuartosRoute: QuartosRoute,
   ReservarRoute: ReservarRoute,
-  ReservasRoute: ReservasRouteWithChildren,
   TermosRoute: TermosRoute,
 }
 export const routeTree = rootRouteImport
