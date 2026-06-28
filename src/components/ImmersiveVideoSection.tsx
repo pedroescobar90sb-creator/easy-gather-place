@@ -116,11 +116,13 @@ export function ImmersiveVideoSection() {
               e.stopPropagation();
               setOpen(false);
             }}
-            aria-label="Fechar vídeo"
-            className="absolute top-5 right-5 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            aria-label="Voltar e fechar vídeo"
+            className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-md ring-1 ring-white/25 hover:bg-white/20 hover:ring-white/40 transition-all shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
-            <X className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4" />
+            Voltar
           </button>
+
           <video
             ref={videoRef}
             src={video.url}
