@@ -16,7 +16,10 @@ import salaoJogosUrl from "@/assets/salao-jogos-v2.jpg";
 const salaoJogos = { url: salaoJogosUrl };
 import restauranteNoite from "@/assets/restaurante-noite.jpg.asset.json";
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
+import quartoDuploAlt from "@/assets/quarto-duplo.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
+import quartoTriploAlt from "@/assets/quarto-triplo.jpg.asset.json";
+import quartoQuadruplo from "@/assets/quarto-quadruplo.jpg.asset.json";
 
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
