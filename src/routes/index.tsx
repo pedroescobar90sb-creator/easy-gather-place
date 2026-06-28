@@ -175,16 +175,36 @@ function HomePage() {
       </section>
 
       {/* TRUST BAR */}
-      <section className="border-y border-border/60 bg-card">
-        <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-px bg-border/40">
+      <section className="relative isolate border-y border-border/60 overflow-hidden">
+        {/* Background — mobile (portrait) */}
+        <img
+          src={bgPraiaMobile.url}
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className="absolute inset-0 -z-10 h-full w-full object-cover object-center sm:hidden"
+        />
+        {/* Background — desktop (wide) */}
+        <img
+          src={bgPraiaDesktop.url}
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className="absolute inset-0 -z-10 h-full w-full object-cover object-center hidden sm:block"
+        />
+        {/* Legibility overlays — stronger on mobile, lighter on desktop */}
+        <div aria-hidden className="absolute inset-0 -z-10 bg-card/85 sm:bg-card/70" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-card/40 via-transparent to-card/40 hidden sm:block" />
+
+        <div className="relative mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-px bg-border/20">
           {[
             { n: "2 min", l: "Da praia" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
-            <div key={s.l} className="bg-card px-4 py-6 text-center">
-              <div className="font-display text-2xl sm:text-3xl text-primary">{s.n}</div>
-              <div className="text-xs sm:text-sm text-muted-foreground mt-1">{s.l}</div>
+            <div key={s.l} className="px-4 py-8 sm:py-10 text-center backdrop-blur-[2px]">
+              <div className="font-display text-3xl sm:text-4xl text-primary drop-shadow-sm">{s.n}</div>
+              <div className="text-xs sm:text-sm text-foreground/80 mt-1.5">{s.l}</div>
             </div>
           ))}
         </div>
