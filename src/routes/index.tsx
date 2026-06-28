@@ -4,6 +4,7 @@ import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 
+import heroPousada from "@/assets/pousada-0.jpg.asset.json";
 import piscinaLagoa from "@/assets/piscina-lagoa.jpg.asset.json";
 import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Pousada em Itacimirim (BA), a 2 minutos do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia" },
       { property: "og:description", content: "Atendimento direto com a casa. Reserve em minutos pelo WhatsApp." },
-      { property: "og:image", content: piscinaLagoa.url },
+      { property: "og:image", content: heroPousada.url },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/" },
     ],
@@ -77,7 +78,7 @@ function HomePage() {
       {/* HERO */}
       <section id="top" className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={piscinaLagoa.url} alt="Piscina da Pousada Ilha do Meio com vista para a lagoa" className="h-full w-full object-cover" loading="eager" fetchPriority="high" />
+          <img src={heroPousada.url} alt="Piscina e área externa da Pousada Ilha do Meio" className="h-full w-full object-cover" loading="eager" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         </div>
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
