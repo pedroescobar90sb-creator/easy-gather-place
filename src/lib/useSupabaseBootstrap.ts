@@ -100,8 +100,8 @@ export function useSupabaseBootstrap() {
       }
     };
 
-    supabase.auth.getSession().then(({ data }) => {
-      const email = data.session?.user.email ?? null;
+    supabase.auth.getSession().then((res) => {
+      const email = res?.data?.session?.user.email ?? null;
       if (email) {
         login(email);
         void hydrate(email).then(() => startRealtime(email));
