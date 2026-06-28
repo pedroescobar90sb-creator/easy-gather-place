@@ -9,6 +9,8 @@ type Props = {
   items: GalleryItem[];
   className?: string;
   gridClassName?: string;
+  /** When provided, replaces the default thumbnail grid with a single custom trigger. */
+  trigger?: React.ReactNode;
 };
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
