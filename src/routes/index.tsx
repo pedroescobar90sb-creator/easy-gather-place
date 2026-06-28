@@ -52,8 +52,8 @@ const GALLERY = [
 ];
 
 const LEISURE = [
-  { src: salaoJogos.url, caption: "Salão de Jogos" },
-  { src: restauranteNoite.url, caption: "Restaurante" },
+  { src: salaoJogos.url, caption: "Salão de Jogos", desc: "Espaço para descontrair entre os passeios." },
+  { src: restauranteNoite.url, caption: "Restaurante", desc: "Restaurante para refeições práticas, sem precisar sair da pousada." },
 ];
 
 function HomePage() {
