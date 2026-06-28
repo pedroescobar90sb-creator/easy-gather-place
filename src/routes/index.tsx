@@ -41,12 +41,66 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-type RoomCard = { name: string; price: string; image: string; alt: string; capacity: string; cta: string; waMsg: string };
+type RoomPhoto = { src: string; caption: string; desc: string };
+type RoomCard = {
+  name: string;
+  price: string;
+  image: string;
+  alt: string;
+  capacity: string;
+  cta: string;
+  waMsg: string;
+  photos: RoomPhoto[];
+};
 
 const ROOMS: RoomCard[] = [
-  { name: "Quarto Duplo", capacity: "Ideal para casal · 2 pessoas", price: "R$ 400/noite", image: quartoDuplo.url, alt: "Quarto Duplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Duplo", waMsg: "Olá! Quero reservar o Quarto Duplo (2 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
-  { name: "Quarto Triplo", capacity: "Ideal para pequenos grupos ou família · 3 pessoas", price: "R$ 500/noite", image: quartoTriplo.url, alt: "Quarto Triplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Triplo", waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
-  { name: "Quarto Quádruplo", capacity: "Ideal para família · 4 pessoas", price: "R$ 550/noite", image: quartoTriplo.url, alt: "Quarto Quádruplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Quádruplo", waMsg: "Olá! Quero reservar o Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
+  {
+    name: "Quarto Duplo",
+    capacity: "Ideal para casal · 2 pessoas",
+    price: "R$ 400/noite",
+    image: quartoDuplo.url,
+    alt: "Quarto Duplo da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Duplo",
+    waMsg: "Olá! Quero reservar o Quarto Duplo (2 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    photos: [
+      { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
+      { src: quartoDuploAlt.url, caption: "Quarto Duplo · Detalhe", desc: "Iluminação suave e acabamento aconchegante." },
+    ],
+  },
+  {
+    name: "Quarto Triplo",
+    capacity: "Ideal para pequenos grupos ou família · 3 pessoas",
+    price: "R$ 500/noite",
+    image: quartoTriplo.url,
+    alt: "Quarto Triplo da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Triplo",
+    waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    photos: [
+      { src: quartoTriplo.url, caption: "Quarto Triplo · Vista geral", desc: "Espaço para três, sem abrir mão do conforto." },
+      { src: quartoTriploAlt.url, caption: "Quarto Triplo · Detalhe", desc: "Camas bem dispostas e ambiente arejado." },
+    ],
+  },
+  {
+    name: "Quarto Quádruplo",
+    capacity: "Ideal para família · 4 pessoas",
+    price: "R$ 550/noite",
+    image: quartoQuadruplo.url,
+    alt: "Quarto Quádruplo da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Quádruplo",
+    waMsg: "Olá! Quero reservar o Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    photos: [
+      { src: quartoQuadruplo.url, caption: "Quarto Quádruplo · Vista geral", desc: "Pensado para a família toda descansar junto." },
+      { src: quartoTriplo.url, caption: "Quarto Quádruplo · Detalhe", desc: "Boa circulação e camas confortáveis." },
+    ],
+  },
+];
+
+const ROOM_AMENITIES = [
+  { icon: Snowflake, label: "Ar-condicionado" },
+  { icon: Tv, label: "TV" },
+  { icon: Refrigerator, label: "Frigobar" },
+  { icon: Coffee, label: "Café da manhã" },
+  { icon: Wifi, label: "Wi-Fi grátis" },
 ];
 
 const GALLERY = [
@@ -56,10 +110,6 @@ const GALLERY = [
   { src: piscinaNoite.url, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
 ];
 
-const LEISURE = [
-  { src: salaoJogos.url, caption: "Salão de Jogos", desc: "Espaço para descontrair entre os passeios." },
-  { src: restauranteNoite.url, caption: "Restaurante", desc: "Restaurante para refeições práticas, sem precisar sair da pousada." },
-];
 
 function HomePage() {
   return (
