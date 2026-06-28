@@ -36,19 +36,19 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-type RoomCard = { name: string; price: string; image: string; alt: string };
+type RoomCard = { name: string; price: string; image: string; alt: string; capacity: string; cta: string; waMsg: string };
 
 const ROOMS: RoomCard[] = [
-  { name: "Quarto Duplo", price: "R$ 400/noite", image: quartoDuplo.url, alt: "Quarto Duplo da Pousada Ilha do Meio" },
-  { name: "Quarto Triplo", price: "R$ 500/noite", image: quartoTriplo.url, alt: "Quarto Triplo da Pousada Ilha do Meio" },
-  { name: "Quarto Quádruplo", price: "R$ 550/noite", image: quartoTriplo.url, alt: "Quarto Quádruplo da Pousada Ilha do Meio" },
+  { name: "Quarto Duplo", capacity: "Ideal para casal · 2 pessoas", price: "R$ 400/noite", image: quartoDuplo.url, alt: "Quarto Duplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Duplo", waMsg: "Olá! Quero reservar o Quarto Duplo (2 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
+  { name: "Quarto Triplo", capacity: "Ideal para pequenos grupos ou família · 3 pessoas", price: "R$ 500/noite", image: quartoTriplo.url, alt: "Quarto Triplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Triplo", waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
+  { name: "Quarto Quádruplo", capacity: "Ideal para família · 4 pessoas", price: "R$ 550/noite", image: quartoTriplo.url, alt: "Quarto Quádruplo da Pousada Ilha do Meio", cta: "Quero reservar o Quarto Quádruplo", waMsg: "Olá! Quero reservar o Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?" },
 ];
 
 const GALLERY = [
-  { src: recepcaoDia.url, caption: "Recepção" },
-  { src: quiosqueJardim.url, caption: "Área de Convivência" },
-  { src: fachadaNoite.url, caption: "Acomodações" },
-  { src: piscinaNoite.url, caption: "Piscina" },
+  { src: recepcaoDia.url, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
+  { src: quiosqueJardim.url, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
+  { src: fachadaNoite.url, caption: "Acomodações", desc: "Quartos confortáveis, pensados pro seu descanso." },
+  { src: piscinaNoite.url, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
 ];
 
 const LEISURE = [
