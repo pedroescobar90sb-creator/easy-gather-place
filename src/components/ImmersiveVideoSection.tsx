@@ -10,6 +10,7 @@ import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -21,24 +22,30 @@ export function ImmersiveVideoSection() {
       if (e.key === "Escape") setOpen(false);
     };
     const onPop = () => setOpen(false);
+    const onFsChange = () => {
+      if (!document.fullscreenElement) setOpen(false);
+    };
     document.addEventListener("keydown", onKey);
     window.addEventListener("popstate", onPop);
+    document.addEventListener("fullscreenchange", onFsChange);
     document.body.style.overflow = "hidden";
-    // Push a history entry so the browser back button closes the video
     window.history.pushState({ videoOpen: true }, "");
 
-    // Premium cinematic delay before the video reveals
+    // Request real browser fullscreen so o vídeo ocupa 100% da tela
+    overlayRef.current?.requestFullscreen?.().catch(() => {});
+
     const t = window.setTimeout(() => {
       setRevealed(true);
       videoRef.current?.play().catch(() => {});
-    }, 450);
+    }, 350);
 
     return () => {
       document.removeEventListener("keydown", onKey);
       window.removeEventListener("popstate", onPop);
+      document.removeEventListener("fullscreenchange", onFsChange);
       document.body.style.overflow = "";
       window.clearTimeout(t);
-      // Clean up the synthetic history entry if still present
+      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
       if (window.history.state?.videoOpen) window.history.back();
     };
   }, [open]);
@@ -113,6 +120,7 @@ export function ImmersiveVideoSection() {
 
       {open && (
         <div
+          ref={overlayRef}
           role="dialog"
           aria-modal="true"
           className="fixed inset-0 z-[9999] bg-black animate-in fade-in duration-300"
@@ -132,13 +140,11 @@ export function ImmersiveVideoSection() {
             onEnded={() => setOpen(false)}
             style={{
               opacity: revealed ? 1 : 0,
-              transform: revealed ? "scale(1)" : "scale(1.02)",
-              transition: "opacity 700ms ease-out, transform 900ms ease-out",
+              transition: "opacity 500ms ease-out",
             }}
-            className="absolute inset-0 h-full w-full object-contain bg-black"
+            className="absolute inset-0 h-full w-full object-cover bg-black"
           />
 
-          {/* Fechar — único controle visível */}
           <button
             type="button"
             onClick={(e) => {
