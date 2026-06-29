@@ -70,57 +70,50 @@ export function ImmersiveVideoSection() {
       <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/30 to-background/60" />
 
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-12 max-w-2xl">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-primary font-medium">
-            Experiência em vídeo
-          </p>
-          <h2 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground leading-[1.05]">
-            Um respiro entre a Bahia e o mar.
-          </h2>
-          <p className="mt-4 text-base text-foreground/75 leading-relaxed">
-            Aperte play e veja o ritmo da pousada antes mesmo de chegar.
-          </p>
-        </div>
-
-
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Assistir vídeo da Pousada Ilha do Meio"
-          className="group relative block w-full overflow-hidden rounded-3xl ring-1 ring-border/60 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          <div className="relative aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] w-full overflow-hidden">
-            {/* Fundo ambilight desfocado — elimina faixas pretas */}
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-center bg-cover scale-110 blur-2xl"
-              style={{ backgroundImage: `url(${poster.url})` }}
-            />
-            <div aria-hidden className="absolute inset-0 bg-black/25" />
-            {/* Frame do vídeo centralizado, sem corte e sem distorção */}
-            <img
-              src={poster.url}
-              alt="Pousada Ilha do Meio — prévia em vídeo"
-              loading="lazy"
-              className="relative mx-auto h-full w-auto object-contain transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
-                <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
-                <Play className="relative h-6 w-6 sm:h-8 sm:w-8 fill-current ml-0.5" />
-              </span>
-            </div>
-            <div className="absolute bottom-5 left-6 right-6 flex items-end justify-between gap-4 text-white">
-              <p className="font-display text-lg sm:text-2xl leading-tight tracking-tight drop-shadow">
-                Da recepção à beira da piscina
-              </p>
-              <span className="hidden sm:inline-flex items-center rounded-full bg-white/15 backdrop-blur px-3 py-1 text-[11px] uppercase tracking-[0.2em] ring-1 ring-white/30">
-                Assistir
-              </span>
-            </div>
+        <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+          <div className="max-w-xl">
+            <p className="text-[11px] tracking-[0.3em] uppercase text-primary font-medium">
+              Experiência em vídeo
+            </p>
+            <h2 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground leading-[1.05]">
+              Um respiro entre a Bahia e o mar.
+            </h2>
+            <p className="mt-4 text-base text-foreground/75 leading-relaxed">
+              Aperte play e veja o ritmo da pousada antes mesmo de chegar — da recepção à beira da piscina, em menos de um minuto.
+            </p>
           </div>
-        </button>
+
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="Assistir vídeo da Pousada Ilha do Meio"
+            className="group relative block mx-auto md:mx-0 w-full max-w-[300px] md:max-w-[340px] overflow-hidden rounded-3xl ring-1 ring-border/60 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <div className="relative aspect-[9/16] w-full overflow-hidden bg-black">
+              <img
+                src={poster.url}
+                alt="Pousada Ilha do Meio — prévia em vídeo"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/20" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
+                  <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
+                  <Play className="relative h-6 w-6 sm:h-8 sm:w-8 fill-current ml-0.5" />
+                </span>
+              </div>
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-3 text-white">
+                <p className="font-display text-base sm:text-lg leading-tight drop-shadow">
+                  Da recepção à piscina
+                </p>
+                <span className="inline-flex items-center rounded-full bg-white/15 backdrop-blur px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] ring-1 ring-white/30">
+                  Assistir
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -134,18 +127,9 @@ export function ImmersiveVideoSection() {
             setOpen(false);
           }}
         >
-          {/* Fundo ambiente: o próprio poster desfocado preenche a tela toda — sem faixas pretas */}
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-center bg-cover scale-110 blur-2xl opacity-70"
-            style={{ backgroundImage: `url(${poster.url})` }}
-          />
-          <div aria-hidden className="absolute inset-0 bg-black/40" />
-
-          {/* Vídeo principal: contém o frame inteiro, centralizado, sem distorção */}
+          {/* Vídeo: vertical no mobile (9:16), landscape com ambilight embutido no desktop (16:9) — object-cover preenche a tela em ambos */}
           <video
             ref={videoRef}
-            src={video.url}
             poster={poster.url}
             controls
             playsInline
@@ -156,8 +140,11 @@ export function ImmersiveVideoSection() {
               opacity: revealed ? 1 : 0,
               transition: "opacity 500ms ease-out",
             }}
-            className="relative h-full w-full object-contain"
-          />
+            className="absolute inset-0 h-full w-full object-cover bg-black"
+          >
+            <source src={videoLandscape.url} media="(min-width: 768px)" type="video/mp4" />
+            <source src={video.url} type="video/mp4" />
+          </video>
 
           <button
             type="button"
