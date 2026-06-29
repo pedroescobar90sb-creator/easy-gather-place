@@ -32,8 +32,7 @@ export function ImmersiveVideoSection() {
     document.body.style.overflow = "hidden";
     window.history.pushState({ videoOpen: true }, "");
 
-    // Request real browser fullscreen so o vídeo ocupa 100% da tela
-    overlayRef.current?.requestFullscreen?.().catch(() => {});
+
 
     const t = window.setTimeout(() => {
       setRevealed(true);
