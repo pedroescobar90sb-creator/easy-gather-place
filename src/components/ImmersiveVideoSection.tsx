@@ -82,40 +82,44 @@ export function ImmersiveVideoSection() {
         </div>
 
 
-        <div className="grid gap-10 md:grid-cols-[auto,1fr] md:items-center">
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Assistir vídeo da Pousada Ilha do Meio"
-            className="group relative block mx-auto md:mx-0 w-full max-w-[200px] sm:max-w-[220px] overflow-hidden rounded-2xl ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <div className="relative aspect-[9/16] w-full bg-black">
-              <img
-                src={poster.url}
-                alt="Pousada Ilha do Meio — prévia em vídeo"
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-black/30" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
-                  <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
-                  <Play className="relative h-5 w-5 sm:h-6 sm:w-6 fill-current ml-0.5" />
-                </span>
-              </div>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Assistir vídeo da Pousada Ilha do Meio"
+          className="group relative block w-full overflow-hidden rounded-3xl ring-1 ring-border/60 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
+        >
+          <div className="relative aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] w-full overflow-hidden">
+            {/* Fundo ambilight desfocado — elimina faixas pretas */}
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-center bg-cover scale-110 blur-2xl"
+              style={{ backgroundImage: `url(${poster.url})` }}
+            />
+            <div aria-hidden className="absolute inset-0 bg-black/25" />
+            {/* Frame do vídeo centralizado, sem corte e sem distorção */}
+            <img
+              src={poster.url}
+              alt="Pousada Ilha do Meio — prévia em vídeo"
+              loading="lazy"
+              className="relative mx-auto h-full w-auto object-contain transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
+                <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
+                <Play className="relative h-6 w-6 sm:h-8 sm:w-8 fill-current ml-0.5" />
+              </span>
             </div>
-          </button>
-
-          <div className="text-center md:text-left md:pl-4">
-            <p className="font-display text-2xl sm:text-3xl md:text-4xl text-foreground leading-tight tracking-tight">
-              Da recepção à beira da piscina
-            </p>
-            <p className="mt-4 text-sm text-foreground/75 max-w-md mx-auto md:mx-0">
-              Um passeio cinematográfico pelos ambientes da pousada — em menos de um minuto.
-            </p>
-
+            <div className="absolute bottom-5 left-6 right-6 flex items-end justify-between gap-4 text-white">
+              <p className="font-display text-lg sm:text-2xl leading-tight tracking-tight drop-shadow">
+                Da recepção à beira da piscina
+              </p>
+              <span className="hidden sm:inline-flex items-center rounded-full bg-white/15 backdrop-blur px-3 py-1 text-[11px] uppercase tracking-[0.2em] ring-1 ring-white/30">
+                Assistir
+              </span>
+            </div>
           </div>
-        </div>
+        </button>
       </div>
 
       {open && (
