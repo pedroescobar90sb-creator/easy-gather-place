@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { Play, ChevronLeft, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Play, X } from "lucide-react";
 
 import poster from "@/assets/paraiso-poster.jpg.asset.json";
-import video from "@/assets/video-paraiso.mp4.asset.json";
+import video from "@/assets/video-paraiso-v2.mp4.asset.json";
 import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
 import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
 
@@ -138,22 +138,7 @@ export function ImmersiveVideoSection() {
             className="absolute inset-0 h-full w-full object-contain bg-black"
           />
 
-          {/* Voltar (esquerda) */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              videoRef.current?.pause();
-              setOpen(false);
-            }}
-            aria-label="Voltar"
-            className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-md ring-1 ring-white/30 hover:bg-black/80 transition shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Voltar
-          </button>
-
-          {/* Fechar (direita) — claro e visível */}
+          {/* Fechar — único controle visível */}
           <button
             type="button"
             onClick={(e) => {
@@ -162,10 +147,9 @@ export function ImmersiveVideoSection() {
               setOpen(false);
             }}
             aria-label="Fechar vídeo"
-            className="absolute top-5 right-5 z-10 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-sm font-semibold text-black hover:bg-white transition shadow-xl ring-1 ring-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="absolute top-5 right-5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-black hover:bg-white transition shadow-xl ring-1 ring-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
-            <X className="h-4 w-4" />
-            Fechar
+            <X className="h-5 w-5" strokeWidth={2.25} />
           </button>
         </div>
       )}
