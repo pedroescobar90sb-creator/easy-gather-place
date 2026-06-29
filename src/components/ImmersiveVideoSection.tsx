@@ -3,6 +3,7 @@ import { Play, X } from "lucide-react";
 
 import poster from "@/assets/paraiso-poster-v2.jpg.asset.json";
 import video from "@/assets/video-paraiso-v2.mp4.asset.json";
+import videoLandscape from "@/assets/video-paraiso-landscape.mp4.asset.json";
 import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
 import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
 
