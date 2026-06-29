@@ -3,6 +3,7 @@ import { Play, X } from "lucide-react";
 
 import poster from "@/assets/paraiso-poster-v2.jpg.asset.json";
 import video from "@/assets/video-paraiso-v2.mp4.asset.json";
+import videoLandscape from "@/assets/video-paraiso-landscape.mp4.asset.json";
 
 import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
 import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
@@ -86,9 +87,9 @@ export function ImmersiveVideoSection() {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Assistir vídeo da Pousada Ilha do Meio"
-            className="group relative block mx-auto md:mx-0 w-full max-w-[300px] md:max-w-[340px] overflow-hidden rounded-3xl ring-1 ring-border/60 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
+            className="group relative block mx-auto w-[min(300px,100%)] md:mx-0 md:w-[340px] overflow-hidden rounded-3xl ring-1 ring-border/60 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            <div className="relative aspect-[9/16] w-full overflow-hidden bg-black">
+            <div className="relative aspect-[9/16] w-full overflow-hidden bg-background">
               <img
                 src={poster.url}
                 alt="Pousada Ilha do Meio — prévia em vídeo"
@@ -120,28 +121,23 @@ export function ImmersiveVideoSection() {
           ref={overlayRef}
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300"
-          onClick={() => {
-            videoRef.current?.pause();
-            setOpen(false);
-          }}
+          className="fixed inset-0 z-[9999] overflow-hidden bg-background animate-in fade-in duration-300"
         >
-          {/* Vídeo no tamanho natural (9:16), centralizado — sem barras pretas em volta */}
+          {/* Tela cheia limpa: o vídeo ocupa 100% da tela, sem moldura ou áreas pretas externas. */}
           <video
             ref={videoRef}
             poster={poster.url}
             controls
             playsInline
             preload="auto"
-            onClick={(e) => e.stopPropagation()}
             onEnded={() => setOpen(false)}
             style={{
               opacity: revealed ? 1 : 0,
               transition: "opacity 500ms ease-out",
-              aspectRatio: "9 / 16",
             }}
-            className="h-[100svh] max-h-[100svh] w-auto max-w-[100vw] object-contain sm:rounded-2xl shadow-2xl"
+            className="absolute inset-0 h-[100svh] w-[100vw] object-cover"
           >
+            <source media="(min-width: 768px)" src={videoLandscape.url} type="video/mp4" />
             <source src={video.url} type="video/mp4" />
           </video>
 
