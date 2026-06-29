@@ -120,27 +120,21 @@ export function ImmersiveVideoSection() {
           ref={overlayRef}
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300"
-          onClick={() => {
-            videoRef.current?.pause();
-            setOpen(false);
-          }}
+          className="fixed inset-0 z-[9999] overflow-hidden bg-background animate-in fade-in duration-300"
         >
-          {/* Vídeo no tamanho natural (9:16), centralizado — sem barras pretas em volta */}
+          {/* Tela cheia limpa: o vídeo ocupa 100% da tela, sem moldura ou áreas pretas externas. */}
           <video
             ref={videoRef}
             poster={poster.url}
             controls
             playsInline
             preload="auto"
-            onClick={(e) => e.stopPropagation()}
             onEnded={() => setOpen(false)}
             style={{
               opacity: revealed ? 1 : 0,
               transition: "opacity 500ms ease-out",
-              aspectRatio: "9 / 16",
             }}
-            className="h-[100svh] max-h-[100svh] w-auto max-w-[100vw] object-contain sm:rounded-2xl shadow-2xl"
+            className="absolute inset-0 h-[100svh] w-[100vw] object-cover"
           >
             <source src={video.url} type="video/mp4" />
           </video>
