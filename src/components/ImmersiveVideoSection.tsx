@@ -3,7 +3,7 @@ import { Play, X } from "lucide-react";
 
 import poster from "@/assets/paraiso-poster-v2.jpg.asset.json";
 import video from "@/assets/video-paraiso-v2.mp4.asset.json";
-import videoLandscape from "@/assets/video-paraiso-landscape.mp4.asset.json";
+
 import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
 import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
 
@@ -32,8 +32,7 @@ export function ImmersiveVideoSection() {
     document.body.style.overflow = "hidden";
     window.history.pushState({ videoOpen: true }, "");
 
-    // Request real browser fullscreen so o vídeo ocupa 100% da tela
-    overlayRef.current?.requestFullscreen?.().catch(() => {});
+
 
     const t = window.setTimeout(() => {
       setRevealed(true);
@@ -121,13 +120,13 @@ export function ImmersiveVideoSection() {
           ref={overlayRef}
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[9999] bg-black animate-in fade-in duration-300"
+          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300"
           onClick={() => {
             videoRef.current?.pause();
             setOpen(false);
           }}
         >
-          {/* Vídeo: vertical no mobile (9:16), landscape com ambilight embutido no desktop (16:9) — object-cover preenche a tela em ambos */}
+          {/* Vídeo no tamanho natural (9:16), centralizado — sem barras pretas em volta */}
           <video
             ref={videoRef}
             poster={poster.url}
@@ -139,10 +138,10 @@ export function ImmersiveVideoSection() {
             style={{
               opacity: revealed ? 1 : 0,
               transition: "opacity 500ms ease-out",
+              aspectRatio: "9 / 16",
             }}
-            className="absolute inset-0 h-full w-full object-cover bg-black"
+            className="h-[100svh] max-h-[100svh] w-auto max-w-[100vw] object-contain sm:rounded-2xl shadow-2xl"
           >
-            <source src={videoLandscape.url} media="(min-width: 768px)" type="video/mp4" />
             <source src={video.url} type="video/mp4" />
           </video>
 
