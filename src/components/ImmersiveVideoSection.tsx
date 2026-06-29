@@ -120,6 +120,7 @@ export function ImmersiveVideoSection() {
 
       {open && (
         <div
+          ref={overlayRef}
           role="dialog"
           aria-modal="true"
           className="fixed inset-0 z-[9999] bg-black animate-in fade-in duration-300"
@@ -139,13 +140,11 @@ export function ImmersiveVideoSection() {
             onEnded={() => setOpen(false)}
             style={{
               opacity: revealed ? 1 : 0,
-              transform: revealed ? "scale(1)" : "scale(1.02)",
-              transition: "opacity 700ms ease-out, transform 900ms ease-out",
+              transition: "opacity 500ms ease-out",
             }}
-            className="absolute inset-0 h-full w-full object-contain bg-black"
+            className="absolute inset-0 h-full w-full object-cover bg-black"
           />
 
-          {/* Fechar — único controle visível */}
           <button
             type="button"
             onClick={(e) => {
