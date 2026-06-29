@@ -129,6 +129,15 @@ export function ImmersiveVideoSection() {
             setOpen(false);
           }}
         >
+          {/* Fundo ambiente: o próprio poster desfocado preenche a tela toda — sem faixas pretas */}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-center bg-cover scale-110 blur-2xl opacity-70"
+            style={{ backgroundImage: `url(${poster.url})` }}
+          />
+          <div aria-hidden className="absolute inset-0 bg-black/40" />
+
+          {/* Vídeo principal: contém o frame inteiro, centralizado, sem distorção */}
           <video
             ref={videoRef}
             src={video.url}
@@ -142,7 +151,7 @@ export function ImmersiveVideoSection() {
               opacity: revealed ? 1 : 0,
               transition: "opacity 500ms ease-out",
             }}
-            className="absolute inset-0 h-full w-full object-cover bg-black"
+            className="relative h-full w-full object-contain"
           />
 
           <button
