@@ -14,8 +14,7 @@ import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
-import salaoJogosUrl from "@/assets/salao-jogos-v2.jpg";
-const salaoJogos = { url: salaoJogosUrl };
+import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
 
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoDuploAlt from "@/assets/quarto-duplo.jpg.asset.json";
@@ -340,9 +339,16 @@ function HomePage() {
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
-            <figure className="md:col-span-3 group relative overflow-hidden rounded-2xl bg-background aspect-video">
-              <img src={salaoJogos.url} alt="Salão de Jogos da Pousada Ilha do Meio" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-5">
+            <figure className="md:col-span-3 group relative overflow-hidden rounded-3xl bg-background aspect-[4/5] md:aspect-[16/10] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)]">
+              <img
+                src={salaoJogos.url}
+                alt="Salão de Jogos da Pousada Ilha do Meio"
+                loading="lazy"
+                decoding="async"
+                sizes="(min-width: 768px) 60vw, 100vw"
+                className="h-full w-full object-cover object-[center_55%] transition-transform duration-700 group-hover:scale-[1.04]"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-5">
                 <figcaption className="text-white text-base font-semibold tracking-wide">Salão de Jogos</figcaption>
               </div>
             </figure>
