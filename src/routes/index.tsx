@@ -539,9 +539,10 @@ function HomePage() {
               </div>
             </address>
           </div>
-          <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-xl shadow-black/10">
-            <img src={quiosqueJardim.url} alt="Entorno da pousada em Itacimirim" className="h-full w-full object-cover" loading="lazy" />
+          <div className="aspect-square overflow-hidden rounded-2xl shadow-xl shadow-black/10 bg-[#0f3d2e]">
+            <img src={localizacaoBadge.url} alt="Localização da Pousada Ilha do Meio em Itacimirim, Bahia" className="h-full w-full object-contain" loading="lazy" />
           </div>
+
         </div>
       </section>
 
