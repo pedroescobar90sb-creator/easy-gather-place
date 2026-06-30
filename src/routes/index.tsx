@@ -12,7 +12,7 @@ import heroPousada from "@/assets/pousada-0.jpg.asset.json";
 
 import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
-import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
+import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg.asset.json";
 
