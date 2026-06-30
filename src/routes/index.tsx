@@ -99,10 +99,10 @@ const ROOMS: RoomCard[] = [
 ];
 
 const ROOM_AMENITIES = [
-  { icon: Snowflake, label: "Ar-condicionado" },
-  { icon: Tv, label: "TV" },
+  { icon: AirVent, label: "Ar-condicionado" },
+  { icon: MonitorPlay, label: "Smart TV" },
   { icon: Refrigerator, label: "Frigobar" },
-  { icon: Coffee, label: "Café da manhã" },
+  { icon: UtensilsCrossed, label: "Café da manhã" },
   { icon: Wifi, label: "Wi-Fi grátis" },
 ];
 
