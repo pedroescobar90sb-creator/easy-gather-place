@@ -1,35 +1,48 @@
-## 1) Player limpo (sem barra preta de controles)
+## Recomendação estratégica: mostrar ou esconder preço?
 
-No `ImmersiveVideoSection.tsx`, no modo tela cheia:
-- Remover `controls` do `<video>` (some a barra `0:08 / 1:22`, volume, fullscreen, três pontinhos).
-- Tocar/pausar com clique no próprio vídeo (toggle).
-- Manter **apenas o botão "X"** no canto superior direito para sair.
-- Manter autoplay com som (`muted={false}`), `playsInline`, `onEnded={() => setOpen(false)}`.
-- Esconder `::-webkit-media-controls` via style inline como reforço (Safari iOS).
+**Recomendo MOSTRAR o preço — com a etiqueta "a partir de R$ X / noite".**
 
-Resultado visual: vídeo cheio na tela + X. Nada mais.
+Por quê (baseado em conversão de pousadas que vendem por WhatsApp):
+- Quem vem de tráfego pago **filtra rápido por preço**. Sem valor visível, a maioria fecha a aba em vez de chamar no WhatsApp — você queima clique pago.
+- Quem chama no WhatsApp **sem ter ideia de preço** vem mais frio, negocia mais e converte menos. O atendimento vira "consultoria de preço" em vez de fechamento.
+- Com "**a partir de**" você ancora o valor mínimo (psicologicamente parece mais barato), preserva margem para alta temporada/feriado e mantém o WhatsApp como canal de **fechamento**, não de cotação.
+- Pousadas concorrentes em Itacimirim/Guarajuba (Booking, site próprio) mostram preço. Esconder gera desconfiança ("se não mostra, é caro").
 
-## 2) Melhorar qualidade do vídeo
+**Quando esconderia:** só se o ticket variasse muito (ex.: 3x entre baixa e alta) ou se o produto fosse luxo puro sem comparação direta. Não é o caso aqui.
 
-**Situação real:** o arquivo de origem que está hoje no projeto tem conteúdo útil em ~720x404. O atual de 1080p já é um upscale. Re-encodar para 1440p/4K só aumenta o peso sem ganhar nitidez real.
+Decisão proposta: **manter preço visível com prefixo "a partir de"** e copy curta focada em benefício + ocupação ideal.
 
-Plano em duas frentes:
+## Mudanças
 
-**A. Otimização imediata (sem novo arquivo)** — re-encodar com perfil de máxima qualidade visual no mesmo 1080p:
-- `ffmpeg -i origem.mp4 -vf "scale=1920:1080:flags=lanczos,unsharp=5:5:0.8:3:3:0.4" -c:v libx264 -preset slow -crf 17 -profile:v high -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 192k saida.mp4`
-- Substituir o asset `video-paraiso-clean-cover.mp4` pelo novo via `lovable-assets create`.
-- Ganho: imagem mais limpa, menos blocagem, sharpening sutil, start mais rápido (`+faststart`).
+### 1) Preços atualizados em `src/routes/index.tsx`
+- Duplo: **R$ 450 / noite** (era R$ 400)
+- Triplo: **R$ 550 / noite** (era R$ 500)
+- Quádruplo: **R$ 650 / noite** (era R$ 550)
+- Formato exibido: `a partir de R$ 450 / noite` (mesmo padrão nos 3 cards, tabular-nums, destaque sutil).
 
-**B. Upgrade real para "ultra qualidade" (recomendado)** — precisa de um vídeo-fonte melhor:
-- Você envia o vídeo original em 1080p ou 4K (sem corte/letterbox), de preferência o arquivo direto do celular/câmera.
-- Eu processo em 1080p ou 4K H.264 high profile + AAC 192k e publico como novo asset.
-- Mantemos um fallback 1080p para conexões lentas (`<source media="..."/>`).
+### 2) Copy personalizada por quarto (substitui `capacity` + adiciona uma linha curta de benefício acima do CTA)
+
+**Quarto Duplo — R$ 450**
+- Headline: "Quarto Duplo · para o casal"
+- Linha de venda: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. A 2 minutos da praia."
+- WhatsApp: "Olá! Tenho interesse no **Quarto Duplo** (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?"
+
+**Quarto Triplo — R$ 550**
+- Headline: "Quarto Triplo · grupo pequeno ou família"
+- Linha de venda: "Três camas confortáveis, ar-condicionado e café da manhã incluso. Ótimo custo por pessoa."
+- WhatsApp: "Olá! Quero reservar o **Quarto Triplo** (3 pessoas) na Pousada Ilha do Meio, a partir de R$ 550/noite. Pode me passar disponibilidade?"
+
+**Quarto Quádruplo — R$ 650**
+- Headline: "Quarto Quádruplo · família toda junta"
+- Linha de venda: "Espaço para 4 pessoas, ar-condicionado e café da manhã incluso. Pertinho da piscina e da praia."
+- WhatsApp: "Olá! Tenho interesse no **Quarto Quádruplo** (4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?"
+
+### 3) Ajuste visual mínimo no card de preço
+- Linha pequena cinza "a partir de" acima do valor (mesmo tamanho do `capacity`), valor em destaque, "/ noite" em peso menor. Sem mudar layout/grid.
 
 ## Arquivos alterados
+- `src/routes/index.tsx` — preços, headlines, linha de venda, mensagens de WhatsApp e formatação "a partir de".
 
-- `src/components/ImmersiveVideoSection.tsx` — remover `controls`, adicionar toggle play/pause no clique, manter X.
-- (Opcional, etapa B) novo `src/assets/video-paraiso-ultra.mp4.asset.json` quando você enviar o vídeo-fonte melhor.
-
-## Pergunta para você
-
-Quer que eu já execute **A (otimização do atual)** agora, ou prefere primeiro me enviar o vídeo original em alta para fazermos **B (ultra qualidade real)**?
+## Confirma?
+1. Manter **preço visível "a partir de"** (recomendado) ou prefere realmente **esconder e só mostrar no WhatsApp**?
+2. Confirma os valores **450 / 550 / 650**?
