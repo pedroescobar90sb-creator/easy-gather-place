@@ -14,11 +14,8 @@ import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
-import piscinaCascata from "@/assets/piscina-cascata.jpg.asset.json";
-import piscinaPergola from "@/assets/piscina-pergola.jpg.asset.json";
-import piscinaLoungers from "@/assets/piscina-loungers.jpg.asset.json";
-import piscinaPassarela from "@/assets/piscina-passarela.jpg.asset.json";
-import piscinaAgua from "@/assets/piscina-agua.jpg.asset.json";
+import piscinaHero from "@/assets/piscina-hero-clean.jpg.asset.json";
+
 
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
 import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
@@ -481,29 +478,25 @@ function HomePage() {
 
           <GalleryLightbox
             items={[
-              { src: piscinaCascata.url, caption: "Piscina com cascata", desc: "Água cristalina, cascata e coqueiros — o cartão-postal da pousada." },
-              { src: piscinaPergola.url, caption: "Área da pérgola", desc: "Pérgola de madeira, mesa e cadeiras à sombra da árvore, à beira da piscina." },
-              { src: piscinaLoungers.url, caption: "Espreguiçadeiras", desc: "Espreguiçadeiras alinhadas, céu azul e dia perfeito de descanso." },
-              { src: piscinaPassarela.url, caption: "Passarela e coqueiros", desc: "Passarela de madeira ladeada por coqueiros, ligando o jardim à piscina." },
-              { src: piscinaAgua.url, caption: "Águas da piscina", desc: "Reflexos e textura da água em um fim de tarde tranquilo." },
-              
+              { src: piscinaHero.url, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
             ]}
             className="mt-10"
             trigger={
               <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group cursor-zoom-in">
                 <img
-                  src={piscinaCascata.url}
-                  alt="Piscina da Pousada Ilha do Meio com cascata e coqueiros"
+                  src={piscinaHero.url}
+                  alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
                   loading="lazy"
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
                 />
                 <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
                   <Camera className="h-3.5 w-3.5" />
-                  Ver fotos da piscina
+                  Ver foto da piscina
                 </span>
               </figure>
             }
           />
+
 
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
