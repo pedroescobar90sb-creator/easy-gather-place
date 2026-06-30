@@ -480,28 +480,30 @@ function HomePage() {
 
           <GalleryLightbox
             items={[
-              { src: piscinaNoite.url, caption: "Piscina ao entardecer", desc: "A piscina iluminada no fim do dia — o cenário que define a estadia." },
-              { src: piscinaLagoa.url, caption: "Piscina com vista", desc: "Espreguiçadeiras, jardim e clima de descanso a poucos passos do quarto." },
-              { src: piscinaBgDesktop.url, caption: "Área da piscina", desc: "Área aberta da pousada, com circulação livre durante todo o dia." },
+              { src: piscinaCascata.url, caption: "Piscina com cascata", desc: "Água cristalina, cascata e coqueiros — o cartão-postal da pousada." },
+              { src: piscinaPergola.url, caption: "Área da pérgola", desc: "Pérgola de madeira, mesa e cadeiras à sombra da árvore, à beira da piscina." },
+              { src: piscinaLoungers.url, caption: "Espreguiçadeiras", desc: "Espreguiçadeiras alinhadas, céu azul e dia perfeito de descanso." },
+              { src: piscinaPassarela.url, caption: "Passarela e coqueiros", desc: "Passarela de madeira ladeada por coqueiros, ligando o jardim à piscina." },
+              { src: piscinaAgua.url, caption: "Águas da piscina", desc: "Reflexos e textura da água em um fim de tarde tranquilo." },
+              { src: piscinaNoturna.url, caption: "Piscina à noite", desc: "A piscina iluminada — clima de bar à beira d'água depois do jantar." },
             ]}
             className="mt-10"
             trigger={
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 cursor-zoom-in">
-                <figure className="relative md:col-span-2 md:row-span-2 overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] md:aspect-auto md:h-full md:min-h-[420px] group">
-                  <img src={piscinaNoite.url} alt="Piscina da Pousada Ilha do Meio ao entardecer" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]" />
-                  <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md px-3 py-1.5 text-xs font-medium">
-                    <Camera className="h-3.5 w-3.5" /> Ver fotos da piscina
-                  </span>
-                </figure>
-                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
-                  <img src={piscinaLagoa.url} alt="Piscina e jardim da pousada" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]" />
-                </figure>
-                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
-                  <img src={piscinaBgDesktop.url} alt="Área externa da piscina" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]" />
-                </figure>
-              </div>
+              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group cursor-zoom-in">
+                <img
+                  src={piscinaCascata.url}
+                  alt="Piscina da Pousada Ilha do Meio com cascata e coqueiros"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
+                />
+                <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
+                  <Camera className="h-3.5 w-3.5" />
+                  Ver fotos da piscina
+                </span>
+              </figure>
             }
           />
+
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
