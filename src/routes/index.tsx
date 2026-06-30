@@ -422,19 +422,20 @@ function HomePage() {
                 </div>
 
                 <ul className="grid grid-cols-5 gap-1.5 text-[11px] text-foreground/80">
-                  {ROOM_AMENITIES.map(({ icon: Icon, label }) => (
+                  {ROOM_AMENITIES.map(({ icon: Icon, label, full }) => (
                     <li
                       key={label}
                       className="flex flex-col items-center justify-start gap-1.5 rounded-xl border border-border/60 bg-gradient-to-b from-background to-background/40 px-1 py-2.5"
-                      title={label}
+                      title={full}
                     >
-                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
-                        <Icon className="h-3.5 w-3.5" strokeWidth={2} />
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                        <Icon className="h-4 w-4" strokeWidth={1.75} />
                       </span>
-                      <span className="text-center leading-tight tracking-tight">{label}</span>
+                      <span className="text-center leading-tight tracking-tight whitespace-nowrap">{label}</span>
                     </li>
                   ))}
                 </ul>
+                <p className="-mt-2 text-[11px] text-muted-foreground">Café da manhã e Wi-Fi inclusos.</p>
 
                 <div className="text-primary text-lg font-medium tabular-nums">{r.price}</div>
 
