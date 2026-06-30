@@ -58,45 +58,46 @@ type RoomCard = {
 
 const ROOMS: RoomCard[] = [
   {
-    name: "Quarto Duplo",
-    capacity: "Ideal para casal · 2 pessoas",
-    price: "R$ 400/noite",
+    name: "Quarto Duplo · para o casal",
+    capacity: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. A 2 minutos da praia.",
+    price: "R$ 450",
     image: quartoDuplo.url,
     alt: "Quarto Duplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Duplo",
-    waMsg: "Olá! Quero reservar o Quarto Duplo (2 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
       { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
       { src: quartoDuploAlt.url, caption: "Quarto Duplo · Detalhe", desc: "Iluminação suave e acabamento aconchegante." },
     ],
   },
   {
-    name: "Quarto Triplo",
-    capacity: "Ideal para pequenos grupos ou família · 3 pessoas",
-    price: "R$ 500/noite",
+    name: "Quarto Triplo · grupo pequeno ou família",
+    capacity: "Três camas confortáveis, ar-condicionado e café da manhã incluso. Ótimo custo por pessoa.",
+    price: "R$ 550",
     image: quartoTriplo.url,
     alt: "Quarto Triplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Triplo",
-    waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) na Pousada Ilha do Meio, a partir de R$ 550/noite. Pode me passar disponibilidade?",
     photos: [
       { src: quartoTriplo.url, caption: "Quarto Triplo · Vista geral", desc: "Espaço para três, sem abrir mão do conforto." },
       { src: quartoTriploAlt.url, caption: "Quarto Triplo · Detalhe", desc: "Camas bem dispostas e ambiente arejado." },
     ],
   },
   {
-    name: "Quarto Quádruplo",
-    capacity: "Ideal para família · 4 pessoas",
-    price: "R$ 550/noite",
+    name: "Quarto Quádruplo · família toda junta",
+    capacity: "Espaço para 4 pessoas, ar-condicionado e café da manhã incluso. Pertinho da piscina e da praia.",
+    price: "R$ 650",
     image: quartoQuadruplo.url,
     alt: "Quarto Quádruplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Quádruplo",
-    waMsg: "Olá! Quero reservar o Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio. Pode me passar disponibilidade e valores?",
+    waMsg: "Olá! Tenho interesse no Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?",
     photos: [
       { src: quartoQuadruplo.url, caption: "Quarto Quádruplo · Vista geral", desc: "Pensado para a família toda descansar junto." },
       { src: quartoTriplo.url, caption: "Quarto Quádruplo · Detalhe", desc: "Boa circulação e camas confortáveis." },
     ],
   },
 ];
+
 
 const ROOM_AMENITIES = [
   { icon: AirVent, label: "Ar-cond.", full: "Ar-condicionado" },
