@@ -1,36 +1,43 @@
-## Diagnóstico
+## Diagnóstico do arquivo enviado
 
-O vídeo atual (`video-paraiso-clean-cover.mp4`) está embaçado porque foi gerado a partir de um arquivo já comprimido do WhatsApp e depois re-encodado/cortado para 16:9. Cada re-encode somou perda. Não há como "tirar" o borrão sem uma fonte melhor — upscaling por IA só inventa pixel e costuma deixar textura plástica em folhagem (palmeiras viram borrão verde).
+- Resolução: **720×1280 (portrait)** — compressão do WhatsApp
+- Bitrate: **~1.1 Mbps** (baixo, daí o "embaçado")
+- Codec: H.264, 30fps, 82s, 12 MB
 
-A única forma de ficar **realmente nítido** é partir de um arquivo de origem em alta resolução.
+É o mesmo material que já está no site, só que o WhatsApp recomprimiu. **O vídeo nunca vai ficar 4K nítido** a partir desse arquivo — a informação visual foi destruída na compressão. Mas dá pra deixar **bem mais limpo e profissional** com pós-processamento cuidadoso.
 
-## Plano
+> Se você conseguir, em algum momento, exportar o vídeo direto do app que filmou (Capcut, galeria, drone) e me mandar **como Documento** no WhatsApp, conseguimos um salto real de qualidade. Por enquanto, vamos extrair o máximo do que existe.
 
-### 1. Você me envia o arquivo original (passo crítico)
-- Pegar o vídeo direto da **galeria do celular** que filmou (não reencaminhado).
-- Enviar no chat aqui como **arquivo/documento** (não como vídeo do WhatsApp, que recomprime pra ~720p).
-- Ideal: 1080p ou 4K, MP4/MOV, qualquer duração.
-- Se tiver mais de um take, manda todos — eu escolho o melhor frame de capa.
+## Plano de melhoria (mesmo formato, mesmo lightbox vertical)
 
-### 2. Eu processo localmente em qualidade master
-Com o original em mãos, eu faço o pipeline profissional via `ffmpeg`:
+### 1. Pipeline `ffmpeg` profissional de upscale + clean-up
 
-- **Crop inteligente para 16:9** mantendo o enquadramento da pousada (sem barras pretas, sem distorção).
-- **Escala Lanczos** para 1920×1080 (ou mantém 4K se a fonte for 4K).
-- **Sharpen sutil** (`unsharp=5:5:0.8`) para recuperar definição das palmeiras/telhado.
-- **Encode H.264 high profile**, CRF 18, preset `slow`, `+faststart` (começa a tocar antes de baixar tudo).
-- **Áudio AAC 128k** (ou mudo, se preferir manter como está hoje).
-- Resultado esperado: ~15–40 MB para um clipe curto, nítido em tela cheia 1080p.
+Vou rodar este encoding sobre o arquivo enviado:
 
-### 3. Publicar mantendo TUDO igual no site
-- Upload do novo MP4 como asset no mesmo slot.
-- O componente `ImmersiveVideoSection.tsx` continua exatamente igual — mesmo card, mesmo botão "X", mesmo lightbox portrait no mobile, mesma capa landscape no desktop.
-- Nenhuma mudança visual além da nitidez.
+- **Denoise temporal** (`hqdn3d=1.5:1.5:6:6`) — remove o ruído de compressão sem borrar detalhe estático
+- **Upscale Lanczos para 1080×1920** — escala vertical mantendo proporção 9:16 original
+- **Sharpen sutil em duas etapas** (`unsharp=3:3:0.6, unsharp=5:5:0.4`) — devolve definição às palmeiras e telhas sem criar halo
+- **Color subtle boost** (`eq=saturation=1.08:contrast=1.04`) — verde da vegetação e céu mais vivos
+- **Encode H.264 High Profile, CRF 18, preset slow, +faststart** — qualidade master, começa a tocar antes de baixar
+- **Áudio AAC 192k** (mantém o som ambiente)
+- Arquivo final esperado: ~25–40 MB, 1080×1920, fluido em mobile e desktop
 
-### 4. Verificação
-- Abrir o vídeo no preview, conferir nitidez no mobile (390px) e desktop (1280px).
-- Confirmar que não há barras pretas e que o "X" continua funcionando.
+### 2. Substituir o asset mantendo TUDO igual no site
+
+- Subir o novo MP4 como asset (`video-paraiso-portrait-hd.mp4`)
+- Atualizar **apenas** o `<source>` portrait em `src/components/ImmersiveVideoSection.tsx`
+- **Não mexer**: lightbox, botão "X", capa landscape do desktop, posição, copy, animação — nada
+
+### 3. Verificação visual
+
+- Abrir o vídeo no preview mobile (390px) e conferir nitidez no texto "Pousada Ilha do Sacimirim/BA"
+- Conferir que o player abre rápido e sem barras pretas
+- Conferir que o "X" continua fechando
+
+### 4. (Opcional, se quiser ir além)
+
+Posso aplicar upscale por IA (Real-ESRGAN/Topaz-like via FFmpeg + modelo) se a versão acima ainda não te agradar — mas costuma deixar folhagem com aspecto "pintado". Faço só se você pedir depois de ver o resultado da etapa 1.
 
 ---
 
-**Próximo passo:** me manda o vídeo original (do celular, como documento). Sem isso, qualquer tentativa vai entregar a mesma qualidade de hoje — é limitação física do arquivo atual, não do código.
+**Próximo passo:** aprova e eu executo o pipeline ffmpeg + troco o asset agora.
