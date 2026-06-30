@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { Play, X } from "lucide-react";
 
 import poster from "@/assets/paraiso-poster-clean-cover.jpg.asset.json";
-import video from "@/assets/video-paraiso-fullhd-clean.mp4.asset.json";
+import video from "@/assets/video-paraiso-portrait-hd.mp4.asset.json";
 
 
 import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
