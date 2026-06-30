@@ -99,11 +99,11 @@ const ROOMS: RoomCard[] = [
 ];
 
 const ROOM_AMENITIES = [
-  { icon: AirVent, label: "Ar-condicionado" },
-  { icon: MonitorPlay, label: "Smart TV" },
-  { icon: Refrigerator, label: "Frigobar" },
-  { icon: UtensilsCrossed, label: "Café da manhã" },
-  { icon: Wifi, label: "Wi-Fi grátis" },
+  { icon: AirVent, label: "Ar-cond.", full: "Ar-condicionado" },
+  { icon: MonitorPlay, label: "Smart TV", full: "Smart TV" },
+  { icon: Refrigerator, label: "Frigobar", full: "Frigobar" },
+  { icon: UtensilsCrossed, label: "Café", full: "Café da manhã incluso" },
+  { icon: Wifi, label: "Wi-Fi", full: "Wi-Fi grátis" },
 ];
 
 const GALLERY = [
