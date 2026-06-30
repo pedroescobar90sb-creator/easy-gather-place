@@ -112,9 +112,9 @@ const ROOM_AMENITIES = [
 ];
 
 const GALLERY = [
+  { src: fachadaNoite.url, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
   { src: recepcaoDia.url, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
   { src: quiosqueJardim.url, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
-  { src: fachadaNoite.url, caption: "Acomodações", desc: "Quartos confortáveis, pensados pro seu descanso." },
   { src: piscinaNoite.url, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
 ];
 
