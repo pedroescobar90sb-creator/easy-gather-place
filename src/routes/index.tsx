@@ -421,19 +421,20 @@ function HomePage() {
                   <div className="mt-1 text-sm text-muted-foreground">{r.capacity}</div>
                 </div>
 
-                <ul className="grid grid-cols-3 gap-2 text-[13px] text-muted-foreground">
-                  {ROOM_AMENITIES.slice(0, 3).map(({ icon: Icon, label }) => (
-                    <li key={label} className="flex flex-col items-center justify-center gap-1.5 rounded-lg border border-border/60 bg-background/50 py-2.5">
-                      <Icon className="h-4 w-4 text-primary" />
-                      <span className="text-center leading-tight">{label}</span>
+                <ul className="grid grid-cols-5 gap-1.5 text-[11px] text-foreground/80">
+                  {ROOM_AMENITIES.map(({ icon: Icon, label }) => (
+                    <li
+                      key={label}
+                      className="flex flex-col items-center justify-start gap-1.5 rounded-xl border border-border/60 bg-gradient-to-b from-background to-background/40 px-1 py-2.5"
+                      title={label}
+                    >
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                        <Icon className="h-3.5 w-3.5" strokeWidth={2} />
+                      </span>
+                      <span className="text-center leading-tight tracking-tight">{label}</span>
                     </li>
                   ))}
                 </ul>
-
-                <div className="text-[13px] text-muted-foreground flex items-center gap-3">
-                  <span className="inline-flex items-center gap-1"><Coffee className="h-3.5 w-3.5" /> Café da manhã</span>
-                  <span className="inline-flex items-center gap-1"><Wifi className="h-3.5 w-3.5" /> Wi-Fi grátis</span>
-                </div>
 
                 <div className="text-primary text-lg font-medium tabular-nums">{r.price}</div>
 
