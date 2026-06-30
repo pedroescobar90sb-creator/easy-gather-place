@@ -438,7 +438,12 @@ function HomePage() {
                 </ul>
                 <p className="-mt-2 text-[11px] text-muted-foreground">Café da manhã e Wi-Fi inclusos.</p>
 
-                <div className="text-primary text-lg font-medium tabular-nums">{r.price}</div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-xs text-muted-foreground">a partir de</span>
+                  <span className="text-primary text-xl font-semibold tabular-nums">{r.price}</span>
+                  <span className="text-xs text-muted-foreground">/ noite</span>
+                </div>
+
 
                 <a
                   href={wa(r.waMsg)}
