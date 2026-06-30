@@ -126,13 +126,7 @@ export function ImmersiveVideoSection() {
           aria-modal="true"
           className="fixed inset-0 z-[9999] overflow-hidden bg-black animate-in fade-in duration-300"
         >
-          {/* Ambilight: blurred poster fills any uncovered area */}
-          <div
-            aria-hidden
-            className="absolute inset-0 scale-110 bg-cover bg-center blur-2xl opacity-60"
-            style={{ backgroundImage: `url(${poster.url})` }}
-          />
-          {/* Tela cheia: o vídeo ocupa 100% sem distorção. */}
+          {/* Tela cheia real: vídeo preenche 100% da viewport, sem faixas pretas. */}
           <video
             ref={videoRef}
             poster={poster.url}
@@ -146,9 +140,9 @@ export function ImmersiveVideoSection() {
             }}
             className="absolute inset-0 h-[100svh] w-[100vw] object-cover"
           >
-            <source media="(min-width: 768px)" src={videoLandscape.url} type="video/mp4" />
             <source src={video.url} type="video/mp4" />
           </video>
+
 
           <button
             type="button"
