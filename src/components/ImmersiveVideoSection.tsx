@@ -159,7 +159,7 @@ export function ImmersiveVideoSection() {
               setOpen(false);
             }}
             aria-label="Fechar vídeo"
-            className="absolute top-5 right-5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-black hover:bg-white transition shadow-xl ring-1 ring-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="fixed top-5 right-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-black hover:bg-white transition shadow-xl ring-1 ring-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             style={{ zIndex: 1000000 }}
           >
             <X className="h-5 w-5" strokeWidth={2.25} />
