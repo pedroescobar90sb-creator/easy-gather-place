@@ -486,7 +486,7 @@ function HomePage() {
               { src: piscinaLoungers.url, caption: "Espreguiçadeiras", desc: "Espreguiçadeiras alinhadas, céu azul e dia perfeito de descanso." },
               { src: piscinaPassarela.url, caption: "Passarela e coqueiros", desc: "Passarela de madeira ladeada por coqueiros, ligando o jardim à piscina." },
               { src: piscinaAgua.url, caption: "Águas da piscina", desc: "Reflexos e textura da água em um fim de tarde tranquilo." },
-              { src: piscinaNoturna.url, caption: "Piscina à noite", desc: "A piscina iluminada — clima de bar à beira d'água depois do jantar." },
+              
             ]}
             className="mt-10"
             trigger={
