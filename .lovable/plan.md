@@ -1,43 +1,20 @@
-## Diagnóstico do arquivo enviado
+## O que fazer
 
-- Resolução: **720×1280 (portrait)** — compressão do WhatsApp
-- Bitrate: **~1.1 Mbps** (baixo, daí o "embaçado")
-- Codec: H.264, 30fps, 82s, 12 MB
+1. **Limpar a imagem enviada**
+   - Usar `imagegen--edit_image` na foto enviada para remover o texto "Finalmente férias" (mantendo piscina, deck e palmeiras intactos), com saída em 1600×1600 para ganhar resolução.
+   - Pós-processar com `ffmpeg` (unsharp + JPEG q92) e publicar como asset `piscina-hero-clean.jpg`.
 
-É o mesmo material que já está no site, só que o WhatsApp recomprimiu. **O vídeo nunca vai ficar 4K nítido** a partir desse arquivo — a informação visual foi destruída na compressão. Mas dá pra deixar **bem mais limpo e profissional** com pós-processamento cuidadoso.
+2. **Trocar na seção "A piscina" (`src/routes/index.tsx`)**
+   - Substituir a hero image atual (`piscina-cascata`) por essa nova foto limpa.
+   - Manter exatamente o mesmo layout: foto única + botão "Ver fotos da piscina" + CTA WhatsApp (como na 2ª imagem de referência).
 
-> Se você conseguir, em algum momento, exportar o vídeo direto do app que filmou (Capcut, galeria, drone) e me mandar **como Documento** no WhatsApp, conseguimos um salto real de qualidade. Por enquanto, vamos extrair o máximo do que existe.
+3. **Reduzir a galeria para só essa foto**
+   - O lightbox vai abrir com **apenas 1 imagem** (a nova).
+   - Remover as 5 fotos antigas da piscina do array do lightbox e apagar os assets que ficarem órfãos (`piscina-cascata`, `piscina-pergola`, `piscina-loungers`, `piscina-passarela`, `piscina-agua`) via `lovable-assets delete` para não deixar lixo.
 
-## Plano de melhoria (mesmo formato, mesmo lightbox vertical)
+4. **Verificação**
+   - Abrir o preview mobile (390px), conferir que a nova foto aparece nítida, sem o texto, e que o botão "Ver fotos da piscina" abre o lightbox mostrando só ela.
 
-### 1. Pipeline `ffmpeg` profissional de upscale + clean-up
+## Observação importante sobre qualidade
 
-Vou rodar este encoding sobre o arquivo enviado:
-
-- **Denoise temporal** (`hqdn3d=1.5:1.5:6:6`) — remove o ruído de compressão sem borrar detalhe estático
-- **Upscale Lanczos para 1080×1920** — escala vertical mantendo proporção 9:16 original
-- **Sharpen sutil em duas etapas** (`unsharp=3:3:0.6, unsharp=5:5:0.4`) — devolve definição às palmeiras e telhas sem criar halo
-- **Color subtle boost** (`eq=saturation=1.08:contrast=1.04`) — verde da vegetação e céu mais vivos
-- **Encode H.264 High Profile, CRF 18, preset slow, +faststart** — qualidade master, começa a tocar antes de baixar
-- **Áudio AAC 192k** (mantém o som ambiente)
-- Arquivo final esperado: ~25–40 MB, 1080×1920, fluido em mobile e desktop
-
-### 2. Substituir o asset mantendo TUDO igual no site
-
-- Subir o novo MP4 como asset (`video-paraiso-portrait-hd.mp4`)
-- Atualizar **apenas** o `<source>` portrait em `src/components/ImmersiveVideoSection.tsx`
-- **Não mexer**: lightbox, botão "X", capa landscape do desktop, posição, copy, animação — nada
-
-### 3. Verificação visual
-
-- Abrir o vídeo no preview mobile (390px) e conferir nitidez no texto "Pousada Ilha do Sacimirim/BA"
-- Conferir que o player abre rápido e sem barras pretas
-- Conferir que o "X" continua fechando
-
-### 4. (Opcional, se quiser ir além)
-
-Posso aplicar upscale por IA (Real-ESRGAN/Topaz-like via FFmpeg + modelo) se a versão acima ainda não te agradar — mas costuma deixar folhagem com aspecto "pintado". Faço só se você pedir depois de ver o resultado da etapa 1.
-
----
-
-**Próximo passo:** aprova e eu executo o pipeline ffmpeg + troco o asset agora.
+A foto original enviada está em 640×640 (WhatsApp/Instagram já comprimiu). Vou conseguir uma boa limpeza e um upscale decente com sharpening, mas **resolução real só com o arquivo original** (do celular, enviado como Documento no WhatsApp). Se depois quiser nitidez máxima, me mande o original e eu troco mantendo tudo igual.
