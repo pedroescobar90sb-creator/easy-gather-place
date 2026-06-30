@@ -87,16 +87,19 @@ export function ImmersiveVideoSection() {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Assistir vídeo da Pousada Ilha do Meio"
-            className="group relative block mx-auto w-[min(300px,100%)] md:mx-0 md:w-[340px] overflow-hidden rounded-3xl ring-1 ring-border/60 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
+            className="group relative block mx-auto w-[min(320px,100%)] md:mx-0 md:w-[360px] overflow-hidden rounded-3xl shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            <div className="relative aspect-[9/16] w-full overflow-hidden bg-background">
+            <div
+              className="relative aspect-[9/16] w-full overflow-hidden bg-cover bg-center"
+              style={{ backgroundImage: `url(${poster.url})` }}
+            >
               <img
                 src={poster.url}
                 alt="Pousada Ilha do Meio — prévia em vídeo"
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
                   <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
@@ -121,9 +124,15 @@ export function ImmersiveVideoSection() {
           ref={overlayRef}
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[9999] overflow-hidden bg-background animate-in fade-in duration-300"
+          className="fixed inset-0 z-[9999] overflow-hidden bg-black animate-in fade-in duration-300"
         >
-          {/* Tela cheia limpa: o vídeo ocupa 100% da tela, sem moldura ou áreas pretas externas. */}
+          {/* Ambilight: blurred poster fills any uncovered area */}
+          <div
+            aria-hidden
+            className="absolute inset-0 scale-110 bg-cover bg-center blur-2xl opacity-60"
+            style={{ backgroundImage: `url(${poster.url})` }}
+          />
+          {/* Tela cheia: o vídeo ocupa 100% sem distorção. */}
           <video
             ref={videoRef}
             poster={poster.url}
