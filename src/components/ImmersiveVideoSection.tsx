@@ -137,18 +137,23 @@ export function ImmersiveVideoSection() {
           <video
             ref={videoRef}
             poster={poster.url}
-            controls
             playsInline
             preload="auto"
             onEnded={() => setOpen(false)}
+            onClick={(e) => {
+              const v = e.currentTarget;
+              if (v.paused) v.play().catch(() => {});
+              else v.pause();
+            }}
             style={{
               opacity: revealed ? 1 : 0,
               transition: "opacity 500ms ease-out",
             }}
-            className="absolute inset-0 h-[100svh] w-[100vw] object-cover object-center"
+            className="absolute inset-0 h-[100svh] w-[100vw] object-cover object-center cursor-pointer [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-enclosure]:hidden"
           >
             <source src={video.url} type="video/mp4" />
           </video>
+
 
 
           <button

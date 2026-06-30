@@ -1,41 +1,35 @@
-## 1. Trocar o vídeo atual pelo novo
+## 1) Player limpo (sem barra preta de controles)
 
-**Arquivo do vídeo**
-- Upload do `snapinsta.com.br-6a41065aa2252.mp4` (720x1280, ~12 MB, H.264) para a CDN via `lovable-assets`, gerando `src/assets/video-paraiso-v2.mp4.asset.json`.
-- Apagar o asset antigo `src/assets/video-paraiso.mp4.asset.json` (CDN + pointer) para não pesar o projeto.
-- Manter o poster atual (`paraiso-poster.jpg`) — combina com o tom do vídeo.
+No `ImmersiveVideoSection.tsx`, no modo tela cheia:
+- Remover `controls` do `<video>` (some a barra `0:08 / 1:22`, volume, fullscreen, três pontinhos).
+- Tocar/pausar com clique no próprio vídeo (toggle).
+- Manter **apenas o botão "X"** no canto superior direito para sair.
+- Manter autoplay com som (`muted={false}`), `playsInline`, `onEnded={() => setOpen(false)}`.
+- Esconder `::-webkit-media-controls` via style inline como reforço (Safari iOS).
 
-**Player em tela cheia (ImmersiveVideoSection.tsx)**
-- Importar o novo asset.
-- No overlay fullscreen, deixar **somente**:
-  - O `<video>` em fundo preto, `object-contain`, `width/height: 100vw/100vh`, com `controls`, `playsInline`, `preload="auto"`.
-  - **Um único botão "X"** discreto, fixo no canto superior direito (pílula branca translúcida com ícone `X` da lucide), `aria-label="Fechar vídeo"`.
-- Remover o botão "← Voltar" da esquerda (some o ruído visual).
-- Manter: ESC fecha, clique fora fecha, botão do navegador (back) fecha (já via `pushState`/`popstate`), `body` com `overflow:hidden` enquanto aberto, pause ao fechar.
-- Resolução / qualidade: como o vídeo é vertical 720x1280 e o player usa `object-contain` sobre preto, não há reencode nem perda — toca no bitrate original. Em telas largas aparecem faixas pretas laterais (correto e profissional para vídeo 9:16, sem distorcer nem cortar).
+Resultado visual: vídeo cheio na tela + X. Nada mais.
 
-Sem mudanças na seção acima do player (poster card, headline, etc).
+## 2) Melhorar qualidade do vídeo
 
-## 2. Refinar a imagem "Para quem busca conforto e diversão" (Salão de Jogos)
+**Situação real:** o arquivo de origem que está hoje no projeto tem conteúdo útil em ~720x404. O atual de 1080p já é um upscale. Re-encodar para 1440p/4K só aumenta o peso sem ganhar nitidez real.
 
-**Asset**
-- Re-upload do `src/assets/salao-jogos-v2.jpg` para a CDN via `lovable-assets`, gerando `src/assets/salao-jogos-v2.jpg.asset.json` (a versão atual está como arquivo local, sem CDN/cache otimizado).
-- Remover o import direto do `.jpg`; passar a importar o `.asset.json` e usar `.url`.
+Plano em duas frentes:
 
-**Renderização (index.tsx, seção "Lazer")**
-- Trocar a `figure` por uma versão com qualidade profissional em mobile e desktop:
-  - Container com `rounded-3xl` e `ring-1 ring-border/60`, sombra suave `shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)]`.
-  - Aspect ratio responsivo: `aspect-[4/5]` no mobile (formato editorial, foco no centro da mesa de sinuca) e `md:aspect-[16/10]` no desktop (mais panorâmico, sem cortar as bandeirinhas).
-  - `<img>` com `loading="lazy"`, `decoding="async"`, `fetchPriority="low"`, `sizes="(min-width: 768px) 60vw, 100vw"`, `object-cover` e `object-[center_55%]` para manter o foco nas mesas.
-  - Caption "Salão de Jogos" mantida, com gradiente inferior um pouco mais sutil (`from-black/70`).
-- Sem mudar copy, layout do bloco à direita ou ícones.
+**A. Otimização imediata (sem novo arquivo)** — re-encodar com perfil de máxima qualidade visual no mesmo 1080p:
+- `ffmpeg -i origem.mp4 -vf "scale=1920:1080:flags=lanczos,unsharp=5:5:0.8:3:3:0.4" -c:v libx264 -preset slow -crf 17 -profile:v high -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 192k saida.mp4`
+- Substituir o asset `video-paraiso-clean-cover.mp4` pelo novo via `lovable-assets create`.
+- Ganho: imagem mais limpa, menos blocagem, sharpening sutil, start mais rápido (`+faststart`).
+
+**B. Upgrade real para "ultra qualidade" (recomendado)** — precisa de um vídeo-fonte melhor:
+- Você envia o vídeo original em 1080p ou 4K (sem corte/letterbox), de preferência o arquivo direto do celular/câmera.
+- Eu processo em 1080p ou 4K H.264 high profile + AAC 192k e publico como novo asset.
+- Mantemos um fallback 1080p para conexões lentas (`<source media="..."/>`).
 
 ## Arquivos alterados
-- `src/components/ImmersiveVideoSection.tsx` — novo player limpo (só vídeo + X), novo asset.
-- `src/assets/video-paraiso-v2.mp4.asset.json` — novo (criado via CLI).
-- `src/assets/video-paraiso.mp4.asset.json` — deletado via `lovable-assets delete`.
-- `src/assets/salao-jogos-v2.jpg.asset.json` — novo (criado via CLI).
-- `src/assets/salao-jogos-v2.jpg` — removido após upload na CDN.
-- `src/routes/index.tsx` — import e bloco da figure do Salão de Jogos.
 
-Sem mudanças de backend, rotas ou schema.
+- `src/components/ImmersiveVideoSection.tsx` — remover `controls`, adicionar toggle play/pause no clique, manter X.
+- (Opcional, etapa B) novo `src/assets/video-paraiso-ultra.mp4.asset.json` quando você enviar o vídeo-fonte melhor.
+
+## Pergunta para você
+
+Quer que eu já execute **A (otimização do atual)** agora, ou prefere primeiro me enviar o vídeo original em alta para fazermos **B (ultra qualidade real)**?
