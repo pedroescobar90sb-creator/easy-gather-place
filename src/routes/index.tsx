@@ -147,12 +147,12 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         </div>
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
-          <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] opacity-90">
+          <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
             Itacimirim · Bahia
           </div>
-          <h1 className="mt-5 font-display font-medium text-5xl sm:text-7xl leading-[1.02] tracking-tight max-w-3xl">
-            O sossego da Bahia,<br />a dois minutos do mar.
+          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl">
+            O sossego da Bahia,<br /><em className="italic font-normal opacity-95">a dois minutos do mar.</em>
           </h1>
           <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
             Hospedagem em Itacimirim, entre Guarajuba e Praia do Forte.
