@@ -12,7 +12,7 @@ import heroPousada from "@/assets/pousada-0.jpg.asset.json";
 
 import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
-import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
+import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg.asset.json";
 
@@ -112,9 +112,9 @@ const ROOM_AMENITIES = [
 ];
 
 const GALLERY = [
+  { src: fachadaNoite.url, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
   { src: recepcaoDia.url, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
   { src: quiosqueJardim.url, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
-  { src: fachadaNoite.url, caption: "Acomodações", desc: "Quartos confortáveis, pensados pro seu descanso." },
   { src: piscinaNoite.url, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
 ];
 
@@ -147,12 +147,12 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         </div>
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
-          <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] opacity-90">
+          <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
             Itacimirim · Bahia
           </div>
-          <h1 className="mt-5 font-display font-medium text-5xl sm:text-7xl leading-[1.02] tracking-tight max-w-3xl">
-            O sossego da Bahia,<br />a dois minutos do mar.
+          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl">
+            O sossego da Bahia,<br /><em className="italic font-normal opacity-95">a dois minutos do mar.</em>
           </h1>
           <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
             Hospedagem em Itacimirim, entre Guarajuba e Praia do Forte.
@@ -401,9 +401,9 @@ function HomePage() {
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Escolha seu quarto ideal.</h2>
           <p className="mt-3 text-muted-foreground">Todos os quartos com ar-condicionado, TV, frigobar, café da manhã e Wi-Fi inclusos.</p>
         </div>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-          {ROOMS.map((r) => (
-            <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-lg transition-shadow">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 md:items-start">
+          {ROOMS.map((r, idx) => (
+            <article key={r.name} className={`group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 ${idx === 1 ? 'md:mt-10' : ''} ${idx === 2 ? 'md:mt-20' : ''}`}>
               <div className="relative aspect-video overflow-hidden">
                 <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 <GalleryLightbox

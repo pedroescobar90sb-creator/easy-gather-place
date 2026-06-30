@@ -140,7 +140,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
 
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
         <DialogContent
-          className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden"
+          className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100]"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
