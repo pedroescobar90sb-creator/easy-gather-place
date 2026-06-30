@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 
-import poster from "@/assets/paraiso-poster-v2.jpg.asset.json";
-import video from "@/assets/video-paraiso-v2.mp4.asset.json";
+import poster from "@/assets/paraiso-poster-clean-cover.jpg.asset.json";
+import video from "@/assets/video-paraiso-clean-cover.mp4.asset.json";
 
 
 import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
@@ -38,7 +38,7 @@ export function ImmersiveVideoSection() {
     const t = window.setTimeout(() => {
       setRevealed(true);
       videoRef.current?.play().catch(() => {});
-    }, 350);
+    }, 120);
 
     return () => {
       document.removeEventListener("keydown", onKey);
@@ -87,10 +87,10 @@ export function ImmersiveVideoSection() {
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Assistir vídeo da Pousada Ilha do Meio"
-            className="group relative block mx-auto w-[min(320px,100%)] md:mx-0 md:w-[360px] overflow-hidden rounded-3xl shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
+            className="group relative block mx-auto w-full max-w-[520px] md:mx-0 md:w-[520px] overflow-hidden rounded-3xl shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <div
-              className="relative aspect-[9/16] w-full overflow-hidden bg-cover bg-center"
+              className="relative aspect-[16/10] w-full overflow-hidden bg-cover bg-center"
               style={{ backgroundImage: `url(${poster.url})` }}
             >
               <img
@@ -124,9 +124,10 @@ export function ImmersiveVideoSection() {
           ref={overlayRef}
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[9999] overflow-hidden bg-black animate-in fade-in duration-300"
+          className="fixed inset-0 z-[9999] overflow-hidden animate-in fade-in duration-300"
+          style={{ backgroundImage: `url(${poster.url})`, backgroundSize: "cover", backgroundPosition: "center" }}
         >
-          {/* Tela cheia real: vídeo preenche 100% da viewport, sem faixas pretas. */}
+          {/* Tela cheia real: vídeo limpo em 16:9 preenche 100% da viewport, sem faixas pretas. */}
           <video
             ref={videoRef}
             poster={poster.url}
@@ -138,7 +139,7 @@ export function ImmersiveVideoSection() {
               opacity: revealed ? 1 : 0,
               transition: "opacity 500ms ease-out",
             }}
-            className="absolute inset-0 h-[100svh] w-[100vw] object-cover"
+            className="absolute inset-0 h-[100svh] w-[100vw] object-cover object-center"
           >
             <source src={video.url} type="video/mp4" />
           </video>
