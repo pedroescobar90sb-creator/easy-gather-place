@@ -14,8 +14,12 @@ import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
-import piscinaLagoa from "@/assets/piscina-lagoa.jpg.asset.json";
-import piscinaBgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
+import piscinaCascata from "@/assets/piscina-cascata.jpg.asset.json";
+import piscinaPergola from "@/assets/piscina-pergola.jpg.asset.json";
+import piscinaLoungers from "@/assets/piscina-loungers.jpg.asset.json";
+import piscinaPassarela from "@/assets/piscina-passarela.jpg.asset.json";
+import piscinaAgua from "@/assets/piscina-agua.jpg.asset.json";
+import piscinaNoturna from "@/assets/piscina-noturna.jpg.asset.json";
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
 
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
