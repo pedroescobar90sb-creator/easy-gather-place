@@ -14,6 +14,8 @@ import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/fachada-noite.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
+import piscinaLagoa from "@/assets/piscina-lagoa.jpg.asset.json";
+import piscinaBgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
 
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
@@ -461,7 +463,59 @@ function HomePage() {
 
       </section>
 
+      {/* PISCINA */}
+      <section className="bg-background">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A piscina</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">A piscina que faz a viagem valer.</h2>
+            <p className="mt-4 text-muted-foreground sm:text-lg">
+              Aberta o dia todo, com espreguiçadeiras, área sombreada e vista da pousada. Perfeita pra descansar antes ou depois da praia.
+            </p>
+          </div>
+
+          <GalleryLightbox
+            items={[
+              { src: piscinaNoite.url, caption: "Piscina ao entardecer", desc: "A piscina iluminada no fim do dia — o cenário que define a estadia." },
+              { src: piscinaLagoa.url, caption: "Piscina com vista", desc: "Espreguiçadeiras, jardim e clima de descanso a poucos passos do quarto." },
+              { src: piscinaBgDesktop.url, caption: "Área da piscina", desc: "Área aberta da pousada, com circulação livre durante todo o dia." },
+            ]}
+            className="mt-10"
+            trigger={
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 cursor-zoom-in">
+                <figure className="relative md:col-span-2 md:row-span-2 overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] md:aspect-auto md:h-full md:min-h-[420px] group">
+                  <img src={piscinaNoite.url} alt="Piscina da Pousada Ilha do Meio ao entardecer" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]" />
+                  <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md px-3 py-1.5 text-xs font-medium">
+                    <Camera className="h-3.5 w-3.5" /> Ver fotos da piscina
+                  </span>
+                </figure>
+                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
+                  <img src={piscinaLagoa.url} alt="Piscina e jardim da pousada" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]" />
+                </figure>
+                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
+                  <img src={piscinaBgDesktop.url} alt="Área externa da piscina" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]" />
+                </figure>
+              </div>
+            }
+          />
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href={wa("Olá! Quero reservar na Pousada Ilha do Meio com vista pra piscina. Pode me passar disponibilidade e valores?")}
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-6 py-3 text-sm font-semibold transition"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              Reservar com vista pra piscina
+            </a>
+            <span className="text-sm text-muted-foreground">Café da manhã incluso · A 2 min da praia</span>
+          </div>
+        </div>
+      </section>
+
       {/* LOCALIZAÇÃO */}
+
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>

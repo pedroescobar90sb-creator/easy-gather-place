@@ -1,48 +1,36 @@
-## Recomendação estratégica: mostrar ou esconder preço?
+## Análise (gestor de tráfego + especialista em sites)
 
-**Recomendo MOSTRAR o preço — com a etiqueta "a partir de R$ X / noite".**
+**Vale a pena? Sim — mas como uma seção curta e estratégica, NÃO como galeria solta.**
 
-Por quê (baseado em conversão de pousadas que vendem por WhatsApp):
-- Quem vem de tráfego pago **filtra rápido por preço**. Sem valor visível, a maioria fecha a aba em vez de chamar no WhatsApp — você queima clique pago.
-- Quem chama no WhatsApp **sem ter ideia de preço** vem mais frio, negocia mais e converte menos. O atendimento vira "consultoria de preço" em vez de fechamento.
-- Com "**a partir de**" você ancora o valor mínimo (psicologicamente parece mais barato), preserva margem para alta temporada/feriado e mantém o WhatsApp como canal de **fechamento**, não de cotação.
-- Pousadas concorrentes em Itacimirim/Guarajuba (Booking, site próprio) mostram preço. Esconder gera desconfiança ("se não mostra, é caro").
+### Por quê (visão de tráfego pago)
+- A **piscina é o ativo visual de maior conversão** de pousada de praia. Em campanha Meta/Google, criativos com piscina ao entardecer batem CTR 30–60% acima de fachada ou quarto.
+- Você já tem **4 fotos boas de piscina** (`piscina-noite`, `piscina-lagoa`, `piscina-bg-desktop`, `piscina-bg-mobile`) — não estão sendo aproveitadas; só uma aparece hoje no rodapé do bloco de localização.
+- A landing hoje vai: hero → quartos → localização. Falta o **"momento desejo"** que conecta emoção → CTA. Piscina é exatamente isso.
+- Em mobile (390px, seu viewport atual), uma seção visual quebra a leitura pesada de texto e **aumenta tempo na página** — métrica que o algoritmo do Meta usa pra otimizar.
 
-**Quando esconderia:** só se o ticket variasse muito (ex.: 3x entre baixa e alta) ou se o produto fosse luxo puro sem comparação direta. Não é o caso aqui.
+### Por que NÃO virar só "galeria de fotos da piscina"
+- Galeria pura sem copy = visitante rola e sai. Foto bonita sem CTA não converte.
+- Já existe o `GalleryLightbox` no site — duplicar vira ruído.
 
-Decisão proposta: **manter preço visível com prefixo "a partir de"** e copy curta focada em benefício + ocupação ideal.
+### Recomendação
+Criar **uma seção dedicada "A piscina"** entre os **quartos** e a **localização**, formato editorial:
+- 1 foto grande à esquerda (`piscina-noite` — a mais cinematográfica)
+- 2 fotos menores empilhadas à direita (`piscina-lagoa` + `piscina-bg-desktop`)
+- Headline curta + 1 linha de copy + CTA WhatsApp
+- Mobile: foto principal full-width, duas menores em grid 2 colunas abaixo
+- Clique em qualquer foto abre o `GalleryLightbox` existente (aproveita componente)
+
+### Copy proposta
+- **Headline:** "A piscina que faz a viagem valer."
+- **Sub:** "Aberta o dia todo, com espreguiçadeiras, área sombreada e vista da pousada. Perfeita pra descansar antes ou depois da praia."
+- **CTA:** "Reservar com vista pra piscina" → WhatsApp
+
+### Posicionamento
+Entre `</section>` dos quartos e o início de "LOCALIZAÇÃO" — captura o usuário no pico de interesse (já viu o quarto, já viu o preço), e empurra pro WhatsApp.
 
 ## Mudanças
-
-### 1) Preços atualizados em `src/routes/index.tsx`
-- Duplo: **R$ 450 / noite** (era R$ 400)
-- Triplo: **R$ 550 / noite** (era R$ 500)
-- Quádruplo: **R$ 650 / noite** (era R$ 550)
-- Formato exibido: `a partir de R$ 450 / noite` (mesmo padrão nos 3 cards, tabular-nums, destaque sutil).
-
-### 2) Copy personalizada por quarto (substitui `capacity` + adiciona uma linha curta de benefício acima do CTA)
-
-**Quarto Duplo — R$ 450**
-- Headline: "Quarto Duplo · para o casal"
-- Linha de venda: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. A 2 minutos da praia."
-- WhatsApp: "Olá! Tenho interesse no **Quarto Duplo** (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?"
-
-**Quarto Triplo — R$ 550**
-- Headline: "Quarto Triplo · grupo pequeno ou família"
-- Linha de venda: "Três camas confortáveis, ar-condicionado e café da manhã incluso. Ótimo custo por pessoa."
-- WhatsApp: "Olá! Quero reservar o **Quarto Triplo** (3 pessoas) na Pousada Ilha do Meio, a partir de R$ 550/noite. Pode me passar disponibilidade?"
-
-**Quarto Quádruplo — R$ 650**
-- Headline: "Quarto Quádruplo · família toda junta"
-- Linha de venda: "Espaço para 4 pessoas, ar-condicionado e café da manhã incluso. Pertinho da piscina e da praia."
-- WhatsApp: "Olá! Tenho interesse no **Quarto Quádruplo** (4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?"
-
-### 3) Ajuste visual mínimo no card de preço
-- Linha pequena cinza "a partir de" acima do valor (mesmo tamanho do `capacity`), valor em destaque, "/ noite" em peso menor. Sem mudar layout/grid.
-
-## Arquivos alterados
-- `src/routes/index.tsx` — preços, headlines, linha de venda, mensagens de WhatsApp e formatação "a partir de".
+- `src/routes/index.tsx` — nova `<section>` "A piscina" (3 imagens existentes + headline + copy + CTA WhatsApp + integração ao `GalleryLightbox`).
+- Nenhum asset novo, nenhuma dependência nova.
 
 ## Confirma?
-1. Manter **preço visível "a partir de"** (recomendado) ou prefere realmente **esconder e só mostrar no WhatsApp**?
-2. Confirma os valores **450 / 550 / 650**?
+Implemento desse jeito (editorial 1 grande + 2 menores com CTA WhatsApp), ou prefere **apenas a galeria de fotos sem texto/CTA**? Recomendo fortemente a primeira.
