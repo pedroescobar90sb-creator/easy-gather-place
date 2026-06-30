@@ -1,43 +1,37 @@
-## Diagnóstico do arquivo enviado
+## Diagnóstico
 
-- Resolução: **720×1280 (portrait)** — compressão do WhatsApp
-- Bitrate: **~1.1 Mbps** (baixo, daí o "embaçado")
-- Codec: H.264, 30fps, 82s, 12 MB
+Detectei o problema: o arquivo enviado é tecnicamente 720×1280 (vertical), mas o **vídeo real está em apenas 720×404 (paisagem 16:9)** centralizado no meio, com **faixas pretas enormes em cima e embaixo** já "queimadas" no arquivo. Quando o reencodei para 1080×1920 vertical, mantive essas faixas — daí o preto que aparece.
 
-É o mesmo material que já está no site, só que o WhatsApp recomprimiu. **O vídeo nunca vai ficar 4K nítido** a partir desse arquivo — a informação visual foi destruída na compressão. Mas dá pra deixar **bem mais limpo e profissional** com pós-processamento cuidadoso.
+```
+[cropdetect] crop=720:404:0:438  ← área útil do vídeo
+```
 
-> Se você conseguir, em algum momento, exportar o vídeo direto do app que filmou (Capcut, galeria, drone) e me mandar **como Documento** no WhatsApp, conseguimos um salto real de qualidade. Por enquanto, vamos extrair o máximo do que existe.
+## Plano
 
-## Plano de melhoria (mesmo formato, mesmo lightbox vertical)
+### 1. Cortar as faixas pretas na fonte
+Rodar `ffmpeg` com `crop=720:404:0:438` para extrair **apenas a área com imagem**, descartando todo o preto.
 
-### 1. Pipeline `ffmpeg` profissional de upscale + clean-up
+### 2. Upscale + nitidez na imagem útil
+Sobre o frame limpo (720×404):
+- Escalar para **1920×1080 Lanczos** (16:9 nativo, full HD real)
+- `hqdn3d=1.5:1.5:6:6` — limpa ruído de compressão
+- `unsharp=5:5:0.6` — devolve definição
+- `eq=saturation=1.08:contrast=1.04` — verde/céu mais vivos
+- Encode **H.264 High, CRF 18, preset slow, +faststart**, áudio AAC 192k
 
-Vou rodar este encoding sobre o arquivo enviado:
+Resultado: arquivo 1080p paisagem, ~20–35 MB, **sem nenhuma faixa preta**.
 
-- **Denoise temporal** (`hqdn3d=1.5:1.5:6:6`) — remove o ruído de compressão sem borrar detalhe estático
-- **Upscale Lanczos para 1080×1920** — escala vertical mantendo proporção 9:16 original
-- **Sharpen sutil em duas etapas** (`unsharp=3:3:0.6, unsharp=5:5:0.4`) — devolve definição às palmeiras e telhas sem criar halo
-- **Color subtle boost** (`eq=saturation=1.08:contrast=1.04`) — verde da vegetação e céu mais vivos
-- **Encode H.264 High Profile, CRF 18, preset slow, +faststart** — qualidade master, começa a tocar antes de baixar
-- **Áudio AAC 192k** (mantém o som ambiente)
-- Arquivo final esperado: ~25–40 MB, 1080×1920, fluido em mobile e desktop
+### 3. Player ocupa a tela inteira sem preto
+O componente `ImmersiveVideoSection.tsx` já usa `object-cover` + `inset-0`. Com o vídeo agora sendo um 16:9 limpo, ele preenche a viewport edge-to-edge automaticamente. **No mobile (portrait)** o vídeo paisagem se ajusta cobrindo a tela toda — sem preto, sem letterbox — porque `object-cover` corta uma leve borda lateral em vez de adicionar barra.
 
-### 2. Substituir o asset mantendo TUDO igual no site
-
-- Subir o novo MP4 como asset (`video-paraiso-portrait-hd.mp4`)
-- Atualizar **apenas** o `<source>` portrait em `src/components/ImmersiveVideoSection.tsx`
-- **Não mexer**: lightbox, botão "X", capa landscape do desktop, posição, copy, animação — nada
-
-### 3. Verificação visual
-
-- Abrir o vídeo no preview mobile (390px) e conferir nitidez no texto "Pousada Ilha do Sacimirim/BA"
-- Conferir que o player abre rápido e sem barras pretas
-- Conferir que o "X" continua fechando
-
-### 4. (Opcional, se quiser ir além)
-
-Posso aplicar upscale por IA (Real-ESRGAN/Topaz-like via FFmpeg + modelo) se a versão acima ainda não te agradar — mas costuma deixar folhagem com aspecto "pintado". Faço só se você pedir depois de ver o resultado da etapa 1.
+### 4. Trocar o asset e validar
+- Subir como `video-paraiso-fullhd-clean.mp4`
+- Atualizar só o `import video` em `ImmersiveVideoSection.tsx`
+- Abrir o preview mobile (390px) e desktop, confirmar:
+  - Zero preto em qualquer borda
+  - Botão "X" continua visível e funcional
+  - Vídeo nítido e fluido
 
 ---
 
-**Próximo passo:** aprova e eu executo o pipeline ffmpeg + troco o asset agora.
+**Próximo passo:** aprova e eu executo crop + upscale + troca de asset.
