@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Play, X } from "lucide-react";
 
 import poster from "@/assets/paraiso-poster-clean-cover.jpg.asset.json";
@@ -119,7 +120,7 @@ export function ImmersiveVideoSection() {
         </div>
       </div>
 
-      {open && (
+      {open && typeof document !== "undefined" && createPortal(
         <div
           ref={overlayRef}
           role="dialog"
@@ -163,7 +164,8 @@ export function ImmersiveVideoSection() {
           >
             <X className="h-5 w-5" strokeWidth={2.25} />
           </button>
-        </div>
+        </div>,
+        document.body,
       )}
     </section>
   );
