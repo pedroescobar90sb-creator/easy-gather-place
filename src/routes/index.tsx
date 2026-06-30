@@ -21,6 +21,7 @@ import piscinaPassarela from "@/assets/piscina-passarela.jpg.asset.json";
 import piscinaAgua from "@/assets/piscina-agua.jpg.asset.json";
 import piscinaNoturna from "@/assets/piscina-noturna.jpg.asset.json";
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
+import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
 
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoDuploAlt from "@/assets/quarto-duplo.jpg.asset.json";
@@ -538,9 +539,10 @@ function HomePage() {
               </div>
             </address>
           </div>
-          <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-xl shadow-black/10">
-            <img src={quiosqueJardim.url} alt="Entorno da pousada em Itacimirim" className="h-full w-full object-cover" loading="lazy" />
+          <div className="aspect-square overflow-hidden rounded-2xl shadow-xl shadow-black/10 bg-[#0f3d2e]">
+            <img src={localizacaoBadge.url} alt="Localização da Pousada Ilha do Meio em Itacimirim, Bahia" className="h-full w-full object-contain" loading="lazy" />
           </div>
+
         </div>
       </section>
 

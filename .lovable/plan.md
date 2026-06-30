@@ -1,38 +1,21 @@
-## Análise das 6 fotos enviadas
+## Objetivo
+Substituir a foto atual (`quiosqueJardim`) na seção **Localização** da home pela arte enviada (badge verde com palmeiras, logo "Ilha do Meio" e pin "LOCALIZAÇÃO"), entregue em alta resolução e enquadramento correto.
 
-| # | Foto | Avaliação | Uso |
-|---|------|-----------|-----|
-| 1 | `image-17.png` (piscina com cascata + coqueiros + bangalô amarelo) | **A mais forte.** Água cristalina, cascata, luz natural, profundidade — vende sozinha. | **HERO** (foto única visível) |
-| 2 | `85696150.jpg` (pérgola + piscina + árvore grande) | Excelente. Mostra área de convívio, sombra, escala. | Lightbox #2 |
-| 3 | `239488161.jpg` (piscina com espreguiçadeiras + céu azul) | Muito boa. Comunica "descanso à beira da piscina". | Lightbox #3 |
-| 4 | `image-16.png` (passarela de madeira + coqueiros ao vento) | Boa. Mostra entorno e charme rústico. | Lightbox #4 |
-| 5 | `239488566.jpg` (água azul vibrante + árvore) | Boa textura/cor, mas composição parecida com a #3. | Lightbox #5 |
-| 6 | `528468362.jpg` (piscina à noite) | Atmosférica. Bom contraste com as diurnas. | Lightbox #6 |
+## Análise da imagem enviada
+- Original: 1254 × 1254 px (quadrada), JPEG, arte gráfica (não é foto).
+- O slot atual no site é `aspect-[4/3]` — usar a imagem quadrada nesse slot cortaria as palmeiras laterais e o texto "LOCALIZAÇÃO" inferior. Precisamos preservar a composição inteira.
+- Como é arte vetorial/ilustrada, fazer upscale com IA não agrega — basta otimizar e servir nítido. Vou reprocessar com `ffmpeg`/Pillow para gerar um JPEG de altíssima qualidade (sharpen leve + qualidade 92) mantendo 1254×1254, e publicar via `lovable-assets` no CDN.
 
-**Aprovo as 6** — formam um conjunto coerente (dia + entardecer + noite + entorno). A foto noturna escura que aparece hoje (`piscina-noite`) será **substituída** pela cascata diurna.
+## Mudanças
+1. **Otimizar e subir a arte** como asset CDN (`src/assets/localizacao-badge.jpg.asset.json`).
+2. **Ajustar o slot visual** em `src/routes/index.tsx` (linhas 541–543):
+   - Trocar `aspect-[4/3]` por `aspect-square` para respeitar a proporção 1:1 da arte.
+   - Trocar `object-cover` por `object-contain` com fundo no tom verde do badge (`bg-[#0f3d2e]`) para garantir que nada do desenho seja cortado em nenhuma viewport.
+   - Atualizar `alt` para "Localização da Pousada Ilha do Meio em Itacimirim, Bahia".
+   - Manter `rounded-2xl shadow-xl` e `loading="lazy"`.
+3. **Sem outras alterações** — copy, endereço, layout em duas colunas e demais seções permanecem iguais.
 
-## Melhoria de qualidade
-Originais já são bons (≥1000px). Otimização sem perda perceptível:
-- Re-encode para **JPEG progressivo, qualidade 88, mozjpeg-like via `ffmpeg`/`magick`**, sharpening leve (`unsharp 0x0.8+0.6+0`), strip de metadados.
-- Largura máxima 1920px (mantém nitidez em 4K), preservando proporção.
-- Conversão para asset CDN via `lovable-assets`.
-- Resultado: arquivos ~30–50% menores, mesmo detalhe visual, carregamento muito mais rápido (importante pro Meta Ads não dropar score do criativo).
-
-## Mudanças no site (`src/routes/index.tsx`)
-
-**Mesma lógica dos cards de quarto:**
-- 1 única foto grande visível (`image-17` — cascata) com aspect ratio `4/3` (igual aos quartos)
-- Botão sobreposto canto inferior: **"Ver fotos da piscina"** com ícone `Camera` (mesmo estilo dos quartos)
-- Clique abre o `GalleryLightbox` existente com **as 6 fotos** otimizadas
-- Headline e copy já existentes mantidos
-- CTA WhatsApp "Reservar com vista pra piscina" mantido logo abaixo
-
-**Remove:** o mosaico atual de 3 fotos (substituído por foto única).
-
-## Arquivos
-- Upload de 6 assets novos via `lovable-assets create` (`piscina-cascata`, `piscina-pergola`, `piscina-loungers`, `piscina-passarela`, `piscina-arvore`, `piscina-noturna`).
-- `src/routes/index.tsx` — refatora a seção "A piscina" pro padrão card único + lightbox.
-- (Opcional) Deletar `piscina-noite.asset.json` antigo se não for mais usado em nenhum outro lugar — vou verificar antes.
-
-## Confirma?
-Implemento com a **cascata (`image-17`)** como foto única visível e as outras 5 dentro do lightbox?
+## Detalhes técnicos
+- Asset pipeline: `lovable-assets create --file /tmp/localizacao-badge.jpg --filename localizacao-badge.jpg`.
+- Import: `import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json"` e usar `localizacaoBadge.url`.
+- A imagem `quiosqueJardim` continua usada em outras seções, então não removo o import existente.
