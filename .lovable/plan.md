@@ -1,41 +1,36 @@
-## Diagnóstico honesto
+## Diagnóstico
 
-As 6 fotos da piscina que estão no site hoje foram enviadas originalmente em **resolução baixa** (entre 766×862 e 965×867 px — provavelmente prints/compressões de WhatsApp, não os arquivos originais da câmera). As imagens novas que você acabou de mandar (image-19 a image-24) são **screenshots do próprio lightbox do site** (≈ 520–840 px), então não servem como nova fonte — são as mesmas fotos, em qualidade ainda pior.
+O vídeo atual (`video-paraiso-clean-cover.mp4`) está embaçado porque foi gerado a partir de um arquivo já comprimido do WhatsApp e depois re-encodado/cortado para 16:9. Cada re-encode somou perda. Não há como "tirar" o borrão sem uma fonte melhor — upscaling por IA só inventa pixel e costuma deixar textura plástica em folhagem (palmeiras viram borrão verde).
 
-**Conclusão técnica:** não dá pra "aumentar resolução" de verdade sem o arquivo original. Posso aplicar upscale por IA (2x), mas em foto de água/folhagem isso costuma introduzir artefatos plásticos e detalhes inventados — fica pior que o original nítido.
+A única forma de ficar **realmente nítido** é partir de um arquivo de origem em alta resolução.
 
-## Ranking das 6 fotos atuais (qualidade real)
+## Plano
 
-| # | Foto | Resolução | Avaliação |
-|---|---|---|---|
-| 1 | Piscina com cascata | 766×862 | Boa composição, nitidez OK — **manter** |
-| 2 | Área da pérgola | 820×827 | Cores ricas, nitidez OK — **manter** |
-| 3 | Espreguiçadeiras | 958×867 | Melhor nitidez do grupo — **manter** |
-| 4 | Passarela e coqueiros | 853×852 | Boa, vento agita as palmas — **manter** |
-| 5 | Águas da piscina | 846×852 | OK, mas mais escura/menos vendedora — **opcional remover** |
-| 6 | Piscina à noite | — | Foto noturna, baixa luz, ruído alto — **remover** (não vende, parece amadora) |
+### 1. Você me envia o arquivo original (passo crítico)
+- Pegar o vídeo direto da **galeria do celular** que filmou (não reencaminhado).
+- Enviar no chat aqui como **arquivo/documento** (não como vídeo do WhatsApp, que recomprime pra ~720p).
+- Ideal: 1080p ou 4K, MP4/MOV, qualquer duração.
+- Se tiver mais de um take, manda todos — eu escolho o melhor frame de capa.
 
-## Plano de ação
+### 2. Eu processo localmente em qualidade master
+Com o original em mãos, eu faço o pipeline profissional via `ffmpeg`:
 
-**Etapa 1 — Limpeza imediata (sem novos arquivos):**
-- Remover a foto **"Piscina à noite"** do lightbox (qualidade ruim, não ajuda na conversão).
-- Remover a foto **"Águas da piscina"** se você concordar (é redundante com a #1).
-- Reotimizar as 4 (ou 5) restantes com pipeline de qualidade premium: sharpen adaptativo + JPEG q92 progressivo, mantendo a resolução original mas com melhor compressão visual.
-- Galeria passa de 6 → 4 ou 5 fotos das melhores.
+- **Crop inteligente para 16:9** mantendo o enquadramento da pousada (sem barras pretas, sem distorção).
+- **Escala Lanczos** para 1920×1080 (ou mantém 4K se a fonte for 4K).
+- **Sharpen sutil** (`unsharp=5:5:0.8`) para recuperar definição das palmeiras/telhado.
+- **Encode H.264 high profile**, CRF 18, preset `slow`, `+faststart` (começa a tocar antes de baixar tudo).
+- **Áudio AAC 128k** (ou mudo, se preferir manter como está hoje).
+- Resultado esperado: ~15–40 MB para um clipe curto, nítido em tela cheia 1080p.
 
-**Etapa 2 — Substituições que você envia:**
-Para ganho real de resolução, mande os **originais direto do celular** (sem compressão de WhatsApp). Dicas:
-- WhatsApp: enviar como **Documento**, não como Foto (preserva resolução).
-- Ou mandar por Telegram, Drive, AirDrop, ou aqui no chat arrastando o arquivo original.
-- Tamanho ideal: ≥ 2000 px no lado maior.
+### 3. Publicar mantendo TUDO igual no site
+- Upload do novo MP4 como asset no mesmo slot.
+- O componente `ImmersiveVideoSection.tsx` continua exatamente igual — mesmo card, mesmo botão "X", mesmo lightbox portrait no mobile, mesma capa landscape no desktop.
+- Nenhuma mudança visual além da nitidez.
 
-Fotos prioritárias para você reenviar em alta:
-1. **Piscina com cascata** (foto-âncora — é o "hero" da seção)
-2. **Piscina à noite** (se quiser manter, precisa de versão noturna boa)
-3. Qualquer outra cena nova: vista aérea da piscina, detalhe da cascata, café da manhã na pérgola.
+### 4. Verificação
+- Abrir o vídeo no preview, conferir nitidez no mobile (390px) e desktop (1280px).
+- Confirmar que não há barras pretas e que o "X" continua funcionando.
 
-## O que **NÃO** vou fazer
-- Upscale com IA das atuais — gera artefatos e fica pior em água/folhas.
-- Adicionar fotos novas inventadas por IA — quebra a promessa "fotos reais da pousada".
+---
 
-Confirma a remoção da foto noturna (e se quer remover também a "Águas da piscina") e eu já aplico a Etapa 1. A Etapa 2 espera você reenviar os originais.
+**Próximo passo:** me manda o vídeo original (do celular, como documento). Sem isso, qualquer tentativa vai entregar a mesma qualidade de hoje — é limitação física do arquivo atual, não do código.
