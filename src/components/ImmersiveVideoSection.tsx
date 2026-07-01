@@ -12,11 +12,15 @@ import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
 
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      setRevealed(false);
+      return;
+    }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
@@ -30,14 +34,19 @@ export function ImmersiveVideoSection() {
     document.body.style.overflow = "hidden";
     window.history.pushState({ videoOpen: true }, "");
 
-    // Play imediato — sem delay, sem fade
-    videoRef.current?.play().catch(() => {});
+
+
+    const t = window.setTimeout(() => {
+      setRevealed(true);
+      videoRef.current?.play().catch(() => {});
+    }, 120);
 
     return () => {
       document.removeEventListener("keydown", onKey);
       window.removeEventListener("popstate", onPop);
       document.removeEventListener("fullscreenchange", onFsChange);
       document.body.style.overflow = "";
+      window.clearTimeout(t);
       if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
       if (window.history.state?.videoOpen) window.history.back();
     };
@@ -116,21 +125,29 @@ export function ImmersiveVideoSection() {
           ref={overlayRef}
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[9999] overflow-hidden bg-black"
-          style={{ zIndex: 999999 }}
+          className="fixed inset-0 z-[9999] overflow-hidden animate-in fade-in duration-300"
+          style={{
+            zIndex: 999999,
+            backgroundImage: `url(${poster.url})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
           {/* Tela cheia real: vídeo limpo em 16:9 preenche 100% da viewport, sem faixas pretas. */}
           <video
             ref={videoRef}
             poster={poster.url}
             playsInline
-            autoPlay
             preload="auto"
             onEnded={() => setOpen(false)}
             onClick={(e) => {
               const v = e.currentTarget;
               if (v.paused) v.play().catch(() => {});
               else v.pause();
+            }}
+            style={{
+              opacity: revealed ? 1 : 0,
+              transition: "opacity 500ms ease-out",
             }}
             className="absolute inset-0 h-[100svh] w-[100vw] object-cover object-center cursor-pointer [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-enclosure]:hidden"
           >
