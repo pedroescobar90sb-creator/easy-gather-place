@@ -20,11 +20,12 @@ import piscinaHero from "@/assets/piscina-hero-clean.jpg.asset.json";
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
 import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
 
-import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
-import quartoDuploAlt from "@/assets/quarto-duplo.jpg.asset.json";
+import quartoDuplo from "@/assets/quarto-duplo-hd.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
-import quartoTriploAlt from "@/assets/quarto-triplo.jpg.asset.json";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-hd.jpg.asset.json";
+import piscinaPergolado from "@/assets/piscina-pergolado-hd.jpg.asset.json";
+import piscinaCascata from "@/assets/piscina-cascata-hd.jpg.asset.json";
+import piscinaPergoladoBambu from "@/assets/piscina-pergolado-bambu-hd.jpg.asset.json";
 import bgPraiaDesktop from "@/assets/bg-praia-aereo-desktop.jpg.asset.json";
 import bgPraiaMobile from "@/assets/bg-praia-aereo-mobile.jpg.asset.json";
 
@@ -70,8 +71,7 @@ const ROOMS: RoomCard[] = [
     cta: "Quero reservar o Quarto Duplo",
     waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
-      { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
-      { src: quartoDuploAlt.url, caption: "Quarto Duplo · Detalhe", desc: "Iluminação suave e acabamento aconchegante." },
+      { src: quartoDuplo.url, caption: "Quarto Duplo", desc: "Ambiente confortável, ideal para casais." },
     ],
   },
   {
@@ -83,8 +83,7 @@ const ROOMS: RoomCard[] = [
     cta: "Quero reservar o Quarto Triplo",
     waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) na Pousada Ilha do Meio, a partir de R$ 550/noite. Pode me passar disponibilidade?",
     photos: [
-      { src: quartoTriplo.url, caption: "Quarto Triplo · Vista geral", desc: "Espaço para três, sem abrir mão do conforto." },
-      { src: quartoTriploAlt.url, caption: "Quarto Triplo · Detalhe", desc: "Camas bem dispostas e ambiente arejado." },
+      { src: quartoTriplo.url, caption: "Quarto Triplo", desc: "Espaço para três, sem abrir mão do conforto." },
     ],
   },
   {
@@ -96,8 +95,7 @@ const ROOMS: RoomCard[] = [
     cta: "Quero reservar o Quarto Quádruplo",
     waMsg: "Olá! Tenho interesse no Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?",
     photos: [
-      { src: quartoQuadruplo.url, caption: "Quarto Quádruplo · Vista geral", desc: "Pensado para a família toda descansar junto." },
-      { src: quartoTriplo.url, caption: "Quarto Quádruplo · Detalhe", desc: "Boa circulação e camas confortáveis." },
+      { src: quartoQuadruplo.url, caption: "Quarto Quádruplo", desc: "Pensado para a família toda descansar junto." },
     ],
   },
 ];
@@ -479,22 +477,11 @@ function HomePage() {
           <GalleryLightbox
             items={[
               { src: piscinaHero.url, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
+              { src: piscinaPergolado.url, caption: "Piscina & pergolado", desc: "Área sombreada com mesas ao redor da piscina, cercada por coqueiros." },
+              { src: piscinaCascata.url, caption: "Piscina com cascata", desc: "Cascata de água, espreguiçadeiras e coqueiros ao entardecer." },
+              { src: piscinaPergoladoBambu.url, caption: "Área de convivência", desc: "Pergolado de bambu com mesas, ao lado da piscina infantil." },
             ]}
-            className="mt-10"
-            trigger={
-              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group cursor-zoom-in">
-                <img
-                  src={piscinaHero.url}
-                  alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
-                />
-                <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
-                  <Camera className="h-3.5 w-3.5" />
-                  Ver foto da piscina
-                </span>
-              </figure>
-            }
+            className="mt-10 grid-cols-2 lg:grid-cols-4"
           />
 
 
