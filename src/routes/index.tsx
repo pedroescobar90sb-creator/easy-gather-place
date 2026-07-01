@@ -477,22 +477,11 @@ function HomePage() {
           <GalleryLightbox
             items={[
               { src: piscinaHero.url, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
+              { src: piscinaPergolado.url, caption: "Piscina & pergolado", desc: "Área sombreada com mesas ao redor da piscina, cercada por coqueiros." },
+              { src: piscinaCascata.url, caption: "Piscina com cascata", desc: "Cascata de água, espreguiçadeiras e coqueiros ao entardecer." },
+              { src: piscinaPergoladoBambu.url, caption: "Área de convivência", desc: "Pergolado de bambu com mesas, ao lado da piscina infantil." },
             ]}
-            className="mt-10"
-            trigger={
-              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group cursor-zoom-in">
-                <img
-                  src={piscinaHero.url}
-                  alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
-                />
-                <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
-                  <Camera className="h-3.5 w-3.5" />
-                  Ver foto da piscina
-                </span>
-              </figure>
-            }
+            className="mt-10 grid-cols-2 lg:grid-cols-4"
           />
 
 
