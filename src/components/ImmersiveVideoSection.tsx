@@ -12,15 +12,11 @@ import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
 
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
-  const [revealed, setRevealed] = useState(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    if (!open) {
-      setRevealed(false);
-      return;
-    }
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
@@ -34,19 +30,14 @@ export function ImmersiveVideoSection() {
     document.body.style.overflow = "hidden";
     window.history.pushState({ videoOpen: true }, "");
 
-
-
-    const t = window.setTimeout(() => {
-      setRevealed(true);
-      videoRef.current?.play().catch(() => {});
-    }, 120);
+    // Play imediato — sem delay, sem fade
+    videoRef.current?.play().catch(() => {});
 
     return () => {
       document.removeEventListener("keydown", onKey);
       window.removeEventListener("popstate", onPop);
       document.removeEventListener("fullscreenchange", onFsChange);
       document.body.style.overflow = "";
-      window.clearTimeout(t);
       if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
       if (window.history.state?.videoOpen) window.history.back();
     };
