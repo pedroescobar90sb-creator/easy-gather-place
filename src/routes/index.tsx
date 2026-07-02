@@ -484,29 +484,20 @@ function HomePage() {
             ]}
             className="mt-10"
             trigger={
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 cursor-zoom-in">
-                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
-                  <img
-                    src={piscinaHero.url}
-                    alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
-                  />
-                </figure>
-                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
-                  <img
-                    src={piscinaDeck.url}
-                    alt="Deck com pergolado de bambu e área gourmet ao lado da piscina"
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
-                  />
-                  <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
-                    <Camera className="h-3.5 w-3.5" />
-                    Ver fotos da piscina
-                  </span>
-                </figure>
-              </div>
+              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[16/10] group cursor-zoom-in">
+                <img
+                  src={piscinaHero.url}
+                  alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
+                />
+                <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
+                  <Camera className="h-3.5 w-3.5" />
+                  Ver fotos da piscina
+                </span>
+              </figure>
             }
+
           />
 
 
