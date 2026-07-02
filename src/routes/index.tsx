@@ -15,6 +15,7 @@ import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg.asset.json";
+import piscinaDeck from "@/assets/piscina-deck-hd.jpg.asset.json";
 
 
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
@@ -479,21 +480,32 @@ function HomePage() {
           <GalleryLightbox
             items={[
               { src: piscinaHero.url, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
+              { src: piscinaDeck.url, caption: "Deck e área gourmet", desc: "Pergolado de bambu, mesas à sombra e jardim ao redor da piscina." },
             ]}
             className="mt-10"
             trigger={
-              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group cursor-zoom-in">
-                <img
-                  src={piscinaHero.url}
-                  alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
-                />
-                <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
-                  <Camera className="h-3.5 w-3.5" />
-                  Ver foto da piscina
-                </span>
-              </figure>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 cursor-zoom-in">
+                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
+                  <img
+                    src={piscinaHero.url}
+                    alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
+                  />
+                </figure>
+                <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/3] group">
+                  <img
+                    src={piscinaDeck.url}
+                    alt="Deck com pergolado de bambu e área gourmet ao lado da piscina"
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
+                  />
+                  <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
+                    <Camera className="h-3.5 w-3.5" />
+                    Ver fotos da piscina
+                  </span>
+                </figure>
+              </div>
             }
           />
 
