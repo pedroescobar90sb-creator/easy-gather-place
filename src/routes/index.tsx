@@ -187,7 +187,6 @@ function HomePage() {
 
       {/* TRUST BAR */}
       <section className="relative isolate border-y border-border/60 overflow-hidden">
-      <section className="relative isolate border-y border-border/60 overflow-hidden">
         {/* Wallpaper mobile (portrait) */}
         <div
           aria-hidden
