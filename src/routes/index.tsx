@@ -341,80 +341,69 @@ function HomePage() {
 
       {/* AVALIAÇÕES REAIS */}
       <section id="avaliacoes" className="bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Avaliações reais</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Nota 9,2 — Fantástico.</h2>
-            <p className="mt-4 text-muted-foreground">
-              <strong className="text-foreground">204 avaliações reais</strong> de hóspedes em plataformas
-              especializadas de viagem. Nossa meta é manter avaliações 100% autênticas, refletindo a experiência
-              de famílias, casais, grupos de amigos e viajantes individuais que já se hospedaram conosco.
+            <h2 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Nota 9,2 — Fantástico.</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              <strong className="text-foreground">204 avaliações reais</strong> de hóspedes — famílias, casais e grupos que já se hospedaram conosco.
             </p>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
             {[
-              { score: "9,6", label: "Funcionários", desc: "Simpatia, acolhimento e atendimento próximo." },
-              { score: "9,1", label: "Limpeza", desc: "Quartos sempre bem cuidados e funcionais." },
-              { score: "9,0", label: "Conforto", desc: "Acomodações pensadas pro seu descanso." },
+              { score: "9,6", label: "Funcionários" },
+              { score: "9,1", label: "Limpeza" },
+              { score: "9,0", label: "Conforto" },
             ].map((s) => (
-              <div key={s.label} className="rounded-2xl border border-border/60 bg-card p-6">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-display text-4xl text-primary">{s.score}</span>
-                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <div key={s.label} className="rounded-xl border border-border/60 bg-card px-3 py-3 sm:px-4 sm:py-4">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="font-display text-2xl sm:text-3xl text-primary leading-none">{s.score}</span>
+                  <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
                 </div>
-                <div className="mt-2 font-medium">{s.label}</div>
-                <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
+                <div className="mt-1.5 text-sm font-medium">{s.label}</div>
               </div>
             ))}
           </div>
 
-          <p className="mt-8 text-sm text-muted-foreground">
+          <p className="mt-5 text-xs sm:text-sm text-muted-foreground">
             Destaques recorrentes: <strong className="text-foreground">área verde</strong>,{" "}
-            <strong className="text-foreground">localização privilegiada</strong> e{" "}
-            <strong className="text-foreground">café da manhã</strong>, com variedade e qualidade constantes.
+            <strong className="text-foreground">localização</strong> e{" "}
+            <strong className="text-foreground">café da manhã</strong>.
           </p>
 
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-            <div className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
-              <div className="flex items-baseline gap-2">
-                <span className="font-display text-5xl text-primary">9,2</span>
-                <span className="text-sm font-medium text-muted-foreground">— Fantástico</span>
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">Booking.com · 204 avaliações reais</div>
-            </div>
-            <div className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
-              <div className="flex items-baseline gap-2">
-                <span className="font-display text-5xl text-primary">4,6</span>
-                <span className="text-sm font-medium text-muted-foreground">de 5</span>
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">Google · 272 avaliações</div>
-            </div>
-          </div>
-
-          <p className="mt-8 text-sm text-muted-foreground">
-            Veja nossas avaliações reais no{" "}
+          <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
             <a
               href="https://www.booking.com/hotel/br/pousada-ilha-do-meio.pt-br.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-medium text-foreground underline underline-offset-4 hover:text-primary transition"
+              className="group rounded-xl border border-border/60 bg-card px-4 py-3 sm:px-5 sm:py-4 hover:border-primary/40 transition"
             >
-              Booking.com
-              <ExternalLink className="h-3.5 w-3.5" />
-            </a>{" "}
-            e no{" "}
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-display text-2xl sm:text-3xl text-primary leading-none">9,2</span>
+                <span className="text-xs font-medium text-muted-foreground">Fantástico</span>
+              </div>
+              <div className="mt-1.5 flex items-center gap-1 text-xs text-muted-foreground">
+                Booking · 204 avaliações
+                <ExternalLink className="h-3 w-3 opacity-60 group-hover:opacity-100" />
+              </div>
+            </a>
             <a
               href="https://www.google.com/travel/search?q=pousada%20ilha%20do%20meio%20avalia%C3%A7%C3%A3o%20google"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-medium text-foreground underline underline-offset-4 hover:text-primary transition"
+              className="group rounded-xl border border-border/60 bg-card px-4 py-3 sm:px-5 sm:py-4 hover:border-primary/40 transition"
             >
-              Google
-              <ExternalLink className="h-3.5 w-3.5" />
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-display text-2xl sm:text-3xl text-primary leading-none">4,6</span>
+                <span className="text-xs font-medium text-muted-foreground">de 5</span>
+              </div>
+              <div className="mt-1.5 flex items-center gap-1 text-xs text-muted-foreground">
+                Google · 272 avaliações
+                <ExternalLink className="h-3 w-3 opacity-60 group-hover:opacity-100" />
+              </div>
             </a>
-            .
-          </p>
+          </div>
         </div>
       </section>
 
