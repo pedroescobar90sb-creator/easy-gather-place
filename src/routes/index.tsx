@@ -556,11 +556,11 @@ function HomePage() {
       <Testimonials />
 
       {/* FINAL CTA */}
-      <section className="relative">
-        <div className="absolute inset-0">
-          <img src={piscinaNoite.url} alt="" className="h-full w-full object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-black/75" />
-        </div>
+      <section
+        className="relative bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${piscinaNoite.url})` }}
+      >
+        <div aria-hidden className="absolute inset-0 bg-black/75" />
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
           <p className="mt-4 text-white/85 sm:text-lg">Fins de semana costumam esgotar primeiro. Fale com a recepção e garanta sua data.</p>
