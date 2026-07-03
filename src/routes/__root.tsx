@@ -10,6 +10,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
+import { WhatsAppFloating } from "@/components/WhatsAppFloating";
 
 const fallbackQueryClient = new QueryClient();
 
@@ -55,6 +56,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Pousada boutique em Itacimirim — 17 quartos a 2 minutos do mar. Reserve direto e ganhe 10% off." },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Pousada Ilha do Meio" },
+      { property: "og:locale", content: "pt_BR" },
+      { name: "theme-color", content: "#1a3c2a" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -63,6 +67,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300;400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Pousada Ilha do Meio",
+          url: "https://easy-gather-place.lovable.app",
+          sameAs: [
+            "https://www.instagram.com/pousadailhadomeio/",
+            "https://www.booking.com/hotel/br/pousada-ilha-do-meio.pt-br.html",
+          ],
+          contactPoint: {
+            "@type": "ContactPoint",
+            telephone: "+55-71-9126-3096",
+            contactType: "reservations",
+            areaServed: "BR",
+            availableLanguage: ["Portuguese"],
+          },
+        }),
       },
     ],
   }),
@@ -91,6 +117,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <WhatsAppFloating />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );

@@ -20,10 +20,18 @@ import { cn } from "@/lib/utils";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/reservar")({
-  head: () => ({ meta: [
-    { title: "Reservar direto — Pousada Ilha do Meio" },
-    { name: "description", content: "Reserve direto com a Pousada Ilha do Meio em Itacimirim. Sem comissão, melhor tarifa garantida." },
-  ] }),
+  head: () => ({
+    meta: [
+      { title: "Reservar direto — Pousada Ilha do Meio · Itacimirim" },
+      { name: "description", content: "Reserve direto com a Pousada Ilha do Meio em Itacimirim (BA). Sem comissão, melhor tarifa garantida, atendimento direto com a casa." },
+      { property: "og:title", content: "Reservar direto — Pousada Ilha do Meio" },
+      { property: "og:description", content: "Reserve direto com a casa. Melhor tarifa garantida." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://easy-gather-place.lovable.app/reservar" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://easy-gather-place.lovable.app/reservar" }],
+  }),
   validateSearch: (s: Record<string, unknown>) => ({
     room: typeof s.room === "string" ? s.room : undefined,
     type: typeof s.type === "string" && ["duplo_casal", "triplo", "quadruplo"].includes(s.type) ? (s.type as "duplo_casal" | "triplo" | "quadruplo") : undefined,

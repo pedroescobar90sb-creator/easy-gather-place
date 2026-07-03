@@ -88,6 +88,14 @@ export function SiteFooter() {
           <ul className="space-y-3 text-[13px]">
             <li>
               <Link
+                to="/como-chegar"
+                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+              >
+                Como chegar
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/faq"
                 className="text-muted-foreground hover:text-foreground transition-colors font-medium"
               >

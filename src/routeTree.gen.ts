@@ -10,14 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermosRouteImport } from './routes/termos'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReservarRouteImport } from './routes/reservar'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as ComoChegarRouteImport } from './routes/como-chegar'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TermosRoute = TermosRouteImport.update({
   id: '/termos',
   path: '/termos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReservarRoute = ReservarRouteImport.update({
@@ -35,6 +42,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComoChegarRoute = ComoChegarRouteImport.update({
+  id: '/como-chegar',
+  path: '/como-chegar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,39 +55,69 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/como-chegar': typeof ComoChegarRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
   '/reservar': typeof ReservarRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termos': typeof TermosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/como-chegar': typeof ComoChegarRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
   '/reservar': typeof ReservarRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termos': typeof TermosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/como-chegar': typeof ComoChegarRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
   '/reservar': typeof ReservarRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termos': typeof TermosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/faq' | '/privacidade' | '/reservar' | '/termos'
+  fullPaths:
+    | '/'
+    | '/como-chegar'
+    | '/faq'
+    | '/privacidade'
+    | '/reservar'
+    | '/sitemap.xml'
+    | '/termos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/faq' | '/privacidade' | '/reservar' | '/termos'
-  id: '__root__' | '/' | '/faq' | '/privacidade' | '/reservar' | '/termos'
+  to:
+    | '/'
+    | '/como-chegar'
+    | '/faq'
+    | '/privacidade'
+    | '/reservar'
+    | '/sitemap.xml'
+    | '/termos'
+  id:
+    | '__root__'
+    | '/'
+    | '/como-chegar'
+    | '/faq'
+    | '/privacidade'
+    | '/reservar'
+    | '/sitemap.xml'
+    | '/termos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComoChegarRoute: typeof ComoChegarRoute
   FaqRoute: typeof FaqRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   ReservarRoute: typeof ReservarRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermosRoute: typeof TermosRoute
 }
 
@@ -86,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/termos'
       fullPath: '/termos'
       preLoaderRoute: typeof TermosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reservar': {
@@ -109,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/como-chegar': {
+      id: '/como-chegar'
+      path: '/como-chegar'
+      fullPath: '/como-chegar'
+      preLoaderRoute: typeof ComoChegarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -121,9 +177,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComoChegarRoute: ComoChegarRoute,
   FaqRoute: FaqRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   ReservarRoute: ReservarRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermosRoute: TermosRoute,
 }
 export const routeTree = rootRouteImport
