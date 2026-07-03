@@ -19,6 +19,7 @@ import piscinaDeck from "@/assets/piscina-deck-hd.jpg.asset.json";
 
 
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
+import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg.asset.json";
 import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
 
 import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
@@ -359,6 +360,16 @@ function HomePage() {
               </div>
             </figure>
             <div className="md:col-span-2">
+              <figure className="mb-6 group relative overflow-hidden rounded-3xl bg-background aspect-[4/5] ring-1 ring-border/60 shadow-[0_20px_60px_-25px_rgba(0,0,0,0.35)]">
+                <img
+                  src={salaoJogosMesa.url}
+                  alt="Mesa de jogos do salão da Pousada Ilha do Meio"
+                  loading="lazy"
+                  decoding="async"
+                  sizes="(min-width: 768px) 35vw, 100vw"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              </figure>
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">Experiência</p>
               <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Diversão sem sair da pousada.</h3>
               <p className="mt-3 text-muted-foreground leading-relaxed">
