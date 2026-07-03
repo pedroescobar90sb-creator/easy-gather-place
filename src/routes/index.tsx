@@ -131,15 +131,68 @@ function HomePage() {
           <a href="#top" className="flex items-center">
             <Logo className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-sm" />
           </a>
-          <a
-            href={WHATSAPP}
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-4 sm:px-5 py-2.5 text-sm font-semibold transition"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            Reservar pelo WhatsApp
-          </a>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              aria-label="Abrir menu"
+              className="inline-flex items-center justify-center rounded-full border border-border/60 bg-background/70 hover:bg-background text-foreground h-10 w-10 transition shadow-sm"
+            >
+              <MoreVertical className="h-5 w-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" sideOffset={8} className="w-60">
+              <DropdownMenuLabel className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">
+                Pousada Ilha do Meio
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <a
+                  href="https://www.instagram.com/pousadailhadomeio/"
+                  target="_blank"
+                  rel="noopener"
+                  className="flex items-center gap-2.5 cursor-pointer"
+                >
+                  <Instagram className="h-4 w-4 text-primary" />
+                  <span className="flex-1">Instagram</span>
+                  <ExternalLink className="h-3.5 w-3.5 opacity-50" />
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Pousada+Ilha+do+Meio+Itacimirim"
+                  target="_blank"
+                  rel="noopener"
+                  className="flex items-center gap-2.5 cursor-pointer"
+                >
+                  <Navigation className="h-4 w-4 text-primary" />
+                  <span className="flex-1">Como chegar</span>
+                  <ExternalLink className="h-3.5 w-3.5 opacity-50" />
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a
+                  href="https://g.page/r/pousada-ilha-do-meio/review"
+                  target="_blank"
+                  rel="noopener"
+                  className="flex items-center gap-2.5 cursor-pointer"
+                >
+                  <Star className="h-4 w-4 text-primary" />
+                  <span className="flex-1">Avaliar no Google</span>
+                  <ExternalLink className="h-3.5 w-3.5 opacity-50" />
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <a
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noopener"
+                  className="flex items-center gap-2.5 cursor-pointer"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  <span className="flex-1">Falar no WhatsApp</span>
+                </a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 
