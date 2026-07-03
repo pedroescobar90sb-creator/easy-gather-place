@@ -403,7 +403,7 @@ function HomePage() {
       </section>
 
       {/* LAZER — SALÃO DE JOGOS */}
-      <section className="bg-card border-y border-border/60">
+      <section id="lazer" className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Lazer</p>
