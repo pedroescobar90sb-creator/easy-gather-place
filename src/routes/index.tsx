@@ -139,6 +139,37 @@ function HomePage() {
   }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* ANNOUNCEMENT BAR */}
+      <div className="w-full bg-primary text-primary-foreground text-[11px] sm:text-xs tracking-wide">
+        <div className="mx-auto max-w-6xl flex items-center justify-between gap-3 px-4 py-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <MapPin className="h-3.5 w-3.5 shrink-0 opacity-90" />
+            <span className="truncate font-medium">Itacimirim · Bahia · a 2 minutos do mar</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-4">
+            <span className="inline-flex items-center gap-1.5">
+              <Star className="h-3.5 w-3.5 fill-current" />
+              <span className="font-semibold">9,2</span>
+              <span className="opacity-80">Booking</span>
+            </span>
+            <span className="opacity-40">·</span>
+            <span className="inline-flex items-center gap-1.5">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Reserva direta · melhor tarifa
+            </span>
+          </div>
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-1.5 font-semibold hover:opacity-90 transition shrink-0"
+          >
+            <WhatsAppIcon className="h-3.5 w-3.5" />
+            <span className="hidden xs:inline sm:inline">Fale conosco</span>
+          </a>
+        </div>
+      </div>
+
       {/* TOP BAR */}
       <header className={`sticky top-0 z-40 backdrop-blur-md bg-background/85 border-b border-border/50 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"}`}>
         <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
