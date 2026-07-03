@@ -348,7 +348,7 @@ function HomePage() {
           <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
             <GalleryLightbox
               className="md:col-span-3"
-              images={[
+              items={[
                 { src: salaoJogos.url, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
                 { src: salaoJogosMesa.url, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
               ]}
