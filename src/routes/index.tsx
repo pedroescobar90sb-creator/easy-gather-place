@@ -145,6 +145,22 @@ function HomePage() {
           <a href="#top" className="flex items-center">
             <Logo className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-sm" />
           </a>
+          <nav aria-label="Navegação principal" className="hidden md:flex items-center gap-1 text-sm">
+            {[
+              { href: "#acomodacoes", label: "Acomodações" },
+              { href: "#galeria", label: "Galeria" },
+              { href: "#lazer", label: "Lazer" },
+              { href: "#avaliacoes", label: "Avaliações" },
+            ].map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="relative px-3 py-2 text-foreground/75 hover:text-foreground transition-colors font-medium tracking-wide after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-px after:bg-primary after:scale-x-0 hover:after:scale-x-100 after:origin-left after:transition-transform"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
           <DropdownMenu>
             <DropdownMenuTrigger
               aria-label="Abrir menu"
