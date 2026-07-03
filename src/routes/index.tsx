@@ -143,11 +143,12 @@ function HomePage() {
       </header>
 
       {/* HERO */}
-      <section id="top" className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroPousada.url} alt="Piscina e área externa da Pousada Ilha do Meio" className="h-full w-full object-cover" loading="eager" fetchPriority="high" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
-        </div>
+      <section
+        id="top"
+        className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroPousada.url})` }}
+      >
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
           <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
@@ -186,21 +187,17 @@ function HomePage() {
 
       {/* TRUST BAR */}
       <section className="relative isolate border-y border-border/60 overflow-hidden">
-        {/* Background — mobile (portrait) */}
-        <img
-          src={bgPraiaMobile.url}
-          alt=""
+        {/* Wallpaper mobile (portrait) */}
+        <div
           aria-hidden
-          loading="lazy"
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-center sm:hidden"
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat sm:hidden"
+          style={{ backgroundImage: `url(${bgPraiaMobile.url})` }}
         />
-        {/* Background — desktop (wide) */}
-        <img
-          src={bgPraiaDesktop.url}
-          alt=""
+        {/* Wallpaper desktop (wide) */}
+        <div
           aria-hidden
-          loading="lazy"
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-center hidden sm:block"
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat hidden sm:block"
+          style={{ backgroundImage: `url(${bgPraiaDesktop.url})` }}
         />
         {/* Legibility overlays — leves para preservar a nitidez do mar */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-card/25 sm:bg-card/15" />
@@ -559,11 +556,11 @@ function HomePage() {
       <Testimonials />
 
       {/* FINAL CTA */}
-      <section className="relative">
-        <div className="absolute inset-0">
-          <img src={piscinaNoite.url} alt="" className="h-full w-full object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-black/75" />
-        </div>
+      <section
+        className="relative bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${piscinaNoite.url})` }}
+      >
+        <div aria-hidden className="absolute inset-0 bg-black/75" />
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
           <p className="mt-4 text-white/85 sm:text-lg">Fins de semana costumam esgotar primeiro. Fale com a recepção e garanta sua data.</p>
