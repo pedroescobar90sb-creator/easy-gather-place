@@ -8,7 +8,10 @@ export const Route = createFileRoute("/termos")({
       { name: "description", content: "Termos de uso do site oficial da Pousada Ilha do Meio em Itacimirim, Bahia." },
       { property: "og:title", content: "Termos de Uso — Pousada Ilha do Meio" },
       { property: "og:description", content: "Condições de uso do site oficial da Pousada Ilha do Meio." },
+      { property: "og:url", content: "https://easy-gather-place.lovable.app/termos" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://easy-gather-place.lovable.app/termos" }],
   }),
   component: TermsPage,
 });
