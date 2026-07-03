@@ -124,10 +124,23 @@ const GALLERY = [
 
 
 function HomePage() {
+  const [showHeader, setShowHeader] = useState(true);
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y <= 10) setShowHeader(true);
+      else if (y > lastY + 4) setShowHeader(false);
+      else if (y < lastY - 4) setShowHeader(true);
+      lastY = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* TOP BAR */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-background/85 border-b border-border/50">
+      <header className={`sticky top-0 z-40 backdrop-blur-md bg-background/85 border-b border-border/50 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"}`}>
         <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
           <a href="#top" className="flex items-center">
             <Logo className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-sm" />
