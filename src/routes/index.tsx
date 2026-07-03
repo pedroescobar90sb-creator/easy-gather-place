@@ -363,7 +363,10 @@ function HomePage() {
                     className="h-full w-full object-cover object-[center_55%] transition-transform duration-700 group-hover:scale-[1.04]"
                   />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-5">
-                    <figcaption className="text-white text-base font-semibold tracking-wide">Salão de Jogos · ver fotos</figcaption>
+                    <figcaption className="flex items-center gap-2 text-white text-base font-semibold tracking-wide">
+                      <Gamepad2 className="h-4.5 w-4.5" strokeWidth={1.8} />
+                      Acessar o ambiente
+                    </figcaption>
                   </div>
                 </figure>
               }
