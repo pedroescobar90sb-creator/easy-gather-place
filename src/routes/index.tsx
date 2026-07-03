@@ -532,13 +532,25 @@ function HomePage() {
 
       {/* LOCALIZAÇÃO */}
 
-      <section className="bg-card border-y border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
+      <section className="relative overflow-hidden border-y border-border/60">
+        {/* Background editorial */}
+        <div className="absolute inset-0 -z-10">
+          <img
+            src={piscinaHero.url}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover opacity-[0.12]"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-card via-card/95 to-card" />
+        </div>
+
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Localização</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Itacimirim, Camaçari — BA.</h2>
             <p className="mt-4 text-muted-foreground sm:text-lg">A 2 minutos da praia, entre Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
-            <address className="not-italic mt-6 rounded-xl border border-border/60 bg-background p-5 text-sm text-foreground/90 leading-relaxed">
+            <address className="not-italic mt-6 rounded-xl border border-border/60 bg-background/80 backdrop-blur p-5 text-sm text-foreground/90 leading-relaxed">
               <div className="font-medium text-foreground">Pousada Ilha do Meio</div>
               <div className="mt-1.5 space-y-0.5">
                 <div>Rua Sítio Novo, 7</div>
@@ -547,13 +559,39 @@ function HomePage() {
                 <div className="text-muted-foreground">CEP 42823-000</div>
               </div>
             </address>
-          </div>
-          <div className="aspect-square overflow-hidden rounded-2xl shadow-xl shadow-black/10 bg-[#0f3d2e]">
-            <img src={localizacaoBadge.url} alt="Localização da Pousada Ilha do Meio em Itacimirim, Bahia" className="h-full w-full object-contain" loading="lazy" />
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Pousada+Ilha+do+Meio+Itacimirim"
+              target="_blank"
+              rel="noopener"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary hover:opacity-80"
+            >
+              <MapPin className="h-4 w-4" />
+              Abrir no Google Maps
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
           </div>
 
+          <div className="relative">
+            <div className="absolute -inset-4 sm:-inset-6 rounded-[2rem] bg-primary/5 blur-2xl -z-10" aria-hidden="true" />
+            <div className="relative aspect-[4/5] md:aspect-[5/6] overflow-hidden rounded-[1.75rem] ring-1 ring-border/70 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.45)] bg-background">
+              <iframe
+                title="Mapa da Pousada Ilha do Meio"
+                src="https://www.google.com/maps?q=Rua+S%C3%ADtio+Novo+7+Itacimirim+Cama%C3%A7ari+BA&output=embed"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full w-full border-0"
+              />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/70 via-black/25 to-transparent">
+                <div className="flex items-center gap-2 text-white text-sm font-medium tracking-wide">
+                  <MapPin className="h-4 w-4" />
+                  Itacimirim · Camaçari — Bahia
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
 
       {/* DEPOIMENTOS */}
       <Testimonials />
