@@ -187,21 +187,18 @@ function HomePage() {
 
       {/* TRUST BAR */}
       <section className="relative isolate border-y border-border/60 overflow-hidden">
-        {/* Background — mobile (portrait) */}
-        <img
-          src={bgPraiaMobile.url}
-          alt=""
+      <section className="relative isolate border-y border-border/60 overflow-hidden">
+        {/* Wallpaper mobile (portrait) */}
+        <div
           aria-hidden
-          loading="lazy"
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-center sm:hidden"
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat sm:hidden"
+          style={{ backgroundImage: `url(${bgPraiaMobile.url})` }}
         />
-        {/* Background — desktop (wide) */}
-        <img
-          src={bgPraiaDesktop.url}
-          alt=""
+        {/* Wallpaper desktop (wide) */}
+        <div
           aria-hidden
-          loading="lazy"
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-center hidden sm:block"
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat hidden sm:block"
+          style={{ backgroundImage: `url(${bgPraiaDesktop.url})` }}
         />
         {/* Legibility overlays — leves para preservar a nitidez do mar */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-card/25 sm:bg-card/15" />
