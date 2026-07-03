@@ -143,11 +143,12 @@ function HomePage() {
       </header>
 
       {/* HERO */}
-      <section id="top" className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroPousada.url} alt="Piscina e área externa da Pousada Ilha do Meio" className="h-full w-full object-cover" loading="eager" fetchPriority="high" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
-        </div>
+      <section
+        id="top"
+        className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroPousada.url})` }}
+      >
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
           <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
