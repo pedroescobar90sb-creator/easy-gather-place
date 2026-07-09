@@ -384,7 +384,7 @@ function HomePage() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
         <GrainOverlay />
 
-        <div className="relative mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3">
+        <div className="relative mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3">
           {[
             { n: "2 min", l: "Da praia" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
@@ -392,7 +392,7 @@ function HomePage() {
           ].map((s) => (
             <div key={s.l} className="px-4 py-10 sm:py-14 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
               <div className="font-display text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">{s.n}</div>
-              <div className="text-sm sm:text-base text-white/90 font-medium tracking-wide mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">{s.l}</div>
+              <div className="text-xs lg:text-sm xl:text-base text-white/90 font-medium mt-2 whitespace-nowrap drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">{s.l}</div>
             </div>
           ))}
         </div>
