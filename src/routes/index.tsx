@@ -17,7 +17,7 @@ import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg.asset.json";
 import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg.asset.json";
-import piscinaDeck from "@/assets/piscina-deck-hd.jpg.asset.json";
+import piscinaDeck from "@/assets/piscina-deck-pergolado.jpg.asset.json";
 
 
 import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
