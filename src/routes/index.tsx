@@ -24,8 +24,9 @@ import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg.asset.json";
 import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
 
-import quartoDuplo from "@/assets/quarto-duplo-v2.jpg.asset.json";
-import quartoDuploAlt from "@/assets/quarto-duplo.jpg.asset.json";
+import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg.asset.json";
+import quartoDuploAlt from "@/assets/quarto-duplo-v2.jpg.asset.json";
+import quartoDuploAlt2 from "@/assets/quarto-duplo.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
 import quartoTriploAlt from "@/assets/quarto-triplo.jpg.asset.json";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-hd.jpg.asset.json";
@@ -125,6 +126,7 @@ const ROOMS: RoomCard[] = [
     photos: [
       { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
       { src: quartoDuploAlt.url, caption: "Quarto Duplo · Detalhe", desc: "Iluminação suave e acabamento aconchegante." },
+      { src: quartoDuploAlt2.url, caption: "Quarto Duplo · Ambiente", desc: "Espaço aconchegante para o casal." },
     ],
   },
   {
