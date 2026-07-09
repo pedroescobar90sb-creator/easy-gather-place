@@ -5,11 +5,6 @@ import { Play, X } from "lucide-react";
 import poster from "@/assets/paraiso-poster-clean-cover.jpg.asset.json";
 import video from "@/assets/video-paraiso-portrait-hd.mp4.asset.json";
 
-
-import bgDesktop from "@/assets/piscina-bg-desktop.jpg.asset.json";
-import bgMobile from "@/assets/piscina-bg-mobile.jpg.asset.json";
-
-
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
   const [revealed, setRevealed] = useState(false);
@@ -34,8 +29,6 @@ export function ImmersiveVideoSection() {
     document.body.style.overflow = "hidden";
     window.history.pushState({ videoOpen: true }, "");
 
-
-
     const t = window.setTimeout(() => {
       setRevealed(true);
       videoRef.current?.play().catch(() => {});
@@ -52,72 +45,82 @@ export function ImmersiveVideoSection() {
     };
   }, [open]);
 
-
   return (
-    <section className="relative isolate overflow-hidden py-20 sm:py-28">
-      {/* Background image — responsive (mobile vs desktop) with focal point preserved */}
-      <picture aria-hidden className="absolute inset-0 -z-20">
-        <source media="(min-width: 768px)" srcSet={bgDesktop.url} />
-        <img
-          src={bgMobile.url}
-          alt=""
-          className="h-full w-full object-cover object-[center_60%] md:object-center"
-          loading="lazy"
-          decoding="async"
-        />
-      </picture>
-      {/* Legibility layers — fundo discreto para destacar o player */}
-      <div aria-hidden className="absolute inset-0 -z-10 bg-background/80 md:bg-background/75" />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-background/40 via-background/30 to-background/60" />
-
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-          <div className="max-w-xl">
-            <p className="text-[11px] tracking-[0.3em] uppercase text-primary font-medium">
-              Experiência em vídeo
-            </p>
-            <h2 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground leading-[1.05]">
-              Um respiro entre a Bahia e o mar.
-            </h2>
-            <p className="mt-4 text-base text-foreground/75 leading-relaxed">
-              Aperte play e veja o ritmo da pousada antes mesmo de chegar — da recepção à beira da piscina, em menos de um minuto.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Assistir vídeo da Pousada Ilha do Meio"
-            className="group relative block mx-auto w-full max-w-[520px] md:mx-0 md:w-[520px] overflow-hidden rounded-3xl shadow-[0_40px_100px_-40px_rgba(0,0,0,0.6)] focus:outline-none focus:ring-2 focus:ring-primary"
+    <section className="relative isolate overflow-hidden py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Assistir vídeo da Pousada Ilha do Meio"
+          className="group relative block w-full overflow-hidden rounded-[28px] shadow-[0_50px_120px_-40px_rgba(0,0,0,0.55)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+          {/* Poster fills the whole professional block — cinematic 4:5 on mobile, wide 21:9 on desktop */}
+          <div
+            className="relative w-full aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden bg-cover bg-center"
+            style={{ backgroundImage: `url(${poster.url})` }}
           >
-            <div
-              className="relative aspect-[16/10] w-full overflow-hidden bg-cover bg-center"
-              style={{ backgroundImage: `url(${poster.url})` }}
-            >
-              <img
-                src={poster.url}
-                alt="Pousada Ilha do Meio — prévia em vídeo"
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
-                  <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
-                  <Play className="relative h-6 w-6 sm:h-8 sm:w-8 fill-current ml-0.5" />
-                </span>
+            <img
+              src={poster.url}
+              alt="Pousada Ilha do Meio — prévia em vídeo"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
+            />
+
+            {/* Cinematic legibility gradients */}
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/35" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/20" />
+
+            {/* Elegant inner frame */}
+            <div aria-hidden className="pointer-events-none absolute inset-3 sm:inset-5 rounded-[20px] ring-1 ring-white/25" />
+
+            {/* Top-left eyebrow */}
+            <div className="absolute top-6 left-6 sm:top-8 sm:left-10 flex items-center gap-3 text-white/90">
+              <span className="h-px w-8 bg-white/70" />
+              <span className="text-[10px] sm:text-[11px] tracking-[0.32em] uppercase font-medium">
+                Experiência em vídeo
+              </span>
+            </div>
+
+            {/* Center play button */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 items-center justify-center rounded-full bg-white/95 text-primary shadow-2xl transition-transform duration-500 group-hover:scale-110">
+                <span className="absolute inset-0 rounded-full bg-white/40 animate-ping" />
+                <Play className="relative h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 fill-current ml-0.5" />
+              </span>
+            </div>
+
+            {/* Headline block — bottom-left, editorial */}
+            <div className="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 text-white">
+              <div className="max-w-2xl">
+                <h2 className="font-display text-3xl sm:text-5xl md:text-6xl leading-[1.02] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                  Um respiro entre a<br className="hidden sm:block" />
+                  <span className="italic"> Bahia e o mar.</span>
+                </h2>
+                <p className="mt-3 sm:mt-4 max-w-md text-sm sm:text-base text-white/85 leading-relaxed">
+                  Aperte play e veja o ritmo da pousada — da recepção à beira da piscina, em menos de um minuto.
+                </p>
               </div>
-              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-3 text-white">
-                <p className="font-display text-base sm:text-lg leading-tight drop-shadow">
+
+              {/* Bottom-right corner label */}
+              <div className="mt-6 flex items-end justify-between gap-4">
+                <p className="text-[10px] sm:text-xs uppercase tracking-[0.28em] text-white/70">
                   Da recepção à piscina
                 </p>
-                <span className="inline-flex items-center rounded-full bg-white/15 backdrop-blur px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] ring-1 ring-white/30">
+                <span className="hidden sm:inline-flex items-center gap-2 rounded-full bg-white/15 backdrop-blur px-4 py-2 text-[10px] uppercase tracking-[0.28em] ring-1 ring-white/30">
                   Assistir
                 </span>
               </div>
             </div>
-          </button>
-        </div>
+
+            {/* Right-side vertical brand label — desktop only */}
+            <div className="hidden md:flex absolute top-8 right-10 items-center gap-3 text-white/90">
+              <span className="text-[10px] tracking-[0.32em] uppercase font-medium">
+                Ilha do Meio · Pousada
+              </span>
+              <span className="h-px w-8 bg-white/70" />
+            </div>
+          </div>
+        </button>
       </div>
 
       {open && typeof document !== "undefined" && createPortal(
@@ -133,7 +136,6 @@ export function ImmersiveVideoSection() {
             backgroundPosition: "center",
           }}
         >
-          {/* Tela cheia real: vídeo limpo em 16:9 preenche 100% da viewport, sem faixas pretas. */}
           <video
             ref={videoRef}
             poster={poster.url}
@@ -153,8 +155,6 @@ export function ImmersiveVideoSection() {
           >
             <source src={video.url} type="video/mp4" />
           </video>
-
-
 
           <button
             type="button"
