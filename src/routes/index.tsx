@@ -570,9 +570,9 @@ function HomePage() {
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Escolha seu quarto ideal.</h2>
           <p className="mt-3 text-muted-foreground">Todos os quartos com ar-condicionado, TV, frigobar, café da manhã e Wi-Fi inclusos.</p>
         </div>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-start max-w-5xl mx-auto">
-          {ROOMS.map((r, idx) => (
-            <article key={r.name} className={`group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 ${idx === 1 ? 'md:mt-10' : ''} ${idx === 2 ? 'md:mt-20' : ''}`}>
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto">
+          {ROOMS.map((r) => (
+            <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
               <div className="relative aspect-video overflow-hidden">
                 <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 <GalleryLightbox
