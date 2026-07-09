@@ -28,8 +28,6 @@ import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg.asset.json";
 import quartoDuploAlt from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg.asset.json";
-import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
-import quartoTriploAlt from "@/assets/quarto-triplo.jpg.asset.json";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png.asset.json";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png.asset.json";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png.asset.json";
@@ -133,30 +131,17 @@ const ROOMS: RoomCard[] = [
     ],
   },
   {
-    name: "Quarto Triplo · grupo pequeno ou família",
-    capacity: "Três camas confortáveis, ar-condicionado e café da manhã incluso. Ótimo custo por pessoa.",
+    name: "Quarto Família · para 3 ou 4 pessoas",
+    capacity: "Acomoda 3 ou 4 hóspedes com conforto. Ar-condicionado, café da manhã incluso e a poucos passos da piscina e da praia.",
     price: "R$ 550",
-    image: quartoTriplo.url,
-    alt: "Quarto Triplo da Pousada Ilha do Meio",
-    cta: "Quero reservar o Quarto Triplo",
-    waMsg: "Olá! Quero reservar o Quarto Triplo (3 pessoas) na Pousada Ilha do Meio, a partir de R$ 550/noite. Pode me passar disponibilidade?",
-    photos: [
-      { src: quartoTriplo.url, caption: "Quarto Triplo · Vista geral", desc: "Espaço para três, sem abrir mão do conforto." },
-      { src: quartoTriploAlt.url, caption: "Quarto Triplo · Detalhe", desc: "Camas bem dispostas e ambiente arejado." },
-    ],
-  },
-  {
-    name: "Quarto Quádruplo · família toda junta",
-    capacity: "Espaço para 4 pessoas, ar-condicionado e café da manhã incluso. Pertinho da piscina e da praia.",
-    price: "R$ 650",
     image: quartoQuadruplo.url,
-    alt: "Quarto Quádruplo da Pousada Ilha do Meio",
-    cta: "Quero reservar o Quarto Quádruplo",
-    waMsg: "Olá! Tenho interesse no Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?",
+    alt: "Quarto Família (3 a 4 pessoas) da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Família",
+    waMsg: "Olá! Tenho interesse no Quarto Família (3 ou 4 pessoas) da Pousada Ilha do Meio, a partir de R$ 550/noite. Pode confirmar disponibilidade?",
     photos: [
-      { src: quartoQuadruplo.url, caption: "Quarto Quádruplo · Vista geral", desc: "Pensado para a família toda descansar junto." },
-      { src: quartoQuadruplo2.url, caption: "Quarto Quádruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
-      { src: quartoQuadruplo3.url, caption: "Quarto Quádruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
+      { src: quartoQuadruplo.url, caption: "Quarto Família · Vista geral", desc: "Pensado para a família toda descansar junto — acomoda 3 ou 4 pessoas." },
+      { src: quartoQuadruplo2.url, caption: "Quarto Família · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
+      { src: quartoQuadruplo3.url, caption: "Quarto Família · Varanda", desc: "Varanda em madeira com vista para o jardim." },
     ],
   },
 ];
@@ -585,7 +570,7 @@ function HomePage() {
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Escolha seu quarto ideal.</h2>
           <p className="mt-3 text-muted-foreground">Todos os quartos com ar-condicionado, TV, frigobar, café da manhã e Wi-Fi inclusos.</p>
         </div>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 md:items-start">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-start max-w-5xl mx-auto">
           {ROOMS.map((r, idx) => (
             <article key={r.name} className={`group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 ${idx === 1 ? 'md:mt-10' : ''} ${idx === 2 ? 'md:mt-20' : ''}`}>
               <div className="relative aspect-video overflow-hidden">
