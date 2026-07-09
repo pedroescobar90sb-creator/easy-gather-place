@@ -299,7 +299,7 @@ function HomePage() {
       {/* HERO */}
       <section
         id="top"
-        className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px]"
         style={{ backgroundImage: `url(${heroPousada})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
@@ -337,7 +337,7 @@ function HomePage() {
       </section>
 
       {/* TRUST BAR */}
-      <section className="relative isolate overflow-hidden">
+      <section className="relative isolate overflow-hidden min-h-[280px] sm:min-h-[320px] lg:min-h-[360px]">
         {/* Wallpaper coqueiros — verde escuro, sem mar */}
         <div
           aria-hidden
@@ -737,7 +737,7 @@ function HomePage() {
 
       {/* FINAL CTA */}
       <section
-        className="relative bg-cover bg-center bg-no-repeat"
+        className="relative bg-cover bg-center bg-no-repeat min-h-[480px] sm:min-h-[560px] lg:min-h-[620px]"
         style={{ backgroundImage: `url(${piscinaNoite})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-black/75" />
