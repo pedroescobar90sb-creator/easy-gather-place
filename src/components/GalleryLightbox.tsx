@@ -162,14 +162,23 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                   filter: entered ? "blur(0px)" : "blur(4px)",
                 }}
               >
+                {/* Fundo desfocado: preenche a tela sem depender de nitidez, cobre as bordas do object-contain */}
+                <img
+                  aria-hidden
+                  src={current.src}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
+                  draggable={false}
+                />
+                {/* Foto principal: nunca estica além da resolução real (sem perda de nitidez) */}
                 <img
                   src={current.src}
                   alt={current.caption}
-                  className="w-full h-full object-cover select-none"
+                  className="relative z-10 w-full h-full object-contain select-none"
                   draggable={false}
                 />
                 {/* subtle vignette so controls/caption stay legible */}
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+                <div aria-hidden className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
               </div>
 
 
