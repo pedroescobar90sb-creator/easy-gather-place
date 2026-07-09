@@ -6,6 +6,8 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
+import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
+import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
@@ -35,6 +37,23 @@ import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
 const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
+
+/** Dispara Lead (Pixel + Conversions API) no clique de um CTA de WhatsApp — sinal mais forte que "Contact" pro Meta otimizar o anúncio. */
+function trackWhatsAppLead(contentName: string, value?: number) {
+  const eventId = newMetaEventId();
+  metaTrack("Lead", { content_name: contentName, ...(value ? { value, currency: "BRL" } : {}) }, eventId);
+  sendMetaCapiEvent({
+    data: {
+      eventName: "Lead",
+      eventId,
+      eventSourceUrl: typeof window !== "undefined" ? window.location.href : "",
+      value,
+      currency: value ? "BRL" : undefined,
+      fbp: getFbCookie("_fbp"),
+      fbc: getFbCookie("_fbc"),
+    },
+  }).catch(() => {});
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -201,6 +220,7 @@ function HomePage() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener"
+            onClick={() => trackWhatsAppLead("Barra topo - Fale conosco")}
             className="inline-flex items-center gap-1.5 font-semibold hover:opacity-90 transition shrink-0"
           >
             <WhatsAppIcon className="h-3.5 w-3.5" />
@@ -285,6 +305,7 @@ function HomePage() {
                   href={WHATSAPP}
                   target="_blank"
                   rel="noopener"
+                  onClick={() => trackWhatsAppLead("Menu - Falar no WhatsApp")}
                   className="flex items-center gap-2.5 cursor-pointer"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
@@ -321,6 +342,7 @@ function HomePage() {
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
+              onClick={() => trackWhatsAppLead("Hero - Ver disponibilidade")}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
@@ -611,6 +633,7 @@ function HomePage() {
                   href={wa(r.waMsg)}
                   target="_blank"
                   rel="noopener"
+                  onClick={() => trackWhatsAppLead(r.name, Number(r.price.replace(/\D/g, "")))}
                   className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
@@ -637,6 +660,7 @@ function HomePage() {
               href={wa("Olá! Tenho interesse no Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode confirmar disponibilidade e valores para as minhas datas?")}
               target="_blank"
               rel="noopener"
+              onClick={() => trackWhatsAppLead("Quarto Triplo")}
               className="hidden sm:inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/40 bg-primary/5 hover:bg-primary/10 text-primary px-4 py-2 text-xs font-semibold transition"
             >
               <WhatsAppIcon className="h-3.5 w-3.5" />
@@ -647,6 +671,7 @@ function HomePage() {
             href={wa("Olá! Tenho interesse no Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode confirmar disponibilidade e valores para as minhas datas?")}
             target="_blank"
             rel="noopener"
+            onClick={() => trackWhatsAppLead("Quarto Triplo")}
             className="sm:hidden mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/5 hover:bg-primary/10 text-primary px-4 py-2.5 text-xs font-semibold transition"
           >
             <WhatsAppIcon className="h-3.5 w-3.5" />
@@ -697,6 +722,7 @@ function HomePage() {
               href={wa("Olá! Quero reservar na Pousada Ilha do Meio com vista pra piscina. Pode me passar disponibilidade e valores?")}
               target="_blank"
               rel="noopener"
+              onClick={() => trackWhatsAppLead("Reservar com vista pra piscina")}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-6 py-3 text-sm font-semibold transition"
             >
               <WhatsAppIcon className="h-4 w-4" />
@@ -749,6 +775,7 @@ function HomePage() {
               href={WHATSAPP_CONFIRM}
               target="_blank"
               rel="noopener"
+              onClick={() => trackWhatsAppLead("CTA final - Confirmar reserva")}
               className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40"
             >
               <WhatsAppIcon className="h-5 w-5" />
