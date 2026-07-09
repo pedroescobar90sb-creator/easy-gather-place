@@ -12,7 +12,7 @@ import { nightsBetween } from "@/lib/reservations";
 import { supabase } from "@/integrations/supabase/client";
 import { mapRoom } from "@/lib/remote";
 import type { Room } from "@/lib/types";
-import heroAsset from "@/assets/pousada-0.jpg.asset.json";
+import heroAsset from "@/assets/pousada-0.jpg";
 import { CheckCircle2, ShieldCheck, Heart, CalendarDays, Users, ArrowLeft, MapPin } from "lucide-react";
 import { toast } from "sonner";
 import type { DateRange } from "react-day-picker";
@@ -266,7 +266,7 @@ function BookingEngine() {
       <section className="relative">
         <div className="h-[42vh] md:h-[54vh] relative overflow-hidden">
           <img
-            src={heroAsset.url}
+            src={heroAsset}
             alt="Pousada Ilha do Meio — Itacimirim, Bahia"
             className="absolute inset-0 h-full w-full object-cover"
           />

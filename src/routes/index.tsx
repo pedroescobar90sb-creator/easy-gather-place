@@ -11,27 +11,26 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 
-import heroPousada from "@/assets/pousada-0.jpg.asset.json";
+import heroPousada from "@/assets/pousada-0.jpg";
 
-import recepcaoDia from "@/assets/recepcao-dia.jpg.asset.json";
-import quiosqueJardim from "@/assets/quiosque-jardim.jpg.asset.json";
-import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg.asset.json";
-import piscinaNoite from "@/assets/piscina-noite.jpg.asset.json";
-import piscinaHero from "@/assets/piscina-hero-clean.jpg.asset.json";
-import piscinaDeck from "@/assets/piscina-aerea.png.asset.json";
+import recepcaoDia from "@/assets/recepcao-dia.jpg";
+import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
+import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
+import piscinaNoite from "@/assets/piscina-noite.jpg";
+import piscinaHero from "@/assets/piscina-hero-clean.jpg";
+import piscinaDeck from "@/assets/piscina-aerea.png";
 
 
-import salaoJogos from "@/assets/salao-jogos-v2.jpg.asset.json";
-import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg.asset.json";
-import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
+import salaoJogos from "@/assets/salao-jogos-v2.jpg";
+import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
+import localizacaoBadge from "@/assets/localizacao-badge.jpg";
 
-import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg.asset.json";
-import quartoDuploAlt from "@/assets/quarto-duplo-v2.jpg.asset.json";
-import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg.asset.json";
-import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png.asset.json";
-import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png.asset.json";
-import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png.asset.json";
-import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg.asset.json";
+import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
+import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg";
+import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png";
+import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png";
+import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png";
+import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
@@ -44,8 +43,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Pousada em Itacimirim (BA), a 2 minutos do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
       { property: "og:description", content: "Pousada em Itacimirim (BA), a 2 minutos do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
-      { property: "og:image", content: heroPousada.url },
-      { name: "twitter:image", content: heroPousada.url },
+      { property: "og:image", content: heroPousada },
+      { name: "twitter:image", content: heroPousada },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://easy-gather-place.lovable.app/" },
     ],
@@ -61,7 +60,7 @@ export const Route = createFileRoute("/")({
           description:
             "Pousada boutique em Itacimirim (Bahia), a 2 minutos do mar, entre Guarajuba e Praia do Forte. 17 quartos, café da manhã, piscina e atendimento direto com a casa.",
           url: "https://easy-gather-place.lovable.app/",
-          image: heroPousada.url,
+          image: heroPousada,
           telephone: "+55-71-9126-3096",
           priceRange: "R$ 450 – R$ 650",
           checkinTime: "13:00",
@@ -119,28 +118,28 @@ const ROOMS: RoomCard[] = [
     name: "Quarto Duplo · para o casal",
     capacity: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. A 2 minutos da praia.",
     price: "R$ 450",
-    image: quartoDuplo.url,
+    image: quartoDuplo,
     alt: "Quarto Duplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Duplo",
     waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
-      { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
+      { src: quartoDuplo, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
       
-      { src: quartoDuploAlt2.url, caption: "Quarto Duplo · Varanda com vista", desc: "Varanda privativa com rede, vista para o jardim e piscina." },
+      { src: quartoDuploAlt2, caption: "Quarto Duplo · Varanda com vista", desc: "Varanda privativa com rede, vista para o jardim e piscina." },
     ],
   },
   {
     name: "Quarto Família · para 3 ou 4 pessoas",
     capacity: "Acomoda 3 ou 4 hóspedes com conforto. Ar-condicionado, café da manhã incluso e a poucos passos da piscina e da praia.",
     price: "R$ 550",
-    image: quartoQuadruplo.url,
+    image: quartoQuadruplo,
     alt: "Quarto Família (3 a 4 pessoas) da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Família",
     waMsg: "Olá! Tenho interesse no Quarto Família (3 ou 4 pessoas) da Pousada Ilha do Meio, a partir de R$ 550/noite. Pode confirmar disponibilidade?",
     photos: [
-      { src: quartoQuadruplo.url, caption: "Quarto Família · Vista geral", desc: "Pensado para a família toda descansar junto — acomoda 3 ou 4 pessoas." },
-      { src: quartoQuadruplo2.url, caption: "Quarto Família · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
-      { src: quartoQuadruplo3.url, caption: "Quarto Família · Varanda", desc: "Varanda em madeira com vista para o jardim." },
+      { src: quartoQuadruplo, caption: "Quarto Família · Vista geral", desc: "Pensado para a família toda descansar junto — acomoda 3 ou 4 pessoas." },
+      { src: quartoQuadruplo2, caption: "Quarto Família · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
+      { src: quartoQuadruplo3, caption: "Quarto Família · Varanda", desc: "Varanda em madeira com vista para o jardim." },
     ],
   },
 ];
@@ -155,10 +154,10 @@ const ROOM_AMENITIES = [
 ];
 
 const GALLERY = [
-  { src: fachadaNoite.url, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
-  { src: recepcaoDia.url, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
-  { src: quiosqueJardim.url, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
-  { src: piscinaNoite.url, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
+  { src: fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
+  { src: recepcaoDia, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
+  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
+  { src: piscinaNoite, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
 ];
 
 
@@ -301,7 +300,7 @@ function HomePage() {
       <section
         id="top"
         className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroPousada.url})` }}
+        style={{ backgroundImage: `url(${heroPousada})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
@@ -343,7 +342,7 @@ function HomePage() {
         <div
           aria-hidden
           className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${bgCoqueiros.url})` }}
+          style={{ backgroundImage: `url(${bgCoqueiros})` }}
         />
         {/* Overlays escuros para legibilidade */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-black/50" />
@@ -494,13 +493,13 @@ function HomePage() {
             <GalleryLightbox
               className="md:col-span-3"
               items={[
-                { src: salaoJogos.url, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
-                { src: salaoJogosMesa.url, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
+                { src: salaoJogos, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
+                { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
               ]}
               trigger={
                 <figure className="group relative overflow-hidden rounded-3xl bg-background aspect-[4/5] md:aspect-[16/10] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] cursor-zoom-in">
                   <img
-                    src={salaoJogos.url}
+                    src={salaoJogos}
                     alt="Salão de Jogos da Pousada Ilha do Meio"
                     loading="lazy"
                     decoding="async"
@@ -670,14 +669,14 @@ function HomePage() {
 
           <GalleryLightbox
             items={[
-              { src: piscinaHero.url, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
-              { src: piscinaDeck.url, caption: "Deck e área gourmet", desc: "Pergolado de bambu, mesas à sombra e jardim ao redor da piscina." },
+              { src: piscinaHero, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
+              { src: piscinaDeck, caption: "Deck e área gourmet", desc: "Pergolado de bambu, mesas à sombra e jardim ao redor da piscina." },
             ]}
             className="mt-10"
             trigger={
               <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[16/10] group cursor-zoom-in">
                 <img
-                  src={piscinaHero.url}
+                  src={piscinaHero}
                   alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
                   loading="lazy"
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
@@ -727,7 +726,7 @@ function HomePage() {
             </address>
           </div>
           <div className="aspect-square overflow-hidden rounded-2xl shadow-xl shadow-black/10 bg-[#0f3d2e]">
-            <img src={localizacaoBadge.url} alt="Localização da Pousada Ilha do Meio em Itacimirim, Bahia" className="h-full w-full object-contain" loading="lazy" />
+            <img src={localizacaoBadge} alt="Localização da Pousada Ilha do Meio em Itacimirim, Bahia" className="h-full w-full object-contain" loading="lazy" />
           </div>
 
         </div>
@@ -739,7 +738,7 @@ function HomePage() {
       {/* FINAL CTA */}
       <section
         className="relative bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${piscinaNoite.url})` }}
+        style={{ backgroundImage: `url(${piscinaNoite})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-black/75" />
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">

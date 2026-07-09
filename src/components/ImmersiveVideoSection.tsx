@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Play, X } from "lucide-react";
 
-import poster from "@/assets/paraiso-poster-clean-cover.jpg.asset.json";
-import video from "@/assets/video-paraiso-portrait-hd.mp4.asset.json";
+import poster from "@/assets/paraiso-poster-clean-cover.jpg";
+import video from "@/assets/video-paraiso-portrait-hd.mp4";
 
 export function ImmersiveVideoSection() {
   const [open, setOpen] = useState(false);
@@ -57,10 +57,10 @@ export function ImmersiveVideoSection() {
           {/* Poster fills the whole professional block — cinematic 4:5 on mobile, wide 21:9 on desktop */}
           <div
             className="relative w-full aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden bg-cover bg-center"
-            style={{ backgroundImage: `url(${poster.url})` }}
+            style={{ backgroundImage: `url(${poster})` }}
           >
             <img
-              src={poster.url}
+              src={poster}
               alt="Pousada Ilha do Meio — prévia em vídeo"
               loading="lazy"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
@@ -131,14 +131,14 @@ export function ImmersiveVideoSection() {
           className="fixed inset-0 z-[9999] overflow-hidden animate-in fade-in duration-300"
           style={{
             zIndex: 999999,
-            backgroundImage: `url(${poster.url})`,
+            backgroundImage: `url(${poster})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
           <video
             ref={videoRef}
-            poster={poster.url}
+            poster={poster}
             playsInline
             preload="auto"
             onEnded={() => setOpen(false)}
@@ -153,7 +153,7 @@ export function ImmersiveVideoSection() {
             }}
             className="absolute inset-0 h-[100svh] w-[100vw] object-cover object-center cursor-pointer [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-enclosure]:hidden"
           >
-            <source src={video.url} type="video/mp4" />
+            <source src={video} type="video/mp4" />
           </video>
 
           <button

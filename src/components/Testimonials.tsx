@@ -2,11 +2,11 @@ import * as React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
-import avatarLaura from "@/assets/avatar-laura.png.asset.json";
-import avatarCintia from "@/assets/avatar-cintia.png.asset.json";
-import avatarFatima from "@/assets/avatar-fatima.png.asset.json";
-import avatarDavid from "@/assets/avatar-david.png.asset.json";
-import avatarJuliana from "@/assets/avatar-juliana.png.asset.json";
+import avatarLaura from "@/assets/avatar-laura.png";
+import avatarCintia from "@/assets/avatar-cintia.png";
+import avatarFatima from "@/assets/avatar-fatima.png";
+import avatarDavid from "@/assets/avatar-david.png";
+import avatarJuliana from "@/assets/avatar-juliana.png";
 
 type Testimonial = {
   name: string;
@@ -21,7 +21,7 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Laura Araújo",
     location: "Google · Férias em família",
     rating: 5,
-    photo: avatarLaura.url,
+    photo: avatarLaura,
     quote:
       "O ambiente incrivelmente agradável e super acolhedor, igualmente ao atendimento excelente que tivemos. Todos foram muito cuidadosos, deram o maior suporte para nossa família e principalmente para o nosso avô — até prepararam refeições deliciosas e mais apropriadas para ele. A experiência foi incrível.",
   },
@@ -29,7 +29,7 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Juliana Amaro",
     location: "Google · Família",
     rating: 5,
-    photo: avatarJuliana.url,
+    photo: avatarJuliana,
     quote:
       "A pousada é muito linda, com área verde, uma vista incrível e uma piscina maravilhosa. Quartos amplos tanto para casal como para família com filhos, e o café maravilhoso que não perde para nenhum resort. As funcionárias são carismáticas, cuidadosas e atenciosas demais. Ambiente familiar e acolhedor — pretendo me hospedar mais vezes.",
   },
@@ -37,7 +37,7 @@ const TESTIMONIALS: Testimonial[] = [
     name: "David Moisés",
     location: "Google · Férias em família",
     rating: 5,
-    photo: avatarDavid.url,
+    photo: avatarDavid,
     quote:
       "A estadia com a família foi ótima! A pousada tem um ambiente muito tranquilo e familiar, além de ser charmosa, bonita e bem cuidada. Marcelo e toda a equipe são muito atenciosos! O café da manhã é uma delícia, e o acesso à praia é perto e pode ser feito a pé.",
   },
@@ -45,7 +45,7 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Cintia Oliveira",
     location: "Google · Férias em família",
     rating: 5,
-    photo: avatarCintia.url,
+    photo: avatarCintia,
     quote:
       "Ambiente tranquilo, ideal para descansar com a família. Quartos, serviço e localização nota máxima — voltaríamos com certeza.",
   },
@@ -53,7 +53,7 @@ const TESTIMONIALS: Testimonial[] = [
     name: "Fátima Barbosa",
     location: "Google · Avaliação recente",
     rating: 5,
-    photo: avatarFatima.url,
+    photo: avatarFatima,
     quote:
       "Ambiente muito agradável, tudo bem conservado. Cama super confortável, banheiro espaçoso e toalhas bem cheirosas. Recomendo demais.",
   },
