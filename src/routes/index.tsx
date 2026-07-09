@@ -8,6 +8,7 @@ import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
 import { ImmersiveVideoSection } from "@/components/ImmersiveVideoSection";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 
 import heroPousada from "@/assets/pousada-0.jpg.asset.json";
@@ -179,6 +180,7 @@ const GALLERY = [
 
 function HomePage() {
   const [showHeader, setShowHeader] = useState(true);
+  const [pendingRedirect, setPendingRedirect] = useState<{ url: string; label: string } | null>(null);
   useEffect(() => {
     let lastY = window.scrollY;
     const onScroll = () => {
@@ -458,11 +460,10 @@ function HomePage() {
           </p>
 
           <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
-            <a
-              href="https://www.booking.com/hotel/br/pousada-ilha-do-meio.pt-br.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group rounded-xl border border-border/60 bg-card px-4 py-3 sm:px-5 sm:py-4 hover:border-primary/40 transition"
+            <button
+              type="button"
+              onClick={() => setPendingRedirect({ url: "https://www.booking.com/hotel/br/pousada-ilha-do-meio.pt-br.html", label: "Booking" })}
+              className="group text-left rounded-xl border border-border/60 bg-card px-4 py-3 sm:px-5 sm:py-4 hover:border-primary/40 transition"
             >
               <div className="flex items-center gap-2">
                 {/* Booking.com logo mark */}
@@ -480,12 +481,11 @@ function HomePage() {
                 Booking · 204 avaliações
                 <ExternalLink className="h-3 w-3 opacity-60 group-hover:opacity-100" />
               </div>
-            </a>
-            <a
-              href="https://www.google.com/travel/search?q=pousada%20ilha%20do%20meio%20avalia%C3%A7%C3%A3o%20google"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group rounded-xl border border-border/60 bg-card px-4 py-3 sm:px-5 sm:py-4 hover:border-primary/40 transition"
+            </button>
+            <button
+              type="button"
+              onClick={() => setPendingRedirect({ url: "https://www.google.com/travel/search?q=pousada%20ilha%20do%20meio%20avalia%C3%A7%C3%A3o%20google", label: "Google" })}
+              className="group text-left rounded-xl border border-border/60 bg-card px-4 py-3 sm:px-5 sm:py-4 hover:border-primary/40 transition"
             >
               <div className="flex items-center gap-2">
                 {/* Google "G" official logo */}
@@ -502,7 +502,7 @@ function HomePage() {
                 Google · 272 avaliações
                 <ExternalLink className="h-3 w-3 opacity-60 group-hover:opacity-100" />
               </div>
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -753,6 +753,29 @@ function HomePage() {
 
       {/* FOOTER */}
       <SiteFooter />
+
+      {/* Confirmação de redirecionamento para avaliações externas */}
+      <AlertDialog open={!!pendingRedirect} onOpenChange={(o) => !o && setPendingRedirect(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Você será redirecionado ao {pendingRedirect?.label}</AlertDialogTitle>
+            <AlertDialogDescription>
+              Ao continuar, você sairá do site da Pousada Ilha do Meio e abrirá a página de avaliações no {pendingRedirect?.label} em uma nova aba. Deseja continuar?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (pendingRedirect) window.open(pendingRedirect.url, "_blank", "noopener,noreferrer");
+                setPendingRedirect(null);
+              }}
+            >
+              Sim, continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
     </div>
   );
