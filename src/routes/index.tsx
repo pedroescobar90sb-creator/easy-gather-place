@@ -28,8 +28,6 @@ import localizacaoBadge from "@/assets/localizacao-badge.jpg.asset.json";
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg.asset.json";
 import quartoDuploAlt from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg.asset.json";
-import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
-import quartoTriploAlt from "@/assets/quarto-triplo.jpg.asset.json";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png.asset.json";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png.asset.json";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png.asset.json";
