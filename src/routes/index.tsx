@@ -29,7 +29,9 @@ import quartoDuploAlt from "@/assets/quarto-duplo-v2.jpg.asset.json";
 import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg.asset.json";
 import quartoTriplo from "@/assets/quarto-triplo-v2.jpg.asset.json";
 import quartoTriploAlt from "@/assets/quarto-triplo.jpg.asset.json";
-import quartoQuadruplo from "@/assets/quarto-quadruplo-hd.jpg.asset.json";
+import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png.asset.json";
+import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png.asset.json";
+import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png.asset.json";
 import bgPraiaDesktop from "@/assets/bg-praia-aereo-desktop.jpg.asset.json";
 import bgPraiaMobile from "@/assets/bg-praia-aereo-mobile.jpg.asset.json";
 
@@ -152,7 +154,8 @@ const ROOMS: RoomCard[] = [
     waMsg: "Olá! Tenho interesse no Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?",
     photos: [
       { src: quartoQuadruplo.url, caption: "Quarto Quádruplo · Vista geral", desc: "Pensado para a família toda descansar junto." },
-      { src: quartoTriplo.url, caption: "Quarto Quádruplo · Detalhe", desc: "Boa circulação e camas confortáveis." },
+      { src: quartoQuadruplo2.url, caption: "Quarto Quádruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
+      { src: quartoQuadruplo3.url, caption: "Quarto Quádruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
     ],
   },
 ];
