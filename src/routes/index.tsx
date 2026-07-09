@@ -338,9 +338,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* EXPERIÊNCIA EM VÍDEO */}
-      <ImmersiveVideoSection />
-
       {/* TRUST BAR */}
       <section className="relative isolate border-y border-border/60 overflow-hidden">
         {/* Wallpaper mobile (portrait) */}
