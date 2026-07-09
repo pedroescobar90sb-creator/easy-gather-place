@@ -154,7 +154,8 @@ const ROOMS: RoomCard[] = [
     waMsg: "Olá! Tenho interesse no Quarto Quádruplo (4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?",
     photos: [
       { src: quartoQuadruplo.url, caption: "Quarto Quádruplo · Vista geral", desc: "Pensado para a família toda descansar junto." },
-      { src: quartoTriplo.url, caption: "Quarto Quádruplo · Detalhe", desc: "Boa circulação e camas confortáveis." },
+      { src: quartoQuadruplo2.url, caption: "Quarto Quádruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
+      { src: quartoQuadruplo3.url, caption: "Quarto Quádruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
     ],
   },
 ];
