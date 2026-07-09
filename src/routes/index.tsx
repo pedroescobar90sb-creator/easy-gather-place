@@ -6,7 +6,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
-import { ImmersiveVideoSection } from "@/components/ImmersiveVideoSection";
+
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
@@ -337,9 +337,6 @@ function HomePage() {
           </ul>
         </div>
       </section>
-
-      {/* EXPERIÊNCIA EM VÍDEO */}
-      <ImmersiveVideoSection />
 
       {/* TRUST BAR */}
       <section className="relative isolate border-y border-border/60 overflow-hidden">
