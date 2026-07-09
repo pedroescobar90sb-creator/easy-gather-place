@@ -754,6 +754,29 @@ function HomePage() {
       {/* FOOTER */}
       <SiteFooter />
 
+      {/* Confirmação de redirecionamento para avaliações externas */}
+      <AlertDialog open={!!pendingRedirect} onOpenChange={(o) => !o && setPendingRedirect(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Você será redirecionado ao {pendingRedirect?.label}</AlertDialogTitle>
+            <AlertDialogDescription>
+              Ao continuar, você sairá do site da Pousada Ilha do Meio e abrirá a página de avaliações no {pendingRedirect?.label} em uma nova aba. Deseja continuar?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (pendingRedirect) window.open(pendingRedirect.url, "_blank", "noopener,noreferrer");
+                setPendingRedirect(null);
+              }}
+            >
+              Sim, continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
     </div>
   );
 }
