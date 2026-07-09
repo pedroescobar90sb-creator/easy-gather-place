@@ -338,32 +338,26 @@ function HomePage() {
       </section>
 
       {/* TRUST BAR */}
-      <section className="relative isolate border-y border-border/60 overflow-hidden">
-        {/* Wallpaper mobile (portrait) */}
+      <section className="relative isolate overflow-hidden">
+        {/* Wallpaper coqueiros — verde escuro, sem mar */}
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat sm:hidden"
-          style={{ backgroundImage: `url(${bgPraiaMobile.url})` }}
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${bgCoqueiros.url})` }}
         />
-        {/* Wallpaper desktop (wide) */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat hidden sm:block"
-          style={{ backgroundImage: `url(${bgPraiaDesktop.url})` }}
-        />
-        {/* Legibility overlays — leves para preservar a nitidez do mar */}
-        <div aria-hidden className="absolute inset-0 -z-10 bg-card/25 sm:bg-card/15" />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-card/30 via-transparent to-card/30 hidden sm:block" />
+        {/* Overlays escuros para legibilidade */}
+        <div aria-hidden className="absolute inset-0 -z-10 bg-black/50" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
 
-        <div className="relative mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3 gap-px">
+        <div className="relative mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3">
           {[
             { n: "2 min", l: "Da praia" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
-            <div key={s.l} className="px-4 py-8 sm:py-10 text-center">
-              <div className="font-display text-3xl sm:text-4xl text-primary drop-shadow-[0_2px_8px_rgba(255,255,255,0.6)]">{s.n}</div>
-              <div className="text-xs sm:text-sm text-foreground font-medium mt-1.5 drop-shadow-[0_1px_4px_rgba(255,255,255,0.7)]">{s.l}</div>
+            <div key={s.l} className="px-4 py-8 sm:py-10 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
+              <div className="font-display text-3xl sm:text-4xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">{s.n}</div>
+              <div className="text-xs sm:text-sm text-white/90 font-medium mt-1.5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">{s.l}</div>
             </div>
           ))}
         </div>
