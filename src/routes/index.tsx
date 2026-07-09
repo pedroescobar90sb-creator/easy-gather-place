@@ -126,7 +126,7 @@ const ROOMS: RoomCard[] = [
     photos: [
       { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
       { src: quartoDuploAlt.url, caption: "Quarto Duplo · Detalhe", desc: "Iluminação suave e acabamento aconchegante." },
-      { src: quartoDuploAlt2.url, caption: "Quarto Duplo · Ambiente", desc: "Espaço aconchegante para o casal." },
+      { src: quartoDuploAlt2.url, caption: "Quarto Duplo · Varanda com vista", desc: "Varanda privativa com rede, vista para o jardim e piscina." },
     ],
   },
   {
