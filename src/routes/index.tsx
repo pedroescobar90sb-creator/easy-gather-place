@@ -376,9 +376,9 @@ function HomePage() {
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
-            <div key={s.l} className="px-4 py-8 sm:py-10 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
-              <div className="font-display text-3xl sm:text-4xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">{s.n}</div>
-              <div className="text-xs sm:text-sm text-white/90 font-medium mt-1.5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">{s.l}</div>
+            <div key={s.l} className="px-4 py-10 sm:py-14 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
+              <div className="font-display text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">{s.n}</div>
+              <div className="text-sm sm:text-base text-white/90 font-medium tracking-wide mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">{s.l}</div>
             </div>
           ))}
         </div>
