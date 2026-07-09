@@ -25,7 +25,6 @@ import piscinaDeck from "@/assets/piscina-aerea.png";
 
 import salaoJogos from "@/assets/salao-jogos-v2.jpg";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
-import localizacaoBadge from "@/assets/localizacao-badge.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
 import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg";
@@ -37,6 +36,19 @@ import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
 const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
+
+/** Textura de grão sutil pras seções escuras full-bleed — evita o visual "gradiente flat genérico". */
+const GRAIN_BG =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+function GrainOverlay() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-[0.06]"
+      style={{ backgroundImage: GRAIN_BG }}
+    />
+  );
+}
 
 /** Dispara Lead (Pixel + Conversions API) no clique de um CTA de WhatsApp — sinal mais forte que "Contact" pro Meta otimizar o anúncio. */
 function trackWhatsAppLead(contentName: string, value?: number) {
@@ -324,6 +336,7 @@ function HomePage() {
         style={{ backgroundImage: `url(${heroPousada})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
+        <GrainOverlay />
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
           <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
@@ -369,6 +382,7 @@ function HomePage() {
         {/* Overlays escuros para legibilidade */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-black/50" />
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+        <GrainOverlay />
 
         <div className="relative mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-3">
           {[
@@ -751,8 +765,24 @@ function HomePage() {
               </div>
             </address>
           </div>
-          <div className="aspect-square overflow-hidden rounded-2xl shadow-xl shadow-black/10 bg-[#0f3d2e]">
-            <img src={localizacaoBadge} alt="Localização da Pousada Ilha do Meio em Itacimirim, Bahia" className="h-full w-full object-contain" loading="lazy" />
+          <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
+            <iframe
+              title="Localização da Pousada Ilha do Meio no mapa"
+              src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
+              className="h-full w-full border-0 grayscale-[20%] contrast-[1.05] saturate-[0.9]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/10" />
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Pousada+Ilha+do+Meio+Itacimirim"
+              target="_blank"
+              rel="noopener"
+              className="absolute bottom-4 left-4 right-4 sm:right-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg hover:bg-white transition"
+            >
+              <MapPin className="h-4 w-4 text-primary" />
+              Abrir no Google Maps
+            </a>
           </div>
 
         </div>
@@ -767,6 +797,7 @@ function HomePage() {
         style={{ backgroundImage: `url(${piscinaNoite})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-black/75" />
+        <GrainOverlay />
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
           <p className="mt-4 text-white/85 sm:text-lg">Fins de semana costumam esgotar primeiro. Fale com a recepção e garanta sua data.</p>
