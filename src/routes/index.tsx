@@ -180,6 +180,7 @@ const GALLERY = [
 
 function HomePage() {
   const [showHeader, setShowHeader] = useState(true);
+  const [pendingRedirect, setPendingRedirect] = useState<{ url: string; label: string } | null>(null);
   useEffect(() => {
     let lastY = window.scrollY;
     const onScroll = () => {
