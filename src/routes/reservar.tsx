@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import type { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { SiteFooter } from "@/components/SiteFooter";
+import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
+import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
 
 export const Route = createFileRoute("/reservar")({
   head: () => ({
@@ -205,6 +207,22 @@ function BookingEngine() {
         if (matched === "room_unavailable" || matched === "over_capacity") setStep(2);
         return;
       }
+      const purchaseEventId = newMetaEventId();
+      metaTrack("Purchase", { value: total, currency: "BRL" }, purchaseEventId);
+      sendMetaCapiEvent({
+        data: {
+          eventName: "Purchase",
+          eventId: purchaseEventId,
+          eventSourceUrl: typeof window !== "undefined" ? window.location.href : "",
+          value: total,
+          currency: "BRL",
+          email: email.trim(),
+          phone: phone.trim(),
+          fbp: getFbCookie("_fbp"),
+          fbc: getFbCookie("_fbc"),
+        },
+      }).catch((err) => console.warn("[reservar] meta capi falhou", err));
+
       try {
         const { sendReservationConfirmation } = await import("@/lib/email.functions");
         await sendReservationConfirmation({
@@ -448,7 +466,11 @@ function BookingEngine() {
                 size="lg"
                 className="w-full h-14 text-base font-semibold tracking-wide"
                 disabled={!datesValid || nights < 1}
-                onClick={() => { setStep(2); if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                onClick={() => {
+                  metaTrack("InitiateCheckout", { currency: "BRL", num_items: nights });
+                  setStep(2);
+                  if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
               >
                 {datesValid && nights >= 1 ? `Ver quartos · ${nights} noite${nights > 1 ? "s" : ""}` : "Selecione datas válidas"}
               </Button>
