@@ -15,12 +15,10 @@ export function WhatsAppFloating() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp com a Pousada Ilha do Meio"
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60] inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-4 py-3 sm:px-5 sm:py-3.5 shadow-2xl shadow-black/30 hover:scale-105 active:scale-95 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60] inline-flex items-center justify-center rounded-full bg-[#128C7E] text-white h-12 w-12 sm:h-14 sm:w-14 shadow-2xl shadow-black/30 hover:scale-105 active:scale-95 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
     >
-      <WhatsAppIcon className="h-5 w-5 sm:h-6 sm:w-6" />
-      <span className="hidden sm:inline text-sm font-semibold tracking-tight">
-        Reservar no WhatsApp
-      </span>
+      <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7" />
     </a>
   );
 }
+
