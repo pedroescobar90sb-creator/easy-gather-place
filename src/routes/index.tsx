@@ -125,7 +125,7 @@ const ROOMS: RoomCard[] = [
     waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
       { src: quartoDuplo.url, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
-      { src: quartoDuploAlt.url, caption: "Quarto Duplo · Detalhe", desc: "Iluminação suave e acabamento aconchegante." },
+      
       { src: quartoDuploAlt2.url, caption: "Quarto Duplo · Varanda com vista", desc: "Varanda privativa com rede, vista para o jardim e piscina." },
     ],
   },
