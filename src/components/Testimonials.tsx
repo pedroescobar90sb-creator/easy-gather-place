@@ -7,6 +7,7 @@ import avatarCintia from "@/assets/avatar-cintia.png";
 import avatarFatima from "@/assets/avatar-fatima.png";
 import avatarDavid from "@/assets/avatar-david.png";
 import avatarJuliana from "@/assets/avatar-juliana.png";
+import palmBg1Asset from "@/assets/palm-bg-1.jpg.asset.json";
 
 type Testimonial = {
   name: string;
