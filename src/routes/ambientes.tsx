@@ -94,12 +94,12 @@ const AMBIENTES: Ambiente[] = [
     subtitle: "Para refrescar sem sair da pousada",
     description:
       "Piscina iluminada com deck em madeira, espreguiçadeiras e sombra dos coqueiros. A poucos passos da porta do quarto — perfeita pro fim de tarde.",
-    cover: piscinaNoite,
+    cover: piscinaHero,
     gallery: [
-      { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
+      { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina, deck de madeira e coqueiros ao redor." },
       { src: piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
       { src: piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
-      { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina e deck de madeira." },
+      { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
       { src: piscinaDeck, caption: "Vista aérea", desc: "Deck cercado pela vegetação nativa." },
     ],
     amenities: [
