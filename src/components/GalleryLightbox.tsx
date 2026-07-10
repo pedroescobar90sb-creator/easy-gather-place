@@ -21,12 +21,17 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
   const [slideKey, setSlideKey] = React.useState(0);
   const [transitioning, setTransitioning] = React.useState(false);
+  const triggerRef = React.useRef<HTMLElement | null>(null);
   const open = openIdx !== null;
   const current = open ? items[openIdx!] : null;
 
   const close = React.useCallback(() => {
     setEntered(false);
-    window.setTimeout(() => setOpenIdx(null), 250);
+    window.setTimeout(() => {
+      setOpenIdx(null);
+      // Restore focus to the element that opened the lightbox
+      triggerRef.current?.focus?.();
+    }, 250);
   }, []);
 
   // Premium lateral transition: fade-out current, swap, fade-in next with subtle slide.
