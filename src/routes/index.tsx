@@ -1,21 +1,24 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation, ChevronRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
-import { GalleryLightbox, InlineCarousel } from "@/components/GalleryLightbox";
+import { InlineCarousel } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
+import { CountUp } from "@/components/CountUp";
 import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
+import { cn } from "@/lib/utils";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 
 import heroPousada from "@/assets/pousada-0.jpg";
 
-import recepcaoDia from "@/assets/recepcao-dia.jpg";
+import recepcaoDia from "@/assets/recepcao-noite-1.png";
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
@@ -33,6 +36,7 @@ import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
+import palmBg2 from "@/assets/palm-bg-2.jpg";
 
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
@@ -95,7 +99,7 @@ export const Route = createFileRoute("/")({
           url: "https://pousadailhadomeio.com.br/",
           image: heroPousada,
           telephone: "+55-71-9126-3096",
-          priceRange: "R$ 450 – R$ 650",
+          priceRange: "R$ 400 – R$ 650",
           checkinTime: "13:00",
           checkoutTime: "12:00",
           numberOfRooms: 17,
@@ -150,11 +154,11 @@ const ROOMS: RoomCard[] = [
   {
     name: "Quarto Duplo · para o casal",
     capacity: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. A 2 minutos da praia.",
-    price: "R$ 450",
+    price: "R$ 400",
     image: quartoDuplo,
     alt: "Quarto Duplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Duplo",
-    waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?",
+    waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 400/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
       { src: quartoDuplo, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
       
@@ -188,9 +192,16 @@ const ROOM_AMENITIES = [
 
 const GALLERY = [
   { src: fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
-  { src: recepcaoDia, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
-  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
   { src: piscinaNoite, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
+  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
+  { src: recepcaoDia, caption: "Recepção", desc: "Recepção iluminada à noite, com estrutura em madeira e clima acolhedor para o check-in." },
+];
+
+const GALLERY_META = [
+  { kicker: "01 — Suítes", tags: ["Varanda privativa", "Ar-condicionado", "Wi-Fi"] },
+  { kicker: "02 — Piscina", tags: ["Deck de madeira", "Área externa", "Iluminada"] },
+  { kicker: "03 — Convivência", tags: ["Quiosque", "Jardim", "Sombra natural"] },
+  { kicker: "04 — Recepção", tags: ["Check-in fácil", "Suporte local", "24h no WhatsApp"] },
 ];
 
 
@@ -342,17 +353,24 @@ function HomePage() {
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
           <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
-            Itacimirim · Bahia
+            Itacimirim, Bahia · CEP 42823-000
           </div>
-          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl">
-            O sossego da Bahia,<br /><em className="italic font-normal opacity-95">a dois minutos do mar.</em>
+          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
+            Pousada Ilha do Meio.<br />
+            <em className="italic font-normal opacity-95">A 2 minutos do mar.</em>
           </h1>
           <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
-            Hospedagem em Itacimirim, entre Guarajuba e Praia do Forte.
-            Atendimento direto com a recepção e reserva confirmada em minutos pelo WhatsApp.
+            Cabines de madeira entre coqueiros, piscina iluminada até tarde e recepção
+            dedicada pelo WhatsApp antes, durante e depois da sua estadia.
           </p>
 
-          <div className="mt-7">
+          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-sm text-white">
+            <span className="text-xs uppercase tracking-[0.2em] text-white/70">Diárias</span>
+            <span className="font-display text-lg leading-none">a partir de R$ 400</span>
+            <span className="text-xs text-white/70">/ noite · café incluso</span>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <a
               href={WHATSAPP}
               target="_blank"
@@ -361,12 +379,22 @@ function HomePage() {
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Ver disponibilidade no WhatsApp
+              Ver disponibilidade
             </a>
+            <Link
+              to="/ambientes"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 backdrop-blur px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              Conhecer a pousada
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </Link>
           </div>
+          <p className="mt-3 text-xs uppercase tracking-[0.24em] text-white/70">
+            Resposta em minutos · Segunda a segunda
+          </p>
 
-          <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
-            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
+          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
+            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> Nota 9,2 em 204 avaliações reais</li>
             <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
             <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
           </ul>
@@ -400,41 +428,78 @@ function HomePage() {
         </div>
       </section>
 
-      {/* A POUSADA — GALERIA */}
+      {/* A POUSADA — apresentação editorial + acesso a /ambientes */}
       <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A pousada</p>
-          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Ambientes pensados pro seu descanso.</h2>
-        </div>
-        <div className="mt-10">
-          <GalleryLightbox
-            items={GALLERY}
-            trigger={
-              <button
-                type="button"
-                className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[3/4] sm:aspect-[4/3] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                aria-label="Abrir galeria de ambientes"
-              >
-                <img
-                  src={GALLERY[0].src}
-                  alt="Ambientes da Pousada Ilha do Meio"
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 flex items-end justify-between gap-4">
-                  <div className="text-white">
-                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/80">Galeria</p>
-                    <p className="mt-1 font-display text-xl sm:text-2xl">Explore os ambientes</p>
-                  </div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs sm:text-sm font-medium text-foreground shadow-sm transition group-hover:bg-white">
-                    Acesse os ambientes
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+          <div className="lg:col-span-5">
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">A casa</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Quatro ambientes,<br />
+              <span className="italic opacity-90">uma ilha de sossego</span> entre coqueiros.
+            </h2>
+            <p className="mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed">
+              A Ilha do Meio não é um resort. São 17 suítes em madeira dispostas ao redor de um jardim
+              — piscina, quiosque e salão de jogos separados por poucos passos. Fotografado sem retoque,
+              como você vai encontrar.
+            </p>
+            <Link
+              to="/ambientes"
+              className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-foreground group"
+            >
+              <span className="border-b-2 border-sand pb-1 group-hover:text-sand transition-colors">
+                Percorrer todos os ambientes
+              </span>
+              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden />
+            </Link>
+          </div>
+
+          <div className="lg:col-span-7">
+            <Link
+              to="/ambientes"
+              aria-label="Acessar todos os ambientes da pousada"
+              className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[4/5] sm:aspect-[16/11] focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              <img
+                src={GALLERY[0].src}
+                alt="Ambientes da Pousada Ilha do Meio — cabines, varanda em madeira e área de lazer"
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.03]"
+              />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/5" />
+
+              {/* índice romano lateral */}
+              <div className="absolute left-6 top-6 sm:left-8 sm:top-8 flex flex-col gap-1 text-white/70">
+                {["I", "II", "III", "IV"].map((n, i) => (
+                  <span
+                    key={n}
+                    className={cn(
+                      "font-display text-sm tracking-[0.2em] transition",
+                      i === 0 ? "text-sand" : "opacity-40",
+                    )}
+                  >
+                    {n}
                   </span>
+                ))}
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-9 flex items-end justify-between gap-4">
+                <div className="text-white">
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-sand mb-2">Fachada · à noite</p>
+                  <h3
+                    className="font-display text-2xl sm:text-4xl leading-[1.05]"
+                    style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55)" }}
+                  >
+                    Cabines em madeira,<br className="hidden sm:block" /> luz baixa, silêncio.
+                  </h3>
                 </div>
-              </button>
-            }
-          />
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg transition group-hover:brightness-105 shrink-0">
+                  Ver ambientes
+                  <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </span>
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -523,8 +588,11 @@ function HomePage() {
       <section id="lazer" className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Lazer</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Para quem busca conforto e diversão.</h2>
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II — Lazer</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Bilhar, quiosque, rede.<br />
+              <span className="italic opacity-90">Tudo a três passos do quarto.</span>
+            </h2>
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
@@ -538,8 +606,8 @@ function HomePage() {
               />
             </figure>
             <div className="md:col-span-2">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">Experiência</p>
-              <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Diversão sem sair da pousada.</h3>
+              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">O que rola por aqui</p>
+              <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-[1.1]">Uma mesa de sinuca, um pebolim e a noite inteira pela frente.</h3>
               <p className="mt-3 text-muted-foreground leading-relaxed">
                 O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos — espaço pensado para quem quer relaxar entre um passeio e outro, com clima leve e descontraído.
               </p>
@@ -574,12 +642,101 @@ function HomePage() {
         </div>
       </section>
 
+      {/* RESERVA DIRETA vs BOOKING — economia real */}
+      <section className="relative border-y border-border/60 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${palmBg2})` }}
+        />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/94 via-background/90 to-card/94" />
+        <div className="relative mx-auto max-w-5xl px-4 py-14 sm:py-20">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05] text-balance">
+              Reservando com a casa,<br />
+              <span className="italic opacity-90">você paga menos.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-xl">
+              As plataformas cobram taxa de serviço em cima de cada diária. Falando direto com a recepção, esse valor volta pra você — sem intermediário e sem surpresas na hora da cobrança.
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            {/* Booking */}
+            <div className="relative rounded-2xl border border-border/60 bg-background/95 backdrop-blur-sm p-6 sm:p-7 shadow-sm">
+              <div className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-md text-white font-bold text-[13px] leading-none"
+                  style={{ backgroundColor: "#003580", fontFamily: "system-ui, sans-serif" }}
+                >
+                  B.
+                </span>
+                <span className="text-sm font-medium text-muted-foreground">Booking · Quarto Duplo</span>
+              </div>
+              <div className="mt-6 flex items-baseline gap-2 text-muted-foreground line-through decoration-2 decoration-red-500/70">
+                <span className="text-xs">R$</span>
+                <span className="font-display text-4xl sm:text-5xl tabular-nums">530</span>
+                <span className="text-xs">/ noite</span>
+              </div>
+              <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Taxa de serviço do site</li>
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Atendimento por chat da plataforma</li>
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Sem contato direto com a recepção</li>
+              </ul>
+            </div>
+
+            {/* Direto */}
+            <div className="relative rounded-2xl border-2 border-primary/70 bg-background/95 backdrop-blur-sm p-6 sm:p-7 shadow-xl shadow-primary/10">
+              <div className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary-foreground shadow">
+                <Check className="h-3 w-3" /> Recomendado
+              </div>
+              <div className="flex items-center gap-2">
+                <WhatsAppIcon className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Direto com a recepção · WhatsApp</span>
+              </div>
+              <div className="mt-6 flex items-baseline gap-2 text-foreground">
+                <span className="text-xs text-muted-foreground">R$</span>
+                <span className="font-display text-5xl sm:text-6xl tabular-nums text-primary">400</span>
+                <span className="text-xs text-muted-foreground">/ noite</span>
+              </div>
+              <p className="mt-1 text-xs font-semibold text-primary">Você economiza até R$ 130/noite</p>
+              <ul className="mt-5 space-y-2 text-sm text-foreground/90">
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Melhor tarifa garantida</li>
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Pagamento por PIX ou cartão</li>
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Falar com quem administra a pousada</li>
+              </ul>
+              <a
+                href={WHATSAPP}
+                target="_blank"
+                rel="noopener"
+                onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto")}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                Reservar direto pelo WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            *Valor de referência para diária baixa temporada em Quarto Duplo. Consulte disponibilidade e datas.
+          </p>
+        </div>
+      </section>
+
       {/* ACOMODAÇÕES */}
       <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Acomodações</p>
-          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Escolha seu quarto ideal.</h2>
-          <p className="mt-3 text-muted-foreground">Todos os quartos com ar-condicionado, TV, frigobar, café da manhã e Wi-Fi inclusos.</p>
+          <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III — Acomodações</p>
+          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+            17 suítes em madeira.<br />
+            <span className="italic opacity-90">Duas configurações,</span> mesma tranquilidade.
+          </h2>
+          <p className="mt-4 text-muted-foreground max-w-xl">
+            Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra.
+          </p>
         </div>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto">
           {ROOMS.map((r) => (
@@ -672,19 +829,24 @@ function HomePage() {
       <section className="bg-background">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A piscina</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">A piscina que faz a viagem valer.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">
-              Aberta o dia todo, com espreguiçadeiras, área sombreada e vista da pousada. Perfeita pra descansar antes ou depois da praia.
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV — Piscina</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Acesa até você decidir<br />
+              <span className="italic opacity-90">que é hora de dormir.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
+              Deck em madeira, espreguiçadeiras à sombra dos coqueiros e iluminação noturna suave.
+              Aberta o dia todo — na alta temporada, a área permanece iluminada até a meia-noite.
             </p>
           </div>
 
-          <figure className="mt-10 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[16/10]">
+          <figure className="mt-10 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/5] sm:aspect-[16/10]">
             <InlineCarousel
               items={[
                 { src: piscinaHero, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
                 { src: piscinaDeck, caption: "Deck e área gourmet", desc: "Pergolado de bambu, mesas à sombra e jardim ao redor da piscina." },
               ]}
+              imgClassName="object-[50%_72%]"
             />
           </figure>
 
@@ -711,18 +873,32 @@ function HomePage() {
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Localização</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Itacimirim, Camaçari — BA.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">A 2 minutos da praia, entre Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
-            <address className="not-italic mt-6 rounded-xl border border-border/60 bg-background p-5 text-sm text-foreground/90 leading-relaxed">
-              <div className="font-medium text-foreground">Pousada Ilha do Meio</div>
-              <div className="mt-1.5 space-y-0.5">
-                <div>Rua Sítio Novo, 7</div>
-                <div>Loteamento Santa Maria, Lote 8</div>
-                <div>Itacimirim, Camaçari — BA</div>
-                <div className="text-muted-foreground">CEP 42823-000</div>
-              </div>
-            </address>
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V — Onde fica</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Entre Guarajuba<br />
+              <span className="italic opacity-90">e Praia do Forte.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
+              Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8. A 800m da praia por caminho asfaltado
+              e a uma curta viagem dos principais destinos do Litoral Norte da Bahia.
+            </p>
+
+            <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6">
+              {[
+                { n: 2, unit: "min", l: "Da praia a pé" },
+                { n: 12, unit: "km", l: "Praia do Forte" },
+                { n: 55, unit: "km", l: "Aeroporto de Salvador" },
+                { n: 78, unit: "km", l: "Centro de Salvador" },
+              ].map((d) => (
+                <div key={d.l} className="border-l-2 border-sand/70 pl-4">
+                  <dt className="flex items-baseline gap-1.5">
+                    <CountUp end={d.n} className="font-display text-4xl sm:text-5xl leading-none text-foreground tabular-nums" />
+                    <span className="text-sm font-medium text-muted-foreground">{d.unit}</span>
+                  </dt>
+                  <dd className="mt-1.5 text-sm text-muted-foreground">{d.l}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
           <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
             <iframe
@@ -749,6 +925,61 @@ function HomePage() {
       {/* DEPOIMENTOS */}
       <Testimonials />
 
+      {/* FAQ INLINE */}
+      <section id="faq" className="bg-background border-t border-border/60">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">Perguntas frequentes</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Antes de reservar,<br />
+              <span className="italic opacity-90">tudo o que perguntam.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Não achou sua dúvida? Fale com a recepção pelo WhatsApp — respondemos em minutos.
+            </p>
+          </div>
+
+          <Accordion type="single" collapsible className="mt-8">
+            {[
+              { q: "Quais formas de pagamento vocês aceitam?", a: "PIX, cartão de crédito, cartão de débito e dinheiro. A recepção envia as instruções de pagamento assim que você confirma as datas pelo WhatsApp." },
+              { q: "Qual a política de cancelamento?", a: "Buscamos flexibilidade sempre que possível. As condições exatas dependem do período e da antecedência da reserva — a recepção informa tudo antes de você confirmar." },
+              { q: "Que horas é o check-in e check-out?", a: "Check-in das 13h às 22h. Check-out das 9h às 12h. Chegando fora do horário? Basta avisar a recepção com antecedência." },
+              { q: "Tem estacionamento?", a: "Sim, estacionamento privativo gratuito para hóspedes, sujeito à disponibilidade de vagas." },
+              { q: "O café da manhã está incluso?", a: "Sim, todas as diárias incluem café da manhã completo — frutas, pães, frios, sucos naturais, bolos e itens regionais servidos diariamente." },
+              { q: "A pousada aceita pets?", a: "No momento não recebemos animais de estimação, para preservar o conforto de todos os hóspedes." },
+              { q: "Crianças pagam?", a: "Crianças são bem-vindas. As condições variam com a idade e a configuração do quarto — fale com a recepção pra montarmos a melhor acomodação para sua família." },
+              { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local — você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
+            ].map((item) => (
+              <AccordionItem key={item.q} value={item.q} className="border-border/60">
+                <AccordionTrigger className="text-left text-base sm:text-lg font-semibold py-5 hover:no-underline">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-5">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-border/60 bg-card px-5 py-5 sm:px-7 sm:py-6">
+            <div className="text-center sm:text-left">
+              <p className="font-semibold text-foreground">Ainda com dúvida?</p>
+              <p className="text-sm text-muted-foreground">A recepção responde em minutos, de segunda a segunda.</p>
+            </div>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener"
+              onClick={() => trackWhatsAppLead("FAQ - Tirar dúvida")}
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition shrink-0"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              Falar com a recepção
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* FINAL CTA */}
       <section
         className="relative bg-cover bg-center bg-no-repeat min-h-[480px] sm:min-h-[560px] lg:min-h-[620px]"
@@ -757,18 +988,24 @@ function HomePage() {
         <div aria-hidden className="absolute inset-0 bg-black/75" />
         <GrainOverlay />
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
-          <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
-          <p className="mt-4 text-white/85 sm:text-lg">Fins de semana costumam esgotar primeiro. Fale com a recepção e garanta sua data.</p>
-          <div className="mt-8">
+          <p className="text-[11px] uppercase tracking-[0.32em] text-sand font-medium">Reserva direta com a casa</p>
+          <h2 className="mt-4 font-display text-4xl sm:text-6xl leading-[1.02] text-balance">
+            Fale com<br />
+            <span className="italic opacity-95">a recepção.</span>
+          </h2>
+          <p className="mt-5 text-white/85 sm:text-lg max-w-xl mx-auto">
+            Sem intermediário, sem taxa de reserva. Respondemos em minutos pelo WhatsApp — de segunda a segunda.
+          </p>
+          <div className="mt-9 flex justify-center">
             <a
               href={WHATSAPP_CONFIRM}
               target="_blank"
               rel="noopener"
               onClick={() => trackWhatsAppLead("CTA final - Confirmar reserva")}
-              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Confirmar minha reserva agora
+              Falar com a recepção
             </a>
           </div>
         </div>

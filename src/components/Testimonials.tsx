@@ -7,6 +7,7 @@ import avatarCintia from "@/assets/avatar-cintia.png";
 import avatarFatima from "@/assets/avatar-fatima.png";
 import avatarDavid from "@/assets/avatar-david.png";
 import avatarJuliana from "@/assets/avatar-juliana.png";
+import palmBg1 from "@/assets/palm-bg-1.jpg";
 
 type Testimonial = {
   name: string;
@@ -74,8 +75,14 @@ export function Testimonials() {
   }, [embla]);
 
   return (
-    <section id="depoimentos" className="bg-card border-y border-border/60">
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24">
+    <section id="depoimentos" className="relative border-y border-border/60 overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${palmBg1})` }}
+      />
+      <div aria-hidden className="absolute inset-0 bg-card/92" />
+      <div className="relative mx-auto max-w-5xl px-4 py-16 sm:py-24">
         <div className="text-center max-w-2xl mx-auto">
           <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Depoimentos</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">

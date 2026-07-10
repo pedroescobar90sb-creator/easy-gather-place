@@ -15,6 +15,7 @@ import { Route as ReservarRouteImport } from './routes/reservar'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ComoChegarRouteImport } from './routes/como-chegar'
+import { Route as AmbientesRouteImport } from './routes/ambientes'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TermosRoute = TermosRouteImport.update({
@@ -47,6 +48,11 @@ const ComoChegarRoute = ComoChegarRouteImport.update({
   path: '/como-chegar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AmbientesRoute = AmbientesRouteImport.update({
+  id: '/ambientes',
+  path: '/ambientes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +61,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ambientes': typeof AmbientesRoute
   '/como-chegar': typeof ComoChegarRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ambientes': typeof AmbientesRoute
   '/como-chegar': typeof ComoChegarRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ambientes': typeof AmbientesRoute
   '/como-chegar': typeof ComoChegarRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ambientes'
     | '/como-chegar'
     | '/faq'
     | '/privacidade'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ambientes'
     | '/como-chegar'
     | '/faq'
     | '/privacidade'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ambientes'
     | '/como-chegar'
     | '/faq'
     | '/privacidade'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AmbientesRoute: typeof AmbientesRoute
   ComoChegarRoute: typeof ComoChegarRoute
   FaqRoute: typeof FaqRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComoChegarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ambientes': {
+      id: '/ambientes'
+      path: '/ambientes'
+      fullPath: '/ambientes'
+      preLoaderRoute: typeof AmbientesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AmbientesRoute: AmbientesRoute,
   ComoChegarRoute: ComoChegarRoute,
   FaqRoute: FaqRoute,
   PrivacidadeRoute: PrivacidadeRoute,

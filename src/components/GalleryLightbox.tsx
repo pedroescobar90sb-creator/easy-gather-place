@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import lightboxBg from "@/assets/lightbox-bg.jpg";
 
 export type GalleryItem = { src: string; caption: string; desc: string };
 
@@ -11,6 +12,11 @@ type Props = {
   gridClassName?: string;
   /** When provided, replaces the default thumbnail grid with a single custom trigger. */
   trigger?: React.ReactNode;
+  /** Slide index to open when the trigger is clicked. Defaults to 0. */
+  initialIndex?: number;
+  /** Controlled: current index (null = closed). Overrides internal state. */
+  openIndex?: number | null;
+  onOpenIndexChange?: (idx: number | null) => void;
 };
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
@@ -126,6 +132,9 @@ function Slide({
   return (
     <div
       className="absolute inset-0"
+      role="group"
+      aria-roledescription="slide"
+      aria-label={`${item.caption}`}
       style={{
         opacity: shown ? 1 : 0,
         transform: shown ? "translateX(0) scale(1)" : `translateX(${dir * 56}px) scale(1.02)`,
@@ -153,23 +162,45 @@ function Slide({
   );
 }
 
-export function GalleryLightbox({ items, className, gridClassName, trigger }: Props) {
-  const [openIdx, setOpenIdx] = React.useState<number | null>(null);
+export function GalleryLightbox({ items, className, gridClassName, trigger, initialIndex = 0, openIndex, onOpenIndexChange }: Props) {
+  const controlled = openIndex !== undefined;
+  const [internalIdx, setInternalIdx] = React.useState<number | null>(null);
+  const openIdx = controlled ? (openIndex ?? null) : internalIdx;
+  const setOpenIdx = React.useCallback(
+    (v: number | null | ((prev: number | null) => number | null)) => {
+      if (controlled) {
+        const next = typeof v === "function" ? (v as (p: number | null) => number | null)(openIndex ?? null) : v;
+        onOpenIndexChange?.(next);
+      } else {
+        setInternalIdx(v as never);
+      }
+    },
+    [controlled, openIndex, onOpenIndexChange],
+  );
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
   // Ref (não state) pra travar navegação — lido/escrito sincronamente, sem closure velha.
   const lockRef = React.useRef(false);
+  const triggerRef = React.useRef<HTMLElement | null>(null);
   const open = openIdx !== null;
   const current = open ? items[openIdx!] : null;
   const isFirst = openIdx === 0;
   const isLast = openIdx === items.length - 1;
 
-  const close = React.useCallback(() => setOpenIdx(null), []);
+  const close = React.useCallback(() => {
+    setOpenIdx(null);
+    // Restaura o foco pro elemento que abriu a lightbox (acessibilidade).
+    triggerRef.current?.focus?.();
+  }, [setOpenIdx]);
 
-  const openAt = React.useCallback((i: number) => {
-    lockRef.current = false;
-    setSlideDir(1);
-    setOpenIdx(i);
-  }, []);
+  const openAt = React.useCallback(
+    (i: number, el?: HTMLElement) => {
+      lockRef.current = false;
+      if (el) triggerRef.current = el;
+      setSlideDir(1);
+      setOpenIdx(Math.max(0, Math.min(items.length - 1, i)));
+    },
+    [items.length, setOpenIdx],
+  );
 
   const navigate = React.useCallback(
     (dir: 1 | -1) => {
@@ -183,7 +214,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
         return next;
       });
     },
-    [items.length],
+    [items.length, setOpenIdx],
   );
 
   const goPrev = React.useCallback(() => navigate(-1), [navigate]);
@@ -220,8 +251,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
 
   return (
     <>
-      {trigger ? (
-        <span onClick={() => openAt(0)} className={cn("block", className)}>
+      {controlled && !trigger ? null : trigger ? (
+        <span
+          onClick={(e) => openAt(initialIndex, e.currentTarget as HTMLElement)}
+          className={cn("block", className)}
+        >
           {trigger}
         </span>
       ) : (
@@ -230,7 +264,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
             <button
               type="button"
               key={g.caption}
-              onClick={() => openAt(i)}
+              onClick={(e) => openAt(i, e.currentTarget as HTMLElement)}
               className="group relative overflow-hidden rounded-2xl bg-card aspect-video text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               aria-label={`Abrir imagem: ${g.caption}`}
             >
@@ -255,20 +289,31 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
           className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100]"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
+          style={{
+            backgroundImage: `radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.95) 100%), url(${lightboxBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
         >
           <DialogTitle className="sr-only">{current?.caption ?? "Galeria"}</DialogTitle>
           <DialogDescription className="sr-only">{current?.desc ?? ""}</DialogDescription>
 
           {current && (
-            <div className="relative w-screen h-[100dvh] sm:h-screen overflow-hidden">
+            <div
+              className="relative w-screen h-[100dvh] sm:h-screen overflow-hidden"
+              role="region"
+              aria-roledescription="carrossel"
+              aria-label="Galeria de ambientes"
+            >
               <Slide key={openIdx} item={current} dir={slideDir} onSettled={handleSlideSettled} />
 
               {/* Close */}
               <button
                 type="button"
                 onClick={close}
-                aria-label="Fechar imagem"
-                className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Fechar galeria"
+                className="absolute top-4 right-4 z-20 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -278,8 +323,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                 type="button"
                 onClick={goPrev}
                 disabled={isFirst}
-                aria-label="Imagem anterior"
-                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Slide anterior"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -289,17 +334,17 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                 type="button"
                 onClick={goNext}
                 disabled={isLast}
-                aria-label="Próxima imagem"
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Próximo slide"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
 
               {/* Caption */}
-              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+              <div className="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-6 bg-gradient-to-t from-black/85 via-black/50 to-transparent text-white">
                 <div className="mx-auto max-w-3xl text-center">
                   <div className="text-base sm:text-lg font-semibold">{current.caption}</div>
-                  <p className="mt-1 text-sm text-white/80">{current.desc}</p>
+                  <p className="mt-1 text-sm text-white/90">{current.desc}</p>
                   {items.length > 1 && (
                     <div className="mt-3 flex items-center justify-center gap-1.5">
                       {items.length <= 10 ? (
@@ -317,6 +362,9 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                           {(openIdx ?? 0) + 1} / {items.length}
                         </span>
                       )}
+                      <span className="sr-only" aria-live="polite" aria-atomic="true">
+                        Slide {(openIdx ?? 0) + 1} de {items.length}
+                      </span>
                     </div>
                   )}
                 </div>
