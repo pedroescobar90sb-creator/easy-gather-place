@@ -838,7 +838,7 @@ function HomePage() {
 
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div>
+          <Reveal>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V — Onde fica</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Entre Guarajuba<br />
@@ -849,41 +849,43 @@ function HomePage() {
               e a uma curta viagem dos principais destinos do Litoral Norte da Bahia.
             </p>
 
-            <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6">
+            <StaggerGroup as="dl" className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6" gap={0.1} amount={0.25}>
               {[
                 { n: 2, unit: "min", l: "Da praia a pé" },
                 { n: 12, unit: "km", l: "Praia do Forte" },
                 { n: 55, unit: "km", l: "Aeroporto de Salvador" },
                 { n: 78, unit: "km", l: "Centro de Salvador" },
               ].map((d) => (
-                <div key={d.l} className="border-l-2 border-sand/70 pl-4">
+                <StaggerItem key={d.l} className="border-l-2 border-sand/70 pl-4">
                   <dt className="flex items-baseline gap-1.5">
                     <CountUp end={d.n} className="font-display text-4xl sm:text-5xl leading-none text-foreground tabular-nums" />
                     <span className="text-sm font-medium text-muted-foreground">{d.unit}</span>
                   </dt>
                   <dd className="mt-1.5 text-sm text-muted-foreground">{d.l}</dd>
-                </div>
+                </StaggerItem>
               ))}
-            </dl>
-          </div>
-          <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
-            <iframe
-              title="Localização da Pousada Ilha do Meio no mapa"
-              src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
-              className="h-full w-full border-0 grayscale-[20%] contrast-[1.05] saturate-[0.9]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/10" />
-            <button
-              type="button"
-              onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
-              className="absolute bottom-4 left-4 right-4 sm:right-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg hover:bg-white transition"
-            >
-              <MapPin className="h-4 w-4 text-primary" />
-              Abrir no Google Maps
-            </button>
-          </div>
+            </StaggerGroup>
+          </Reveal>
+          <Reveal y={40} delay={0.1}>
+            <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
+              <iframe
+                title="Localização da Pousada Ilha do Meio no mapa"
+                src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
+                className="h-full w-full border-0 grayscale-[20%] contrast-[1.05] saturate-[0.9]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/10" />
+              <button
+                type="button"
+                onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
+                className="absolute bottom-4 left-4 right-4 sm:right-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg hover:bg-white transition"
+              >
+                <MapPin className="h-4 w-4 text-primary" />
+                Abrir no Google Maps
+              </button>
+            </div>
+          </Reveal>
 
         </div>
       </section>
