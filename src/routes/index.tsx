@@ -659,10 +659,14 @@ function HomePage() {
       {/* ACOMODAÇÕES */}
       <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Acomodações</p>
-          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Escolha seu quarto ideal.</h2>
-          <p className="mt-3 text-muted-foreground">Todos os quartos com ar-condicionado, TV, frigobar, café da manhã e Wi-Fi inclusos.</p>
-        </div>
+          <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III — Acomodações</p>
+          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+            17 suítes em madeira.<br />
+            <span className="italic opacity-90">Duas configurações,</span> mesma tranquilidade.
+          </h2>
+          <p className="mt-4 text-muted-foreground max-w-xl">
+            Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra.
+          </p>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto">
           {ROOMS.map((r) => (
             <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
