@@ -346,32 +346,41 @@ function HomePage() {
       {/* HERO */}
       <section
         id="top"
-        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px]"
-        style={{ backgroundImage: `url(${heroPousada})` }}
+        className="relative overflow-hidden min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px]"
       >
+        <div aria-hidden className="absolute inset-0 -z-10">
+          <KenBurns src={heroPousada} alt="" eager duration={26} sizes="100vw" />
+        </div>
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <GrainOverlay />
-        <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
-          <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
-            <MapPin className="h-3.5 w-3.5" />
-            Itacimirim · Bahia · 42823-000
-          </div>
-          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
+        <StaggerGroup
+          className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white"
+          gap={0.09}
+          delay={0.15}
+          amount={0.15}
+        >
+          <StaggerItem>
+            <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
+              <MapPin className="h-3.5 w-3.5" />
+              Itacimirim · Bahia · 42823-000
+            </div>
+          </StaggerItem>
+          <StaggerItem as="h1" className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
             2 minutos do mar.<br />
             <em className="italic font-normal opacity-95">50 de Salvador.</em>
-          </h1>
-          <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
+          </StaggerItem>
+          <StaggerItem as="p" className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
             Cabines de madeira entre coqueiros, piscina acesa até tarde e a recepção
             que atende pelo WhatsApp — antes, durante e depois da sua estadia.
-          </p>
+          </StaggerItem>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <StaggerItem className="mt-7 flex flex-wrap items-center gap-3">
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
               onClick={() => trackWhatsAppLead("Hero - Ver disponibilidade")}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition-all"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Ver disponibilidade
@@ -383,15 +392,18 @@ function HomePage() {
               Conhecer a pousada
               <ChevronRight className="h-4 w-4" aria-hidden />
             </Link>
-          </div>
+          </StaggerItem>
 
-          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
-            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
-            <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
-            <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
-          </ul>
-        </div>
+          <StaggerItem as="p" className="mt-9">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
+              <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
+              <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
+              <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
+            </ul>
+          </StaggerItem>
+        </StaggerGroup>
       </section>
+
 
       {/* TRUST BAR */}
       <section className="relative isolate overflow-hidden min-h-[280px] sm:min-h-[320px] lg:min-h-[360px]">
