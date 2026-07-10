@@ -37,6 +37,8 @@ import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
+import palmBg1Asset from "@/assets/palm-bg-1.jpg.asset.json";
+import palmBg2Asset from "@/assets/palm-bg-2.jpg.asset.json";
 
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
