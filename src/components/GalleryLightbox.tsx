@@ -49,8 +49,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
       setOpenIdx(null);
       // Restore focus to the element that opened the lightbox
       triggerRef.current?.focus?.();
-    }, 250);
-  }, []);
+    }, 200);
+  }, [setOpenIdx]);
 
   // Premium lateral transition: fade-out current, swap, fade-in next with subtle slide.
   const navigate = React.useCallback(
