@@ -4,7 +4,7 @@ import { Logo } from "@/components/Logo";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
-const PAGE_URL = "https://easy-gather-place.lovable.app/como-chegar";
+const PAGE_URL = "https://pousadailhadomeio.com.br/como-chegar";
 const GOOGLE_MAPS =
   "https://www.google.com/maps/search/?api=1&query=Pousada+Ilha+do+Meio+Itacimirim";
 const WAZE = "https://waze.com/ul?q=Pousada%20Ilha%20do%20Meio%20Itacimirim";
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/como-chegar")({
               "@type": "ListItem",
               position: 1,
               name: "Início",
-              item: "https://easy-gather-place.lovable.app/",
+              item: "https://pousadailhadomeio.com.br/",
             },
             {
               "@type": "ListItem",

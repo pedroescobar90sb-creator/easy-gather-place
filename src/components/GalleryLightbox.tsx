@@ -15,6 +15,68 @@ type Props = {
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
+/** Carrossel embutido no próprio card — passa as fotos com setas, sem abrir tela cheia. */
+export function InlineCarousel({
+  items,
+  className,
+  imgClassName,
+}: {
+  items: GalleryItem[];
+  className?: string;
+  imgClassName?: string;
+}) {
+  const [idx, setIdx] = React.useState(0);
+  if (items.length === 0) return null;
+
+  const go = (dir: 1 | -1) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIdx((i) => Math.max(0, Math.min(items.length - 1, i + dir)));
+  };
+
+  return (
+    <div className={cn("relative h-full w-full overflow-hidden", className)}>
+      <img
+        src={items[idx].src}
+        alt={items[idx].caption}
+        loading="lazy"
+        decoding="async"
+        className={cn("h-full w-full object-cover", imgClassName)}
+      />
+      {items.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={go(-1)}
+            disabled={idx === 0}
+            aria-label="Foto anterior"
+            className="absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={go(1)}
+            disabled={idx === items.length - 1}
+            aria-label="Próxima foto"
+            className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+          <div className="absolute bottom-2.5 inset-x-0 flex items-center justify-center gap-1">
+            {items.map((_, i) => (
+              <span
+                key={i}
+                className={cn("h-1 rounded-full transition-all duration-300", i === idx ? "w-4 bg-white" : "w-1 bg-white/50")}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 /** Um slide da lightbox. Remonta a cada troca de foto (key=index) — o duplo rAF
  * garante que o navegador pinte o estado "não entrado" antes de animar pro estado final,
  * então a transição sempre dispara de verdade, sem depender de timeout adivinhado. */

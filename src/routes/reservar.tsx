@@ -29,10 +29,10 @@ export const Route = createFileRoute("/reservar")({
       { property: "og:title", content: "Reservar direto — Pousada Ilha do Meio" },
       { property: "og:description", content: "Reserve direto com a casa. Melhor tarifa garantida." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://easy-gather-place.lovable.app/reservar" },
+      { property: "og:url", content: "https://pousadailhadomeio.com.br/reservar" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://easy-gather-place.lovable.app/reservar" }],
+    links: [{ rel: "canonical", href: "https://pousadailhadomeio.com.br/reservar" }],
   }),
   validateSearch: (s: Record<string, unknown>) => ({
     room: typeof s.room === "string" ? s.room : undefined,

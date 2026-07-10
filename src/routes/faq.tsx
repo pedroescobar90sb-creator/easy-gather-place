@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPageLayout, LegalSection } from "@/components/LegalPageLayout";
 
-const PAGE_URL = "https://easy-gather-place.lovable.app/faq";
+const PAGE_URL = "https://pousadailhadomeio.com.br/faq";
 
 /**
  * Fonte única para o FAQ. Renderizado na página E também transformado

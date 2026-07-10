@@ -86,7 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "Pousada Ilha do Meio",
-          url: "https://easy-gather-place.lovable.app",
+          url: "https://pousadailhadomeio.com.br",
           sameAs: [
             "https://www.instagram.com/pousadailhadomeio/",
             "https://www.booking.com/hotel/br/pousada-ilha-do-meio.pt-br.html",

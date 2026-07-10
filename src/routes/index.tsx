@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Camera, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
-import { GalleryLightbox } from "@/components/GalleryLightbox";
+import { GalleryLightbox, InlineCarousel } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
 import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
@@ -79,20 +79,20 @@ export const Route = createFileRoute("/")({
       { property: "og:image", content: heroPousada },
       { name: "twitter:image", content: heroPousada },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://easy-gather-place.lovable.app/" },
+      { property: "og:url", content: "https://pousadailhadomeio.com.br/" },
     ],
-    links: [{ rel: "canonical", href: "https://easy-gather-place.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://pousadailhadomeio.com.br/" }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LodgingBusiness",
-          "@id": "https://easy-gather-place.lovable.app/#pousada",
+          "@id": "https://pousadailhadomeio.com.br/#pousada",
           name: "Pousada Ilha do Meio",
           description:
             "Pousada boutique em Itacimirim (Bahia), a 2 minutos do mar, entre Guarajuba e Praia do Forte. 17 quartos, café da manhã, piscina e atendimento direto com a casa.",
-          url: "https://easy-gather-place.lovable.app/",
+          url: "https://pousadailhadomeio.com.br/",
           image: heroPousada,
           telephone: "+55-71-9126-3096",
           priceRange: "R$ 450 – R$ 650",
@@ -528,32 +528,15 @@ function HomePage() {
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
-            <GalleryLightbox
-              className="md:col-span-3"
-              items={[
-                { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
-                { src: salaoJogos, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
-                { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
-              ]}
-              trigger={
-                <figure className="group relative overflow-hidden rounded-3xl bg-background aspect-[4/5] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] cursor-zoom-in">
-                  <img
-                    src={salaoJogosBilhar}
-                    alt="Mesa de bilhar no salão de jogos da Pousada Ilha do Meio"
-                    loading="lazy"
-                    decoding="async"
-                    sizes="(min-width: 768px) 60vw, 100vw"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-5">
-                    <figcaption className="flex items-center gap-2 text-white text-base font-semibold tracking-wide">
-                      <Gamepad2 className="h-4.5 w-4.5" strokeWidth={1.8} />
-                      Acessar o ambiente
-                    </figcaption>
-                  </div>
-                </figure>
-              }
-            />
+            <figure className="md:col-span-3 relative overflow-hidden rounded-3xl bg-background aspect-[4/5] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)]">
+              <InlineCarousel
+                items={[
+                  { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
+                  { src: salaoJogos, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
+                  { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
+                ]}
+              />
+            </figure>
             <div className="md:col-span-2">
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">Experiência</p>
               <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Diversão sem sair da pousada.</h3>
@@ -602,20 +585,7 @@ function HomePage() {
           {ROOMS.map((r) => (
             <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                <GalleryLightbox
-                  items={r.photos}
-                  trigger={
-                    <button
-                      type="button"
-                      aria-label={`Ver fotos do ${r.name}`}
-                      className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                    >
-                      <Camera className="h-3.5 w-3.5" />
-                      Ver fotos do quarto
-                    </button>
-                  }
-                />
+                <InlineCarousel items={r.photos} />
               </div>
               <div className="flex flex-col gap-4 p-5 flex-1">
                 <div>
@@ -709,28 +679,14 @@ function HomePage() {
             </p>
           </div>
 
-          <GalleryLightbox
-            items={[
-              { src: piscinaHero, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
-              { src: piscinaDeck, caption: "Deck e área gourmet", desc: "Pergolado de bambu, mesas à sombra e jardim ao redor da piscina." },
-            ]}
-            className="mt-10"
-            trigger={
-              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[16/10] group cursor-zoom-in">
-                <img
-                  src={piscinaHero}
-                  alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.02]"
-                />
-                <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
-                  <Camera className="h-3.5 w-3.5" />
-                  Ver fotos da piscina
-                </span>
-              </figure>
-            }
-
-          />
+          <figure className="mt-10 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[16/10]">
+            <InlineCarousel
+              items={[
+                { src: piscinaHero, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
+                { src: piscinaDeck, caption: "Deck e área gourmet", desc: "Pergolado de bambu, mesas à sombra e jardim ao redor da piscina." },
+              ]}
+            />
+          </figure>
 
 
 

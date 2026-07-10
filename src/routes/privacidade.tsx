@@ -10,10 +10,10 @@ export const Route = createFileRoute("/privacidade")({
       { name: "description", content: "Como a Pousada Ilha do Meio coleta, usa e protege seus dados pessoais, em conformidade com a LGPD." },
       { property: "og:title", content: "Política de Privacidade — Pousada Ilha do Meio" },
       { property: "og:description", content: "Privacidade e proteção de dados na Pousada Ilha do Meio." },
-      { property: "og:url", content: "https://easy-gather-place.lovable.app/privacidade" },
+      { property: "og:url", content: "https://pousadailhadomeio.com.br/privacidade" },
       { property: "og:type", content: "website" },
     ],
-    links: [{ rel: "canonical", href: "https://easy-gather-place.lovable.app/privacidade" }],
+    links: [{ rel: "canonical", href: "https://pousadailhadomeio.com.br/privacidade" }],
   }),
   component: PrivacyPage,
 });
