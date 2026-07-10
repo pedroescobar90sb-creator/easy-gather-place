@@ -30,6 +30,7 @@ import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg";
 import piscinaDeck from "@/assets/piscina-aerea.png";
+import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
 import quartoDuploAlt from "@/assets/quarto-duplo-varanda-hd.jpg";
@@ -405,15 +406,24 @@ function AmbienteBlock({ ambiente, reversed }: { ambiente: Ambiente; reversed: b
 
 function CTAReserva() {
   return (
-    <section className="border-t border-border/40 bg-card">
-      <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:py-20">
-        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary">
+    <section className="relative isolate overflow-hidden border-t border-border/40">
+      {/* Wallpaper coqueiros — verde escuro */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${bgCoqueiros})` }}
+      />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-black/60" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
+
+      <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:py-20 text-white">
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary-foreground/90">
           Pronto pra reservar?
         </p>
-        <h2 className="mt-3 font-display text-3xl leading-[1.05] sm:text-5xl">
+        <h2 className="mt-3 font-display text-3xl leading-[1.05] sm:text-5xl text-white">
           Sua estadia começa aqui.
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+        <p className="mx-auto mt-4 max-w-xl text-white/80">
           Tire dúvidas, veja disponibilidade e reserve direto pelo WhatsApp — falamos com você em minutos.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
