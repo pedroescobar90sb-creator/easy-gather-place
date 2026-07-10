@@ -890,8 +890,14 @@ function HomePage() {
         <div aria-hidden className="absolute inset-0 bg-black/75" />
         <GrainOverlay />
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
-          <h2 className="font-display text-4xl sm:text-6xl leading-[1.02]">Garanta sua reserva.</h2>
-          <p className="mt-4 text-white/85 sm:text-lg">Fins de semana costumam esgotar primeiro. Fale com a recepção e garanta sua data.</p>
+          <p className="text-[11px] uppercase tracking-[0.32em] text-sand font-medium">Reserva direta com a casa</p>
+          <h2 className="mt-4 font-display text-4xl sm:text-6xl leading-[1.02] text-balance">
+            Fale com quem<br />
+            <span className="italic opacity-95">atende a porta.</span>
+          </h2>
+          <p className="mt-5 text-white/85 sm:text-lg max-w-xl mx-auto">
+            Sem intermediário, sem taxa de reserva. Respondemos em minutos pelo WhatsApp — de segunda a segunda.
+          </p>
           <div className="mt-8">
             <a
               href={WHATSAPP_CONFIRM}
