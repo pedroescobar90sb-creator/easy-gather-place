@@ -13,12 +13,28 @@ type Props = {
   trigger?: React.ReactNode;
   /** Slide index to open when the trigger is clicked. Defaults to 0. */
   initialIndex?: number;
+  /** Controlled: current index (null = closed). Overrides internal state. */
+  openIndex?: number | null;
+  onOpenIndexChange?: (idx: number | null) => void;
 };
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
-export function GalleryLightbox({ items, className, gridClassName, trigger, initialIndex = 0 }: Props) {
-  const [openIdx, setOpenIdx] = React.useState<number | null>(null);
+export function GalleryLightbox({ items, className, gridClassName, trigger, initialIndex = 0, openIndex, onOpenIndexChange }: Props) {
+  const controlled = openIndex !== undefined;
+  const [internalIdx, setInternalIdx] = React.useState<number | null>(null);
+  const openIdx = controlled ? (openIndex ?? null) : internalIdx;
+  const setOpenIdx = React.useCallback(
+    (v: number | null | ((prev: number | null) => number | null)) => {
+      if (controlled) {
+        const next = typeof v === "function" ? (v as (p: number | null) => number | null)(openIndex ?? null) : v;
+        onOpenIndexChange?.(next);
+      } else {
+        setInternalIdx(v as never);
+      }
+    },
+    [controlled, openIndex, onOpenIndexChange],
+  );
   const [entered, setEntered] = React.useState(false);
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
   const [slideKey, setSlideKey] = React.useState(0);
