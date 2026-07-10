@@ -188,9 +188,16 @@ const ROOM_AMENITIES = [
 
 const GALLERY = [
   { src: fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
-  { src: recepcaoDia, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
-  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
   { src: piscinaNoite, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
+  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
+  { src: recepcaoDia, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
+];
+
+const GALLERY_META = [
+  { kicker: "01 — Suítes", tags: ["Varanda privativa", "Ar-condicionado", "Wi-Fi"] },
+  { kicker: "02 — Piscina", tags: ["Deck de madeira", "Área externa", "Iluminada"] },
+  { kicker: "03 — Convivência", tags: ["Quiosque", "Jardim", "Sombra natural"] },
+  { kicker: "04 — Recepção", tags: ["Check-in fácil", "Suporte local", "24h no WhatsApp"] },
 ];
 
 
