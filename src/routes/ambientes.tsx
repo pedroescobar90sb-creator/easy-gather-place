@@ -22,7 +22,10 @@ import { GalleryLightbox, type GalleryItem } from "@/components/GalleryLightbox"
 import { cn } from "@/lib/utils";
 
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
-import recepcaoDia from "@/assets/recepcao-dia.jpg";
+import recepcaoNoite1Asset from "@/assets/recepcao-noite-1.png.asset.json";
+import recepcaoNoite2Asset from "@/assets/recepcao-noite-2.png.asset.json";
+const recepcaoNoite1 = recepcaoNoite1Asset.url;
+const recepcaoNoite2 = recepcaoNoite2Asset.url;
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg";
@@ -125,9 +128,10 @@ const AMBIENTES: Ambiente[] = [
     subtitle: "Do check-in ao check-out, sem pressa",
     description:
       "Recepção acolhedora e atendimento local que conhece Itacimirim de verdade. Dicas de praia, restaurantes e passeios — antes mesmo de você chegar.",
-    cover: recepcaoDia,
+    cover: recepcaoNoite1,
     gallery: [
-      { src: recepcaoDia, caption: "Recepção da pousada", desc: "Ambiente acolhedor, sempre pronto pra receber." },
+      { src: recepcaoNoite1, caption: "Recepção iluminada à noite", desc: "Estrutura de troncos de madeira, luzes quentes e ambiente aconchegante para o check-in." },
+      { src: recepcaoNoite2, caption: "Área de convivência da recepção", desc: "Mesas de madeira, lustres artesanais e decoração inspirada no mar." },
     ],
     amenities: [
       { icon: ShieldCheck, label: "Check-in fácil" },

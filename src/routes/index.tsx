@@ -17,7 +17,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 
 import heroPousada from "@/assets/pousada-0.jpg";
 
-import recepcaoDia from "@/assets/recepcao-dia.jpg";
+import recepcaoNoite1Asset from "@/assets/recepcao-noite-1.png.asset.json";
+const recepcaoDia = recepcaoNoite1Asset.url;
 import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
@@ -192,7 +193,7 @@ const GALLERY = [
   { src: fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
   { src: piscinaNoite, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
   { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
-  { src: recepcaoDia, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
+  { src: recepcaoDia, caption: "Recepção", desc: "Recepção iluminada à noite, com estrutura em madeira e clima acolhedor para o check-in." },
 ];
 
 const GALLERY_META = [
