@@ -884,13 +884,13 @@ function HomePage() {
         <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
           <p className="text-[11px] uppercase tracking-[0.32em] text-sand font-medium">Reserva direta com a casa</p>
           <h2 className="mt-4 font-display text-4xl sm:text-6xl leading-[1.02] text-balance">
-            Fale com quem<br />
-            <span className="italic opacity-95">atende a porta.</span>
+            Fale com<br />
+            <span className="italic opacity-95">a recepção.</span>
           </h2>
           <p className="mt-5 text-white/85 sm:text-lg max-w-xl mx-auto">
             Sem intermediário, sem taxa de reserva. Respondemos em minutos pelo WhatsApp — de segunda a segunda.
           </p>
-          <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <div className="mt-9 flex justify-center">
             <a
               href={WHATSAPP_CONFIRM}
               target="_blank"
@@ -899,11 +899,8 @@ function HomePage() {
               className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Falar com a casa
+              Falar com a recepção
             </a>
-            <span className="text-xs uppercase tracking-[0.24em] text-white/60">
-              +55 71 9126-3096 · resposta média em 4 min
-            </span>
           </div>
         </div>
       </section>
