@@ -103,7 +103,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
             setSlideKey((k) => k + 1);
             setOpenIdx(0);
           }}
-          className={cn("inline-block", className)}
+          className={cn("block", className)}
         >
           {trigger}
         </span>

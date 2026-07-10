@@ -410,7 +410,7 @@ function HomePage() {
             trigger={
               <button
                 type="button"
-                className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[16/9] sm:aspect-[21/9] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[3/4] sm:aspect-[4/3] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 aria-label="Abrir galeria de ambientes"
               >
                 <img
@@ -533,7 +533,7 @@ function HomePage() {
                 { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
               ]}
               trigger={
-                <figure className="group relative overflow-hidden rounded-3xl bg-background aspect-[4/5] md:aspect-[16/10] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] cursor-zoom-in">
+                <figure className="group relative overflow-hidden rounded-3xl bg-background aspect-[4/5] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] cursor-zoom-in">
                   <img
                     src={salaoJogos}
                     alt="Salão de Jogos da Pousada Ilha do Meio"
@@ -598,7 +598,7 @@ function HomePage() {
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto">
           {ROOMS.map((r) => (
             <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
-              <div className="relative aspect-video overflow-hidden">
+              <div className="relative aspect-[4/3] overflow-hidden">
                 <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 <GalleryLightbox
                   items={r.photos}
