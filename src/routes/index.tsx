@@ -683,7 +683,7 @@ function HomePage() {
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             {/* Booking */}
-            <div className="relative rounded-2xl border border-border/60 bg-background/60 p-6 sm:p-7">
+            <div className="relative rounded-2xl border border-border/60 bg-background/95 backdrop-blur-sm p-6 sm:p-7 shadow-sm">
               <div className="flex items-center gap-2">
                 <span
                   aria-hidden="true"
