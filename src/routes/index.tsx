@@ -350,17 +350,18 @@ function HomePage() {
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
           <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
-            Itacimirim · Bahia
+            Itacimirim · Bahia · 42823-000
           </div>
-          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl">
-            O sossego da Bahia,<br /><em className="italic font-normal opacity-95">a dois minutos do mar.</em>
+          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
+            2 minutos do mar.<br />
+            <em className="italic font-normal opacity-95">50 de Salvador.</em>
           </h1>
           <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
-            Hospedagem em Itacimirim, entre Guarajuba e Praia do Forte.
-            Atendimento direto com a recepção e reserva confirmada em minutos pelo WhatsApp.
+            Cabines de madeira entre coqueiros, piscina acesa até tarde e a recepção
+            que atende pelo WhatsApp — antes, durante e depois da sua estadia.
           </p>
 
-          <div className="mt-7">
+          <div className="mt-7 flex flex-wrap items-center gap-3">
             <a
               href={WHATSAPP}
               target="_blank"
@@ -369,14 +370,30 @@ function HomePage() {
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Ver disponibilidade no WhatsApp
+              Ver disponibilidade
             </a>
+            <Link
+              to="/ambientes"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 backdrop-blur px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              Conhecer a pousada
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </Link>
           </div>
 
-          <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
-            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
-            <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
-            <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
+          <ul className="mt-9 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/85">
+            <li className="inline-flex items-center gap-2 border-l-2 border-sand/70 pl-3">
+              <span className="font-display text-lg text-white leading-none">9,2</span>
+              <span className="opacity-80">· 204 avaliações no Booking</span>
+            </li>
+            <li className="inline-flex items-center gap-2 border-l-2 border-sand/70 pl-3">
+              <span className="font-display text-lg text-white leading-none">17</span>
+              <span className="opacity-80">suítes em madeira</span>
+            </li>
+            <li className="inline-flex items-center gap-2 border-l-2 border-sand/70 pl-3">
+              <span className="font-display text-lg text-white leading-none">2010</span>
+              <span className="opacity-80">recebendo hóspedes</span>
+            </li>
           </ul>
         </div>
       </section>
