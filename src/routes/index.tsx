@@ -432,10 +432,9 @@ function HomePage() {
         </StaggerGroup>
       </section>
 
-      {/* A POUSADA — apresentação editorial + acesso a /ambientes */}
       <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
-          <div className="lg:col-span-5">
+          <Reveal className="lg:col-span-5" y={28}>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">A casa</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Quatro ambientes,<br />
@@ -455,9 +454,9 @@ function HomePage() {
               </span>
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden />
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7" y={40} delay={0.12}>
             <Link
               to="/ambientes"
               aria-label="Acessar todos os ambientes da pousada"
@@ -503,7 +502,7 @@ function HomePage() {
                 </span>
               </div>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
