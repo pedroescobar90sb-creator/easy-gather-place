@@ -37,6 +37,7 @@ import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
 const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
+const GOOGLE_MAPS_URL = "https://www.google.com/maps/place/pousada+ilha+do+meio+bahia/data=!4m2!3m1!1s0x71653f7b2133acd:0x8a9713485778b80e?sa=X&ved=1t:242&ictx=111";
 
 /** Textura de grão sutil pras seções escuras full-bleed — evita o visual "gradiente flat genérico". */
 const GRAIN_BG =
@@ -776,15 +777,14 @@ function HomePage() {
               referrerPolicy="no-referrer-when-downgrade"
             />
             <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/10" />
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Pousada+Ilha+do+Meio+Itacimirim"
-              target="_blank"
-              rel="noopener"
+            <button
+              type="button"
+              onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
               className="absolute bottom-4 left-4 right-4 sm:right-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg hover:bg-white transition"
             >
               <MapPin className="h-4 w-4 text-primary" />
               Abrir no Google Maps
-            </a>
+            </button>
           </div>
 
         </div>
