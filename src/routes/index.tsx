@@ -6,6 +6,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
+import { CountUp } from "@/components/CountUp";
 import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
 import { cn } from "@/lib/utils";
