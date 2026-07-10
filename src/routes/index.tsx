@@ -658,6 +658,84 @@ function HomePage() {
         </div>
       </section>
 
+      {/* RESERVA DIRETA vs BOOKING — economia real */}
+      <section className="bg-gradient-to-b from-background to-card border-y border-border/60">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05] text-balance">
+              Reservando com a casa,<br />
+              <span className="italic opacity-90">você paga menos.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-xl">
+              As plataformas cobram taxa de serviço em cima de cada diária. Falando direto com a recepção, esse valor volta pra você — sem intermediário e sem surpresas na hora da cobrança.
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            {/* Booking */}
+            <div className="relative rounded-2xl border border-border/60 bg-background/60 p-6 sm:p-7">
+              <div className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-md text-white font-bold text-[13px] leading-none"
+                  style={{ backgroundColor: "#003580", fontFamily: "system-ui, sans-serif" }}
+                >
+                  B.
+                </span>
+                <span className="text-sm font-medium text-muted-foreground">Booking · Quarto Duplo</span>
+              </div>
+              <div className="mt-6 flex items-baseline gap-2 text-muted-foreground line-through decoration-2 decoration-red-500/70">
+                <span className="text-xs">R$</span>
+                <span className="font-display text-4xl sm:text-5xl tabular-nums">530</span>
+                <span className="text-xs">/ noite</span>
+              </div>
+              <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Taxa de serviço do site</li>
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Atendimento por chat da plataforma</li>
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Sem contato direto com a recepção</li>
+              </ul>
+            </div>
+
+            {/* Direto */}
+            <div className="relative rounded-2xl border-2 border-primary/70 bg-primary/5 p-6 sm:p-7 shadow-xl shadow-primary/10">
+              <div className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary-foreground shadow">
+                <Check className="h-3 w-3" /> Recomendado
+              </div>
+              <div className="flex items-center gap-2">
+                <WhatsAppIcon className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Direto com a recepção · WhatsApp</span>
+              </div>
+              <div className="mt-6 flex items-baseline gap-2 text-foreground">
+                <span className="text-xs text-muted-foreground">R$</span>
+                <span className="font-display text-5xl sm:text-6xl tabular-nums text-primary">450</span>
+                <span className="text-xs text-muted-foreground">/ noite</span>
+              </div>
+              <p className="mt-1 text-xs font-semibold text-primary">Você economiza até R$ 80/noite</p>
+              <ul className="mt-5 space-y-2 text-sm text-foreground/90">
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Melhor tarifa garantida</li>
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Pagamento por PIX ou cartão</li>
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Falar com quem administra a pousada</li>
+              </ul>
+              <a
+                href={WHATSAPP}
+                target="_blank"
+                rel="noopener"
+                onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto")}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                Reservar direto pelo WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            *Valor de referência para diária baixa temporada em Quarto Duplo. Consulte disponibilidade e datas.
+          </p>
+        </div>
+      </section>
+
       {/* ACOMODAÇÕES */}
       <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="max-w-2xl">
