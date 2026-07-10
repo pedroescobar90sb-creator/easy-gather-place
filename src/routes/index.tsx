@@ -37,6 +37,8 @@ import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
+import palmBg1Asset from "@/assets/palm-bg-1.jpg.asset.json";
+import palmBg2Asset from "@/assets/palm-bg-2.jpg.asset.json";
 
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
@@ -660,8 +662,14 @@ function HomePage() {
       </section>
 
       {/* RESERVA DIRETA vs BOOKING — economia real */}
-      <section className="bg-gradient-to-b from-background to-card border-y border-border/60">
-        <div className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
+      <section className="relative border-y border-border/60 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${palmBg2Asset.url})` }}
+        />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/94 via-background/90 to-card/94" />
+        <div className="relative mx-auto max-w-5xl px-4 py-14 sm:py-20">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05] text-balance">
@@ -675,7 +683,7 @@ function HomePage() {
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             {/* Booking */}
-            <div className="relative rounded-2xl border border-border/60 bg-background/60 p-6 sm:p-7">
+            <div className="relative rounded-2xl border border-border/60 bg-background/95 backdrop-blur-sm p-6 sm:p-7 shadow-sm">
               <div className="flex items-center gap-2">
                 <span
                   aria-hidden="true"
@@ -699,7 +707,7 @@ function HomePage() {
             </div>
 
             {/* Direto */}
-            <div className="relative rounded-2xl border-2 border-primary/70 bg-primary/5 p-6 sm:p-7 shadow-xl shadow-primary/10">
+            <div className="relative rounded-2xl border-2 border-primary/70 bg-background/95 backdrop-blur-sm p-6 sm:p-7 shadow-xl shadow-primary/10">
               <div className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary-foreground shadow">
                 <Check className="h-3 w-3" /> Recomendado
               </div>
@@ -989,10 +997,10 @@ function HomePage() {
               { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local — você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
             ].map((item) => (
               <AccordionItem key={item.q} value={item.q} className="border-border/60">
-                <AccordionTrigger className="text-left text-base font-semibold hover:no-underline">
+                <AccordionTrigger className="text-left text-base sm:text-lg font-semibold py-5 hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
+                <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-5">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
