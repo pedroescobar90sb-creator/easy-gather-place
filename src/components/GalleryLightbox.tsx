@@ -109,7 +109,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
             triggerRef.current = e.currentTarget as HTMLElement;
             setSlideDir(1);
             setSlideKey((k) => k + 1);
-            setOpenIdx(0);
+            setOpenIdx(Math.max(0, Math.min(items.length - 1, initialIndex)));
           }}
           className={cn("block", className)}
         >
