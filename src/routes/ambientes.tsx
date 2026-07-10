@@ -115,9 +115,8 @@ const AMBIENTES: Ambiente[] = [
     subtitle: "Quiosque, jardim e salão de jogos",
     description:
       "Espaço ao ar livre pra descansar entre um passeio e outro. Quiosque com sombra, mesas para conversar e jardim que respira o clima da Bahia.",
-    cover: quiosqueJardim,
+    cover: salaoJogos,
     gallery: [
-      { src: quiosqueJardim, caption: "Quiosque no jardim", desc: "Sombra natural e mesas para descansar." },
       { src: salaoJogos, caption: "Salão de jogos", desc: "Bilhar, mesa e ambiente para todos." },
       { src: salaoJogosBilhar, caption: "Mesa de bilhar", desc: "Diversão garantida em qualquer horário." },
       { src: salaoJogosMesa, caption: "Salão — mesa central", desc: "Ambiente climatizado e aconchegante." },
