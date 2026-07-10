@@ -21,12 +21,17 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
   const [slideKey, setSlideKey] = React.useState(0);
   const [transitioning, setTransitioning] = React.useState(false);
+  const triggerRef = React.useRef<HTMLElement | null>(null);
   const open = openIdx !== null;
   const current = open ? items[openIdx!] : null;
 
   const close = React.useCallback(() => {
     setEntered(false);
-    window.setTimeout(() => setOpenIdx(null), 250);
+    window.setTimeout(() => {
+      setOpenIdx(null);
+      // Restore focus to the element that opened the lightbox
+      triggerRef.current?.focus?.();
+    }, 250);
   }, []);
 
   // Premium lateral transition: fade-out current, swap, fade-in next with subtle slide.
@@ -98,7 +103,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
     <>
       {trigger ? (
         <span
-          onClick={() => {
+          onClick={(e) => {
+            triggerRef.current = e.currentTarget as HTMLElement;
             setSlideDir(1);
             setSlideKey((k) => k + 1);
             setOpenIdx(0);
@@ -113,7 +119,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
             <button
               type="button"
               key={g.caption}
-              onClick={() => {
+              onClick={(e) => {
+                triggerRef.current = e.currentTarget as HTMLElement;
                 setSlideDir(1);
                 setSlideKey((k) => k + 1);
                 setOpenIdx(i);
@@ -148,10 +155,18 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
           <DialogDescription className="sr-only">{current?.desc ?? ""}</DialogDescription>
 
           {current && (
-            <div className="relative w-screen h-[100dvh] sm:h-screen overflow-hidden">
+            <div
+              className="relative w-screen h-[100dvh] sm:h-screen overflow-hidden"
+              role="region"
+              aria-roledescription="carrossel"
+              aria-label="Galeria de ambientes"
+            >
               <div
                 key={slideKey}
                 className="absolute inset-0"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${current.caption} — slide ${(openIdx ?? 0) + 1} de ${items.length}`}
                 style={{
                   opacity: entered ? 1 : 0,
                   transform: entered
@@ -162,7 +177,6 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                   filter: entered ? "blur(0px)" : "blur(4px)",
                 }}
               >
-                {/* Fundo desfocado: preenche a tela sem depender de nitidez, cobre as bordas do object-contain */}
                 <img
                   aria-hidden
                   src={current.src}
@@ -170,25 +184,21 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                   className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
                   draggable={false}
                 />
-                {/* Foto principal: nunca estica além da resolução real (sem perda de nitidez) */}
                 <img
                   src={current.src}
                   alt={current.caption}
                   className="relative z-10 w-full h-full object-contain select-none"
                   draggable={false}
                 />
-                {/* subtle vignette so controls/caption stay legible */}
                 <div aria-hidden className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
               </div>
-
-
 
               {/* Close */}
               <button
                 type="button"
                 onClick={close}
-                aria-label="Fechar imagem"
-                className="absolute top-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Fechar galeria"
+                className="absolute top-4 right-4 z-20 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -198,8 +208,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                 type="button"
                 onClick={goPrev}
                 disabled={openIdx === 0}
-                aria-label="Imagem anterior"
-                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Slide anterior"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -208,19 +218,19 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
               <button
                 type="button"
                 onClick={goNext}
-                aria-label={openIdx === items.length - 1 ? "Concluir galeria" : "Próxima imagem"}
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label={openIdx === items.length - 1 ? "Concluir galeria" : "Próximo slide"}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
 
               {/* Caption */}
-              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+              <div className="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-6 bg-gradient-to-t from-black/85 via-black/50 to-transparent text-white">
                 <div className="mx-auto max-w-3xl text-center">
                   <div className="text-base sm:text-lg font-semibold">{current.caption}</div>
-                  <p className="mt-1 text-sm text-white/80">{current.desc}</p>
-                  <div className="mt-2 text-xs text-white/60 tabular-nums">
-                    {(openIdx ?? 0) + 1} / {items.length}
+                  <p className="mt-1 text-sm text-white/90">{current.desc}</p>
+                  <div className="mt-2 text-xs text-white/70 tabular-nums" aria-live="polite" aria-atomic="true">
+                    Slide {(openIdx ?? 0) + 1} de {items.length}
                   </div>
                 </div>
               </div>

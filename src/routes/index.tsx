@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Camera, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Camera, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation, ChevronRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -412,24 +412,28 @@ function HomePage() {
             trigger={
               <button
                 type="button"
-                className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[3/4] sm:aspect-[4/3] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[3/4] sm:aspect-[16/9] min-h-[420px] sm:min-h-[480px] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label="Abrir galeria de ambientes"
               >
                 <img
                   src={GALLERY[0].src}
-                  alt="Ambientes da Pousada Ilha do Meio"
+                  alt="Ambientes da Pousada Ilha do Meio — cabines, varanda e área de lazer"
                   loading="lazy"
                   decoding="async"
                   className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 flex items-end justify-between gap-4">
+                {/* Máscara consistente para leitura do texto e CTA */}
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
                   <div className="text-white">
-                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/80">Galeria</p>
-                    <p className="mt-1 font-display text-xl sm:text-2xl">Explore os ambientes</p>
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/85">Galeria</p>
+                    <p className="mt-1 font-display text-2xl sm:text-3xl leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.45)" }}>
+                      Explore os ambientes
+                    </p>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs sm:text-sm font-medium text-foreground shadow-sm transition group-hover:bg-white">
+                  <span className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 min-h-11 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/25 ring-1 ring-black/5 transition group-hover:brightness-110 group-hover:shadow-xl">
                     Acesse os ambientes
+                    <ChevronRight className="h-4 w-4" aria-hidden />
                   </span>
                 </div>
               </button>
