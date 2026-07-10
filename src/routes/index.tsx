@@ -707,7 +707,7 @@ function HomePage() {
             </div>
 
             {/* Direto */}
-            <div className="relative rounded-2xl border-2 border-primary/70 bg-primary/5 p-6 sm:p-7 shadow-xl shadow-primary/10">
+            <div className="relative rounded-2xl border-2 border-primary/70 bg-background/95 backdrop-blur-sm p-6 sm:p-7 shadow-xl shadow-primary/10">
               <div className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary-foreground shadow">
                 <Check className="h-3 w-3" /> Recomendado
               </div>
