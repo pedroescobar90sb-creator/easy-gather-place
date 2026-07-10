@@ -24,6 +24,7 @@ import piscinaDeck from "@/assets/piscina-aerea.png";
 
 
 import salaoJogos from "@/assets/salao-jogos-v2.jpg";
+import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
@@ -529,18 +530,19 @@ function HomePage() {
             <GalleryLightbox
               className="md:col-span-3"
               items={[
+                { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
                 { src: salaoJogos, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
                 { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
               ]}
               trigger={
                 <figure className="group relative overflow-hidden rounded-3xl bg-background aspect-[4/5] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] cursor-zoom-in">
                   <img
-                    src={salaoJogos}
-                    alt="Salão de Jogos da Pousada Ilha do Meio"
+                    src={salaoJogosBilhar}
+                    alt="Mesa de bilhar no salão de jogos da Pousada Ilha do Meio"
                     loading="lazy"
                     decoding="async"
                     sizes="(min-width: 768px) 60vw, 100vw"
-                    className="h-full w-full object-cover object-[center_55%] transition-transform duration-700 group-hover:scale-[1.04]"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                   />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent p-5">
                     <figcaption className="flex items-center gap-2 text-white text-base font-semibold tracking-wide">
