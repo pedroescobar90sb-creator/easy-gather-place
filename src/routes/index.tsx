@@ -12,6 +12,7 @@ import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
 import { cn } from "@/lib/utils";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 
@@ -363,7 +364,13 @@ function HomePage() {
             dedicada pelo WhatsApp antes, durante e depois da sua estadia.
           </p>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-sm text-white">
+            <span className="text-xs uppercase tracking-[0.2em] text-white/70">Diárias</span>
+            <span className="font-display text-lg leading-none">a partir de R$ 450</span>
+            <span className="text-xs text-white/70">/ noite · café incluso</span>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <a
               href={WHATSAPP}
               target="_blank"
@@ -382,6 +389,9 @@ function HomePage() {
               <ChevronRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
+          <p className="mt-3 text-xs uppercase tracking-[0.24em] text-white/70">
+            Resposta em minutos · Segunda a segunda
+          </p>
 
           <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
             <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> Nota 9,2 em 204 avaliações reais</li>
@@ -649,6 +659,84 @@ function HomePage() {
         </div>
       </section>
 
+      {/* RESERVA DIRETA vs BOOKING — economia real */}
+      <section className="bg-gradient-to-b from-background to-card border-y border-border/60">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05] text-balance">
+              Reservando com a casa,<br />
+              <span className="italic opacity-90">você paga menos.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-xl">
+              As plataformas cobram taxa de serviço em cima de cada diária. Falando direto com a recepção, esse valor volta pra você — sem intermediário e sem surpresas na hora da cobrança.
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            {/* Booking */}
+            <div className="relative rounded-2xl border border-border/60 bg-background/60 p-6 sm:p-7">
+              <div className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-md text-white font-bold text-[13px] leading-none"
+                  style={{ backgroundColor: "#003580", fontFamily: "system-ui, sans-serif" }}
+                >
+                  B.
+                </span>
+                <span className="text-sm font-medium text-muted-foreground">Booking · Quarto Duplo</span>
+              </div>
+              <div className="mt-6 flex items-baseline gap-2 text-muted-foreground line-through decoration-2 decoration-red-500/70">
+                <span className="text-xs">R$</span>
+                <span className="font-display text-4xl sm:text-5xl tabular-nums">530</span>
+                <span className="text-xs">/ noite</span>
+              </div>
+              <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Taxa de serviço do site</li>
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Atendimento por chat da plataforma</li>
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-red-500">×</span> Sem contato direto com a recepção</li>
+              </ul>
+            </div>
+
+            {/* Direto */}
+            <div className="relative rounded-2xl border-2 border-primary/70 bg-primary/5 p-6 sm:p-7 shadow-xl shadow-primary/10">
+              <div className="absolute -top-3 left-6 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary-foreground shadow">
+                <Check className="h-3 w-3" /> Recomendado
+              </div>
+              <div className="flex items-center gap-2">
+                <WhatsAppIcon className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-foreground">Direto com a recepção · WhatsApp</span>
+              </div>
+              <div className="mt-6 flex items-baseline gap-2 text-foreground">
+                <span className="text-xs text-muted-foreground">R$</span>
+                <span className="font-display text-5xl sm:text-6xl tabular-nums text-primary">450</span>
+                <span className="text-xs text-muted-foreground">/ noite</span>
+              </div>
+              <p className="mt-1 text-xs font-semibold text-primary">Você economiza até R$ 80/noite</p>
+              <ul className="mt-5 space-y-2 text-sm text-foreground/90">
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Melhor tarifa garantida</li>
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Pagamento por PIX ou cartão</li>
+                <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Falar com quem administra a pousada</li>
+              </ul>
+              <a
+                href={WHATSAPP}
+                target="_blank"
+                rel="noopener"
+                onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto")}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                Reservar direto pelo WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <p className="mt-6 text-center text-xs text-muted-foreground">
+            *Valor de referência para diária baixa temporada em Quarto Duplo. Consulte disponibilidade e datas.
+          </p>
+        </div>
+      </section>
+
       {/* ACOMODAÇÕES */}
       <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="max-w-2xl">
@@ -873,6 +961,61 @@ function HomePage() {
 
       {/* DEPOIMENTOS */}
       <Testimonials />
+
+      {/* FAQ INLINE */}
+      <section id="faq" className="bg-background border-t border-border/60">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">Perguntas frequentes</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Antes de reservar,<br />
+              <span className="italic opacity-90">tudo o que perguntam.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Não achou sua dúvida? Fale com a recepção pelo WhatsApp — respondemos em minutos.
+            </p>
+          </div>
+
+          <Accordion type="single" collapsible className="mt-8">
+            {[
+              { q: "Quais formas de pagamento vocês aceitam?", a: "PIX, cartão de crédito, cartão de débito e dinheiro. A recepção envia as instruções de pagamento assim que você confirma as datas pelo WhatsApp." },
+              { q: "Qual a política de cancelamento?", a: "Buscamos flexibilidade sempre que possível. As condições exatas dependem do período e da antecedência da reserva — a recepção informa tudo antes de você confirmar." },
+              { q: "Que horas é o check-in e check-out?", a: "Check-in das 13h às 22h. Check-out das 9h às 12h. Chegando fora do horário? Basta avisar a recepção com antecedência." },
+              { q: "Tem estacionamento?", a: "Sim, estacionamento privativo gratuito para hóspedes, sujeito à disponibilidade de vagas." },
+              { q: "O café da manhã está incluso?", a: "Sim, todas as diárias incluem café da manhã completo — frutas, pães, frios, sucos naturais, bolos e itens regionais servidos diariamente." },
+              { q: "A pousada aceita pets?", a: "No momento não recebemos animais de estimação, para preservar o conforto de todos os hóspedes." },
+              { q: "Crianças pagam?", a: "Crianças são bem-vindas. As condições variam com a idade e a configuração do quarto — fale com a recepção pra montarmos a melhor acomodação para sua família." },
+              { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local — você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
+            ].map((item) => (
+              <AccordionItem key={item.q} value={item.q} className="border-border/60">
+                <AccordionTrigger className="text-left text-base font-semibold hover:no-underline">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-border/60 bg-card px-5 py-5 sm:px-7 sm:py-6">
+            <div className="text-center sm:text-left">
+              <p className="font-semibold text-foreground">Ainda com dúvida?</p>
+              <p className="text-sm text-muted-foreground">A recepção responde em minutos, de segunda a segunda.</p>
+            </div>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener"
+              onClick={() => trackWhatsAppLead("FAQ - Tirar dúvida")}
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition shrink-0"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              Falar com a recepção
+            </a>
+          </div>
+        </div>
+      </section>
 
       {/* FINAL CTA */}
       <section
