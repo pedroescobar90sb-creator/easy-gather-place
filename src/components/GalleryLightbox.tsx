@@ -62,7 +62,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
         if (next < 0) return i;
         if (next > items.length - 1) {
           setEntered(false);
-          window.setTimeout(() => setOpenIdx(null), 300);
+          window.setTimeout(() => setOpenIdx(null), 200);
           return i;
         }
         setTransitioning(true);
@@ -74,12 +74,12 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
           window.setTimeout(() => {
             setEntered(true);
             setTransitioning(false);
-          }, 60);
-        }, 260);
+          }, 40);
+        }, 180);
         return i;
       });
     },
-    [items.length, transitioning],
+    [items.length, transitioning, setOpenIdx],
   );
 
   const goPrev = React.useCallback(() => navigate(-1), [navigate]);
