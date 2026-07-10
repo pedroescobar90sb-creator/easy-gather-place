@@ -382,19 +382,10 @@ function HomePage() {
             </Link>
           </div>
 
-          <ul className="mt-9 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/85">
-            <li className="inline-flex items-center gap-2 border-l-2 border-sand/70 pl-3">
-              <span className="font-display text-lg text-white leading-none">9,2</span>
-              <span className="opacity-80">· 204 avaliações no Booking</span>
-            </li>
-            <li className="inline-flex items-center gap-2 border-l-2 border-sand/70 pl-3">
-              <span className="font-display text-lg text-white leading-none">17</span>
-              <span className="opacity-80">suítes em madeira</span>
-            </li>
-            <li className="inline-flex items-center gap-2 border-l-2 border-sand/70 pl-3">
-              <span className="font-display text-lg text-white leading-none">2010</span>
-              <span className="opacity-80">recebendo hóspedes</span>
-            </li>
+          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
+            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
+            <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
+            <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
           </ul>
         </div>
       </section>
