@@ -154,7 +154,7 @@ const ROOMS: RoomCard[] = [
   {
     name: "Quarto Duplo · para o casal",
     capacity: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. A 2 minutos da praia.",
-    price: "R$ 450",
+    price: "R$ 400",
     image: quartoDuplo,
     alt: "Quarto Duplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Duplo",
