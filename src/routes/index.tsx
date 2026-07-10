@@ -662,8 +662,14 @@ function HomePage() {
       </section>
 
       {/* RESERVA DIRETA vs BOOKING — economia real */}
-      <section className="bg-gradient-to-b from-background to-card border-y border-border/60">
-        <div className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
+      <section className="relative border-y border-border/60 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${palmBg2Asset.url})` }}
+        />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/94 via-background/90 to-card/94" />
+        <div className="relative mx-auto max-w-5xl px-4 py-14 sm:py-20">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05] text-balance">
