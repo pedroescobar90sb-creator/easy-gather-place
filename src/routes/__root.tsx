@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { WhatsAppFloating } from "@/components/WhatsAppFloating";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 const fallbackQueryClient = new QueryClient();
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string | undefined;
@@ -137,6 +138,7 @@ function RootComponent() {
   const queryClient = ctx?.queryClient ?? fallbackQueryClient;
   return (
     <QueryClientProvider client={queryClient}>
+      <ScrollProgress />
       <Outlet />
       <WhatsAppFloating />
       <Toaster richColors position="top-right" />
