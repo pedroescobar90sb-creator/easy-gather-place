@@ -15,60 +15,122 @@ type Props = {
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
+/** Um slide da lightbox. Remonta a cada troca de foto (key=index) — o duplo rAF
+ * garante que o navegador pinte o estado "não entrado" antes de animar pro estado final,
+ * então a transição sempre dispara de verdade, sem depender de timeout adivinhado. */
+function Slide({
+  item,
+  dir,
+  onSettled,
+}: {
+  item: GalleryItem;
+  dir: 1 | -1;
+  onSettled: () => void;
+}) {
+  const [shown, setShown] = React.useState(false);
+  const settledRef = React.useRef(false);
+  const fireSettled = React.useCallback(() => {
+    if (settledRef.current) return;
+    settledRef.current = true;
+    onSettled();
+  }, [onSettled]);
+
+  React.useEffect(() => {
+    let raf2 = 0;
+    let shownFlag = false;
+    const show = () => {
+      if (shownFlag) return;
+      shownFlag = true;
+      setShown(true);
+    };
+    // Caminho normal: 2 frames de animação garantem que o navegador pintou o estado
+    // inicial antes de animar. Rede de segurança: se a aba estiver oculta/sem foco
+    // (rAF não dispara nesse caso), o timeout garante que a foto apareça mesmo assim.
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(show);
+    });
+    const showFallback = window.setTimeout(show, 80);
+    // Rede de segurança pra travar a navegação: se transitionend nunca disparar
+    // (mesmo cenário de aba oculta), libera de qualquer jeito depois do tempo da animação.
+    const settleFallback = window.setTimeout(fireSettled, 700);
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      window.clearTimeout(showFallback);
+      window.clearTimeout(settleFallback);
+    };
+  }, [fireSettled]);
+
+  return (
+    <div
+      className="absolute inset-0"
+      style={{
+        opacity: shown ? 1 : 0,
+        transform: shown ? "translateX(0) scale(1)" : `translateX(${dir * 56}px) scale(1.02)`,
+        filter: shown ? "blur(0px)" : "blur(4px)",
+        transition: `opacity 480ms ${EASE}, transform 480ms ${EASE}, filter 480ms ${EASE}`,
+        willChange: "opacity, transform",
+      }}
+      onTransitionEnd={(e) => {
+        if (e.propertyName === "transform") fireSettled();
+      }}
+    >
+      {/* Fundo desfocado: preenche a tela sem depender de nitidez, cobre as bordas do object-contain */}
+      <img
+        aria-hidden
+        src={item.src}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
+        draggable={false}
+      />
+      {/* Foto principal: nunca estica além da resolução real (sem perda de nitidez) */}
+      <img src={item.src} alt={item.caption} className="relative z-10 w-full h-full object-contain select-none" draggable={false} />
+      {/* subtle vignette so controls/caption stay legible */}
+      <div aria-hidden className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+    </div>
+  );
+}
+
 export function GalleryLightbox({ items, className, gridClassName, trigger }: Props) {
   const [openIdx, setOpenIdx] = React.useState<number | null>(null);
-  const [entered, setEntered] = React.useState(false);
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
-  const [slideKey, setSlideKey] = React.useState(0);
-  const [transitioning, setTransitioning] = React.useState(false);
+  // Ref (não state) pra travar navegação — lido/escrito sincronamente, sem closure velha.
+  const lockRef = React.useRef(false);
   const open = openIdx !== null;
   const current = open ? items[openIdx!] : null;
+  const isFirst = openIdx === 0;
+  const isLast = openIdx === items.length - 1;
 
-  const close = React.useCallback(() => {
-    setEntered(false);
-    window.setTimeout(() => setOpenIdx(null), 250);
+  const close = React.useCallback(() => setOpenIdx(null), []);
+
+  const openAt = React.useCallback((i: number) => {
+    lockRef.current = false;
+    setSlideDir(1);
+    setOpenIdx(i);
   }, []);
 
-  // Premium lateral transition: fade-out current, swap, fade-in next with subtle slide.
   const navigate = React.useCallback(
     (dir: 1 | -1) => {
-      if (transitioning) return;
+      if (lockRef.current) return;
       setOpenIdx((i) => {
         if (i === null) return i;
         const next = i + dir;
-        if (next < 0) return i;
-        if (next > items.length - 1) {
-          setEntered(false);
-          window.setTimeout(() => setOpenIdx(null), 300);
-          return i;
-        }
-        setTransitioning(true);
+        if (next < 0 || next > items.length - 1) return i;
+        lockRef.current = true;
         setSlideDir(dir);
-        setEntered(false);
-        window.setTimeout(() => {
-          setOpenIdx(next);
-          setSlideKey((k) => k + 1);
-          window.setTimeout(() => {
-            setEntered(true);
-            setTransitioning(false);
-          }, 60);
-        }, 260);
-        return i;
+        return next;
       });
     },
-    [items.length, transitioning],
+    [items.length],
   );
 
   const goPrev = React.useCallback(() => navigate(-1), [navigate]);
   const goNext = React.useCallback(() => navigate(1), [navigate]);
 
-  // Entrance animation on open
-  React.useEffect(() => {
-    if (open) {
-      const t = window.setTimeout(() => setEntered(true), 30);
-      return () => window.clearTimeout(t);
-    }
-  }, [open]);
+  // Libera a trava só quando a animação de fato termina (transitionend real, não timeout adivinhado).
+  const handleSlideSettled = React.useCallback(() => {
+    lockRef.current = false;
+  }, []);
 
   // Keyboard navigation
   React.useEffect(() => {
@@ -76,10 +138,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") goPrev();
       else if (e.key === "ArrowRight") goNext();
+      else if (e.key === "Escape") close();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, goPrev, goNext]);
+  }, [open, goPrev, goNext, close]);
 
   // Swipe
   const touchX = React.useRef<number | null>(null);
@@ -93,18 +156,10 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
     touchX.current = null;
   };
 
-
   return (
     <>
       {trigger ? (
-        <span
-          onClick={() => {
-            setSlideDir(1);
-            setSlideKey((k) => k + 1);
-            setOpenIdx(0);
-          }}
-          className={cn("block", className)}
-        >
+        <span onClick={() => openAt(0)} className={cn("block", className)}>
           {trigger}
         </span>
       ) : (
@@ -113,11 +168,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
             <button
               type="button"
               key={g.caption}
-              onClick={() => {
-                setSlideDir(1);
-                setSlideKey((k) => k + 1);
-                setOpenIdx(i);
-              }}
+              onClick={() => openAt(i)}
               className="group relative overflow-hidden rounded-2xl bg-card aspect-video text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               aria-label={`Abrir imagem: ${g.caption}`}
             >
@@ -137,7 +188,6 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
         </div>
       )}
 
-
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
         <DialogContent
           className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100]"
@@ -149,39 +199,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
 
           {current && (
             <div className="relative w-screen h-[100dvh] sm:h-screen overflow-hidden">
-              <div
-                key={slideKey}
-                className="absolute inset-0"
-                style={{
-                  opacity: entered ? 1 : 0,
-                  transform: entered
-                    ? "translateX(0) scale(1)"
-                    : `translateX(${slideDir * 56}px) scale(1.02)`,
-                  transition: `opacity 560ms ${EASE} 100ms, transform 780ms ${EASE} 100ms`,
-                  willChange: "opacity, transform",
-                  filter: entered ? "blur(0px)" : "blur(4px)",
-                }}
-              >
-                {/* Fundo desfocado: preenche a tela sem depender de nitidez, cobre as bordas do object-contain */}
-                <img
-                  aria-hidden
-                  src={current.src}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
-                  draggable={false}
-                />
-                {/* Foto principal: nunca estica além da resolução real (sem perda de nitidez) */}
-                <img
-                  src={current.src}
-                  alt={current.caption}
-                  className="relative z-10 w-full h-full object-contain select-none"
-                  draggable={false}
-                />
-                {/* subtle vignette so controls/caption stay legible */}
-                <div aria-hidden className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
-              </div>
-
-
+              <Slide key={openIdx} item={current} dir={slideDir} onSettled={handleSlideSettled} />
 
               {/* Close */}
               <button
@@ -197,7 +215,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
               <button
                 type="button"
                 onClick={goPrev}
-                disabled={openIdx === 0}
+                disabled={isFirst}
                 aria-label="Imagem anterior"
                 className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
@@ -208,8 +226,9 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
               <button
                 type="button"
                 onClick={goNext}
-                aria-label={openIdx === items.length - 1 ? "Concluir galeria" : "Próxima imagem"}
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                disabled={isLast}
+                aria-label="Próxima imagem"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur hover:bg-white/20 transition disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
@@ -219,9 +238,25 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
                 <div className="mx-auto max-w-3xl text-center">
                   <div className="text-base sm:text-lg font-semibold">{current.caption}</div>
                   <p className="mt-1 text-sm text-white/80">{current.desc}</p>
-                  <div className="mt-2 text-xs text-white/60 tabular-nums">
-                    {(openIdx ?? 0) + 1} / {items.length}
-                  </div>
+                  {items.length > 1 && (
+                    <div className="mt-3 flex items-center justify-center gap-1.5">
+                      {items.length <= 10 ? (
+                        items.map((_, i) => (
+                          <span
+                            key={i}
+                            className={cn(
+                              "h-1.5 rounded-full transition-all duration-300",
+                              i === openIdx ? "w-5 bg-white" : "w-1.5 bg-white/40",
+                            )}
+                          />
+                        ))
+                      ) : (
+                        <span className="text-xs text-white/60 tabular-nums">
+                          {(openIdx ?? 0) + 1} / {items.length}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
