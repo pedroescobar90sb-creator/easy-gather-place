@@ -91,7 +91,6 @@ const AMBIENTES: Ambiente[] = [
       { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
       { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina e deck de madeira." },
       { src: piscinaDeck, caption: "Vista aérea", desc: "Deck cercado pela vegetação nativa." },
-      
     ],
     amenities: [
       { icon: Sunset, label: "Deck de madeira" },
