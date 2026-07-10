@@ -425,65 +425,78 @@ function HomePage() {
         </div>
       </section>
 
-      {/* A POUSADA — GALERIA */}
+      {/* A POUSADA — apresentação editorial + acesso a /ambientes */}
       <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A pousada</p>
-          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">
-            Ambientes pensados pro seu descanso.
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-muted-foreground max-w-xl leading-relaxed">
-            Das cabines em madeira à piscina iluminada — conheça cada espaço em detalhe, com fotos em alta resolução.
-          </p>
-        </div>
-
-        {/* Card único de acesso — leva à página dedicada /ambientes */}
-        <div className="mt-10">
-          <Link
-            to="/ambientes"
-            aria-label="Acessar todos os ambientes da pousada"
-            className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[3/4] sm:aspect-[21/9] min-h-[440px] sm:min-h-[480px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-shadow hover:shadow-2xl hover:shadow-black/25"
-          >
-            <img
-              src={GALLERY[0].src}
-              alt="Ambientes da Pousada Ilha do Meio — cabines, varanda em madeira e área de lazer"
-              loading="lazy"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-            />
-            {/* Máscara consistente para leitura */}
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10" />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent hidden sm:block" />
-
-            {/* Kicker top */}
-            <div className="absolute top-5 left-5 sm:top-7 sm:left-8 flex items-center gap-3">
-              <span className="inline-flex items-center rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/20 px-3 py-1 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.24em] text-white">
-                Galeria completa
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+          <div className="lg:col-span-5">
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">A casa</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Quatro ambientes,<br />
+              <span className="italic opacity-90">uma ilha de sossego</span> entre coqueiros.
+            </h2>
+            <p className="mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed">
+              A Ilha do Meio não é um resort. São 17 suítes em madeira dispostas ao redor de um jardim
+              — piscina, quiosque e salão de jogos separados por poucos passos. Fotografado sem retoque,
+              como você vai encontrar.
+            </p>
+            <Link
+              to="/ambientes"
+              className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-foreground group"
+            >
+              <span className="border-b-2 border-sand pb-1 group-hover:text-sand transition-colors">
+                Percorrer todos os ambientes
               </span>
-              <span className="hidden sm:inline text-[11px] uppercase tracking-[0.22em] text-white/75">
-                Suítes · Piscina · Convivência · Recepção
-              </span>
-            </div>
+              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden />
+            </Link>
+          </div>
 
-            {/* Conteúdo bottom */}
-            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-              <div className="text-white max-w-lg">
-                <h3
-                  className="font-display text-3xl sm:text-5xl leading-[1.05]"
-                  style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55)" }}
-                >
-                  Acessar ambientes
-                </h3>
-                <p className="mt-2 text-sm sm:text-base text-white/90 leading-relaxed">
-                  Um tour completo pelos espaços da pousada — em uma página só, sem pressa.
-                </p>
+          <div className="lg:col-span-7">
+            <Link
+              to="/ambientes"
+              aria-label="Acessar todos os ambientes da pousada"
+              className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[4/5] sm:aspect-[16/11] focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              <img
+                src={GALLERY[0].src}
+                alt="Ambientes da Pousada Ilha do Meio — cabines, varanda em madeira e área de lazer"
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.03]"
+              />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/5" />
+
+              {/* índice romano lateral */}
+              <div className="absolute left-6 top-6 sm:left-8 sm:top-8 flex flex-col gap-1 text-white/70">
+                {["I", "II", "III", "IV"].map((n, i) => (
+                  <span
+                    key={n}
+                    className={cn(
+                      "font-display text-sm tracking-[0.2em] transition",
+                      i === 0 ? "text-sand" : "opacity-40",
+                    )}
+                  >
+                    {n}
+                  </span>
+                ))}
               </div>
-              <span className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 min-h-11 text-sm sm:text-base font-semibold text-primary-foreground shadow-xl shadow-black/30 ring-1 ring-black/5 transition group-hover:brightness-110 group-hover:translate-x-0.5 shrink-0">
-                Ver ambientes
-                <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-              </span>
-            </div>
-          </Link>
+
+              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-9 flex items-end justify-between gap-4">
+                <div className="text-white">
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-sand mb-2">Fachada · à noite</p>
+                  <h3
+                    className="font-display text-2xl sm:text-4xl leading-[1.05]"
+                    style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55)" }}
+                  >
+                    Cabines em madeira,<br className="hidden sm:block" /> luz baixa, silêncio.
+                  </h3>
+                </div>
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg transition group-hover:brightness-105 shrink-0">
+                  Ver ambientes
+                  <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </span>
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
 
