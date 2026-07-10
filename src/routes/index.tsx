@@ -664,7 +664,7 @@ function HomePage() {
 
       {/* ACOMODAÇÕES */}
       <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <div className="max-w-2xl">
+        <Reveal className="max-w-2xl" y={24}>
           <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III — Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
             17 suítes em madeira.<br />
@@ -673,10 +673,14 @@ function HomePage() {
           <p className="mt-4 text-muted-foreground max-w-xl">
             Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra.
           </p>
-        </div>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto">
+        </Reveal>
+        <StaggerGroup
+          className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto"
+          gap={0.12}
+          amount={0.15}
+        >
           {ROOMS.map((r) => (
-            <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
+            <StaggerItem as="article" key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 <GalleryLightbox
@@ -727,15 +731,15 @@ function HomePage() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => trackWhatsAppLead(r.name, Number(r.price.replace(/\D/g, "")))}
-                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
+                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] px-5 py-3 text-sm font-semibold transition-all"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
                   {r.cta}
                 </a>
               </div>
-            </article>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
 
         {/* Aviso profissional: Quarto Triplo sob consulta */}
         <div className="mt-8 mx-auto max-w-3xl px-1">
