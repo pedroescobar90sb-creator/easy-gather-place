@@ -13,12 +13,28 @@ type Props = {
   trigger?: React.ReactNode;
   /** Slide index to open when the trigger is clicked. Defaults to 0. */
   initialIndex?: number;
+  /** Controlled: current index (null = closed). Overrides internal state. */
+  openIndex?: number | null;
+  onOpenIndexChange?: (idx: number | null) => void;
 };
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
-export function GalleryLightbox({ items, className, gridClassName, trigger, initialIndex = 0 }: Props) {
-  const [openIdx, setOpenIdx] = React.useState<number | null>(null);
+export function GalleryLightbox({ items, className, gridClassName, trigger, initialIndex = 0, openIndex, onOpenIndexChange }: Props) {
+  const controlled = openIndex !== undefined;
+  const [internalIdx, setInternalIdx] = React.useState<number | null>(null);
+  const openIdx = controlled ? (openIndex ?? null) : internalIdx;
+  const setOpenIdx = React.useCallback(
+    (v: number | null | ((prev: number | null) => number | null)) => {
+      if (controlled) {
+        const next = typeof v === "function" ? (v as (p: number | null) => number | null)(openIndex ?? null) : v;
+        onOpenIndexChange?.(next);
+      } else {
+        setInternalIdx(v as never);
+      }
+    },
+    [controlled, openIndex, onOpenIndexChange],
+  );
   const [entered, setEntered] = React.useState(false);
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
   const [slideKey, setSlideKey] = React.useState(0);
@@ -33,8 +49,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
       setOpenIdx(null);
       // Restore focus to the element that opened the lightbox
       triggerRef.current?.focus?.();
-    }, 250);
-  }, []);
+    }, 200);
+  }, [setOpenIdx]);
 
   // Premium lateral transition: fade-out current, swap, fade-in next with subtle slide.
   const navigate = React.useCallback(
@@ -46,7 +62,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
         if (next < 0) return i;
         if (next > items.length - 1) {
           setEntered(false);
-          window.setTimeout(() => setOpenIdx(null), 300);
+          window.setTimeout(() => setOpenIdx(null), 200);
           return i;
         }
         setTransitioning(true);
@@ -58,12 +74,12 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
           window.setTimeout(() => {
             setEntered(true);
             setTransitioning(false);
-          }, 60);
-        }, 260);
+          }, 40);
+        }, 180);
         return i;
       });
     },
-    [items.length, transitioning],
+    [items.length, transitioning, setOpenIdx],
   );
 
   const goPrev = React.useCallback(() => navigate(-1), [navigate]);
@@ -103,7 +119,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
 
   return (
     <>
-      {trigger ? (
+      {controlled && !trigger ? null : trigger ? (
         <span
           onClick={(e) => {
             triggerRef.current = e.currentTarget as HTMLElement;
@@ -172,20 +188,12 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                 style={{
                   opacity: entered ? 1 : 0,
                   transform: entered
-                    ? "translateX(0) scale(1)"
-                    : `translateX(${slideDir * 56}px) scale(1.02)`,
-                  transition: `opacity 560ms ${EASE} 100ms, transform 780ms ${EASE} 100ms`,
+                    ? "translate3d(0,0,0)"
+                    : `translate3d(${slideDir * 40}px,0,0)`,
+                  transition: `opacity 380ms ${EASE}, transform 520ms ${EASE}`,
                   willChange: "opacity, transform",
-                  filter: entered ? "blur(0px)" : "blur(4px)",
                 }}
               >
-                <img
-                  aria-hidden
-                  src={current.src}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
-                  draggable={false}
-                />
                 <img
                   src={current.src}
                   alt={current.caption}

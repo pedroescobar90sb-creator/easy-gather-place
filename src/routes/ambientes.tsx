@@ -1,5 +1,20 @@
+import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ChevronRight, AirVent, Wifi, MonitorPlay, Refrigerator, Users, Sofa, UtensilsCrossed, Gamepad2, Sunset, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronRight,
+  AirVent,
+  Wifi,
+  MonitorPlay,
+  Refrigerator,
+  Users,
+  Sofa,
+  UtensilsCrossed,
+  Gamepad2,
+  Sunset,
+  ShieldCheck,
+  Expand,
+} from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -24,24 +39,25 @@ import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
 const WHATSAPP =
   "https://api.whatsapp.com/send/?phone=557191263096&text=" +
-  encodeURIComponent("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade dos ambientes.");
+  encodeURIComponent(
+    "Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade dos ambientes.",
+  );
 
 type Ambiente = {
   id: string;
-  kicker: string;
+  index: string;
   title: string;
   subtitle: string;
   description: string;
   cover: string;
   gallery: GalleryItem[];
   amenities: { icon: React.ComponentType<{ className?: string }>; label: string }[];
-  layout: "hero" | "wide" | "tall";
 };
 
 const AMBIENTES: Ambiente[] = [
   {
     id: "suites",
-    kicker: "01 — Acomodações",
+    index: "01",
     title: "Suítes em madeira",
     subtitle: "Conforto e charme em cada detalhe",
     description:
@@ -62,11 +78,10 @@ const AMBIENTES: Ambiente[] = [
       { icon: Refrigerator, label: "Frigobar" },
       { icon: Users, label: "Até 4 pessoas" },
     ],
-    layout: "hero",
   },
   {
     id: "piscina",
-    kicker: "02 — Piscina",
+    index: "02",
     title: "Piscina & deck",
     subtitle: "Para refrescar sem sair da pousada",
     description:
@@ -83,13 +98,12 @@ const AMBIENTES: Ambiente[] = [
       { icon: Sofa, label: "Espreguiçadeiras" },
       { icon: ShieldCheck, label: "Iluminação noturna" },
     ],
-    layout: "wide",
   },
   {
     id: "convivencia",
-    kicker: "03 — Convivência",
+    index: "03",
     title: "Área de convivência",
-    subtitle: "Quiosque e jardim",
+    subtitle: "Quiosque, jardim e salão de jogos",
     description:
       "Espaço ao ar livre pra descansar entre um passeio e outro. Quiosque com sombra, mesas para conversar e jardim que respira o clima da Bahia.",
     cover: quiosqueJardim,
@@ -104,11 +118,10 @@ const AMBIENTES: Ambiente[] = [
       { icon: Gamepad2, label: "Salão de jogos" },
       { icon: Sofa, label: "Áreas de descanso" },
     ],
-    layout: "tall",
   },
   {
     id: "recepcao",
-    kicker: "04 — Recepção",
+    index: "04",
     title: "Recepção & atendimento",
     subtitle: "Do check-in ao check-out, sem pressa",
     description:
@@ -122,7 +135,6 @@ const AMBIENTES: Ambiente[] = [
       { icon: WhatsAppIcon as unknown as React.ComponentType<{ className?: string }>, label: "Suporte no WhatsApp" },
       { icon: Users, label: "Atendimento local" },
     ],
-    layout: "wide",
   },
 ];
 
@@ -150,225 +162,274 @@ export const Route = createFileRoute("/ambientes")({
 
 function AmbientesPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* HEADER simples */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2 group" aria-label="Voltar para o início">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-card text-foreground transition group-hover:bg-accent">
-              <ArrowLeft className="h-4 w-4" aria-hidden />
-            </span>
-            <Logo className="h-12 w-12 sm:h-14 sm:w-14 drop-shadow-sm" />
-          </Link>
-          <a
-            href={WHATSAPP}
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 min-h-11 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/20 transition hover:brightness-110"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            <span className="hidden xs:inline">Reservar</span>
-          </a>
-        </div>
-      </header>
-
-      {/* HERO editorial */}
-      <section className="relative overflow-hidden border-b border-border/40 bg-card">
-        <div className="absolute inset-0">
-          <img
-            src={fachadaNoite}
-            alt=""
-            aria-hidden
-            className="h-full w-full object-cover opacity-40 scale-105"
-          />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/70 to-background" />
-        </div>
-        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-primary font-medium">
-            A pousada · Itacimirim/BA
-          </p>
-          <h1
-            className="mt-4 font-display text-4xl sm:text-6xl leading-[1.02] max-w-3xl"
-            style={{ textShadow: "0 2px 22px rgba(0,0,0,0.35)" }}
-          >
-            Todos os ambientes,<br className="hidden sm:block" /> em detalhe.
-          </h1>
-          <p className="mt-5 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            Um tour visual pelos espaços da Pousada Ilha do Meio — das suítes em madeira à piscina iluminada. Toque em qualquer ambiente para abrir a galeria em tela cheia.
-          </p>
-          {/* Índice de navegação */}
-          <nav aria-label="Índice de ambientes" className="mt-8 flex flex-wrap gap-2">
-            {AMBIENTES.map((a) => (
-              <a
-                key={a.id}
-                href={`#${a.id}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/60 backdrop-blur px-4 py-2 min-h-11 text-sm font-medium text-foreground transition hover:bg-card"
-              >
-                {a.title}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </section>
-
-      {/* AMBIENTES — cada um como bloco editorial completo */}
+    <div className="min-h-screen bg-background text-foreground antialiased">
+      <SiteHeader />
+      <HeroAmbientes />
       <main>
         {AMBIENTES.map((a, idx) => (
           <AmbienteBlock key={a.id} ambiente={a} reversed={idx % 2 === 1} />
         ))}
       </main>
-
-      {/* CTA final */}
-      <section className="border-t border-border/40 bg-card">
-        <div className="mx-auto max-w-4xl px-4 py-16 sm:py-20 text-center">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-primary font-medium">Pronto pra reservar?</p>
-          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">
-            Sua estadia começa aqui.
-          </h2>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            Tire dúvidas, veja disponibilidade e reserve direto pelo WhatsApp — falamos com você em minutos.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 min-h-11 text-sm sm:text-base font-semibold text-primary-foreground shadow-xl shadow-black/25 transition hover:brightness-110"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              Reservar no WhatsApp
-            </a>
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-6 py-3.5 min-h-11 text-sm sm:text-base font-semibold text-foreground transition hover:bg-accent"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden />
-              Voltar ao início
-            </Link>
-          </div>
-        </div>
-      </section>
-
+      <CTAReserva />
       <SiteFooter />
     </div>
   );
 }
 
-function AmbienteBlock({ ambiente, reversed }: { ambiente: Ambiente; reversed: boolean }) {
-  const { id, kicker, title, subtitle, description, cover, gallery, amenities } = ambiente;
+/* ---------------------------------------- */
+/* Header                                    */
+/* ---------------------------------------- */
+
+function SiteHeader() {
   return (
-    <section id={id} className="border-b border-border/40 scroll-mt-20">
+    <header className="sticky top-0 z-40 border-b border-border/50 bg-background/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <Link to="/" className="group flex items-center gap-2" aria-label="Voltar para o início">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-card text-foreground transition group-hover:bg-accent">
+            <ArrowLeft className="h-4 w-4" aria-hidden />
+          </span>
+          <Logo className="h-12 w-12 sm:h-14 sm:w-14 drop-shadow-sm" />
+        </Link>
+        <a
+          href={WHATSAPP}
+          target="_blank"
+          rel="noopener"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/20 transition hover:brightness-110"
+        >
+          <WhatsAppIcon className="h-4 w-4" />
+          <span className="hidden xs:inline">Reservar</span>
+        </a>
+      </div>
+    </header>
+  );
+}
+
+/* ---------------------------------------- */
+/* Hero                                      */
+/* ---------------------------------------- */
+
+function HeroAmbientes() {
+  return (
+    <section className="relative overflow-hidden border-b border-border/40 bg-card">
+      <div aria-hidden className="absolute inset-0">
+        <img
+          src={fachadaNoite}
+          alt=""
+          className="h-full w-full object-cover opacity-40"
+          loading="eager"
+          decoding="async"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/75 to-background" />
+      </div>
+      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary">
+          A pousada · Itacimirim/BA
+        </p>
+        <h1
+          className="mt-4 max-w-3xl font-display text-4xl leading-[1.02] sm:text-6xl"
+          style={{ textShadow: "0 2px 22px rgba(0,0,0,0.35)" }}
+        >
+          Todos os ambientes,
+          <br className="hidden sm:block" /> em detalhe.
+        </h1>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Um tour visual pelos espaços da Pousada Ilha do Meio — das suítes em madeira à piscina iluminada. Toque em qualquer imagem para abrir a galeria em tela cheia.
+        </p>
+        <nav aria-label="Índice de ambientes" className="mt-8 flex flex-wrap gap-2">
+          {AMBIENTES.map((a) => (
+            <a
+              key={a.id}
+              href={`#${a.id}`}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border/70 bg-card/60 px-4 py-2 text-sm font-medium text-foreground backdrop-blur transition hover:bg-card"
+            >
+              <span className="text-[10px] font-semibold tracking-[0.2em] text-primary">{a.index}</span>
+              {a.title}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------------------------------- */
+/* Bloco de ambiente (uma única Lightbox)    */
+/* ---------------------------------------- */
+
+function AmbienteBlock({ ambiente, reversed }: { ambiente: Ambiente; reversed: boolean }) {
+  const { id, index, title, subtitle, description, cover, gallery, amenities } = ambiente;
+  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
+  const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+
+  const open = React.useCallback((idx: number, el?: HTMLButtonElement | null) => {
+    if (el) triggerRef.current = el;
+    setOpenIndex(Math.max(0, Math.min(gallery.length - 1, idx)));
+  }, [gallery.length]);
+
+  const handleChange = React.useCallback((idx: number | null) => {
+    setOpenIndex(idx);
+    if (idx === null) triggerRef.current?.focus?.();
+  }, []);
+
+  const thumbs = gallery.slice(1, 5);
+
+  return (
+    <section id={id} className="scroll-mt-20 border-b border-border/40">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
-        <div className={cn("grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center", reversed && "lg:[&>*:first-child]:order-2")}>
-          {/* Coluna imagem principal (clicável — abre galeria) */}
+        <div
+          className={cn(
+            "grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12",
+            reversed && "lg:[&>*:first-child]:order-2",
+          )}
+        >
+          {/* Cover clicável */}
           <div className="lg:col-span-7">
-            <GalleryLightbox
-              items={gallery}
-              trigger={
-                <button
-                  type="button"
-                  className="group relative block w-full overflow-hidden rounded-2xl sm:rounded-3xl bg-card aspect-[4/3] sm:aspect-[16/10] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-shadow hover:shadow-2xl hover:shadow-black/25"
-                  aria-label={`Abrir galeria de ${title}`}
-                >
-                  <img
-                    src={cover}
-                    alt={`${title} — ${subtitle}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-                  />
-                  <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <div className="absolute top-4 left-4 sm:top-5 sm:left-5">
-                    <span className="inline-flex items-center rounded-full bg-black/50 backdrop-blur-md ring-1 ring-white/20 px-3 py-1 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.24em] text-white">
-                      {kicker}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs sm:text-sm font-semibold text-foreground shadow-lg transition group-hover:brightness-105">
-                    Ver {gallery.length} fotos
-                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-                  </div>
-                </button>
-              }
-            />
+            <button
+              type="button"
+              onClick={(e) => open(0, e.currentTarget)}
+              aria-label={`Abrir galeria de ${title}`}
+              className="group relative block aspect-[4/3] w-full overflow-hidden rounded-2xl bg-card transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:aspect-[16/10] sm:rounded-3xl"
+            >
+              <img
+                src={cover}
+                alt={`${title} — ${subtitle}`}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.03]"
+              />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute left-4 top-4 sm:left-5 sm:top-5">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.24em] text-white ring-1 ring-white/20 backdrop-blur-md sm:text-[11px]">
+                  <span className="text-primary/90">{index}</span>
+                  {title}
+                </span>
+              </div>
+              <div className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-semibold text-foreground shadow-lg transition group-hover:brightness-105 sm:bottom-5 sm:right-5 sm:text-sm">
+                <Expand className="h-4 w-4" aria-hidden />
+                Ver {gallery.length} fotos
+              </div>
+            </button>
           </div>
 
-          {/* Coluna conteúdo */}
+          {/* Conteúdo */}
           <div className="lg:col-span-5">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-primary font-medium">{kicker}</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05]">{title}</h2>
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary">
+              {index} — {title}
+            </p>
+            <h2 className="mt-3 font-display text-3xl leading-[1.05] sm:text-4xl">{title}</h2>
             <p className="mt-2 text-sm uppercase tracking-[0.18em] text-muted-foreground/90">{subtitle}</p>
-            <p className="mt-5 text-base text-foreground/85 leading-relaxed">{description}</p>
+            <p className="mt-5 text-base leading-relaxed text-foreground/85">{description}</p>
 
-            {/* Amenidades */}
             <ul className="mt-6 grid grid-cols-2 gap-2.5" aria-label={`Detalhes de ${title}`}>
               {amenities.map(({ icon: Icon, label }) => (
                 <li
                   key={label}
                   className="inline-flex items-center gap-2 rounded-xl border border-border/60 bg-card px-3 py-2.5 text-sm text-foreground/90"
                 >
-                  <Icon className="h-4 w-4 text-primary shrink-0" />
+                  <Icon className="h-4 w-4 shrink-0 text-primary" />
                   <span className="truncate">{label}</span>
                 </li>
               ))}
             </ul>
 
-            {/* CTA */}
             <div className="mt-7 flex flex-wrap gap-3">
-              <GalleryLightbox
-                items={gallery}
-                trigger={
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 min-h-11 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/25 transition hover:brightness-110"
-                  >
-                    Explorar {title.toLowerCase()}
-                    <ChevronRight className="h-4 w-4" aria-hidden />
-                  </button>
-                }
-              />
+              <button
+                type="button"
+                onClick={(e) => open(0, e.currentTarget)}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/25 transition hover:brightness-110"
+              >
+                Explorar galeria
+                <ChevronRight className="h-4 w-4" aria-hidden />
+              </button>
               <a
                 href={WHATSAPP}
                 target="_blank"
                 rel="noopener"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-3 min-h-11 text-sm font-semibold text-foreground transition hover:bg-accent"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-accent"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 Reservar
               </a>
             </div>
 
-            {/* Miniaturas */}
-            {gallery.length > 1 && (
+            {thumbs.length > 0 && (
               <div className="mt-8">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground mb-3">Mais fotos</p>
+                <p className="mb-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  Mais fotos
+                </p>
                 <div className="grid grid-cols-4 gap-2">
-                  {gallery.slice(1, 5).map((g, i) => (
-                    <GalleryLightbox
-                      key={g.src + i}
-                      items={gallery}
-                      initialIndex={i + 1}
-                      trigger={
-                        <button
-                          type="button"
-                          aria-label={`Abrir ${g.caption}`}
-                          className="group relative block w-full overflow-hidden rounded-lg bg-card aspect-square focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                        >
-                          <img
-                            src={g.src}
-                            alt={g.caption}
-                            loading="lazy"
-                            decoding="async"
-                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div aria-hidden className="absolute inset-0 ring-1 ring-inset ring-white/10 group-hover:ring-white/25 transition" />
-                        </button>
-                      }
-                    />
+                  {thumbs.map((g, i) => (
+                    <button
+                      key={g.src}
+                      type="button"
+                      onClick={(e) => open(i + 1, e.currentTarget)}
+                      aria-label={`Abrir ${g.caption}`}
+                      className="group relative block aspect-square w-full overflow-hidden rounded-lg bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    >
+                      <img
+                        src={g.src}
+                        alt={g.caption}
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
+                      />
+                      <div
+                        aria-hidden
+                        className="absolute inset-0 ring-1 ring-inset ring-white/10 transition group-hover:ring-white/25"
+                      />
+                    </button>
                   ))}
                 </div>
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Lightbox — uma instância por bloco, controlada */}
+      <GalleryLightbox
+        items={gallery}
+        openIndex={openIndex}
+        onOpenIndexChange={handleChange}
+      />
+    </section>
+  );
+}
+
+/* ---------------------------------------- */
+/* CTA final                                 */
+/* ---------------------------------------- */
+
+function CTAReserva() {
+  return (
+    <section className="border-t border-border/40 bg-card">
+      <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:py-20">
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary">
+          Pronto pra reservar?
+        </p>
+        <h2 className="mt-3 font-display text-3xl leading-[1.05] sm:text-5xl">
+          Sua estadia começa aqui.
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+          Tire dúvidas, veja disponibilidade e reserve direto pelo WhatsApp — falamos com você em minutos.
+        </p>
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-xl shadow-black/25 transition hover:brightness-110 sm:text-base"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            Reservar no WhatsApp
+          </a>
+          <Link
+            to="/"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:bg-accent sm:text-base"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden />
+            Voltar ao início
+          </Link>
         </div>
       </div>
     </section>
