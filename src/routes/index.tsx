@@ -829,18 +829,32 @@ function HomePage() {
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Localização</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Itacimirim, Camaçari — BA.</h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg">A 2 minutos da praia, entre Guarajuba e Praia do Forte. Cerca de 1h do Aeroporto de Salvador.</p>
-            <address className="not-italic mt-6 rounded-xl border border-border/60 bg-background p-5 text-sm text-foreground/90 leading-relaxed">
-              <div className="font-medium text-foreground">Pousada Ilha do Meio</div>
-              <div className="mt-1.5 space-y-0.5">
-                <div>Rua Sítio Novo, 7</div>
-                <div>Loteamento Santa Maria, Lote 8</div>
-                <div>Itacimirim, Camaçari — BA</div>
-                <div className="text-muted-foreground">CEP 42823-000</div>
-              </div>
-            </address>
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V — Onde fica</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Entre Guarajuba<br />
+              <span className="italic opacity-90">e Praia do Forte.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
+              Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8. A 800m da praia por caminho asfaltado
+              e a uma curta viagem dos principais destinos do Litoral Norte da Bahia.
+            </p>
+
+            <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6">
+              {[
+                { n: 2, unit: "min", l: "Da praia a pé" },
+                { n: 12, unit: "km", l: "Praia do Forte" },
+                { n: 55, unit: "km", l: "Aeroporto de Salvador" },
+                { n: 78, unit: "km", l: "Centro de Salvador" },
+              ].map((d) => (
+                <div key={d.l} className="border-l-2 border-sand/70 pl-4">
+                  <dt className="flex items-baseline gap-1.5">
+                    <CountUp end={d.n} className="font-display text-4xl sm:text-5xl leading-none text-foreground tabular-nums" />
+                    <span className="text-sm font-medium text-muted-foreground">{d.unit}</span>
+                  </dt>
+                  <dd className="mt-1.5 text-sm text-muted-foreground">{d.l}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
           <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
             <iframe
