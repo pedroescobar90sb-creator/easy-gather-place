@@ -620,8 +620,8 @@ function HomePage() {
               }
             />
             <div className="md:col-span-2">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">Experiência</p>
-              <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Diversão sem sair da pousada.</h3>
+              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">O que rola por aqui</p>
+              <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-[1.1]">Uma mesa de sinuca, um pebolim e a noite inteira pela frente.</h3>
               <p className="mt-3 text-muted-foreground leading-relaxed">
                 O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos — espaço pensado para quem quer relaxar entre um passeio e outro, com clima leve e descontraído.
               </p>
