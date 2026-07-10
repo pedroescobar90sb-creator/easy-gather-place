@@ -7,6 +7,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
 import { CountUp } from "@/components/CountUp";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
+import { KenBurns } from "@/components/motion/KenBurns";
 import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
 import { cn } from "@/lib/utils";
@@ -343,32 +346,41 @@ function HomePage() {
       {/* HERO */}
       <section
         id="top"
-        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px]"
-        style={{ backgroundImage: `url(${heroPousada})` }}
+        className="relative overflow-hidden min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px]"
       >
+        <div aria-hidden className="absolute inset-0 -z-10">
+          <KenBurns src={heroPousada} alt="" eager duration={26} sizes="100vw" />
+        </div>
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <GrainOverlay />
-        <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white">
-          <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
-            <MapPin className="h-3.5 w-3.5" />
-            Itacimirim · Bahia · 42823-000
-          </div>
-          <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
+        <StaggerGroup
+          className="relative mx-auto max-w-6xl px-4 pt-20 pb-24 sm:pt-32 sm:pb-36 text-white"
+          gap={0.09}
+          delay={0.15}
+          amount={0.15}
+        >
+          <StaggerItem>
+            <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
+              <MapPin className="h-3.5 w-3.5" />
+              Itacimirim · Bahia · 42823-000
+            </div>
+          </StaggerItem>
+          <StaggerItem as="h1" className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
             2 minutos do mar.<br />
             <em className="italic font-normal opacity-95">50 de Salvador.</em>
-          </h1>
-          <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
+          </StaggerItem>
+          <StaggerItem as="p" className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
             Cabines de madeira entre coqueiros, piscina acesa até tarde e a recepção
             que atende pelo WhatsApp — antes, durante e depois da sua estadia.
-          </p>
+          </StaggerItem>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <StaggerItem className="mt-7 flex flex-wrap items-center gap-3">
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
               onClick={() => trackWhatsAppLead("Hero - Ver disponibilidade")}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition-all"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Ver disponibilidade
@@ -380,15 +392,18 @@ function HomePage() {
               Conhecer a pousada
               <ChevronRight className="h-4 w-4" aria-hidden />
             </Link>
-          </div>
+          </StaggerItem>
 
-          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
-            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
-            <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
-            <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
-          </ul>
-        </div>
+          <StaggerItem className="mt-9">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
+              <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
+              <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
+              <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
+            </ul>
+          </StaggerItem>
+        </StaggerGroup>
       </section>
+
 
       {/* TRUST BAR */}
       <section className="relative isolate overflow-hidden min-h-[280px] sm:min-h-[320px] lg:min-h-[360px]">
@@ -403,24 +418,23 @@ function HomePage() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
         <GrainOverlay />
 
-        <div className="relative mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3">
+        <StaggerGroup className="relative mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3" gap={0.12} amount={0.3}>
           {[
             { n: "2 min", l: "Da praia" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
-            <div key={s.l} className="px-4 py-10 sm:py-14 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
+            <StaggerItem key={s.l} className="px-4 py-10 sm:py-14 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
               <div className="font-display text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">{s.n}</div>
               <div className="text-xs lg:text-sm xl:text-base text-white/90 font-medium mt-2 whitespace-nowrap drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">{s.l}</div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
       </section>
 
-      {/* A POUSADA — apresentação editorial + acesso a /ambientes */}
       <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
-          <div className="lg:col-span-5">
+          <Reveal className="lg:col-span-5" y={28}>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">A casa</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Quatro ambientes,<br />
@@ -440,9 +454,9 @@ function HomePage() {
               </span>
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden />
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7" y={40} delay={0.12}>
             <Link
               to="/ambientes"
               aria-label="Acessar todos os ambientes da pousada"
@@ -488,7 +502,7 @@ function HomePage() {
                 </span>
               </div>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -576,13 +590,13 @@ function HomePage() {
       {/* LAZER — SALÃO DE JOGOS */}
       <section id="lazer" className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl" y={24}>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II — Lazer</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Bilhar, quiosque, rede.<br />
               <span className="italic opacity-90">Tudo a três passos do quarto.</span>
             </h2>
-          </div>
+          </Reveal>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
             <GalleryLightbox
@@ -650,7 +664,7 @@ function HomePage() {
 
       {/* ACOMODAÇÕES */}
       <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <div className="max-w-2xl">
+        <Reveal className="max-w-2xl" y={24}>
           <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III — Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
             17 suítes em madeira.<br />
@@ -659,10 +673,14 @@ function HomePage() {
           <p className="mt-4 text-muted-foreground max-w-xl">
             Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra.
           </p>
-        </div>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto">
+        </Reveal>
+        <StaggerGroup
+          className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto"
+          gap={0.12}
+          amount={0.15}
+        >
           {ROOMS.map((r) => (
-            <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
+            <StaggerItem as="article" key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img src={r.image} alt={r.alt} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 <GalleryLightbox
@@ -713,15 +731,15 @@ function HomePage() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => trackWhatsAppLead(r.name, Number(r.price.replace(/\D/g, "")))}
-                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
+                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] px-5 py-3 text-sm font-semibold transition-all"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
                   {r.cta}
                 </a>
               </div>
-            </article>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
 
         {/* Aviso profissional: Quarto Triplo sob consulta */}
         <div className="mt-8 mx-auto max-w-3xl px-1">
@@ -763,7 +781,7 @@ function HomePage() {
       {/* PISCINA */}
       <section className="bg-background">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl" y={24}>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV — Piscina</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Acesa até você decidir<br />
@@ -773,7 +791,7 @@ function HomePage() {
               Deck em madeira, espreguiçadeiras à sombra dos coqueiros e iluminação noturna suave.
               Aberta o dia todo — na alta temporada, a área permanece iluminada até a meia-noite.
             </p>
-          </div>
+          </Reveal>
 
           <GalleryLightbox
             items={[
@@ -820,7 +838,7 @@ function HomePage() {
 
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div>
+          <Reveal>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V — Onde fica</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Entre Guarajuba<br />
@@ -831,41 +849,43 @@ function HomePage() {
               e a uma curta viagem dos principais destinos do Litoral Norte da Bahia.
             </p>
 
-            <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6">
+            <StaggerGroup as="dl" className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6" gap={0.1} amount={0.25}>
               {[
                 { n: 2, unit: "min", l: "Da praia a pé" },
                 { n: 12, unit: "km", l: "Praia do Forte" },
                 { n: 55, unit: "km", l: "Aeroporto de Salvador" },
                 { n: 78, unit: "km", l: "Centro de Salvador" },
               ].map((d) => (
-                <div key={d.l} className="border-l-2 border-sand/70 pl-4">
+                <StaggerItem key={d.l} className="border-l-2 border-sand/70 pl-4">
                   <dt className="flex items-baseline gap-1.5">
                     <CountUp end={d.n} className="font-display text-4xl sm:text-5xl leading-none text-foreground tabular-nums" />
                     <span className="text-sm font-medium text-muted-foreground">{d.unit}</span>
                   </dt>
                   <dd className="mt-1.5 text-sm text-muted-foreground">{d.l}</dd>
-                </div>
+                </StaggerItem>
               ))}
-            </dl>
-          </div>
-          <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
-            <iframe
-              title="Localização da Pousada Ilha do Meio no mapa"
-              src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
-              className="h-full w-full border-0 grayscale-[20%] contrast-[1.05] saturate-[0.9]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/10" />
-            <button
-              type="button"
-              onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
-              className="absolute bottom-4 left-4 right-4 sm:right-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg hover:bg-white transition"
-            >
-              <MapPin className="h-4 w-4 text-primary" />
-              Abrir no Google Maps
-            </button>
-          </div>
+            </StaggerGroup>
+          </Reveal>
+          <Reveal y={40} delay={0.1}>
+            <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
+              <iframe
+                title="Localização da Pousada Ilha do Meio no mapa"
+                src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
+                className="h-full w-full border-0 grayscale-[20%] contrast-[1.05] saturate-[0.9]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/10" />
+              <button
+                type="button"
+                onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
+                className="absolute bottom-4 left-4 right-4 sm:right-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg hover:bg-white transition"
+              >
+                <MapPin className="h-4 w-4 text-primary" />
+                Abrir no Google Maps
+              </button>
+            </div>
+          </Reveal>
 
         </div>
       </section>
@@ -880,22 +900,22 @@ function HomePage() {
       >
         <div aria-hidden className="absolute inset-0 bg-black/75" />
         <GrainOverlay />
-        <div className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white">
-          <p className="text-[11px] uppercase tracking-[0.32em] text-sand font-medium">Reserva direta com a casa</p>
-          <h2 className="mt-4 font-display text-4xl sm:text-6xl leading-[1.02] text-balance">
+        <StaggerGroup className="relative mx-auto max-w-3xl px-4 py-24 sm:py-28 text-center text-white" gap={0.1} delay={0.05} amount={0.2}>
+          <StaggerItem as="p" className="text-[11px] uppercase tracking-[0.32em] text-sand font-medium">Reserva direta com a casa</StaggerItem>
+          <StaggerItem as="h2" className="mt-4 font-display text-4xl sm:text-6xl leading-[1.02] text-balance">
             Fale com quem<br />
             <span className="italic opacity-95">atende a porta.</span>
-          </h2>
-          <p className="mt-5 text-white/85 sm:text-lg max-w-xl mx-auto">
+          </StaggerItem>
+          <StaggerItem as="p" className="mt-5 text-white/85 sm:text-lg max-w-xl mx-auto">
             Sem intermediário, sem taxa de reserva. Respondemos em minutos pelo WhatsApp — de segunda a segunda.
-          </p>
-          <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center items-center">
+          </StaggerItem>
+          <StaggerItem className="mt-9 flex flex-col sm:flex-row gap-3 justify-center items-center">
             <a
               href={WHATSAPP_CONFIRM}
               target="_blank"
               rel="noopener"
               onClick={() => trackWhatsAppLead("CTA final - Confirmar reserva")}
-              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40 transition"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 hover:scale-[1.03] active:scale-[0.97] px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40 transition-all"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Falar com a casa
@@ -903,8 +923,8 @@ function HomePage() {
             <span className="text-xs uppercase tracking-[0.24em] text-white/60">
               +55 71 9126-3096 · resposta média em 4 min
             </span>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerGroup>
       </section>
 
       {/* FOOTER */}
