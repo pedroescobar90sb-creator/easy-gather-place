@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import lightboxBg from "@/assets/lightbox-bg.jpg";
 
 export type GalleryItem = { src: string; caption: string; desc: string };
 
