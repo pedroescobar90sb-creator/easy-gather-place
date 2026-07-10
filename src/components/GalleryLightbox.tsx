@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import lightboxBg from "@/assets/lightbox-bg.jpg";
 
 export type GalleryItem = { src: string; caption: string; desc: string };
 
@@ -168,6 +169,12 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
           className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100]"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
+          style={{
+            backgroundImage: `radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.95) 100%), url(${lightboxBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
         >
           <DialogTitle className="sr-only">{current?.caption ?? "Galeria"}</DialogTitle>
           <DialogDescription className="sr-only">{current?.desc ?? ""}</DialogDescription>
