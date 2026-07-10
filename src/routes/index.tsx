@@ -349,7 +349,15 @@ function HomePage() {
         className="relative overflow-hidden min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px]"
       >
         <div aria-hidden className="absolute inset-0 -z-10">
-          <KenBurns src={heroPousada} alt="" eager duration={26} sizes="100vw" />
+          <img
+            src={heroPousada}
+            alt=""
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            sizes="100vw"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <GrainOverlay />
