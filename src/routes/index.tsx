@@ -961,6 +961,61 @@ function HomePage() {
       {/* DEPOIMENTOS */}
       <Testimonials />
 
+      {/* FAQ INLINE */}
+      <section id="faq" className="bg-background border-t border-border/60">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">Perguntas frequentes</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Antes de reservar,<br />
+              <span className="italic opacity-90">tudo o que perguntam.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Não achou sua dúvida? Fale com a recepção pelo WhatsApp — respondemos em minutos.
+            </p>
+          </div>
+
+          <Accordion type="single" collapsible className="mt-8">
+            {[
+              { q: "Quais formas de pagamento vocês aceitam?", a: "PIX, cartão de crédito, cartão de débito e dinheiro. A recepção envia as instruções de pagamento assim que você confirma as datas pelo WhatsApp." },
+              { q: "Qual a política de cancelamento?", a: "Buscamos flexibilidade sempre que possível. As condições exatas dependem do período e da antecedência da reserva — a recepção informa tudo antes de você confirmar." },
+              { q: "Que horas é o check-in e check-out?", a: "Check-in das 13h às 22h. Check-out das 9h às 12h. Chegando fora do horário? Basta avisar a recepção com antecedência." },
+              { q: "Tem estacionamento?", a: "Sim, estacionamento privativo gratuito para hóspedes, sujeito à disponibilidade de vagas." },
+              { q: "O café da manhã está incluso?", a: "Sim, todas as diárias incluem café da manhã completo — frutas, pães, frios, sucos naturais, bolos e itens regionais servidos diariamente." },
+              { q: "A pousada aceita pets?", a: "No momento não recebemos animais de estimação, para preservar o conforto de todos os hóspedes." },
+              { q: "Crianças pagam?", a: "Crianças são bem-vindas. As condições variam com a idade e a configuração do quarto — fale com a recepção pra montarmos a melhor acomodação para sua família." },
+              { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local — você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
+            ].map((item) => (
+              <AccordionItem key={item.q} value={item.q} className="border-border/60">
+                <AccordionTrigger className="text-left text-base font-semibold hover:no-underline">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-border/60 bg-card px-5 py-5 sm:px-7 sm:py-6">
+            <div className="text-center sm:text-left">
+              <p className="font-semibold text-foreground">Ainda com dúvida?</p>
+              <p className="text-sm text-muted-foreground">A recepção responde em minutos, de segunda a segunda.</p>
+            </div>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener"
+              onClick={() => trackWhatsAppLead("FAQ - Tirar dúvida")}
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition shrink-0"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              Falar com a recepção
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* FINAL CTA */}
       <section
         className="relative bg-cover bg-center bg-no-repeat min-h-[480px] sm:min-h-[560px] lg:min-h-[620px]"
