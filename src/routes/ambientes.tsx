@@ -30,6 +30,10 @@ import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg";
 import piscinaDeck from "@/assets/piscina-aerea.png";
+import piscinaNoiteArvoreAsset from "@/assets/piscina-noite-arvore.png.asset.json";
+import piscinaNoitePergolaAsset from "@/assets/piscina-noite-pergola.png.asset.json";
+const piscinaNoiteArvore = piscinaNoiteArvoreAsset.url;
+const piscinaNoitePergola = piscinaNoitePergolaAsset.url;
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
@@ -93,6 +97,8 @@ const AMBIENTES: Ambiente[] = [
     cover: piscinaNoite,
     gallery: [
       { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
+      { src: piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
+      { src: piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
       { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina e deck de madeira." },
       { src: piscinaDeck, caption: "Vista aérea", desc: "Deck cercado pela vegetação nativa." },
     ],
