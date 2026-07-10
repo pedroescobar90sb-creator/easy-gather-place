@@ -438,7 +438,7 @@ function CTAReserva() {
           </a>
           <Link
             to="/"
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:bg-accent sm:text-base"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/5 backdrop-blur px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10 sm:text-base"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden />
             Voltar ao início
