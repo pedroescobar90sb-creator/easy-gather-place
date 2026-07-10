@@ -188,20 +188,12 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                 style={{
                   opacity: entered ? 1 : 0,
                   transform: entered
-                    ? "translateX(0) scale(1)"
-                    : `translateX(${slideDir * 56}px) scale(1.02)`,
-                  transition: `opacity 560ms ${EASE} 100ms, transform 780ms ${EASE} 100ms`,
+                    ? "translate3d(0,0,0)"
+                    : `translate3d(${slideDir * 40}px,0,0)`,
+                  transition: `opacity 380ms ${EASE}, transform 520ms ${EASE}`,
                   willChange: "opacity, transform",
-                  filter: entered ? "blur(0px)" : "blur(4px)",
                 }}
               >
-                <img
-                  aria-hidden
-                  src={current.src}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
-                  draggable={false}
-                />
                 <img
                   src={current.src}
                   alt={current.caption}
