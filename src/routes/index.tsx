@@ -394,7 +394,7 @@ function HomePage() {
             </Link>
           </StaggerItem>
 
-          <StaggerItem as="p" className="mt-9">
+          <StaggerItem className="mt-9">
             <ul className="flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
               <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 9,2 · 204 avaliações reais</li>
               <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
