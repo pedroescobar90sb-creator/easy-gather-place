@@ -99,7 +99,7 @@ export const Route = createFileRoute("/")({
           url: "https://easy-gather-place.lovable.app/",
           image: heroPousada,
           telephone: "+55-71-9126-3096",
-          priceRange: "R$ 450 – R$ 650",
+          priceRange: "R$ 400 – R$ 650",
           checkinTime: "13:00",
           checkoutTime: "12:00",
           numberOfRooms: 17,
@@ -158,7 +158,7 @@ const ROOMS: RoomCard[] = [
     image: quartoDuplo,
     alt: "Quarto Duplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Duplo",
-    waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 450/noite. Pode confirmar disponibilidade para as minhas datas?",
+    waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 400/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
       { src: quartoDuplo, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
       
@@ -366,7 +366,7 @@ function HomePage() {
 
           <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-sm text-white">
             <span className="text-xs uppercase tracking-[0.2em] text-white/70">Diárias</span>
-            <span className="font-display text-lg leading-none">a partir de R$ 450</span>
+            <span className="font-display text-lg leading-none">a partir de R$ 400</span>
             <span className="text-xs text-white/70">/ noite · café incluso</span>
           </div>
 
@@ -709,10 +709,10 @@ function HomePage() {
               </div>
               <div className="mt-6 flex items-baseline gap-2 text-foreground">
                 <span className="text-xs text-muted-foreground">R$</span>
-                <span className="font-display text-5xl sm:text-6xl tabular-nums text-primary">450</span>
+                <span className="font-display text-5xl sm:text-6xl tabular-nums text-primary">400</span>
                 <span className="text-xs text-muted-foreground">/ noite</span>
               </div>
-              <p className="mt-1 text-xs font-semibold text-primary">Você economiza até R$ 80/noite</p>
+              <p className="mt-1 text-xs font-semibold text-primary">Você economiza até R$ 130/noite</p>
               <ul className="mt-5 space-y-2 text-sm text-foreground/90">
                 <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Melhor tarifa garantida</li>
                 <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Pagamento por PIX ou cartão</li>
