@@ -11,11 +11,13 @@ type Props = {
   gridClassName?: string;
   /** When provided, replaces the default thumbnail grid with a single custom trigger. */
   trigger?: React.ReactNode;
+  /** Slide index to open when the trigger is clicked. Defaults to 0. */
+  initialIndex?: number;
 };
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
-export function GalleryLightbox({ items, className, gridClassName, trigger }: Props) {
+export function GalleryLightbox({ items, className, gridClassName, trigger, initialIndex = 0 }: Props) {
   const [openIdx, setOpenIdx] = React.useState<number | null>(null);
   const [entered, setEntered] = React.useState(false);
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
