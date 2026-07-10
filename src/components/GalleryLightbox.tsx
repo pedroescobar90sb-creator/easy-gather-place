@@ -119,7 +119,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger }: Pr
             <button
               type="button"
               key={g.caption}
-              onClick={() => {
+              onClick={(e) => {
+                triggerRef.current = e.currentTarget as HTMLElement;
                 setSlideDir(1);
                 setSlideKey((k) => k + 1);
                 setOpenIdx(i);
