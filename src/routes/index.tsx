@@ -781,7 +781,7 @@ function HomePage() {
       {/* PISCINA */}
       <section className="bg-background">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl" y={24}>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV — Piscina</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Acesa até você decidir<br />
@@ -791,7 +791,7 @@ function HomePage() {
               Deck em madeira, espreguiçadeiras à sombra dos coqueiros e iluminação noturna suave.
               Aberta o dia todo — na alta temporada, a área permanece iluminada até a meia-noite.
             </p>
-          </div>
+          </Reveal>
 
           <GalleryLightbox
             items={[
