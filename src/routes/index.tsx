@@ -585,8 +585,11 @@ function HomePage() {
       <section id="lazer" className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Lazer</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Para quem busca conforto e diversão.</h2>
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II — Lazer</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Bilhar, quiosque, rede.<br />
+              <span className="italic opacity-90">Tudo a três passos do quarto.</span>
+            </h2>
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
