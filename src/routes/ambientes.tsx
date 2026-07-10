@@ -27,7 +27,7 @@ import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg";
 import piscinaDeck from "@/assets/piscina-aerea.png";
-import piscinaLagoa from "@/assets/piscina-lagoa.jpg";
+
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
 import quartoDuploAlt from "@/assets/quarto-duplo-varanda-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png";
@@ -91,7 +91,7 @@ const AMBIENTES: Ambiente[] = [
       { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
       { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina e deck de madeira." },
       { src: piscinaDeck, caption: "Vista aérea", desc: "Deck cercado pela vegetação nativa." },
-      { src: piscinaLagoa, caption: "Área da lagoa", desc: "Cantinho reservado ao lado da piscina." },
+      
     ],
     amenities: [
       { icon: Sunset, label: "Deck de madeira" },
