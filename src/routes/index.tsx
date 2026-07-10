@@ -363,7 +363,13 @@ function HomePage() {
             dedicada pelo WhatsApp antes, durante e depois da sua estadia.
           </p>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-sm text-white">
+            <span className="text-xs uppercase tracking-[0.2em] text-white/70">Diárias</span>
+            <span className="font-display text-lg leading-none">a partir de R$ 450</span>
+            <span className="text-xs text-white/70">/ noite · café incluso</span>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <a
               href={WHATSAPP}
               target="_blank"
@@ -382,6 +388,9 @@ function HomePage() {
               <ChevronRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
+          <p className="mt-3 text-xs uppercase tracking-[0.24em] text-white/70">
+            Resposta em minutos · Segunda a segunda
+          </p>
 
           <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
             <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> Nota 9,2 em 204 avaliações reais</li>
