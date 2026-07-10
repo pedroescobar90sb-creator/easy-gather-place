@@ -871,12 +871,12 @@ function HomePage() {
             ]}
             className="mt-10"
             trigger={
-              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-square sm:aspect-[4/3] bg-black/5 group cursor-zoom-in">
+              <figure className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/5] sm:aspect-[16/10] bg-black/5 group cursor-zoom-in">
                 <img
                   src={piscinaHero}
                   alt="Piscina da Pousada Ilha do Meio com deck de madeira e coqueiros"
                   loading="lazy"
-                  className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.02]"
+                  className="h-full w-full object-cover object-[50%_72%] transition duration-700 group-hover:scale-[1.02]"
                 />
 
                 <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 text-white backdrop-blur-md hover:bg-black/75 px-3.5 py-2 text-xs font-medium transition">
