@@ -119,7 +119,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
 
   return (
     <>
-      {trigger ? (
+      {controlled && !trigger ? null : trigger ? (
         <span
           onClick={(e) => {
             triggerRef.current = e.currentTarget as HTMLElement;
