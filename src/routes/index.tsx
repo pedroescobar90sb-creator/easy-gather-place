@@ -997,10 +997,10 @@ function HomePage() {
               { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local — você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
             ].map((item) => (
               <AccordionItem key={item.q} value={item.q} className="border-border/60">
-                <AccordionTrigger className="text-left text-base font-semibold hover:no-underline">
+                <AccordionTrigger className="text-left text-base sm:text-lg font-semibold py-5 hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
+                <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-5">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
