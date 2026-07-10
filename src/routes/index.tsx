@@ -8,6 +8,7 @@ import { GalleryLightbox } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
 import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
+import { cn } from "@/lib/utils";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
@@ -188,9 +189,16 @@ const ROOM_AMENITIES = [
 
 const GALLERY = [
   { src: fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
-  { src: recepcaoDia, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
-  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
   { src: piscinaNoite, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
+  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
+  { src: recepcaoDia, caption: "Recepção", desc: "Recepção pronta para te atender, do check-in ao check-out." },
+];
+
+const GALLERY_META = [
+  { kicker: "01 — Suítes", tags: ["Varanda privativa", "Ar-condicionado", "Wi-Fi"] },
+  { kicker: "02 — Piscina", tags: ["Deck de madeira", "Área externa", "Iluminada"] },
+  { kicker: "03 — Convivência", tags: ["Quiosque", "Jardim", "Sombra natural"] },
+  { kicker: "04 — Recepção", tags: ["Check-in fácil", "Suporte local", "24h no WhatsApp"] },
 ];
 
 
@@ -402,40 +410,146 @@ function HomePage() {
 
       {/* A POUSADA — GALERIA */}
       <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-        <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A pousada</p>
-          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">Ambientes pensados pro seu descanso.</h2>
-        </div>
-        <div className="mt-10">
+        {/* Cabeçalho editorial */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">A pousada</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">
+              Ambientes pensados pro seu descanso.
+            </h2>
+            <p className="mt-4 text-sm sm:text-base text-muted-foreground max-w-xl leading-relaxed">
+              Um passeio visual pelos espaços da pousada — das cabines em madeira à piscina iluminada. Toque em qualquer ambiente para ver em tela cheia.
+            </p>
+          </div>
           <GalleryLightbox
             items={GALLERY}
             trigger={
               <button
                 type="button"
-                className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[3/4] sm:aspect-[16/9] min-h-[420px] sm:min-h-[480px] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                aria-label="Abrir galeria de ambientes"
+                className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 backdrop-blur px-5 py-3 text-sm font-semibold text-foreground hover:bg-card transition shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label="Abrir galeria completa dos ambientes"
               >
-                <img
-                  src={GALLERY[0].src}
-                  alt="Ambientes da Pousada Ilha do Meio — cabines, varanda e área de lazer"
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-                />
-                {/* Máscara consistente para leitura do texto e CTA */}
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-                  <div className="text-white">
-                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/85">Galeria</p>
-                    <p className="mt-1 font-display text-2xl sm:text-3xl leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.45)" }}>
-                      Explore os ambientes
-                    </p>
-                  </div>
-                  <span className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 min-h-11 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/25 ring-1 ring-black/5 transition group-hover:brightness-110 group-hover:shadow-xl">
-                    Acesse os ambientes
-                    <ChevronRight className="h-4 w-4" aria-hidden />
-                  </span>
-                </div>
+                Ver todos os ambientes
+                <ChevronRight className="h-4 w-4" aria-hidden />
+              </button>
+            }
+          />
+        </div>
+
+        {/* Grid editorial assimétrico — 1 hero + 3 tiles */}
+        <div
+          className="mt-10 grid grid-cols-1 sm:grid-cols-6 gap-3 sm:gap-4"
+          role="list"
+          aria-label="Galeria de ambientes"
+        >
+          {GALLERY.map((g, i) => {
+            const meta = GALLERY_META[i];
+            // Layout: tile 0 ocupa 4 colunas x 2 rows (hero); demais ocupam 2 colunas
+            const isHero = i === 0;
+            const spanClass = isHero
+              ? "sm:col-span-4 sm:row-span-2 aspect-[4/5] sm:aspect-auto sm:min-h-[560px]"
+              : "sm:col-span-2 aspect-[4/3] sm:aspect-auto sm:min-h-[272px]";
+            return (
+              <GalleryLightbox
+                key={g.caption}
+                items={GALLERY}
+                initialIndex={i}
+                className="block"
+                trigger={
+                  <button
+                    type="button"
+                    role="listitem"
+                    aria-label={`Abrir ${g.caption} — ${g.desc}`}
+                    className={cn(
+                      "group relative block w-full overflow-hidden rounded-2xl sm:rounded-3xl bg-card text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-shadow hover:shadow-2xl hover:shadow-black/20",
+                      spanClass,
+                    )}
+                  >
+                    <img
+                      src={g.src}
+                      alt={`${g.caption} — ${g.desc}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+                    />
+                    {/* Máscara consistente */}
+                    <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+                    {/* Kicker top-left */}
+                    <div className="absolute top-4 left-4 sm:top-5 sm:left-5">
+                      <span className="inline-flex items-center rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/20 px-3 py-1 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.2em] text-white">
+                        {meta?.kicker}
+                      </span>
+                    </div>
+                    {/* Icon expand top-right */}
+                    <div className="absolute top-4 right-4 sm:top-5 sm:right-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-foreground shadow-lg">
+                        <ChevronRight className="h-4 w-4" aria-hidden />
+                      </span>
+                    </div>
+                    {/* Conteúdo bottom */}
+                    <div className={cn("absolute inset-x-0 bottom-0 p-5", isHero && "sm:p-8")}>
+                      <h3
+                        className={cn(
+                          "font-display leading-tight text-white",
+                          isHero ? "text-2xl sm:text-4xl" : "text-lg sm:text-xl",
+                        )}
+                        style={{ textShadow: "0 2px 14px rgba(0,0,0,0.55)" }}
+                      >
+                        {g.caption}
+                      </h3>
+                      <p
+                        className={cn(
+                          "mt-1.5 text-white/90 leading-snug",
+                          isHero ? "text-sm sm:text-base max-w-md" : "text-xs sm:text-sm line-clamp-2",
+                        )}
+                      >
+                        {g.desc}
+                      </p>
+                      {/* Chips de detalhe — só no hero em mobile, todos em desktop */}
+                      {meta?.tags && (
+                        <ul
+                          className={cn(
+                            "mt-3 flex flex-wrap gap-1.5",
+                            !isHero && "hidden sm:flex",
+                          )}
+                          aria-label={`Detalhes de ${g.caption}`}
+                        >
+                          {meta.tags.slice(0, isHero ? 3 : 2).map((t) => (
+                            <li
+                              key={t}
+                              className="rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur px-2.5 py-1 text-[10px] sm:text-[11px] font-medium text-white/95"
+                            >
+                              {t}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {isHero && (
+                        <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 min-h-11 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/30 ring-1 ring-black/5 transition group-hover:brightness-110">
+                          Acessar ambientes
+                          <ChevronRight className="h-4 w-4" aria-hidden />
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                }
+              />
+            );
+          })}
+        </div>
+
+        {/* CTA mobile embaixo (equivalente ao botão desktop no cabeçalho) */}
+        <div className="mt-6 sm:hidden">
+          <GalleryLightbox
+            items={GALLERY}
+            trigger={
+              <button
+                type="button"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border/70 bg-card px-5 py-3 min-h-11 text-sm font-semibold text-foreground"
+                aria-label="Abrir galeria completa dos ambientes"
+              >
+                Ver todos os ambientes
+                <ChevronRight className="h-4 w-4" aria-hidden />
               </button>
             }
           />
