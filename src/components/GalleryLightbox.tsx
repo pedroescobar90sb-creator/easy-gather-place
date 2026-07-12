@@ -32,16 +32,33 @@ export function InlineCarousel({
   imgClassName?: string;
 }) {
   const [idx, setIdx] = React.useState(0);
+  const touchX = React.useRef<number | null>(null);
   if (items.length === 0) return null;
+
+  const move = (dir: 1 | -1) => setIdx((i) => Math.max(0, Math.min(items.length - 1, i + dir)));
 
   const go = (dir: 1 | -1) => (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIdx((i) => Math.max(0, Math.min(items.length - 1, i + dir)));
+    move(dir);
+  };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchX.current = e.touches[0]?.clientX ?? null;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchX.current === null) return;
+    const dx = (e.changedTouches[0]?.clientX ?? touchX.current) - touchX.current;
+    if (Math.abs(dx) > 40) move(dx > 0 ? -1 : 1);
+    touchX.current = null;
   };
 
   return (
-    <div className={cn("relative h-full w-full overflow-hidden", className)}>
+    <div
+      className={cn("relative h-full w-full overflow-hidden touch-pan-y", className)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
       <img
         src={items[idx].src}
         alt={items[idx].caption}
