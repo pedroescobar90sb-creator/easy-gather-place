@@ -73,24 +73,27 @@ export function InlineCarousel({
             onClick={go(-1)}
             disabled={idx === 0}
             aria-label="Foto anterior"
-            className="absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
+            className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
           <button
             type="button"
             onClick={go(1)}
             disabled={idx === items.length - 1}
             aria-label="Próxima foto"
-            className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
+            className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
-          <div className="absolute bottom-2.5 inset-x-0 flex items-center justify-center gap-1">
+          <div className="absolute bottom-3 sm:bottom-4 inset-x-0 flex items-center justify-center gap-1.5">
             {items.map((_, i) => (
               <span
                 key={i}
-                className={cn("h-1 rounded-full transition-all duration-300", i === idx ? "w-4 bg-white" : "w-1 bg-white/50")}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300 shadow-[0_1px_3px_rgba(0,0,0,0.4)]",
+                  i === idx ? "w-5 bg-white" : "w-1.5 bg-white/60",
+                )}
               />
             ))}
           </div>
