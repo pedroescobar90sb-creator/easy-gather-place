@@ -831,12 +831,12 @@ function HomePage() {
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV — Piscina</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
-              Acesa até você decidir<br />
-              <span className="italic opacity-90">que é hora de dormir.</span>
+              Um mergulho de água azul<br />
+              <span className="italic opacity-90">à sombra dos coqueiros.</span>
             </h2>
             <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
-              Deck em madeira, espreguiçadeiras à sombra dos coqueiros e iluminação noturna suave.
-              Aberta o dia todo — na alta temporada, a área permanece iluminada até a meia-noite.
+              Deck em madeira, espreguiçadeiras e vista aberta pro verde ao redor.
+              Aberta o dia todo — perfeita pra um mergulho refrescante entre um passeio e outro.
             </p>
           </div>
 
