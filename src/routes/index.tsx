@@ -670,7 +670,7 @@ function HomePage() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${palmBg2})` }}
         />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/94 via-background/90 to-card/94" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/68 to-card/85" />
         <div className="relative mx-auto max-w-5xl px-4 py-14 sm:py-20">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
