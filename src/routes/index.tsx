@@ -23,7 +23,9 @@ import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaHero from "@/assets/piscina-hero-clean.jpg";
-import piscinaDeck from "@/assets/piscina-aerea.png";
+import piscinaVistaCompleta from "@/assets/piscina-deck-espreguicadeiras.jpg";
+import piscinaEspreguicadeiras from "@/assets/piscina-azul-detalhe.jpg";
+import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
 
 
 import salaoJogos from "@/assets/salao-jogos-v2.jpg";
@@ -196,7 +198,6 @@ const ROOMS: RoomCard[] = [
       { src: quartoQuadruplo, caption: "Quarto Quadruplo · Vista geral", desc: "Pensado para a família toda descansar junto — acomoda 3 ou 4 pessoas." },
       { src: quartoQuadruplo2, caption: "Quarto Quadruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
       { src: quartoQuadruplo3, caption: "Quarto Quadruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
-      { src: quartoTriploVista, caption: "Quarto Triplo · Vista da piscina", desc: "Vista da varanda para a piscina e o verde ao redor." },
     ],
   },
 ];
@@ -835,9 +836,12 @@ function HomePage() {
             <InlineCarousel
               items={[
                 { src: piscinaHero, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
-                { src: piscinaDeck, caption: "Deck e área gourmet", desc: "Pergolado de bambu, mesas à sombra e jardim ao redor da piscina." },
+                { src: piscinaVistaCompleta, caption: "Piscina · Vista completa", desc: "Piscina à sombra dos coqueiros, com pergolado e área de estar ao lado." },
+                { src: piscinaEspreguicadeiras, caption: "Piscina · Espreguiçadeiras", desc: "Fileira de espreguiçadeiras em madeira de frente para o verde e os coqueiros." },
+                { src: piscinaMesaJardim, caption: "Piscina · Área de estar", desc: "Mesa e cadeiras à beira da piscina, perfeita pra relaxar depois do mergulho." },
               ]}
               imgClassName="object-[50%_72%]"
+              autoPlay
             />
           </figure>
 

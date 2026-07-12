@@ -21,21 +21,40 @@ type Props = {
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
-/** Carrossel embutido no próprio card — passa as fotos com setas, sem abrir tela cheia. */
+/** Carrossel embutido no próprio card — passa as fotos com setas, arraste (mouse/dedo) ou automaticamente, sem abrir tela cheia. */
 export function InlineCarousel({
   items,
   className,
   imgClassName,
+  autoPlay = false,
+  autoPlayInterval = 5000,
 }: {
   items: GalleryItem[];
   className?: string;
   imgClassName?: string;
+  /** Avança sozinho, em loop, quando não há interação do usuário. */
+  autoPlay?: boolean;
+  autoPlayInterval?: number;
 }) {
   const [idx, setIdx] = React.useState(0);
+  const [paused, setPaused] = React.useState(false);
   const touchX = React.useRef<number | null>(null);
-  if (items.length === 0) return null;
+  const dragX = React.useRef<number | null>(null);
+  const len = items.length;
 
-  const move = (dir: 1 | -1) => setIdx((i) => Math.max(0, Math.min(items.length - 1, i + dir)));
+  const move = React.useCallback(
+    (dir: 1 | -1) =>
+      setIdx((i) => (autoPlay ? (i + dir + len) % len : Math.max(0, Math.min(len - 1, i + dir)))),
+    [autoPlay, len],
+  );
+
+  React.useEffect(() => {
+    if (!autoPlay || len <= 1 || paused) return;
+    const t = window.setInterval(() => setIdx((i) => (i + 1) % len), autoPlayInterval);
+    return () => window.clearInterval(t);
+  }, [autoPlay, autoPlayInterval, len, paused]);
+
+  if (len === 0) return null;
 
   const go = (dir: 1 | -1) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -45,25 +64,52 @@ export function InlineCarousel({
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchX.current = e.touches[0]?.clientX ?? null;
+    setPaused(true);
   };
   const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchX.current === null) return;
-    const dx = (e.changedTouches[0]?.clientX ?? touchX.current) - touchX.current;
+    if (touchX.current !== null) {
+      const dx = (e.changedTouches[0]?.clientX ?? touchX.current) - touchX.current;
+      if (Math.abs(dx) > 40) move(dx > 0 ? -1 : 1);
+      touchX.current = null;
+    }
+    setPaused(false);
+  };
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (len <= 1) return;
+    dragX.current = e.clientX;
+  };
+  const onMouseUp = (e: React.MouseEvent) => {
+    if (dragX.current === null) return;
+    const dx = e.clientX - dragX.current;
     if (Math.abs(dx) > 40) move(dx > 0 ? -1 : 1);
-    touchX.current = null;
+    dragX.current = null;
+  };
+  const onMouseLeave = () => {
+    dragX.current = null;
+    setPaused(false);
   };
 
   return (
     <div
-      className={cn("relative h-full w-full overflow-hidden touch-pan-y", className)}
+      className={cn(
+        "relative h-full w-full overflow-hidden touch-pan-y select-none",
+        len > 1 && "cursor-grab active:cursor-grabbing",
+        className,
+      )}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={onMouseLeave}
     >
       <img
         src={items[idx].src}
         alt={items[idx].caption}
         loading="lazy"
         decoding="async"
+        draggable={false}
         className={cn("h-full w-full object-cover", imgClassName)}
       />
       {items.length > 1 && (
@@ -71,7 +117,7 @@ export function InlineCarousel({
           <button
             type="button"
             onClick={go(-1)}
-            disabled={idx === 0}
+            disabled={!autoPlay && idx === 0}
             aria-label="Foto anterior"
             className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
           >
@@ -80,7 +126,7 @@ export function InlineCarousel({
           <button
             type="button"
             onClick={go(1)}
-            disabled={idx === items.length - 1}
+            disabled={!autoPlay && idx === items.length - 1}
             aria-label="Próxima foto"
             className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
           >
