@@ -35,6 +35,10 @@ import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png";
+import quartoTriplo1 from "@/assets/quarto-triplo-1.jpg";
+import quartoTriplo2 from "@/assets/quarto-triplo-2.jpg";
+import quartoTriploVaranda from "@/assets/quarto-triplo-varanda.jpg";
+import quartoTriploVista from "@/assets/quarto-triplo-vista-piscina.jpg";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 import palmBg2 from "@/assets/palm-bg-2.jpg";
 
@@ -177,6 +181,21 @@ const ROOMS: RoomCard[] = [
       { src: quartoQuadruplo, caption: "Quarto Família · Vista geral", desc: "Pensado para a família toda descansar junto — acomoda 3 ou 4 pessoas." },
       { src: quartoQuadruplo2, caption: "Quarto Família · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
       { src: quartoQuadruplo3, caption: "Quarto Família · Varanda", desc: "Varanda em madeira com vista para o jardim." },
+    ],
+  },
+  {
+    name: "Quarto Triplo · para 3 pessoas",
+    capacity: "Cama de casal, cama de solteiro, ar-condicionado, frigobar e café da manhã incluso. Varanda privativa com rede.",
+    price: "Sob consulta",
+    image: quartoTriplo1,
+    alt: "Quarto Triplo (3 pessoas) da Pousada Ilha do Meio",
+    cta: "Quero reservar o Quarto Triplo",
+    waMsg: "Olá! Tenho interesse no Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode confirmar disponibilidade e valores para as minhas datas?",
+    photos: [
+      { src: quartoTriplo1, caption: "Quarto Triplo · Vista geral", desc: "Cama de casal e cama de solteiro, espaço amplo para 3 pessoas." },
+      { src: quartoTriplo2, caption: "Quarto Triplo · Camas", desc: "Roupa de cama branca, frigobar e ambiente aconchegante." },
+      { src: quartoTriploVaranda, caption: "Quarto Triplo · Varanda com rede", desc: "Varanda privativa em madeira, rede e vista para os coqueiros." },
+      { src: quartoTriploVista, caption: "Quarto Triplo · Vista da piscina", desc: "Vista da varanda para a piscina e o verde ao redor." },
     ],
   },
 ];
@@ -732,13 +751,13 @@ function HomePage() {
           <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III — Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
             17 suítes em madeira.<br />
-            <span className="italic opacity-90">Duas configurações,</span> mesma tranquilidade.
+            <span className="italic opacity-90">Três configurações,</span> mesma tranquilidade.
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl">
             Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra.
           </p>
         </div>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:items-stretch max-w-5xl mx-auto">
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:items-stretch max-w-6xl mx-auto">
           {ROOMS.map((r) => (
             <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
               <div className="relative aspect-[4/3] overflow-hidden">
@@ -767,9 +786,15 @@ function HomePage() {
                 <p className="-mt-2 text-[11px] text-muted-foreground">Café da manhã e Wi-Fi inclusos.</p>
 
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-xs text-muted-foreground">a partir de</span>
-                  <span className="text-primary text-xl font-semibold tabular-nums">{r.price}</span>
-                  <span className="text-xs text-muted-foreground">/ noite</span>
+                  {r.price.startsWith("R$") ? (
+                    <>
+                      <span className="text-xs text-muted-foreground">a partir de</span>
+                      <span className="text-primary text-xl font-semibold tabular-nums">{r.price}</span>
+                      <span className="text-xs text-muted-foreground">/ noite</span>
+                    </>
+                  ) : (
+                    <span className="text-primary text-base font-semibold">{r.price}</span>
+                  )}
                 </div>
 
 
@@ -786,41 +811,6 @@ function HomePage() {
               </div>
             </article>
           ))}
-        </div>
-
-        {/* Aviso profissional: Quarto Triplo sob consulta */}
-        <div className="mt-8 mx-auto max-w-3xl px-1">
-          <div className="flex items-start gap-3 rounded-2xl border border-border/60 bg-card/60 px-5 py-4 sm:px-6 sm:py-5">
-            <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
-              <Users className="h-4 w-4" strokeWidth={1.9} />
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-foreground">Também temos Quarto Triplo (3 pessoas)</p>
-              <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
-                Disponível sob consulta, conforme disponibilidade das datas. Fale com a gente pelo WhatsApp e confirmamos valores e reserva na hora.
-              </p>
-            </div>
-            <a
-              href={wa("Olá! Tenho interesse no Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode confirmar disponibilidade e valores para as minhas datas?")}
-              target="_blank"
-              rel="noopener"
-              onClick={() => trackWhatsAppLead("Quarto Triplo")}
-              className="hidden sm:inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/40 bg-primary/5 hover:bg-primary/10 text-primary px-4 py-2 text-xs font-semibold transition"
-            >
-              <WhatsAppIcon className="h-3.5 w-3.5" />
-              Consultar Triplo
-            </a>
-          </div>
-          <a
-            href={wa("Olá! Tenho interesse no Quarto Triplo (3 pessoas) da Pousada Ilha do Meio. Pode confirmar disponibilidade e valores para as minhas datas?")}
-            target="_blank"
-            rel="noopener"
-            onClick={() => trackWhatsAppLead("Quarto Triplo")}
-            className="sm:hidden mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/5 hover:bg-primary/10 text-primary px-4 py-2.5 text-xs font-semibold transition"
-          >
-            <WhatsAppIcon className="h-3.5 w-3.5" />
-            Consultar Quarto Triplo
-          </a>
         </div>
 
       </section>
