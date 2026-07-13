@@ -439,7 +439,7 @@ function HomePage() {
 
         <div className="relative mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3">
           {[
-            { n: "2 min", l: "Da praia" },
+            { n: "17", l: "Suítes em madeira" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
@@ -860,7 +860,7 @@ function HomePage() {
               <WhatsAppIcon className="h-4 w-4" />
               Reservar com vista pra piscina
             </a>
-            <span className="text-sm text-muted-foreground">Café da manhã incluso · A 2 min da praia</span>
+            <span className="text-sm text-muted-foreground">Café da manhã incluso · A 800m da praia</span>
           </div>
         </div>
       </section>
@@ -882,7 +882,7 @@ function HomePage() {
 
             <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6">
               {[
-                { n: 2, unit: "min", l: "Da praia a pé" },
+                { n: 800, unit: "m", l: "Da praia" },
                 { n: 12, unit: "km", l: "Praia do Forte" },
                 { n: 55, unit: "km", l: "Aeroporto de Salvador" },
                 { n: 78, unit: "km", l: "Centro de Salvador" },
