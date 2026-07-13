@@ -9,6 +9,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { CountUp } from "@/components/CountUp";
 import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
+import { trackGoogleAdsContact } from "@/lib/google-ads";
 import { cn } from "@/lib/utils";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
@@ -66,6 +67,7 @@ function GrainOverlay() {
 function trackWhatsAppLead(contentName: string, value?: number) {
   const eventId = newMetaEventId();
   metaTrack("Lead", { content_name: contentName, ...(value ? { value, currency: "BRL" } : {}) }, eventId);
+  trackGoogleAdsContact();
   sendMetaCapiEvent({
     data: {
       eventName: "Lead",
