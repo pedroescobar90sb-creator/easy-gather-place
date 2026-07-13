@@ -85,9 +85,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
-      { name: "description", content: "Pousada em Itacimirim (BA), a 2 minutos do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
+      { name: "description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
-      { property: "og:description", content: "Pousada em Itacimirim (BA), a 2 minutos do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
+      { property: "og:description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { property: "og:image", content: heroPousada },
       { name: "twitter:image", content: heroPousada },
       { name: "twitter:card", content: "summary_large_image" },
@@ -103,7 +103,7 @@ export const Route = createFileRoute("/")({
           "@id": "https://pousadailhadomeio.com.br/#pousada",
           name: "Pousada Ilha do Meio",
           description:
-            "Pousada boutique em Itacimirim (Bahia), a 2 minutos do mar, entre Guarajuba e Praia do Forte. 17 quartos, café da manhã, piscina e atendimento direto com a casa.",
+            "Pousada boutique em Itacimirim (Bahia), perto do mar, entre Guarajuba e Praia do Forte. 17 quartos, café da manhã, piscina e atendimento direto com a casa.",
           url: "https://pousadailhadomeio.com.br/",
           image: heroPousada,
           telephone: "+55-71-9126-3096",
@@ -161,7 +161,7 @@ type RoomCard = {
 const ROOMS: RoomCard[] = [
   {
     name: "Quarto Duplo · para o casal",
-    capacity: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. A 2 minutos da praia.",
+    capacity: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. Perto da praia.",
     price: "R$ 400",
     image: quartoDuplo,
     alt: "Quarto Duplo da Pousada Ilha do Meio",
@@ -250,7 +250,7 @@ function HomePage() {
         <div className="mx-auto max-w-6xl flex items-center justify-between gap-3 px-4 py-2">
           <div className="flex items-center gap-2 min-w-0">
             <MapPin className="h-3.5 w-3.5 shrink-0 opacity-90" />
-            <span className="truncate font-medium">Itacimirim · Bahia · a 2 minutos do mar</span>
+            <span className="truncate font-medium">Itacimirim · Bahia · perto do mar</span>
           </div>
           <div className="hidden sm:flex items-center gap-4">
             <span className="inline-flex items-center gap-1.5">
@@ -380,7 +380,7 @@ function HomePage() {
           </div>
           <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
             Pousada Ilha do Meio.<br />
-            <em className="italic font-normal opacity-95">A 2 minutos do mar.</em>
+            <em className="italic font-normal opacity-95">Perto do mar.</em>
           </h1>
           <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
             Cabines de madeira entre coqueiros, piscina iluminada até tarde e recepção
