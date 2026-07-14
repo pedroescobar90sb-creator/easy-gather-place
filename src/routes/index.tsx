@@ -7,9 +7,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { InlineCarousel } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
 import { CountUp } from "@/components/CountUp";
-import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
-import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
-import { trackGoogleAdsContact } from "@/lib/google-ads";
+import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 import { cn } from "@/lib/utils";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
@@ -63,23 +61,6 @@ function GrainOverlay() {
   );
 }
 
-/** Dispara Lead (Pixel + Conversions API) no clique de um CTA de WhatsApp — sinal mais forte que "Contact" pro Meta otimizar o anúncio. */
-function trackWhatsAppLead(contentName: string, value?: number) {
-  const eventId = newMetaEventId();
-  metaTrack("Lead", { content_name: contentName, ...(value ? { value, currency: "BRL" } : {}) }, eventId);
-  trackGoogleAdsContact();
-  sendMetaCapiEvent({
-    data: {
-      eventName: "Lead",
-      eventId,
-      eventSourceUrl: typeof window !== "undefined" ? window.location.href : "",
-      value,
-      currency: value ? "BRL" : undefined,
-      fbp: getFbCookie("_fbp"),
-      fbc: getFbCookie("_fbc"),
-    },
-  }).catch(() => {});
-}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -706,7 +687,7 @@ function HomePage() {
                 href={WHATSAPP}
                 target="_blank"
                 rel="noopener"
-                onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto")}
+                onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto", 400)}
                 className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition"
               >
                 <WhatsAppIcon className="h-4 w-4" />
