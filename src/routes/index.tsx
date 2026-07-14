@@ -254,12 +254,6 @@ function HomePage() {
           </div>
           <div className="hidden sm:flex items-center gap-4">
             <span className="inline-flex items-center gap-1.5">
-              <Star className="h-3.5 w-3.5 fill-current" />
-              <span className="font-semibold">9,2</span>
-              <span className="opacity-80">Booking</span>
-            </span>
-            <span className="opacity-40">·</span>
-            <span className="inline-flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5" />
               Reserva direta · melhor tarifa
             </span>
@@ -559,29 +553,7 @@ function HomePage() {
             <strong className="text-foreground">café da manhã</strong>.
           </p>
 
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
-            <button
-              type="button"
-              onClick={() => setPendingRedirect({ url: "https://www.booking.com/hotel/br/pousada-ilha-do-meio.pt-br.html", label: "Booking" })}
-              className="group text-left rounded-xl border border-border/60 bg-card px-4 py-3 sm:px-5 sm:py-4 hover:border-primary/40 transition"
-            >
-              <div className="flex items-center gap-2">
-                {/* Booking.com logo mark */}
-                <span
-                  aria-hidden="true"
-                  className="inline-flex h-6 w-6 items-center justify-center rounded-md text-white font-bold text-[13px] leading-none"
-                  style={{ backgroundColor: "#003580", fontFamily: "system-ui, sans-serif" }}
-                >
-                  B.
-                </span>
-                <span className="font-display text-2xl sm:text-3xl text-primary leading-none">9,2</span>
-                <span className="text-xs font-medium text-muted-foreground">Fantástico</span>
-              </div>
-              <div className="mt-1.5 flex items-center gap-1 text-xs text-muted-foreground">
-                Booking · 204 avaliações
-                <ExternalLink className="h-3 w-3 opacity-60 group-hover:opacity-100" />
-              </div>
-            </button>
+          <div className="mt-5 grid grid-cols-1 max-w-xs gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => setPendingRedirect({ url: "https://www.google.com/travel/search?q=pousada%20ilha%20do%20meio%20avalia%C3%A7%C3%A3o%20google", label: "Google" })}
