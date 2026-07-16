@@ -86,11 +86,11 @@
   --secondary-foreground: oklch(0.975 0.012 95);
 
   --muted: oklch(0.94 0.015 95);
-  --muted-foreground: oklch(0.45 0.05 150);
+  --muted-foreground: oklch(0.38 0.04 150);
 
-  /* Sage #5a8a5c — labels caps small */
-  --accent: oklch(0.62 0.08 145);
-  --accent-foreground: oklch(0.975 0.012 95);
+  /* Cobre/terracota quente — destaques, selos, nota */
+  --accent: oklch(0.62 0.12 55);
+  --accent-foreground: oklch(0.98 0.012 95);
 
   --destructive: oklch(0.52 0.19 27);
   --destructive-foreground: oklch(0.98 0 0);
