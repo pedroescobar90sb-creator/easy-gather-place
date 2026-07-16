@@ -104,14 +104,22 @@ export function InlineCarousel({
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={onMouseLeave}
     >
-      <img
-        src={items[idx].src}
-        alt={items[idx].caption}
-        loading="lazy"
-        decoding="async"
-        draggable={false}
-        className={cn("h-full w-full object-cover", imgClassName)}
-      />
+      {items.map((it, i) => (
+        <img
+          key={it.src}
+          src={it.src}
+          alt={it.caption}
+          loading={i === 0 ? "eager" : "lazy"}
+          decoding="async"
+          draggable={false}
+          aria-hidden={i !== idx}
+          className={cn(
+            "absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-out",
+            i === idx ? "opacity-100" : "opacity-0",
+            imgClassName,
+          )}
+        />
+      ))}
       {items.length > 1 && (
         <>
           <button
