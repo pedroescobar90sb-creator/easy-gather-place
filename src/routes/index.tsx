@@ -710,8 +710,13 @@ function HomePage() {
             17 suítes em madeira.<br />
             <span className="italic opacity-90">Três configurações,</span> mesma tranquilidade.
           </h2>
-          <p className="mt-4 text-muted-foreground max-w-xl">
-            Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra.
+          <div className="mt-4 flex items-baseline gap-1.5">
+            <span className="text-xs text-muted-foreground">Suítes a partir de</span>
+            <span className="text-primary text-2xl font-semibold tabular-nums">R$ 400</span>
+            <span className="text-xs text-muted-foreground">/ noite</span>
+          </div>
+          <p className="mt-2 text-muted-foreground max-w-xl">
+            Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra. Fale no WhatsApp e veja qual suíte combina com o seu grupo.
           </p>
         </div>
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:items-stretch max-w-6xl mx-auto">
@@ -741,19 +746,6 @@ function HomePage() {
                   ))}
                 </ul>
                 <p className="-mt-2 text-[11px] text-muted-foreground">Café da manhã e Wi-Fi inclusos.</p>
-
-                <div className="flex items-baseline gap-1.5">
-                  {r.price.startsWith("R$") ? (
-                    <>
-                      <span className="text-xs text-muted-foreground">a partir de</span>
-                      <span className="text-primary text-xl font-semibold tabular-nums">{r.price}</span>
-                      <span className="text-xs text-muted-foreground">/ noite</span>
-                    </>
-                  ) : (
-                    <span className="text-primary text-base font-semibold">{r.price}</span>
-                  )}
-                </div>
-
 
                 <a
                   href={wa(r.waMsg)}
