@@ -60,8 +60,8 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
-  --font-display: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Work Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Fraunces", "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", "Work Sans", system-ui, -apple-system, sans-serif;
 }
 
 :root {
