@@ -60,8 +60,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "Pousada Ilha do Meio" },
       { property: "og:locale", content: "pt_BR" },
       { name: "theme-color", content: "#1a3c2a" },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/QemLdNAgQpgbUlluxddPpNZ4zD72/social-images/social-1783619123361-logo-ilha-do-meio.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/QemLdNAgQpgbUlluxddPpNZ4zD72/social-images/social-1783619123361-logo-ilha-do-meio.webp" },
+      { property: "og:image", content: "https://pousadailhadomeio.com.br/og-image.webp" },
+      { name: "twitter:image", content: "https://pousadailhadomeio.com.br/og-image.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
