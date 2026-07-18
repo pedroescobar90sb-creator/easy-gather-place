@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReservarRouteImport } from './routes/reservar'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as DirecionamentoRouteImport } from './routes/direcionamento'
 import { Route as ComoChegarRouteImport } from './routes/como-chegar'
 import { Route as AmbientesRouteImport } from './routes/ambientes'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,6 +44,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DirecionamentoRoute = DirecionamentoRouteImport.update({
+  id: '/direcionamento',
+  path: '/direcionamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComoChegarRoute = ComoChegarRouteImport.update({
   id: '/como-chegar',
   path: '/como-chegar',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ambientes': typeof AmbientesRoute
   '/como-chegar': typeof ComoChegarRoute
+  '/direcionamento': typeof DirecionamentoRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
   '/reservar': typeof ReservarRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ambientes': typeof AmbientesRoute
   '/como-chegar': typeof ComoChegarRoute
+  '/direcionamento': typeof DirecionamentoRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
   '/reservar': typeof ReservarRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ambientes': typeof AmbientesRoute
   '/como-chegar': typeof ComoChegarRoute
+  '/direcionamento': typeof DirecionamentoRoute
   '/faq': typeof FaqRoute
   '/privacidade': typeof PrivacidadeRoute
   '/reservar': typeof ReservarRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ambientes'
     | '/como-chegar'
+    | '/direcionamento'
     | '/faq'
     | '/privacidade'
     | '/reservar'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ambientes'
     | '/como-chegar'
+    | '/direcionamento'
     | '/faq'
     | '/privacidade'
     | '/reservar'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ambientes'
     | '/como-chegar'
+    | '/direcionamento'
     | '/faq'
     | '/privacidade'
     | '/reservar'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AmbientesRoute: typeof AmbientesRoute
   ComoChegarRoute: typeof ComoChegarRoute
+  DirecionamentoRoute: typeof DirecionamentoRoute
   FaqRoute: typeof FaqRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   ReservarRoute: typeof ReservarRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/direcionamento': {
+      id: '/direcionamento'
+      path: '/direcionamento'
+      fullPath: '/direcionamento'
+      preLoaderRoute: typeof DirecionamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/como-chegar': {
       id: '/como-chegar'
       path: '/como-chegar'
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AmbientesRoute: AmbientesRoute,
   ComoChegarRoute: ComoChegarRoute,
+  DirecionamentoRoute: DirecionamentoRoute,
   FaqRoute: FaqRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   ReservarRoute: ReservarRoute,
@@ -208,3 +229,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
