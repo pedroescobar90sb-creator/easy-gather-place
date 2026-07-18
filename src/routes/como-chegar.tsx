@@ -3,6 +3,7 @@ import { ArrowLeft, MapPin, Plane, Car, Navigation } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 
 const PAGE_URL = "https://pousadailhadomeio.com.br/como-chegar";
 const GOOGLE_MAPS =
@@ -89,7 +90,7 @@ function ComoChegarPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             A Pousada Ilha do Meio fica em <strong className="text-foreground">Itacimirim, Camaçari — Bahia</strong>,
-            entre Guarajuba e Praia do Forte, a poucos minutos a pé da Praia da Espera.
+            entre Guarajuba e Praia do Forte, a 450 metros da Praia da Espera.
           </p>
 
           {/* CTAs de navegação */}
@@ -116,6 +117,7 @@ function ComoChegarPage() {
               href={WHATSAPP}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppLead("Como Chegar - Orientação pelo WhatsApp")}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-3 text-sm font-semibold hover:border-primary/40 transition"
             >
               <WhatsAppIcon className="h-4 w-4" />
@@ -188,6 +190,7 @@ function ComoChegarPage() {
               href={WHATSAPP}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppLead("Como Chegar - Falar com a recepção")}
               className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-3 text-sm font-semibold hover:opacity-90 transition"
             >
               <WhatsAppIcon className="h-4 w-4" />

@@ -19,6 +19,7 @@ import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox, type GalleryItem } from "@/components/GalleryLightbox";
+import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 import { cn } from "@/lib/utils";
 
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
@@ -46,6 +47,7 @@ const WHATSAPP =
   encodeURIComponent(
     "Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade dos ambientes.",
   );
+const PAGE_URL = "https://pousadailhadomeio.com.br/ambientes";
 
 type Ambiente = {
   id: string;
@@ -159,8 +161,12 @@ export const Route = createFileRoute("/ambientes")({
           "Um tour completo pelos espaços da pousada — suítes, piscina, convivência e recepção.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: PAGE_URL },
+      { property: "og:image", content: fachadaNoite },
+      { name: "twitter:image", content: fachadaNoite },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: PAGE_URL }],
   }),
   component: AmbientesPage,
 });
@@ -199,6 +205,7 @@ function SiteHeader() {
           href={WHATSAPP}
           target="_blank"
           rel="noopener"
+          onClick={() => trackWhatsAppLead("Ambientes - Header Reservar")}
           className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg shadow-black/20 transition hover:brightness-110"
         >
           <WhatsAppIcon className="h-4 w-4" />
@@ -350,6 +357,7 @@ function AmbienteBlock({ ambiente, reversed }: { ambiente: Ambiente; reversed: b
                 href={WHATSAPP}
                 target="_blank"
                 rel="noopener"
+                onClick={() => trackWhatsAppLead(`Ambientes - ${title}`)}
                 className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-accent"
               >
                 <WhatsAppIcon className="h-4 w-4" />
@@ -432,6 +440,7 @@ function CTAReserva() {
             href={WHATSAPP}
             target="_blank"
             rel="noopener"
+            onClick={() => trackWhatsAppLead("Ambientes - CTA final")}
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-xl shadow-black/25 transition hover:brightness-110 sm:text-base"
           >
             <WhatsAppIcon className="h-4 w-4" />

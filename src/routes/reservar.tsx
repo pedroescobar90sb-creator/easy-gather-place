@@ -434,7 +434,7 @@ function BookingEngine() {
 
 
                   {(() => {
-                    const nightly = guestN <= 2 ? 450 : guestN === 3 ? 550 : 650;
+                    const nightly = guestN <= 2 ? 400 : guestN === 3 ? 550 : 650;
                     const estTotal = nightly * (nights || 0);
                     return (
                       <div className="rounded-xl border-2 border-primary/30 bg-primary/5 p-4 space-y-2">
@@ -548,7 +548,7 @@ function BookingEngine() {
                 <div className="flex-1 min-w-0">
                    <div className="font-medium truncate">{String(room.name ?? "Quarto")}</div>
                   <div className="text-muted-foreground text-xs">
-                    {range?.from && fmtBR(range.from)} 14h → {range?.to && fmtBR(range.to)} 11h · {nights} noite{nights > 1 ? "s" : ""} · {guestN} hósp.
+                    {range?.from && fmtBR(range.from)} 13h → {range?.to && fmtBR(range.to)} 12h · {nights} noite{nights > 1 ? "s" : ""} · {guestN} hósp.
                   </div>
                 </div>
                 <div className="font-display text-xl shrink-0">
@@ -600,12 +600,12 @@ function BookingEngine() {
               <CheckCircle2 className="h-16 w-16 mx-auto" />
               <h2 className="font-display text-3xl">Reserva confirmada!</h2>
               <p className="opacity-95 max-w-md mx-auto">
-                Seu quarto está garantido para {range?.from && fmtBR(range.from)} às 14h → {range?.to && fmtBR(range.to)} às 11h.
+                Seu quarto está garantido para {range?.from && fmtBR(range.from)} às 13h → {range?.to && fmtBR(range.to)} às 12h.
               </p>
               <div className="mt-4 rounded-xl bg-primary-foreground/10 border border-primary-foreground/20 p-4 text-sm text-left max-w-md mx-auto space-y-1.5">
                 <div className="font-semibold uppercase tracking-wider text-xs opacity-90">Horários da estadia</div>
-                <div>• Check-in: a partir das 14h.</div>
-                <div>• Check-out: até 11h.</div>
+                <div>• Check-in: a partir das 13h.</div>
+                <div>• Check-out: até 12h.</div>
                 <div>• A chave do quarto é retirada na recepção.</div>
               </div>
               <a href="/" className="inline-block mt-4 text-sm underline opacity-90 hover:opacity-100">Voltar ao site</a>
@@ -631,9 +631,7 @@ function AmenitiesAndRules() {
               "Wi-Fi gratuito",
               "Quartos para famílias",
               "Quartos para não fumantes",
-              "Serviço de quarto",
-              "Transfer (aeroporto)",
-              "Café da manhã fantástico",
+              "Café da manhã incluso",
             ].map((a) => (
               <li key={a} className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 shrink-0" />
@@ -667,8 +665,8 @@ function AmenitiesAndRules() {
           </Rule>
           <Rule title="Restrições de idade"><p>A idade mínima para check-in é 18 anos.</p></Rule>
           <Rule title="Pets"><p>Pets não são permitidos.</p></Rule>
-          <Rule title="Pagamento"><p>Cartões aceitos na propriedade. Dinheiro não é aceito.</p></Rule>
-          <Rule title="Festas"><p>Festas e eventos não são permitidos.</p></Rule>
+          <Rule title="Pagamento"><p>PIX, cartão de crédito, cartão de débito e dinheiro.</p></Rule>
+          <Rule title="Festas"><p>Recebemos grupos e eventos mediante combinação prévia — fale com a recepção para condições especiais.</p></Rule>
           <Rule title="Horário de silêncio"><p>Os hóspedes devem fazer silêncio entre 22:00 e 09:00.</p></Rule>
         </CardContent>
       </Card>

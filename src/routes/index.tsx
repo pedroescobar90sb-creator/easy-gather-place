@@ -387,7 +387,7 @@ function HomePage() {
           </p>
 
           <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
-            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> Nota 9,2 em 204 avaliações reais</li>
+            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> Nota 9,2 no Booking · 204 avaliações reais</li>
             <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
             <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
           </ul>
@@ -501,7 +501,7 @@ function HomePage() {
         <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Avaliações reais</p>
-            <h2 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Nota 9,2 — Fantástico.</h2>
+            <h2 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Nota 9,2 no Booking — Fantástico.</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               <strong className="text-foreground">204 avaliações reais</strong> de hóspedes — famílias, casais e grupos que já se hospedaram conosco.
             </p>
@@ -800,7 +800,7 @@ function HomePage() {
               <WhatsAppIcon className="h-4 w-4" />
               Reservar com vista pra piscina
             </a>
-            <span className="text-sm text-muted-foreground">Café da manhã incluso · A 800m da praia</span>
+            <span className="text-sm text-muted-foreground">Café da manhã incluso · A 450m da praia</span>
           </div>
         </div>
       </section>
@@ -816,15 +816,15 @@ function HomePage() {
               <span className="italic opacity-90">e Praia do Forte.</span>
             </h2>
             <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
-              Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8. A 800m da praia por caminho asfaltado
+              Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8. A 450 metros da praia por caminho asfaltado
               e a uma curta viagem dos principais destinos do Litoral Norte da Bahia.
             </p>
 
             <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6">
               {[
-                { n: 800, unit: "m", l: "Da praia" },
-                { n: 12, unit: "km", l: "Praia do Forte" },
-                { n: 55, unit: "km", l: "Aeroporto de Salvador" },
+                { n: 450, unit: "m", l: "Da praia" },
+                { n: 18, unit: "km", l: "Praia do Forte" },
+                { n: 60, unit: "km", l: "Aeroporto de Salvador" },
                 { n: 78, unit: "km", l: "Centro de Salvador" },
               ].map((d) => (
                 <div key={d.l} className="border-l-2 border-sand/70 pl-4">

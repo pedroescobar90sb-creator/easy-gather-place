@@ -2,6 +2,7 @@ import { Instagram, MapPin, Phone } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 
 const WHATSAPP =
   "https://api.whatsapp.com/send/?phone=557191263096&text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20na%20Pousada%20Ilha%20do%20Meio.";
@@ -33,6 +34,7 @@ export function SiteFooter() {
                 href={WHATSAPP}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsAppLead("Rodapé - WhatsApp da recepção")}
                 className="group flex items-start gap-2.5 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <WhatsAppIcon className="h-4 w-4 mt-0.5 shrink-0 text-primary" />

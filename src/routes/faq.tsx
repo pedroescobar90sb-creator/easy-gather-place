@@ -31,7 +31,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Qual a distância até a praia?",
-    a: "A Praia da Espera fica pertinho, a poucos passos da pousada. É uma das praias mais tranquilas do litoral norte da Bahia.",
+    a: "A Praia da Espera fica a 450 metros da pousada, por caminho asfaltado. É uma das praias mais tranquilas do litoral norte da Bahia.",
   },
   {
     q: "Qual a distância do Aeroporto de Salvador?",
