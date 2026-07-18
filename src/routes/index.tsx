@@ -208,6 +208,53 @@ const GALLERY_META = [
   { kicker: "04 — Recepção", tags: ["Check-in fácil", "Suporte local", "24h no WhatsApp"] },
 ];
 
+type MosaicItem = { src: string; caption: string; desc: string };
+type MosaicMeta = { kicker: string; tags: string[] };
+
+/** Um tile do mosaico "Quatro ambientes" — cada foto é sua própria entrada clicável pro ambiente correspondente. */
+function MosaicTile({
+  item,
+  meta,
+  anchor,
+  className,
+  compact = false,
+}: {
+  item: MosaicItem;
+  meta: MosaicMeta;
+  anchor: string;
+  className?: string;
+  compact?: boolean;
+}) {
+  return (
+    <Link
+      to="/ambientes"
+      hash={anchor}
+      aria-label={`Ver ${item.caption}`}
+      className={cn(
+        "group relative block overflow-hidden rounded-2xl sm:rounded-3xl bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        className,
+      )}
+    >
+      <img
+        src={item.src}
+        alt={item.desc}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
+      />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
+      <div className={cn("absolute left-3 top-3 sm:left-4 sm:top-4 text-[10px] font-medium uppercase tracking-[0.22em] text-sand", compact && "text-[9px]")}>
+        {meta.kicker}
+      </div>
+      <div className="absolute inset-x-3 bottom-3 sm:inset-x-4 sm:bottom-4 flex items-end justify-between gap-2">
+        <p className={cn("font-display text-white leading-tight", compact ? "text-sm sm:text-base" : "text-xl sm:text-3xl")}>
+          {item.caption}
+        </p>
+        <ChevronRight className={cn("text-white/80 shrink-0 transition-transform group-hover:translate-x-0.5", compact ? "h-3.5 w-3.5" : "h-5 w-5")} aria-hidden />
+      </div>
+    </Link>
+  );
+}
 
 function HomePage() {
   const [showHeader, setShowHeader] = useState(true);
@@ -447,51 +494,14 @@ function HomePage() {
           </div>
 
           <div className="lg:col-span-7">
-            <Link
-              to="/ambientes"
-              aria-label="Acessar todos os ambientes da pousada"
-              className="group relative block w-full overflow-hidden rounded-3xl bg-card aspect-[4/5] sm:aspect-[16/11] focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <img
-                src={GALLERY[0].src}
-                alt="Ambientes da Pousada Ilha do Meio — cabines, varanda em madeira e área de lazer"
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.03]"
-              />
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/5" />
-
-              {/* índice romano lateral */}
-              <div className="absolute left-6 top-6 sm:left-8 sm:top-8 flex flex-col gap-1 text-white/70">
-                {["I", "II", "III", "IV"].map((n, i) => (
-                  <span
-                    key={n}
-                    className={cn(
-                      "font-display text-sm tracking-[0.2em] transition",
-                      i === 0 ? "text-sand" : "opacity-40",
-                    )}
-                  >
-                    {n}
-                  </span>
-                ))}
+            <div className="flex gap-3 sm:gap-4 aspect-[4/5] sm:aspect-[16/11]">
+              <MosaicTile item={GALLERY[0]} meta={GALLERY_META[0]} anchor="suites" className="flex-[3]" />
+              <div className="flex flex-[2] flex-col gap-3 sm:gap-4">
+                <MosaicTile item={GALLERY[1]} meta={GALLERY_META[1]} anchor="piscina" className="flex-1" compact />
+                <MosaicTile item={GALLERY[2]} meta={GALLERY_META[2]} anchor="convivencia" className="flex-1" compact />
+                <MosaicTile item={GALLERY[3]} meta={GALLERY_META[3]} anchor="recepcao" className="flex-1" compact />
               </div>
-
-              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-9 flex items-end justify-between gap-4">
-                <div className="text-white">
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-sand mb-2">Fachada · à noite</p>
-                  <h3
-                    className="font-display text-2xl sm:text-4xl leading-[1.05]"
-                    style={{ textShadow: "0 2px 18px rgba(0,0,0,0.55)" }}
-                  >
-                    Cabines em madeira,<br className="hidden sm:block" /> luz baixa, silêncio.
-                  </h3>
-                </div>
-                <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg transition group-hover:brightness-105 shrink-0">
-                  Ver ambientes
-                  <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-                </span>
-              </div>
-            </Link>
+            </div>
           </div>
         </div>
       </section>
