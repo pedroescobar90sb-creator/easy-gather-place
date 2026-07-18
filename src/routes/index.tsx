@@ -357,11 +357,6 @@ function HomePage() {
             Pousada Ilha do Meio.<br />
             <em className="italic font-normal opacity-95">Perto do mar.</em>
           </h1>
-          <p className="mt-5 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed">
-            Cabines de madeira entre coqueiros, piscina iluminada até tarde e recepção
-            dedicada pelo WhatsApp antes, durante e depois da sua estadia.
-          </p>
-
           <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-sm text-white">
             <span className="text-xs uppercase tracking-[0.2em] text-white/70">Diárias</span>
             <span className="font-display text-lg leading-none">a partir de R$ 400</span>
