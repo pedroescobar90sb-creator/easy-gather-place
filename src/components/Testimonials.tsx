@@ -81,14 +81,22 @@ export function Testimonials() {
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${palmBg1})` }}
       />
-      <div aria-hidden className="absolute inset-0 bg-card/92" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/38 to-black/62" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
       <div className="relative mx-auto max-w-5xl px-4 py-16 sm:py-24">
         <div className="text-center max-w-2xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Depoimentos</p>
-          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05]">
+          <p className="text-xs uppercase tracking-[0.22em] text-sand font-medium">Depoimentos</p>
+          <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.05] text-white">
             Quem viveu a experiência Pousada Ilha do Meio recomenda.
           </h2>
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-4 text-white/80">
             Relatos reais de hóspedes que escolheram a pousada e compartilharam suas impressões.
             Uma forma honesta de conhecer a experiência antes de reservar a sua estadia.
           </p>
@@ -99,7 +107,7 @@ export function Testimonials() {
             <div className="flex">
               {TESTIMONIALS.map((t) => (
                 <div key={t.name} className="min-w-0 shrink-0 grow-0 basis-full px-2 sm:px-6">
-                  <article className="relative mx-auto max-w-2xl rounded-3xl border border-border/60 bg-background p-7 sm:p-10 shadow-sm">
+                  <article className="relative mx-auto max-w-2xl rounded-3xl border border-border/60 bg-background p-7 sm:p-10 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)]">
                     <Quote className="absolute top-6 right-6 h-8 w-8 text-primary/15" aria-hidden />
                     <div className="flex items-center gap-4">
                       <img
