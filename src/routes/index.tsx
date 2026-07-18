@@ -566,60 +566,65 @@ function HomePage() {
       </section>
 
       {/* LAZER — SALÃO DE JOGOS */}
-      <section id="lazer" className="bg-card border-y border-border/60">
+      <section id="lazer" className="bg-card border-y border-border/60 overflow-hidden">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II — Lazer</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
-              Bilhar, quiosque, rede.<br />
-              <span className="italic opacity-90">Tudo a três passos do quarto.</span>
-            </h2>
-          </div>
-
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 items-center">
-            <figure className="md:col-span-3 relative overflow-hidden rounded-3xl bg-background aspect-[4/5] ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)]">
-              <InlineCarousel
-                items={[
-                  { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
-                  { src: salaoJogos, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
-                  { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
-                ]}
-              />
-            </figure>
-            <div className="md:col-span-2">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">O que rola por aqui</p>
-              <h3 className="mt-2 font-display text-2xl sm:text-3xl leading-[1.1]">Uma mesa de sinuca, um pebolim e a noite inteira pela frente.</h3>
-              <p className="mt-3 text-muted-foreground leading-relaxed">
-                O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos — espaço pensado para quem quer relaxar entre um passeio e outro, com clima leve e descontraído.
+          <div className="max-w-2xl flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II — Lazer</p>
+              <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+                Bilhar, quiosque, rede.<br />
+                <span className="italic opacity-90">Tudo a três passos do quarto.</span>
+              </h2>
+              <p className="mt-4 text-muted-foreground leading-relaxed max-w-md">
+                O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos — espaço pensado para relaxar entre um passeio e outro, com clima leve e descontraído.
               </p>
-              <ul className="mt-5 space-y-3 text-sm text-foreground/90">
-                <li className="flex items-start gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
-                    <Gamepad2 className="h-4.5 w-4.5" strokeWidth={1.8} />
-                  </span>
-                  <span className="pt-1.5">Sinuca, pebolim e jogos de mesa</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
-                    <Users className="h-4.5 w-4.5" strokeWidth={1.8} />
-                  </span>
-                  <span className="pt-1.5">Ambiente reservado para hóspedes</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
-                    <Sunset className="h-4.5 w-4.5" strokeWidth={1.8} />
-                  </span>
-                  <span className="pt-1.5">Ideal para finais de tarde e noites</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
-                    <Sofa className="h-4.5 w-4.5" strokeWidth={1.8} />
-                  </span>
-                  <span className="pt-1.5">Próximo à área de convivência</span>
-                </li>
-              </ul>
             </div>
           </div>
+        </div>
+
+        {/* Filmstrip horizontal — arraste pro lado */}
+        <div className="mt-10 flex gap-4 overflow-x-auto pb-6 pl-4 sm:pl-[max(1rem,calc((100vw-72rem)/2+1rem))] pr-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {[
+            { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
+            { src: salaoJogos, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
+            { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
+          ].map((photo) => (
+            <figure
+              key={photo.src}
+              className="relative shrink-0 w-[78vw] sm:w-[420px] aspect-[4/5] overflow-hidden rounded-3xl bg-background ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] snap-center"
+            >
+              <img
+                src={photo.src}
+                alt={photo.desc}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <figcaption className="absolute bottom-4 left-4 right-4 font-display text-lg text-white">
+                {photo.caption}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <div className="mx-auto max-w-6xl px-4">
+          <ul className="flex flex-wrap gap-3 text-sm text-foreground/90">
+            {[
+              { icon: Gamepad2, label: "Sinuca, pebolim e jogos de mesa" },
+              { icon: Users, label: "Ambiente reservado para hóspedes" },
+              { icon: Sunset, label: "Ideal para finais de tarde e noites" },
+              { icon: Sofa, label: "Próximo à área de convivência" },
+            ].map(({ icon: Icon, label }) => (
+              <li
+                key={label}
+                className="inline-flex items-center gap-2.5 rounded-full border border-border/60 bg-background px-4 py-2.5"
+              >
+                <Icon className="h-4 w-4 text-primary shrink-0" strokeWidth={1.8} />
+                {label}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
