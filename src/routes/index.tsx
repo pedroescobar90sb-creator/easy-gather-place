@@ -21,6 +21,7 @@ import recepcaoDia from "@/assets/recepcao-noite-1.webp";
 import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
+import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
 import piscinaHero from "@/assets/piscina-hero-clean.webp";
 import piscinaVistaCompleta from "@/assets/piscina-deck-espreguicadeiras.jpg";
 import piscinaEspreguicadeiras from "@/assets/piscina-azul-detalhe.jpg";
@@ -253,6 +254,89 @@ function MosaicTile({
         <ChevronRight className={cn("text-white/80 shrink-0 transition-transform group-hover:translate-x-0.5", compact ? "h-3.5 w-3.5" : "h-5 w-5")} aria-hidden />
       </div>
     </Link>
+  );
+}
+
+/** Seção da piscina com alternância dia/noite — toggle por toque (não por hover, que não existe em touch). */
+function PiscinaSection() {
+  const [time, setTime] = useState<"dia" | "noite">("dia");
+  const DETAILS = [
+    { src: piscinaVistaCompleta, caption: "Vista completa" },
+    { src: piscinaEspreguicadeiras, caption: "Espreguiçadeiras" },
+    { src: piscinaMesaJardim, caption: "Área de estar" },
+  ];
+  return (
+    <section className="bg-background">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div className="max-w-xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV — Piscina</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
+              Um mergulho de água azul<br />
+              <span className="italic opacity-90">à sombra dos coqueiros.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
+              Aberta o dia todo, iluminada até tarde da noite — deck em madeira e vista aberta pro verde ao redor.
+            </p>
+          </div>
+
+          <div className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border/60 bg-card p-1">
+            {(["dia", "noite"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTime(t)}
+                className={cn(
+                  "rounded-full px-5 py-2 text-sm font-semibold capitalize transition",
+                  time === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <figure className="mt-8 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/5] sm:aspect-[16/10]">
+          <img
+            src={piscinaHero}
+            alt="Piscina da Pousada Ilha do Meio durante o dia"
+            className={cn("absolute inset-0 h-full w-full object-cover object-[50%_72%] transition-opacity duration-700", time === "dia" ? "opacity-100" : "opacity-0")}
+          />
+          <img
+            src={piscinaNoitePergola}
+            alt="Piscina da Pousada Ilha do Meio iluminada à noite"
+            className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700", time === "noite" ? "opacity-100" : "opacity-0")}
+          />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <figcaption className="absolute bottom-4 left-4 text-sm font-medium uppercase tracking-[0.18em] text-white">
+            {time === "dia" ? "Piscina · dia" : "Piscina · noite"}
+          </figcaption>
+        </figure>
+
+        <div className="mt-4 grid grid-cols-3 gap-4">
+          {DETAILS.map((d) => (
+            <figure key={d.src} className="relative overflow-hidden rounded-xl aspect-square ring-1 ring-border/60">
+              <img src={d.src} alt={d.caption} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+            </figure>
+          ))}
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <a
+            href={wa("Olá! Quero reservar na Pousada Ilha do Meio com vista pra piscina. Pode me passar disponibilidade e valores?")}
+            target="_blank"
+            rel="noopener"
+            onClick={() => trackWhatsAppLead("Reservar com vista pra piscina")}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-6 py-3 text-sm font-semibold transition"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            Reservar com vista pra piscina
+          </a>
+          <span className="text-sm text-muted-foreground">Café da manhã incluso · A 450m da praia</span>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -774,51 +858,8 @@ function HomePage() {
 
       </section>
 
-      {/* PISCINA */}
-      <section className="bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV — Piscina</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
-              Um mergulho de água azul<br />
-              <span className="italic opacity-90">à sombra dos coqueiros.</span>
-            </h2>
-            <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
-              Deck em madeira, espreguiçadeiras e vista aberta pro verde ao redor.
-              Aberta o dia todo — perfeita pra um mergulho refrescante entre um passeio e outro.
-            </p>
-          </div>
-
-          <figure className="mt-10 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/5] sm:aspect-[16/10]">
-            <InlineCarousel
-              items={[
-                { src: piscinaHero, caption: "Piscina da Pousada Ilha do Meio", desc: "Água azul, deck de madeira e coqueiros — o cartão-postal da pousada." },
-                { src: piscinaVistaCompleta, caption: "Piscina · Vista completa", desc: "Piscina à sombra dos coqueiros, com pergolado e área de estar ao lado." },
-                { src: piscinaEspreguicadeiras, caption: "Piscina · Espreguiçadeiras", desc: "Fileira de espreguiçadeiras em madeira de frente para o verde e os coqueiros." },
-                { src: piscinaMesaJardim, caption: "Piscina · Área de estar", desc: "Mesa e cadeiras à beira da piscina, perfeita pra relaxar depois do mergulho." },
-              ]}
-              imgClassName="object-[50%_72%]"
-              autoPlay
-            />
-          </figure>
-
-
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href={wa("Olá! Quero reservar na Pousada Ilha do Meio com vista pra piscina. Pode me passar disponibilidade e valores?")}
-              target="_blank"
-              rel="noopener"
-              onClick={() => trackWhatsAppLead("Reservar com vista pra piscina")}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-6 py-3 text-sm font-semibold transition"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              Reservar com vista pra piscina
-            </a>
-            <span className="text-sm text-muted-foreground">Café da manhã incluso · A 450m da praia</span>
-          </div>
-        </div>
-      </section>
+      {/* PISCINA — comparativo dia/noite */}
+      <PiscinaSection />
 
       {/* LOCALIZAÇÃO */}
 
