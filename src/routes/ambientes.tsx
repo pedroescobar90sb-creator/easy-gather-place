@@ -176,14 +176,41 @@ function AmbientesPage() {
     <div className="min-h-screen bg-background text-foreground antialiased">
       <SiteHeader />
       <HeroAmbientes />
+      <TabNav />
       <main>
-        {AMBIENTES.map((a, idx) => (
-          <AmbienteBlock key={a.id} ambiente={a} reversed={idx % 2 === 1} />
+        {AMBIENTES.map((a) => (
+          <AmbienteBlock key={a.id} ambiente={a} />
         ))}
       </main>
       <CTAReserva />
       <SiteFooter />
     </div>
+  );
+}
+
+/* ---------------------------------------- */
+/* Navegação fixa por abas                   */
+/* ---------------------------------------- */
+
+function TabNav() {
+  return (
+    <nav
+      aria-label="Navegar por ambiente"
+      className="sticky top-[65px] sm:top-[73px] z-30 border-b border-border/50 bg-background/90 backdrop-blur-md"
+    >
+      <div className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 py-2 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
+        {AMBIENTES.map((a) => (
+          <a
+            key={a.id}
+            href={`#${a.id}`}
+            className="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-foreground/70 transition hover:bg-accent hover:text-foreground"
+          >
+            <span className="text-[10px] font-semibold tracking-[0.2em] text-primary">{a.index}</span>
+            {a.title}
+          </a>
+        ))}
+      </div>
+    </nav>
   );
 }
 
@@ -268,8 +295,8 @@ function HeroAmbientes() {
 /* Bloco de ambiente (uma única Lightbox)    */
 /* ---------------------------------------- */
 
-function AmbienteBlock({ ambiente, reversed }: { ambiente: Ambiente; reversed: boolean }) {
-  const { id, index, title, subtitle, description, cover, gallery, amenities } = ambiente;
+function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
+  const { id, index, title, subtitle, description, gallery, amenities } = ambiente;
   const [openIndex, setOpenIndex] = React.useState<number | null>(null);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
 
@@ -283,68 +310,89 @@ function AmbienteBlock({ ambiente, reversed }: { ambiente: Ambiente; reversed: b
     if (idx === null) triggerRef.current?.focus?.();
   }, []);
 
-  const thumbs = gallery.slice(1, 5);
+  const isSmallSet = gallery.length <= 2;
+  // 1 tile grande + 4 pequenos preenche a grade 2x2 sem sobras; fotos extras seguem
+  // acessíveis pela lightbox (setas), sem precisar de um tile visível pra cada uma.
+  const tiles = isSmallSet ? gallery : gallery.slice(0, 5);
 
   return (
-    <section id={id} className="scroll-mt-20 border-b border-border/40">
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+    <section id={id} className="scroll-mt-32 border-b border-border/40">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+        {/* Mosaico de fotos — foco visual do bloco */}
         <div
           className={cn(
-            "grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12",
-            reversed && "lg:[&>*:first-child]:order-2",
+            "grid grid-cols-2 gap-2.5 sm:gap-3",
+            isSmallSet
+              ? "auto-rows-[220px] sm:auto-rows-[340px]"
+              : "auto-rows-[130px] sm:grid-cols-4 sm:auto-rows-[170px]",
           )}
         >
-          {/* Cover clicável */}
-          <div className="lg:col-span-7">
+          {tiles.map((g, i) => (
             <button
+              key={g.src}
               type="button"
-              onClick={(e) => open(0, e.currentTarget)}
-              aria-label={`Abrir galeria de ${title}`}
-              className="group relative block aspect-[4/3] w-full overflow-hidden rounded-2xl bg-card transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:aspect-[16/10] sm:rounded-3xl"
+              onClick={(e) => open(i, e.currentTarget)}
+              aria-label={`Abrir ${g.caption}`}
+              className={cn(
+                "group relative block overflow-hidden rounded-2xl bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:rounded-3xl",
+                !isSmallSet && i === 0 && "col-span-2 row-span-2",
+              )}
             >
               <img
-                src={cover}
-                alt={`${title} — ${subtitle}`}
+                src={g.src}
+                alt={g.desc}
                 loading="lazy"
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.03]"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
               />
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute left-4 top-4 sm:left-5 sm:top-5">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.24em] text-white ring-1 ring-white/20 backdrop-blur-md sm:text-[11px]">
-                  <span className="text-primary/90">{index}</span>
-                  {title}
-                </span>
-              </div>
-              <div className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-semibold text-foreground shadow-lg transition group-hover:brightness-105 sm:bottom-5 sm:right-5 sm:text-sm">
-                <Expand className="h-4 w-4" aria-hidden />
-                Ver {gallery.length} fotos
-              </div>
+              <div
+                aria-hidden
+                className="absolute inset-0 ring-1 ring-inset ring-white/10 transition group-hover:ring-white/25"
+              />
+              {i === 0 && (
+                <>
+                  <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute left-3 top-3 sm:left-4 sm:top-4">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.24em] text-white ring-1 ring-white/20 backdrop-blur-md sm:text-[11px]">
+                      <span className="text-primary/90">{index}</span>
+                      {title}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-semibold text-foreground shadow-lg transition group-hover:brightness-105 sm:bottom-4 sm:right-4 sm:text-xs">
+                    <Expand className="h-3.5 w-3.5" aria-hidden />
+                    Ver {gallery.length} fotos
+                  </div>
+                </>
+              )}
             </button>
-          </div>
+          ))}
+        </div>
 
-          {/* Conteúdo */}
-          <div className="lg:col-span-5">
+        {/* Legenda: texto compacto + amenidades + CTA */}
+        <div className="mt-6 grid gap-6 sm:mt-8 sm:grid-cols-[1.3fr_1fr] sm:gap-10">
+          <div>
             <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary">
               {index} — {title}
             </p>
-            <h2 className="mt-3 font-display text-3xl leading-[1.05] sm:text-4xl">{title}</h2>
-            <p className="mt-2 text-sm uppercase tracking-[0.18em] text-muted-foreground/90">{subtitle}</p>
-            <p className="mt-5 text-base leading-relaxed text-foreground/85">{description}</p>
+            <h2 className="mt-2 font-display text-2xl leading-[1.05] sm:text-3xl">{title}</h2>
+            <p className="mt-1 text-xs uppercase tracking-[0.16em] text-muted-foreground/90">{subtitle}</p>
+            <p className="mt-3 text-sm leading-relaxed text-foreground/80 sm:text-base">{description}</p>
+          </div>
 
-            <ul className="mt-6 grid grid-cols-2 gap-2.5" aria-label={`Detalhes de ${title}`}>
+          <div>
+            <ul className="flex flex-wrap gap-2" aria-label={`Detalhes de ${title}`}>
               {amenities.map(({ icon: Icon, label }) => (
                 <li
                   key={label}
-                  className="inline-flex items-center gap-2 rounded-xl border border-border/60 bg-card px-3 py-2.5 text-sm text-foreground/90"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card px-3 py-1.5 text-xs text-foreground/90 sm:text-sm"
                 >
-                  <Icon className="h-4 w-4 shrink-0 text-primary" />
-                  <span className="truncate">{label}</span>
+                  <Icon className="h-3.5 w-3.5 shrink-0 text-primary" />
+                  {label}
                 </li>
               ))}
             </ul>
 
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={(e) => open(0, e.currentTarget)}
@@ -364,37 +412,6 @@ function AmbienteBlock({ ambiente, reversed }: { ambiente: Ambiente; reversed: b
                 Reservar
               </a>
             </div>
-
-            {thumbs.length > 0 && (
-              <div className="mt-8">
-                <p className="mb-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                  Mais fotos
-                </p>
-                <div className="grid grid-cols-4 gap-2">
-                  {thumbs.map((g, i) => (
-                    <button
-                      key={g.src}
-                      type="button"
-                      onClick={(e) => open(i + 1, e.currentTarget)}
-                      aria-label={`Abrir ${g.caption}`}
-                      className="group relative block aspect-square w-full overflow-hidden rounded-lg bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    >
-                      <img
-                        src={g.src}
-                        alt={g.caption}
-                        loading="lazy"
-                        decoding="async"
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
-                      />
-                      <div
-                        aria-hidden
-                        className="absolute inset-0 ring-1 ring-inset ring-white/10 transition group-hover:ring-white/25"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
