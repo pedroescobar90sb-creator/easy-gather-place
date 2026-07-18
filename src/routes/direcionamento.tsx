@@ -58,15 +58,10 @@ function DirecionamentoPage() {
         <img
           src={logoHd}
           alt="Pousada Ilha do Meio · Itacimirim"
-          className="mt-4 h-24 sm:h-32 w-auto object-contain drop-shadow-[0_8px_30px_rgba(0,0,0,0.45)]"
+          className="mt-4 h-28 sm:h-36 w-auto object-contain drop-shadow-[0_8px_30px_rgba(0,0,0,0.45)]"
         />
 
-        <p className="mt-4 max-w-sm text-sm sm:text-base text-white/85 leading-snug">
-          Cabines de madeira entre coqueiros, piscina iluminada até tarde e recepção
-          dedicada — a 5 minutos do mar.
-        </p>
-
-        <div className="mt-5 flex w-full max-w-xs flex-col gap-2.5">
+        <div className="mt-8 flex w-full max-w-xs flex-col gap-2.5">
           <a
             href={WHATSAPP}
             target="_blank"
