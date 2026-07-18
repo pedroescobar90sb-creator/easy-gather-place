@@ -17,11 +17,11 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 
 import heroPousada from "@/assets/pousada-0.jpg";
 
-import recepcaoDia from "@/assets/recepcao-noite-1.png";
-import quiosqueJardim from "@/assets/quiosque-jardim.jpg";
+import recepcaoDia from "@/assets/recepcao-noite-1.webp";
+import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
-import piscinaHero from "@/assets/piscina-hero-clean.jpg";
+import piscinaHero from "@/assets/piscina-hero-clean.webp";
 import piscinaVistaCompleta from "@/assets/piscina-deck-espreguicadeiras.jpg";
 import piscinaEspreguicadeiras from "@/assets/piscina-azul-detalhe.jpg";
 import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
@@ -33,15 +33,15 @@ import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
 import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg";
-import quartoQuadruplo from "@/assets/quarto-quadruplo-1.png";
-import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.png";
-import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.png";
+import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
+import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.webp";
+import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.webp";
 import quartoTriplo1 from "@/assets/quarto-triplo-1.jpg";
 import quartoTriplo2 from "@/assets/quarto-triplo-2.jpg";
 import quartoTriploVaranda from "@/assets/quarto-triplo-varanda.jpg";
 import quartoTriploVista from "@/assets/quarto-triplo-vista-piscina.jpg";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
-import palmBg2 from "@/assets/palm-bg-2.jpg";
+import palmBg2 from "@/assets/palm-bg-2.webp";
 
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");

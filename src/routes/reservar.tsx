@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { SiteFooter } from "@/components/SiteFooter";
 import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
+import { trackGoogleAdsPurchase } from "@/lib/google-ads";
 
 export const Route = createFileRoute("/reservar")({
   head: () => ({
@@ -209,6 +210,7 @@ function BookingEngine() {
       }
       const purchaseEventId = newMetaEventId();
       metaTrack("Purchase", { value: total, currency: "BRL" }, purchaseEventId);
+      trackGoogleAdsPurchase(total);
       sendMetaCapiEvent({
         data: {
           eventName: "Purchase",
@@ -467,7 +469,18 @@ function BookingEngine() {
                 className="w-full h-14 text-base font-semibold tracking-wide"
                 disabled={!datesValid || nights < 1}
                 onClick={() => {
-                  metaTrack("InitiateCheckout", { currency: "BRL", num_items: nights });
+                  const checkoutEventId = newMetaEventId();
+                  metaTrack("InitiateCheckout", { currency: "BRL", num_items: nights }, checkoutEventId);
+                  sendMetaCapiEvent({
+                    data: {
+                      eventName: "InitiateCheckout",
+                      eventId: checkoutEventId,
+                      eventSourceUrl: typeof window !== "undefined" ? window.location.href : "",
+                      currency: "BRL",
+                      fbp: getFbCookie("_fbp"),
+                      fbc: getFbCookie("_fbc"),
+                    },
+                  }).catch((err) => console.warn("[reservar] meta capi falhou", err));
                   setStep(2);
                   if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
                 }}

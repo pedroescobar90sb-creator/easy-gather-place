@@ -1,4 +1,4 @@
-import logoAsset from "@/assets/logo-ilha-do-meio-transparent.png";
+import logoAsset from "@/assets/logo-ilha-do-meio-transparent.webp";
 
 type LogoProps = { className?: string; showText?: boolean };
 
