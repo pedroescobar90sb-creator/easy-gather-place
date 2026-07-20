@@ -4,9 +4,9 @@ import { LegalPageLayout, LegalSection } from "@/components/LegalPageLayout";
 export const Route = createFileRoute("/termos")({
   head: () => ({
     meta: [
-      { title: "Termos de Uso — Pousada Ilha do Meio" },
+      { title: "Termos de Uso · Pousada Ilha do Meio" },
       { name: "description", content: "Termos de uso do site oficial da Pousada Ilha do Meio em Itacimirim, Bahia." },
-      { property: "og:title", content: "Termos de Uso — Pousada Ilha do Meio" },
+      { property: "og:title", content: "Termos de Uso · Pousada Ilha do Meio" },
       { property: "og:description", content: "Condições de uso do site oficial da Pousada Ilha do Meio." },
       { property: "og:url", content: "https://pousadailhadomeio.com.br/termos" },
       { property: "og:type", content: "website" },
@@ -67,7 +67,7 @@ function TermsPage() {
 
       <LegalSection title="8. Foro">
         <p>
-          Fica eleito o foro da Comarca de Camaçari — Bahia para dirimir quaisquer questões oriundas destes Termos, com renúncia a qualquer outro, por mais privilegiado que seja.
+          Fica eleito o foro da Comarca de Camaçari, Bahia, para dirimir quaisquer questões oriundas destes Termos, com renúncia a qualquer outro, por mais privilegiado que seja.
         </p>
       </LegalSection>
     </LegalPageLayout>

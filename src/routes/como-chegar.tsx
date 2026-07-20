@@ -15,13 +15,13 @@ const WHATSAPP =
 export const Route = createFileRoute("/como-chegar")({
   head: () => ({
     meta: [
-      { title: "Como chegar — Pousada Ilha do Meio · Itacimirim, Bahia" },
+      { title: "Como chegar · Pousada Ilha do Meio · Itacimirim, Bahia" },
       {
         name: "description",
         content:
           "Como chegar à Pousada Ilha do Meio em Itacimirim, Bahia. A 50 min do Aeroporto de Salvador, entre Guarajuba e Praia do Forte. Rotas por Google Maps e Waze.",
       },
-      { property: "og:title", content: "Como chegar — Pousada Ilha do Meio" },
+      { property: "og:title", content: "Como chegar · Pousada Ilha do Meio" },
       {
         property: "og:description",
         content:
@@ -89,7 +89,7 @@ function ComoChegarPage() {
             Como chegar à pousada.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            A Pousada Ilha do Meio fica em <strong className="text-foreground">Itacimirim, Camaçari — Bahia</strong>,
+            A Pousada Ilha do Meio fica em <strong className="text-foreground">Itacimirim, Camaçari, Bahia</strong>,
             entre Guarajuba e Praia do Forte, a 450 metros da Praia da Espera.
           </p>
 

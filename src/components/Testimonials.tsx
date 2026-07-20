@@ -24,7 +24,7 @@ const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     photo: avatarLaura,
     quote:
-      "O ambiente incrivelmente agradável e super acolhedor, igualmente ao atendimento excelente que tivemos. Todos foram muito cuidadosos, deram o maior suporte para nossa família e principalmente para o nosso avô — até prepararam refeições deliciosas e mais apropriadas para ele. A experiência foi incrível.",
+      "O ambiente incrivelmente agradável e super acolhedor, igualmente ao atendimento excelente que tivemos. Todos foram muito cuidadosos, deram o maior suporte para nossa família e principalmente para o nosso avô. Até prepararam refeições deliciosas e mais apropriadas para ele. A experiência foi incrível.",
   },
   {
     name: "Juliana Amaro",
@@ -32,7 +32,7 @@ const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     photo: avatarJuliana,
     quote:
-      "A pousada é muito linda, com área verde, uma vista incrível e uma piscina maravilhosa. Quartos amplos tanto para casal como para família com filhos, e o café maravilhoso que não perde para nenhum resort. As funcionárias são carismáticas, cuidadosas e atenciosas demais. Ambiente familiar e acolhedor — pretendo me hospedar mais vezes.",
+      "A pousada é muito linda, com área verde, uma vista incrível e uma piscina maravilhosa. Quartos amplos tanto para casal como para família com filhos, e o café maravilhoso que não perde para nenhum resort. As funcionárias são carismáticas, cuidadosas e atenciosas demais. Ambiente familiar e acolhedor, pretendo me hospedar mais vezes.",
   },
   {
     name: "David Moisés",
@@ -48,7 +48,7 @@ const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     photo: avatarCintia,
     quote:
-      "Ambiente tranquilo, ideal para descansar com a família. Quartos, serviço e localização nota máxima — voltaríamos com certeza.",
+      "Ambiente tranquilo, ideal para descansar com a família. Quartos, serviço e localização nota máxima, voltaríamos com certeza.",
   },
   {
     name: "Fátima Barbosa",
