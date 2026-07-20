@@ -65,6 +65,40 @@ function GrainOverlay() {
   );
 }
 
+/**
+ * Revela um bloco com fade + leve subida ao entrar na tela durante o scroll, uma vez
+ * só. Devolve ref+className pra colar no elemento existente (em vez de embrulhar em
+ * outro nó), então não muda nenhuma estrutura de grid/posicionamento já existente.
+ * transform+opacity rodam na GPU (sem travar a 60fps) e já respeitam "reduzir
+ * movimento" via a regra global em styles.css.
+ */
+function useReveal<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return {
+    ref,
+    revealClass: cn(
+      "transition-[opacity,transform] duration-700 ease-out will-change-[opacity,transform]",
+      shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
+    ),
+  };
+}
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -399,6 +433,16 @@ function HomePage() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const revealTrust = useReveal<HTMLDivElement>();
+  const revealPousada = useReveal<HTMLDivElement>();
+  const revealAvaliacoes = useReveal<HTMLDivElement>();
+  const revealLazer = useReveal<HTMLDivElement>();
+  const revealAcomodacoes = useReveal<HTMLDivElement>();
+  const revealLocalizacao = useReveal<HTMLDivElement>();
+  const revealReservar = useReveal<HTMLDivElement>();
+  const revealFaq = useReveal<HTMLDivElement>();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* ANNOUNCEMENT BAR */}
@@ -582,7 +626,7 @@ function HomePage() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
         <GrainOverlay />
 
-        <div className="relative mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3">
+        <div ref={revealTrust.ref} className={cn(revealTrust.revealClass, "relative mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3")}>
           {[
             { n: "17", l: "Suítes em madeira" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
@@ -597,7 +641,7 @@ function HomePage() {
       </section>
 
       {/* A POUSADA — apresentação editorial + acesso a /ambientes */}
-      <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+      <section ref={revealPousada.ref} id="galeria" className={cn(revealPousada.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
           <div className="lg:col-span-5">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">A casa</p>
@@ -636,7 +680,7 @@ function HomePage() {
 
       {/* AVALIAÇÕES REAIS */}
       <section id="avaliacoes" className="bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
+        <div ref={revealAvaliacoes.ref} className={cn(revealAvaliacoes.revealClass, "mx-auto max-w-6xl px-4 py-10 sm:py-14")}>
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Avaliações reais</p>
             <h2 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Avaliações reais, sem filtro.</h2>
@@ -705,7 +749,7 @@ function HomePage() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/35 to-black/65" />
         <GrainOverlay />
 
-        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <div ref={revealLazer.ref} className={cn(revealLazer.revealClass, "relative mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II. Lazer</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance text-white">
@@ -771,7 +815,7 @@ function HomePage() {
           style={{ backgroundImage: `url(${palmBg2})` }}
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/68 to-card/85" />
-        <div className="relative mx-auto max-w-6xl px-4 py-14 sm:py-20">
+        <div ref={revealReservar.ref} className={cn(revealReservar.revealClass, "relative mx-auto max-w-6xl px-4 py-14 sm:py-20")}>
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05] text-balance">
@@ -848,7 +892,7 @@ function HomePage() {
       </section>
 
       {/* ACOMODAÇÕES */}
-      <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+      <section ref={revealAcomodacoes.ref} id="acomodacoes" className={cn(revealAcomodacoes.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III. Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
@@ -915,7 +959,7 @@ function HomePage() {
       {/* LOCALIZAÇÃO */}
 
       <section className="bg-card border-y border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
+        <div ref={revealLocalizacao.ref} className={cn(revealLocalizacao.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center")}>
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V. Onde fica</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
@@ -971,7 +1015,7 @@ function HomePage() {
 
       {/* FAQ INLINE */}
       <section id="faq" className="bg-background border-t border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <div ref={revealFaq.ref} className={cn(revealFaq.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">Perguntas frequentes</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
