@@ -212,8 +212,10 @@ function Slide({
       style={{
         opacity: shown ? 1 : 0,
         transform: shown ? "translateX(0) scale(1)" : `translateX(${dir * 56}px) scale(1.02)`,
-        filter: shown ? "blur(0px)" : "blur(4px)",
-        transition: `opacity 480ms ${EASE}, transform 480ms ${EASE}, filter 480ms ${EASE}`,
+        // Sem filter/blur animado aqui de propósito: blur em transição é caro pro
+        // navegador recalcular a cada frame e é a causa mais comum de travamento
+        // ao abrir foto em celular mais fraco. opacity+transform rodam na GPU sem custo.
+        transition: `opacity 480ms ${EASE}, transform 480ms ${EASE}`,
         willChange: "opacity, transform",
       }}
       onTransitionEnd={(e) => {

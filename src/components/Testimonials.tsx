@@ -74,6 +74,24 @@ export function Testimonials() {
     };
   }, [embla]);
 
+  // Avança sozinho, pausando enquanto a pessoa está arrastando/segurando o carrossel.
+  React.useEffect(() => {
+    if (!embla) return;
+    let timer: number | undefined;
+    const play = () => {
+      timer = window.setInterval(() => embla.scrollNext(), 5000);
+    };
+    const stop = () => window.clearInterval(timer);
+    play();
+    embla.on("pointerDown", stop);
+    embla.on("pointerUp", play);
+    return () => {
+      stop();
+      embla.off("pointerDown", stop);
+      embla.off("pointerUp", play);
+    };
+  }, [embla]);
+
   return (
     <section id="depoimentos" className="relative border-y border-border/60 overflow-hidden">
       <div
