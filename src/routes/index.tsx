@@ -34,6 +34,7 @@ import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
 import quartoDuploAlt2 from "@/assets/quarto-duplo-varanda-hd.jpg";
+import quartoDuploDetalhe from "@/assets/quarto-duplo-detalhe-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.webp";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.webp";
@@ -151,7 +152,7 @@ const ROOMS: RoomCard[] = [
     waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 400/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
       { src: quartoDuplo, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
-      
+      { src: quartoDuploDetalhe, caption: "Quarto Duplo · Outro ângulo", desc: "Cama de casal com TV, ar-condicionado e banheiro privativo." },
       { src: quartoDuploAlt2, caption: "Quarto Duplo · Varanda com vista", desc: "Varanda privativa com rede, vista para o jardim e piscina." },
     ],
   },
