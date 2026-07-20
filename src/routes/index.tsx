@@ -664,28 +664,27 @@ function HomePage() {
       </section>
 
       {/* LAZER — SALÃO DE JOGOS */}
-      <section id="lazer" className="bg-card border-y border-border/60 overflow-hidden">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <div className="flex flex-wrap items-end justify-between gap-8">
-            <div className="max-w-md">
-              <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II. Lazer</p>
-              <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
-                Bilhar, quiosque, rede.<br />
-                <span className="italic opacity-90">Tudo a três passos do quarto.</span>
-              </h2>
-              <p className="mt-4 text-muted-foreground leading-relaxed max-w-md">
-                O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos: espaço pensado para relaxar entre um passeio e outro, com clima leve e descontraído.
-              </p>
-            </div>
-            <div className="w-full sm:w-[380px] lg:w-[440px] aspect-[4/3] rounded-3xl overflow-hidden ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)]">
-              <img
-                src={lazerDrone}
-                alt="Vista aérea da piscina e área verde ao redor da pousada"
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-            </div>
+      <section id="lazer" className="relative isolate overflow-hidden">
+        {/* Wallpaper: vista aérea da piscina, preenche o fundo da seção */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${lazerDrone})` }}
+        />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-black/55" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/35 to-black/65" />
+        <GrainOverlay />
+
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II. Lazer</p>
+            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance text-white">
+              Bilhar, quiosque, rede.<br />
+              <span className="italic opacity-90">Tudo a três passos do quarto.</span>
+            </h2>
+            <p className="mt-4 text-white/80 leading-relaxed max-w-md">
+              O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos: espaço pensado para relaxar entre um passeio e outro, com clima leve e descontraído.
+            </p>
           </div>
         </div>
 
