@@ -28,7 +28,7 @@ import recepcaoNoite2 from "@/assets/recepcao-noite-2.webp";
 import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaHero from "@/assets/piscina-hero-clean.webp";
-import piscinaDeck from "@/assets/piscina-aerea.webp";
+import piscinaDeck from "@/assets/piscina-drone-aerea.jpg";
 import piscinaNoiteArvore from "@/assets/piscina-noite-arvore.webp";
 import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
@@ -94,7 +94,7 @@ const AMBIENTES: Ambiente[] = [
       "Piscina iluminada com deck em madeira, espreguiçadeiras e sombra dos coqueiros. A poucos passos da porta do quarto, perfeita pro fim de tarde.",
     cover: piscinaDeck,
     gallery: [
-      { src: piscinaDeck, caption: "Vista aérea da piscina", desc: "Piscina com deck de madeira cercada pela vegetação nativa." },
+      { src: piscinaDeck, caption: "Vista aérea da piscina", desc: "Vista de drone da piscina, deck de madeira e área de descanso." },
       { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina, deck de madeira e coqueiros ao redor." },
       { src: piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
       { src: piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
