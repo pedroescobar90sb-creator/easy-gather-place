@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation, ChevronRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -272,6 +272,28 @@ function PiscinaSection() {
     if (t === "noite") setNoiteLoaded(true);
     setTime(t);
   };
+  const toggleTime = () => handleTime(time === "dia" ? "noite" : "dia");
+
+  // Troca sozinha entre dia/noite, pausando enquanto o visitante segura/arrasta a foto.
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (paused) return;
+    const t = window.setInterval(toggleTime, 5000);
+    return () => window.clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paused, time]);
+
+  const dragX = useRef<number | null>(null);
+  const onDragStart = (x: number) => {
+    dragX.current = x;
+    setPaused(true);
+  };
+  const onDragEnd = (x: number) => {
+    if (dragX.current !== null && Math.abs(x - dragX.current) > 40) toggleTime();
+    dragX.current = null;
+    setPaused(false);
+  };
+
   const DETAILS = [
     { src: piscinaVistaCompleta, caption: "Vista completa" },
     { src: piscinaEspreguicadeiras, caption: "Espreguiçadeiras" },
@@ -309,7 +331,15 @@ function PiscinaSection() {
           </div>
         </div>
 
-        <figure className="mt-8 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/5] sm:aspect-[16/10]">
+        <figure
+          className="mt-8 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/5] sm:aspect-[16/10] cursor-grab active:cursor-grabbing touch-pan-y select-none"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onMouseDown={(e) => onDragStart(e.clientX)}
+          onMouseUp={(e) => onDragEnd(e.clientX)}
+          onTouchStart={(e) => onDragStart(e.touches[0]?.clientX ?? 0)}
+          onTouchEnd={(e) => onDragEnd(e.changedTouches[0]?.clientX ?? 0)}
+        >
           <img
             src={piscinaHero}
             alt="Piscina da Pousada Ilha do Meio durante o dia"
@@ -838,7 +868,7 @@ function HomePage() {
           {ROOMS.map((r) => (
             <article key={r.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm hover:shadow-xl transition-all duration-500 h-full">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <InlineCarousel items={r.photos} />
+                <InlineCarousel items={r.photos} autoPlay autoPlayInterval={4500} />
               </div>
               <div className="flex flex-col gap-4 p-5 flex-1">
                 <div>
