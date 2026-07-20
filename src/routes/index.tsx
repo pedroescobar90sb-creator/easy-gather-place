@@ -38,6 +38,7 @@ import quartoDuploDetalhe from "@/assets/quarto-duplo-detalhe-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.webp";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.webp";
+import quartoQuadruploDetalhe from "@/assets/quarto-quadruplo-detalhe-hd.jpg";
 import quartoTriplo1 from "@/assets/quarto-triplo-1.jpg";
 import quartoTriplo2 from "@/assets/quarto-triplo-2.jpg";
 import quartoTriploVaranda from "@/assets/quarto-triplo-varanda.jpg";
@@ -182,6 +183,7 @@ const ROOMS: RoomCard[] = [
     photos: [
       { src: quartoQuadruplo, caption: "Quarto Quadruplo · Vista geral", desc: "Pensado para a família toda descansar junto, acomoda 3 ou 4 pessoas." },
       { src: quartoQuadruplo2, caption: "Quarto Quadruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
+      { src: quartoQuadruploDetalhe, caption: "Quarto Quadruplo · Outro ângulo", desc: "Camas com acesso direto à área externa da pousada." },
       { src: quartoQuadruplo3, caption: "Quarto Quadruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
     ],
   },
