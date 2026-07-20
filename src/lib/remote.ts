@@ -1,7 +1,7 @@
 import { supabase as supabaseTyped } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
-// Loose alias for INSERT/UPDATE/DELETE — typing Insert payloads manually
+// Loose alias for INSERT/UPDATE/DELETE · typing Insert payloads manually
 // against zero-config supabase-js helpers is brittle, and we already validate
 // shapes through our mappers.
 const supabase = supabaseTyped as unknown as {

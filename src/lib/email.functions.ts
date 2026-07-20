@@ -17,8 +17,8 @@ const fmtBRL = (n: number) =>
   n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
 
 const CNPJ = "45.688.734/0001-43";
-const ADDRESS_LINE1 = "Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8";
-const ADDRESS_LINE2 = "Itacimirim, Camaçari — BA · CEP 42823-000";
+const ADDRESS_LINE1 = "Rua Sítio Novo, 7 · Loteamento Santa Maria, Lote 8";
+const ADDRESS_LINE2 = "Itacimirim, Camaçari · BA · CEP 42823-000";
 const REPLY_TO = "reservas@pousadailhadomeio.com.br";
 const WHATSAPP_DISPLAY = "+55 71 9126-3096";
 
@@ -27,7 +27,7 @@ export const sendReservationConfirmation = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
-      console.warn("[email] RESEND_API_KEY ausente — skipping send");
+      console.warn("[email] RESEND_API_KEY ausente · skipping send");
       return { ok: false, skipped: true };
     }
 
@@ -80,7 +80,7 @@ export const sendReservationConfirmation = createServerFn({ method: "POST" })
           from: "Pousada Ilha do Meio <onboarding@resend.dev>",
           to: [data.to],
           reply_to: REPLY_TO,
-          subject: `Reserva recebida — ${fmtDate(data.checkIn)} · Pousada Ilha do Meio`,
+          subject: `Reserva recebida · ${fmtDate(data.checkIn)} · Pousada Ilha do Meio`,
           html,
         }),
       });

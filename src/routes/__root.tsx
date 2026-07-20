@@ -49,10 +49,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
+      { title: "Pousada Ilha do Meio · Itacimirim, Bahia · Reserve pelo WhatsApp" },
       { name: "description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
-      { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
-      { name: "twitter:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
+      { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia · Reserve pelo WhatsApp" },
+      { name: "twitter:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia · Reserve pelo WhatsApp" },
       { property: "og:description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { name: "twitter:description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { name: "twitter:card", content: "summary_large_image" },

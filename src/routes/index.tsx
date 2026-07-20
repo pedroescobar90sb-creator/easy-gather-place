@@ -49,7 +49,7 @@ const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a d
 const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
 const GOOGLE_MAPS_URL = "https://www.google.com/maps/place/pousada+ilha+do+meio+bahia/data=!4m2!3m1!1s0x71653f7b2133acd:0x8a9713485778b80e?sa=X&ved=1t:242&ictx=111";
 
-/** Textura de grão sutil pras seções escuras full-bleed — evita o visual "gradiente flat genérico". */
+/** Textura de grão sutil pras seções escuras full-bleed · evita o visual "gradiente flat genérico". */
 const GRAIN_BG =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 function GrainOverlay() {
@@ -66,9 +66,9 @@ function GrainOverlay() {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
+      { title: "Pousada Ilha do Meio · Itacimirim, Bahia · Reserve pelo WhatsApp" },
       { name: "description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
-      { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia — Reserve pelo WhatsApp" },
+      { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia · Reserve pelo WhatsApp" },
       { property: "og:description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { property: "og:image", content: heroPousada },
       { name: "twitter:image", content: heroPousada },
@@ -179,7 +179,7 @@ const ROOMS: RoomCard[] = [
     cta: "Quero reservar o Quarto Quadruplo",
     waMsg: "Olá! Tenho interesse no Quarto Quadruplo (3 ou 4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?",
     photos: [
-      { src: quartoQuadruplo, caption: "Quarto Quadruplo · Vista geral", desc: "Pensado para a família toda descansar junto — acomoda 3 ou 4 pessoas." },
+      { src: quartoQuadruplo, caption: "Quarto Quadruplo · Vista geral", desc: "Pensado para a família toda descansar junto · acomoda 3 ou 4 pessoas." },
       { src: quartoQuadruplo2, caption: "Quarto Quadruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
       { src: quartoQuadruplo3, caption: "Quarto Quadruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
     ],
@@ -203,16 +203,16 @@ const GALLERY = [
 ];
 
 const GALLERY_META = [
-  { kicker: "01 — Suítes", tags: ["Varanda privativa", "Ar-condicionado", "Wi-Fi"] },
-  { kicker: "02 — Piscina", tags: ["Deck de madeira", "Área externa", "Iluminada"] },
-  { kicker: "03 — Convivência", tags: ["Quiosque", "Jardim", "Sombra natural"] },
-  { kicker: "04 — Recepção", tags: ["Check-in fácil", "Suporte local", "24h no WhatsApp"] },
+  { kicker: "01 · Suítes", tags: ["Varanda privativa", "Ar-condicionado", "Wi-Fi"] },
+  { kicker: "02 · Piscina", tags: ["Deck de madeira", "Área externa", "Iluminada"] },
+  { kicker: "03 · Convivência", tags: ["Quiosque", "Jardim", "Sombra natural"] },
+  { kicker: "04 · Recepção", tags: ["Check-in fácil", "Suporte local", "24h no WhatsApp"] },
 ];
 
 type MosaicItem = { src: string; caption: string; desc: string };
 type MosaicMeta = { kicker: string; tags: string[] };
 
-/** Um tile do mosaico "Quatro ambientes" — cada foto é sua própria entrada clicável pro ambiente correspondente. */
+/** Um tile do mosaico "Quatro ambientes" · cada foto é sua própria entrada clicável pro ambiente correspondente. */
 function MosaicTile({
   item,
   meta,
@@ -257,7 +257,7 @@ function MosaicTile({
   );
 }
 
-/** Seção da piscina com alternância dia/noite — toggle por toque (não por hover, que não existe em touch). */
+/** Seção da piscina com alternância dia/noite · toggle por toque (não por hover, que não existe em touch). */
 function PiscinaSection() {
   const [time, setTime] = useState<"dia" | "noite">("dia");
   const DETAILS = [
@@ -270,13 +270,13 @@ function PiscinaSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV — Piscina</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV · Piscina</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Um mergulho de água azul<br />
               <span className="italic opacity-90">à sombra dos coqueiros.</span>
             </h2>
             <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
-              Aberta o dia todo, iluminada até tarde da noite — deck em madeira e vista aberta pro verde ao redor.
+              Aberta o dia todo, iluminada até tarde da noite · deck em madeira e vista aberta pro verde ao redor.
             </p>
           </div>
 
@@ -527,7 +527,7 @@ function HomePage() {
 
       {/* TRUST BAR */}
       <section className="relative isolate overflow-hidden min-h-[280px] sm:min-h-[320px] lg:min-h-[360px]">
-        {/* Wallpaper coqueiros — verde escuro, sem mar */}
+        {/* Wallpaper coqueiros · verde escuro, sem mar */}
         <div
           aria-hidden
           className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
@@ -552,7 +552,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* A POUSADA — apresentação editorial + acesso a /ambientes */}
+      {/* A POUSADA · apresentação editorial + acesso a /ambientes */}
       <section id="galeria" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
           <div className="lg:col-span-5">
@@ -563,7 +563,7 @@ function HomePage() {
             </h2>
             <p className="mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed">
               A Ilha do Meio não é um resort. São 17 suítes em madeira dispostas ao redor de um jardim
-              — piscina, quiosque e salão de jogos separados por poucos passos. Fotografado sem retoque,
+              · piscina, quiosque e salão de jogos separados por poucos passos. Fotografado sem retoque,
               como você vai encontrar.
             </p>
             <Link
@@ -597,7 +597,7 @@ function HomePage() {
             <p className="text-xs uppercase tracking-[0.22em] text-primary font-medium">Avaliações reais</p>
             <h2 className="mt-2 font-display text-2xl sm:text-3xl leading-tight">Avaliações reais, sem filtro.</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              <strong className="text-foreground">204 avaliações reais</strong> de hóspedes — famílias, casais e grupos que já se hospedaram conosco.
+              <strong className="text-foreground">204 avaliações reais</strong> de hóspedes · famílias, casais e grupos que já se hospedaram conosco.
             </p>
           </div>
 
@@ -649,24 +649,24 @@ function HomePage() {
         </div>
       </section>
 
-      {/* LAZER — SALÃO DE JOGOS */}
+      {/* LAZER · SALÃO DE JOGOS */}
       <section id="lazer" className="bg-card border-y border-border/60 overflow-hidden">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II — Lazer</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II · Lazer</p>
               <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
                 Bilhar, quiosque, rede.<br />
                 <span className="italic opacity-90">Tudo a três passos do quarto.</span>
               </h2>
               <p className="mt-4 text-muted-foreground leading-relaxed max-w-md">
-                O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos — espaço pensado para relaxar entre um passeio e outro, com clima leve e descontraído.
+                O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos · espaço pensado para relaxar entre um passeio e outro, com clima leve e descontraído.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Filmstrip horizontal — arraste pro lado */}
+        {/* Filmstrip horizontal · arraste pro lado */}
         <div className="mt-10 flex gap-4 overflow-x-auto pb-6 pl-4 sm:pl-[max(1rem,calc((100vw-72rem)/2+1rem))] pr-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {[
             { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
@@ -712,7 +712,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* RESERVA DIRETA vs BOOKING — economia real */}
+      {/* RESERVA DIRETA vs BOOKING · economia real */}
       <section className="relative border-y border-border/60 overflow-hidden">
         <div
           aria-hidden
@@ -728,7 +728,7 @@ function HomePage() {
               <span className="italic opacity-90">você paga menos.</span>
             </h2>
             <p className="mt-4 text-muted-foreground max-w-xl">
-              As plataformas cobram taxa de serviço em cima de cada diária. Falando direto com a recepção, esse valor volta pra você — sem intermediário e sem surpresas na hora da cobrança.
+              As plataformas cobram taxa de serviço em cima de cada diária. Falando direto com a recepção, esse valor volta pra você · sem intermediário e sem surpresas na hora da cobrança.
             </p>
           </div>
 
@@ -799,7 +799,7 @@ function HomePage() {
       {/* ACOMODAÇÕES */}
       <section id="acomodacoes" className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III — Acomodações</p>
+          <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III · Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
             17 suítes em madeira.<br />
             <span className="italic opacity-90">Três configurações,</span> mesma tranquilidade.
@@ -810,7 +810,7 @@ function HomePage() {
             <span className="text-xs text-muted-foreground">/ noite</span>
           </div>
           <p className="mt-2 text-muted-foreground max-w-xl">
-            Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos — sem cobrança extra. Fale no WhatsApp e veja qual suíte combina com o seu grupo.
+            Ar-condicionado silencioso, TV, frigobar, café da manhã e Wi-Fi em todos os quartos · sem cobrança extra. Fale no WhatsApp e veja qual suíte combina com o seu grupo.
           </p>
         </div>
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:items-stretch max-w-6xl mx-auto">
@@ -858,7 +858,7 @@ function HomePage() {
 
       </section>
 
-      {/* PISCINA — comparativo dia/noite */}
+      {/* PISCINA · comparativo dia/noite */}
       <PiscinaSection />
 
       {/* LOCALIZAÇÃO */}
@@ -866,13 +866,13 @@ function HomePage() {
       <section className="bg-card border-y border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V — Onde fica</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V · Onde fica</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Entre Guarajuba<br />
               <span className="italic opacity-90">e Praia do Forte.</span>
             </h2>
             <p className="mt-4 text-muted-foreground sm:text-lg leading-relaxed">
-              Rua Sítio Novo, 7 — Loteamento Santa Maria, Lote 8. A 450 metros da praia por caminho asfaltado
+              Rua Sítio Novo, 7 · Loteamento Santa Maria, Lote 8. A 450 metros da praia por caminho asfaltado
               e a uma curta viagem dos principais destinos do Litoral Norte da Bahia.
             </p>
 
@@ -928,20 +928,20 @@ function HomePage() {
               <span className="italic opacity-90">tudo o que perguntam.</span>
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Não achou sua dúvida? Fale com a recepção pelo WhatsApp — respondemos em minutos.
+              Não achou sua dúvida? Fale com a recepção pelo WhatsApp · respondemos em minutos.
             </p>
           </div>
 
           <Accordion type="single" collapsible className="mt-8">
             {[
               { q: "Quais formas de pagamento vocês aceitam?", a: "PIX, cartão de crédito, cartão de débito e dinheiro. A recepção envia as instruções de pagamento assim que você confirma as datas pelo WhatsApp." },
-              { q: "Qual a política de cancelamento?", a: "Buscamos flexibilidade sempre que possível. As condições exatas dependem do período e da antecedência da reserva — a recepção informa tudo antes de você confirmar." },
+              { q: "Qual a política de cancelamento?", a: "Buscamos flexibilidade sempre que possível. As condições exatas dependem do período e da antecedência da reserva · a recepção informa tudo antes de você confirmar." },
               { q: "Que horas é o check-in e check-out?", a: "Check-in das 13h às 22h. Check-out das 9h às 12h. Chegando fora do horário? Basta avisar a recepção com antecedência." },
               { q: "Tem estacionamento?", a: "Sim, estacionamento privativo gratuito para hóspedes, sujeito à disponibilidade de vagas." },
-              { q: "O café da manhã está incluso?", a: "Sim, todas as diárias incluem café da manhã completo — frutas, pães, frios, sucos naturais, bolos e itens regionais servidos diariamente." },
+              { q: "O café da manhã está incluso?", a: "Sim, todas as diárias incluem café da manhã completo · frutas, pães, frios, sucos naturais, bolos e itens regionais servidos diariamente." },
               { q: "A pousada aceita pets?", a: "No momento não recebemos animais de estimação, para preservar o conforto de todos os hóspedes." },
-              { q: "Crianças pagam?", a: "Crianças são bem-vindas. As condições variam com a idade e a configuração do quarto — fale com a recepção pra montarmos a melhor acomodação para sua família." },
-              { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local — você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
+              { q: "Crianças pagam?", a: "Crianças são bem-vindas. As condições variam com a idade e a configuração do quarto · fale com a recepção pra montarmos a melhor acomodação para sua família." },
+              { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local · você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
             ].map((item) => (
               <AccordionItem key={item.q} value={item.q} className="border-border/60">
                 <AccordionTrigger className="text-left text-base sm:text-lg font-semibold py-5 hover:no-underline">
@@ -987,7 +987,7 @@ function HomePage() {
             <span className="italic opacity-95">a recepção.</span>
           </h2>
           <p className="mt-5 text-white/85 sm:text-lg max-w-xl mx-auto">
-            Sem intermediário, sem taxa de reserva. Respondemos em minutos pelo WhatsApp — de segunda a segunda.
+            Sem intermediário, sem taxa de reserva. Respondemos em minutos pelo WhatsApp · de segunda a segunda.
           </p>
           <div className="mt-9 flex justify-center">
             <a

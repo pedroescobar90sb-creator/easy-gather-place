@@ -74,8 +74,8 @@ const AMBIENTES: Ambiente[] = [
       { src: quartoDuplo, caption: "Quarto duplo", desc: "Cama de casal, ar-condicionado, TV e frigobar." },
       { src: quartoDuploAlt, caption: "Varanda privativa", desc: "Varanda em madeira, ideal pro café da manhã." },
       { src: quartoQuadruplo, caption: "Quarto quádruplo", desc: "Ideal para famílias e grupos de amigos." },
-      { src: quartoQuadruplo2, caption: "Quarto quádruplo — detalhes", desc: "Espaço amplo, roupa de cama macia." },
-      { src: quartoQuadruplo3, caption: "Quarto quádruplo — vista", desc: "Vista para o jardim da pousada." },
+      { src: quartoQuadruplo2, caption: "Quarto quádruplo · detalhes", desc: "Espaço amplo, roupa de cama macia." },
+      { src: quartoQuadruplo3, caption: "Quarto quádruplo · vista", desc: "Vista para o jardim da pousada." },
     ],
     amenities: [
       { icon: AirVent, label: "Ar-condicionado" },
@@ -91,7 +91,7 @@ const AMBIENTES: Ambiente[] = [
     title: "Piscina & deck",
     subtitle: "Para refrescar sem sair da pousada",
     description:
-      "Piscina iluminada com deck em madeira, espreguiçadeiras e sombra dos coqueiros. A poucos passos da porta do quarto — perfeita pro fim de tarde.",
+      "Piscina iluminada com deck em madeira, espreguiçadeiras e sombra dos coqueiros. A poucos passos da porta do quarto · perfeita pro fim de tarde.",
     cover: piscinaHero,
     gallery: [
       { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina, deck de madeira e coqueiros ao redor." },
@@ -117,7 +117,7 @@ const AMBIENTES: Ambiente[] = [
     gallery: [
       { src: salaoJogos, caption: "Salão de jogos", desc: "Bilhar, mesa e ambiente para todos." },
       { src: salaoJogosBilhar, caption: "Mesa de bilhar", desc: "Diversão garantida em qualquer horário." },
-      { src: salaoJogosMesa, caption: "Salão — mesa central", desc: "Ambiente climatizado e aconchegante." },
+      { src: salaoJogosMesa, caption: "Salão · mesa central", desc: "Ambiente climatizado e aconchegante." },
     ],
     amenities: [
       { icon: UtensilsCrossed, label: "Quiosque" },
@@ -131,7 +131,7 @@ const AMBIENTES: Ambiente[] = [
     title: "Recepção & atendimento",
     subtitle: "Do check-in ao check-out, sem pressa",
     description:
-      "Recepção acolhedora e atendimento local que conhece Itacimirim de verdade. Dicas de praia, restaurantes e passeios — antes mesmo de você chegar.",
+      "Recepção acolhedora e atendimento local que conhece Itacimirim de verdade. Dicas de praia, restaurantes e passeios · antes mesmo de você chegar.",
     cover: recepcaoNoite1,
     gallery: [
       { src: recepcaoNoite1, caption: "Recepção iluminada à noite", desc: "Estrutura de troncos de madeira, luzes quentes e ambiente aconchegante para o check-in." },
@@ -148,17 +148,17 @@ const AMBIENTES: Ambiente[] = [
 export const Route = createFileRoute("/ambientes")({
   head: () => ({
     meta: [
-      { title: "Ambientes — Pousada Ilha do Meio · Itacimirim/BA" },
+      { title: "Ambientes · Pousada Ilha do Meio · Itacimirim/BA" },
       {
         name: "description",
         content:
           "Conheça cada ambiente da Pousada Ilha do Meio em Itacimirim: suítes em madeira, piscina iluminada, área de convivência e recepção acolhedora.",
       },
-      { property: "og:title", content: "Ambientes — Pousada Ilha do Meio" },
+      { property: "og:title", content: "Ambientes · Pousada Ilha do Meio" },
       {
         property: "og:description",
         content:
-          "Um tour completo pelos espaços da pousada — suítes, piscina, convivência e recepção.",
+          "Um tour completo pelos espaços da pousada · suítes, piscina, convivência e recepção.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: PAGE_URL },
@@ -272,7 +272,7 @@ function HeroAmbientes() {
           <br className="hidden sm:block" /> em detalhe.
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Um tour visual pelos espaços da Pousada Ilha do Meio — das suítes em madeira à piscina iluminada. Toque em qualquer imagem para abrir a galeria em tela cheia.
+          Um tour visual pelos espaços da Pousada Ilha do Meio · das suítes em madeira à piscina iluminada. Toque em qualquer imagem para abrir a galeria em tela cheia.
         </p>
         <nav aria-label="Índice de ambientes" className="mt-8 flex flex-wrap gap-2">
           {AMBIENTES.map((a) => (
@@ -318,7 +318,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
   return (
     <section id={id} className="scroll-mt-32 border-b border-border/40">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-        {/* Mosaico de fotos — foco visual do bloco */}
+        {/* Mosaico de fotos · foco visual do bloco */}
         <div
           className={cn(
             "grid grid-cols-2 gap-2.5 sm:gap-3",
@@ -372,7 +372,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
         <div className="mt-6 grid gap-6 sm:mt-8 sm:grid-cols-[1.3fr_1fr] sm:gap-10">
           <div>
             <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary">
-              {index} — {title}
+              {index} · {title}
             </p>
             <h2 className="mt-2 font-display text-2xl leading-[1.05] sm:text-3xl">{title}</h2>
             <p className="mt-1 text-xs uppercase tracking-[0.16em] text-muted-foreground/90">{subtitle}</p>
@@ -416,7 +416,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
         </div>
       </div>
 
-      {/* Lightbox — uma instância por bloco, controlada */}
+      {/* Lightbox · uma instância por bloco, controlada */}
       <GalleryLightbox
         items={gallery}
         openIndex={openIndex}
@@ -433,7 +433,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
 function CTAReserva() {
   return (
     <section className="relative isolate overflow-hidden border-t border-border/40">
-      {/* Wallpaper coqueiros — verde escuro */}
+      {/* Wallpaper coqueiros · verde escuro */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
@@ -450,7 +450,7 @@ function CTAReserva() {
           Sua estadia começa aqui.
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-white/80">
-          Tire dúvidas, veja disponibilidade e reserve direto pelo WhatsApp — falamos com você em minutos.
+          Tire dúvidas, veja disponibilidade e reserve direto pelo WhatsApp · falamos com você em minutos.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a

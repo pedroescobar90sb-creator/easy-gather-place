@@ -34,7 +34,7 @@ export const sendMetaCapiEvent = createServerFn({ method: "POST" })
     const pixelId = process.env.META_PIXEL_ID;
     const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
     if (!pixelId || !accessToken) {
-      console.warn("[meta-capi] META_PIXEL_ID/META_CAPI_ACCESS_TOKEN ausente — skipping send");
+      console.warn("[meta-capi] META_PIXEL_ID/META_CAPI_ACCESS_TOKEN ausente · skipping send");
       return { ok: false, skipped: true };
     }
 
