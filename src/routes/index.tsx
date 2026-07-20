@@ -741,7 +741,7 @@ function HomePage() {
           style={{ backgroundImage: `url(${palmBg2})` }}
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/68 to-card/85" />
-        <div className="relative mx-auto max-w-5xl px-4 py-14 sm:py-20">
+        <div className="relative mx-auto max-w-6xl px-4 py-14 sm:py-20">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-primary font-medium">Reserve direto</p>
             <h2 className="mt-3 font-display text-3xl sm:text-4xl leading-[1.05] text-balance">
@@ -941,7 +941,7 @@ function HomePage() {
 
       {/* FAQ INLINE */}
       <section id="faq" className="bg-background border-t border-border/60">
-        <div className="mx-auto max-w-4xl px-4 py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">Perguntas frequentes</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
