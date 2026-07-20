@@ -5,6 +5,7 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Scripts,
+  useLocation,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -139,10 +140,14 @@ function RootShell(props?: { children?: ReactNode } | null) {
 function RootComponent() {
   const ctx = Route.useRouteContext() as { queryClient?: QueryClient } | undefined;
   const queryClient = ctx?.queryClient ?? fallbackQueryClient;
+  const pathname = useLocation({ select: (loc) => loc.pathname });
+  // /direcionamento já tem o próprio botão de WhatsApp em destaque na página
+  // (link-in-bio do Instagram) — o flutuante ali só duplicaria, sem ajudar em nada.
+  const showFloatingWhatsApp = pathname !== "/direcionamento";
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
-      <WhatsAppFloating />
+      {showFloatingWhatsApp && <WhatsAppFloating />}
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );
