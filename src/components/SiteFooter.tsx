@@ -73,7 +73,7 @@ export function SiteFooter() {
             <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-primary" />
             <div className="leading-relaxed">
               <div className="font-medium text-foreground">Itacimirim</div>
-              <div>Camaçari — Bahia, Brasil</div>
+              <div>Camaçari · Bahia, Brasil</div>
             </div>
           </div>
           <div className="text-[13px] leading-relaxed text-muted-foreground space-y-1">

@@ -5,7 +5,7 @@ const PAGE_URL = "https://pousadailhadomeio.com.br/faq";
 
 /**
  * Fonte única para o FAQ. Renderizado na página E também transformado
- * em JSON-LD FAQPage no head — Google mostra as perguntas direto no
+ * em JSON-LD FAQPage no head · Google mostra as perguntas direto no
  * resultado da busca (rich result), aumentando muito o CTR orgânico.
  */
 const FAQ: { q: string; a: string }[] = [
@@ -43,7 +43,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Qual a política de cancelamento?",
-    a: "A política varia conforme período e antecedência da reserva. A recepção informa as condições exatas no momento da confirmação — sempre buscamos flexibilidade sempre que possível.",
+    a: "A política varia conforme período e antecedência da reserva. A recepção informa as condições exatas no momento da confirmação · sempre buscamos flexibilidade sempre que possível.",
   },
   {
     q: "Os quartos têm ar-condicionado?",
@@ -59,7 +59,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Qual a diferença entre reservar direto ou pelo Booking?",
-    a: "Reservando direto com a pousada você paga a melhor tarifa (sem comissão de plataforma) e fala direto com quem cuida da casa — o que resolve dúvidas e pedidos com mais agilidade.",
+    a: "Reservando direto com a pousada você paga a melhor tarifa (sem comissão de plataforma) e fala direto com quem cuida da casa · o que resolve dúvidas e pedidos com mais agilidade.",
   },
   {
     q: "Recebem grupos ou eventos?",
@@ -70,13 +70,13 @@ const FAQ: { q: string; a: string }[] = [
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "Perguntas Frequentes — Pousada Ilha do Meio · Itacimirim" },
+      { title: "Perguntas Frequentes · Pousada Ilha do Meio · Itacimirim" },
       {
         name: "description",
         content:
           "Dúvidas sobre reservas, check-in, café da manhã, estacionamento, pets, pagamento e localização da Pousada Ilha do Meio em Itacimirim, Bahia.",
       },
-      { property: "og:title", content: "Perguntas Frequentes — Pousada Ilha do Meio" },
+      { property: "og:title", content: "Perguntas Frequentes · Pousada Ilha do Meio" },
       {
         property: "og:description",
         content: "Tudo o que você precisa saber antes da sua hospedagem em Itacimirim.",

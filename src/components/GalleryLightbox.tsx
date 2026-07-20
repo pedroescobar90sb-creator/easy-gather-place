@@ -21,7 +21,7 @@ type Props = {
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
-/** Carrossel embutido no próprio card — passa as fotos com setas, arraste (mouse/dedo) ou automaticamente, sem abrir tela cheia. */
+/** Carrossel embutido no próprio card · passa as fotos com setas, arraste (mouse/dedo) ou automaticamente, sem abrir tela cheia. */
 export function InlineCarousel({
   items,
   className,
@@ -157,7 +157,7 @@ export function InlineCarousel({
   );
 }
 
-/** Um slide da lightbox. Remonta a cada troca de foto (key=index) — o duplo rAF
+/** Um slide da lightbox. Remonta a cada troca de foto (key=index) · o duplo rAF
  * garante que o navegador pinte o estado "não entrado" antes de animar pro estado final,
  * então a transição sempre dispara de verdade, sem depender de timeout adivinhado. */
 function Slide({
@@ -252,7 +252,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
     [controlled, openIndex, onOpenIndexChange],
   );
   const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
-  // Ref (não state) pra travar navegação — lido/escrito sincronamente, sem closure velha.
+  // Ref (não state) pra travar navegação · lido/escrito sincronamente, sem closure velha.
   const lockRef = React.useRef(false);
   const triggerRef = React.useRef<HTMLElement | null>(null);
   const open = openIdx !== null;

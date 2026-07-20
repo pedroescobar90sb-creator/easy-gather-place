@@ -25,9 +25,9 @@ import { trackGoogleAdsPurchase } from "@/lib/google-ads";
 export const Route = createFileRoute("/reservar")({
   head: () => ({
     meta: [
-      { title: "Reservar direto — Pousada Ilha do Meio · Itacimirim" },
+      { title: "Reservar direto · Pousada Ilha do Meio · Itacimirim" },
       { name: "description", content: "Reserve direto com a Pousada Ilha do Meio em Itacimirim (BA). Sem comissão, melhor tarifa garantida, atendimento direto com a casa." },
-      { property: "og:title", content: "Reservar direto — Pousada Ilha do Meio" },
+      { property: "og:title", content: "Reservar direto · Pousada Ilha do Meio" },
       { property: "og:description", content: "Reserve direto com a casa. Melhor tarifa garantida." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://pousadailhadomeio.com.br/reservar" },
@@ -269,7 +269,7 @@ function BookingEngine() {
         <div className="h-[42vh] md:h-[54vh] relative overflow-hidden">
           <img
             src={heroAsset}
-            alt="Pousada Ilha do Meio — Itacimirim, Bahia"
+            alt="Pousada Ilha do Meio · Itacimirim, Bahia"
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-background" />
@@ -401,10 +401,10 @@ function BookingEngine() {
                 {/* Resumo lateral */}
                 <aside className="space-y-4">
                   <div className="rounded-xl border bg-card p-4 space-y-3">
-                    <Summary label="Entrada" value={range?.from ? `${fmtBR(range.from)} · 13h às 22h` : "—"} />
-                    <Summary label="Saída" value={range?.to ? `${fmtBR(range.to)} · 09h às 12h` : "—"} />
+                    <Summary label="Entrada" value={range?.from ? `${fmtBR(range.from)} · 13h às 22h` : "·"} />
+                    <Summary label="Saída" value={range?.to ? `${fmtBR(range.to)} · 09h às 12h` : "·"} />
                     <div className="border-t pt-3">
-                      <Summary label="Noites" value={nights > 0 ? String(nights) : "—"} />
+                      <Summary label="Noites" value={nights > 0 ? String(nights) : "·"} />
                     </div>
                   </div>
 
@@ -496,7 +496,7 @@ function BookingEngine() {
           </Card>
         )}
 
-        {/* COMODIDADES E REGRAS — após datas (step 1) e após lista de quartos (step 2) */}
+        {/* COMODIDADES E REGRAS · após datas (step 1) e após lista de quartos (step 2) */}
         {step === 1 && <AmenitiesAndRules />}
 
 
@@ -653,7 +653,7 @@ function AmenitiesAndRules() {
             ))}
           </ul>
           <p className="text-xs text-muted-foreground pt-2 border-t">
-            A Pousada Ilha do Meio aceita pedidos especiais — adicione na próxima etapa.
+            A Pousada Ilha do Meio aceita pedidos especiais · adicione na próxima etapa.
           </p>
         </CardContent>
       </Card>
@@ -679,7 +679,7 @@ function AmenitiesAndRules() {
           <Rule title="Restrições de idade"><p>A idade mínima para check-in é 18 anos.</p></Rule>
           <Rule title="Pets"><p>Pets não são permitidos.</p></Rule>
           <Rule title="Pagamento"><p>PIX, cartão de crédito, cartão de débito e dinheiro.</p></Rule>
-          <Rule title="Festas"><p>Recebemos grupos e eventos mediante combinação prévia — fale com a recepção para condições especiais.</p></Rule>
+          <Rule title="Festas"><p>Recebemos grupos e eventos mediante combinação prévia · fale com a recepção para condições especiais.</p></Rule>
           <Rule title="Horário de silêncio"><p>Os hóspedes devem fazer silêncio entre 22:00 e 09:00.</p></Rule>
         </CardContent>
       </Card>

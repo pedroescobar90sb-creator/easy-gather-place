@@ -11,11 +11,11 @@ type Props = {
 /**
  * Simple, dependency-free count-up. Animates once when the element enters the viewport.
  *
- * O valor inicial é sempre `end` (o número real), nunca 0 — assim o HTML renderizado no
+ * O valor inicial é sempre `end` (o número real), nunca 0 · assim o HTML renderizado no
  * servidor (o que o Google indexa) já mostra o valor correto mesmo se o JS não rodar, o
  * rolamento não disparar o IntersectionObserver, ou o crawler não esperar animação nenhuma.
  * A animação (reset pra 0 e conta até `end`) só acontece depois da hidratação, como efeito
- * puramente visual — nunca como a única fonte do valor exibido.
+ * puramente visual · nunca como a única fonte do valor exibido.
  */
 export function CountUp({ end, duration = 1400, className, format }: Props) {
   const [value, setValue] = React.useState(end);

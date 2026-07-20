@@ -6,9 +6,9 @@ const CNPJ = "49.386.133/0001-37";
 export const Route = createFileRoute("/privacidade")({
   head: () => ({
     meta: [
-      { title: "Política de Privacidade — Pousada Ilha do Meio" },
+      { title: "Política de Privacidade · Pousada Ilha do Meio" },
       { name: "description", content: "Como a Pousada Ilha do Meio coleta, usa e protege seus dados pessoais, em conformidade com a LGPD." },
-      { property: "og:title", content: "Política de Privacidade — Pousada Ilha do Meio" },
+      { property: "og:title", content: "Política de Privacidade · Pousada Ilha do Meio" },
       { property: "og:description", content: "Privacidade e proteção de dados na Pousada Ilha do Meio." },
       { property: "og:url", content: "https://pousadailhadomeio.com.br/privacidade" },
       { property: "og:type", content: "website" },
@@ -23,11 +23,11 @@ function PrivacyPage() {
     <LegalPageLayout
       eyebrow="Privacidade"
       title="Política de Privacidade"
-      intro="A Pousada Ilha do Meio respeita a privacidade dos seus hóspedes e visitantes, em conformidade com a Lei Geral de Proteção de Dados Pessoais — LGPD (Lei nº 13.709/2018)."
+      intro="A Pousada Ilha do Meio respeita a privacidade dos seus hóspedes e visitantes, em conformidade com a Lei Geral de Proteção de Dados Pessoais · LGPD (Lei nº 13.709/2018)."
     >
       <LegalSection title="1. Controladora dos dados">
         <p>
-          <strong className="text-foreground">Pousada Ilha do Meio</strong> — CNPJ <span className="tabular-nums">{CNPJ}</span>, localizada em Itacimirim, Camaçari — Bahia, Brasil.
+          <strong className="text-foreground">Pousada Ilha do Meio</strong> · CNPJ <span className="tabular-nums">{CNPJ}</span>, localizada em Itacimirim, Camaçari · Bahia, Brasil.
         </p>
       </LegalSection>
 

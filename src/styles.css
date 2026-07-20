@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Pousada Ilha do Meio — PMS design system
+/* Pousada Ilha do Meio · PMS design system
  * Cores derivadas da logo: verde mata, dourado sol, areia creme.
  */
 
@@ -67,7 +67,7 @@
 :root {
   --radius: 0.5rem;
 
-  /* Forest & Moss palette — off-white quente + verde mata + sage */
+  /* Forest & Moss palette · off-white quente + verde mata + sage */
   --background: oklch(0.975 0.012 95);
   --foreground: oklch(0.28 0.06 155);
 
@@ -88,7 +88,7 @@
   --muted: oklch(0.94 0.015 95);
   --muted-foreground: oklch(0.38 0.04 150);
 
-  /* Cobre/terracota quente — destaques, selos, nota */
+  /* Cobre/terracota quente · destaques, selos, nota */
   --accent: oklch(0.62 0.12 55);
   --accent-foreground: oklch(0.98 0.012 95);
 
@@ -101,7 +101,7 @@
   --warning: oklch(0.72 0.13 75);
   --warning-foreground: oklch(0.22 0.02 150);
 
-  /* Sage light #a0c49d — divisores, hairlines */
+  /* Sage light #a0c49d · divisores, hairlines */
   --border: oklch(0.82 0.04 145);
   --input: oklch(0.85 0.03 145);
   --ring: oklch(0.32 0.07 155);
@@ -206,7 +206,7 @@
   }
 }
 
-/* Calendário mestre — estados visuais */
+/* Calendário mestre · estados visuais */
 @utility cal-cell-base {
   position: relative;
   height: 100%;
