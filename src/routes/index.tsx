@@ -743,7 +743,7 @@ function HomePage() {
           ))}
         </div>
 
-        <div className="mx-auto max-w-6xl px-4">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:pb-24">
           <ul className="flex flex-wrap gap-3 text-sm text-foreground/90">
             {[
               { icon: Gamepad2, label: "Sinuca, pebolim e jogos de mesa" },
