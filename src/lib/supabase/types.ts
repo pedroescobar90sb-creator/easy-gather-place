@@ -1,4 +1,4 @@
-// Manually maintained — mirror of public schema in supabase/schema.sql
+// Manually maintained · mirror of public schema in supabase/schema.sql
 export type Json = string | number | boolean | null | { [k: string]: Json } | Json[];
 
 type Rooms = {

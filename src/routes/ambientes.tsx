@@ -23,7 +23,7 @@ import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 import { cn } from "@/lib/utils";
 
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
-import recepcaoNoite1 from "@/assets/recepcao-noite-1.webp";
+
 import recepcaoNoite2 from "@/assets/recepcao-noite-2.webp";
 import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
@@ -38,7 +38,7 @@ import quartoDuploAlt from "@/assets/quarto-duplo-varanda-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.webp";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.webp";
-import salaoJogos from "@/assets/salao-jogos-v2.jpg";
+
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
@@ -92,13 +92,13 @@ const AMBIENTES: Ambiente[] = [
     subtitle: "Para refrescar sem sair da pousada",
     description:
       "Piscina iluminada com deck em madeira, espreguiçadeiras e sombra dos coqueiros. A poucos passos da porta do quarto, perfeita pro fim de tarde.",
-    cover: piscinaHero,
+    cover: piscinaDeck,
     gallery: [
+      { src: piscinaDeck, caption: "Vista aérea da piscina", desc: "Piscina com deck de madeira cercada pela vegetação nativa." },
       { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina, deck de madeira e coqueiros ao redor." },
       { src: piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
       { src: piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
       { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
-      { src: piscinaDeck, caption: "Vista aérea", desc: "Deck cercado pela vegetação nativa." },
     ],
     amenities: [
       { icon: Sunset, label: "Deck de madeira" },
@@ -113,9 +113,8 @@ const AMBIENTES: Ambiente[] = [
     subtitle: "Quiosque, jardim e salão de jogos",
     description:
       "Espaço ao ar livre pra descansar entre um passeio e outro. Quiosque com sombra, mesas para conversar e jardim que respira o clima da Bahia.",
-    cover: salaoJogos,
+    cover: salaoJogosBilhar,
     gallery: [
-      { src: salaoJogos, caption: "Salão de jogos", desc: "Bilhar, mesa e ambiente para todos." },
       { src: salaoJogosBilhar, caption: "Mesa de bilhar", desc: "Diversão garantida em qualquer horário." },
       { src: salaoJogosMesa, caption: "Salão: mesa central", desc: "Ambiente climatizado e aconchegante." },
     ],
@@ -132,9 +131,8 @@ const AMBIENTES: Ambiente[] = [
     subtitle: "Do check-in ao check-out, sem pressa",
     description:
       "Recepção acolhedora e atendimento local que conhece Itacimirim de verdade. Dicas de praia, restaurantes e passeios, antes mesmo de você chegar.",
-    cover: recepcaoNoite1,
+    cover: recepcaoNoite2,
     gallery: [
-      { src: recepcaoNoite1, caption: "Recepção iluminada à noite", desc: "Estrutura de troncos de madeira, luzes quentes e ambiente aconchegante para o check-in." },
       { src: recepcaoNoite2, caption: "Área de convivência da recepção", desc: "Mesas de madeira, lustres artesanais e decoração inspirada no mar." },
     ],
     amenities: [
@@ -318,7 +316,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
   return (
     <section id={id} className="scroll-mt-32 border-b border-border/40">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-        {/* Mosaico de fotos — foco visual do bloco */}
+        {/* Mosaico de fotos · foco visual do bloco */}
         <div
           className={cn(
             "grid grid-cols-2 gap-2.5 sm:gap-3",
@@ -416,7 +414,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
         </div>
       </div>
 
-      {/* Lightbox — uma instância por bloco, controlada */}
+      {/* Lightbox · uma instância por bloco, controlada */}
       <GalleryLightbox
         items={gallery}
         openIndex={openIndex}
@@ -433,7 +431,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
 function CTAReserva() {
   return (
     <section className="relative isolate overflow-hidden border-t border-border/40">
-      {/* Wallpaper coqueiros — verde escuro */}
+      {/* Wallpaper coqueiros · verde escuro */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
