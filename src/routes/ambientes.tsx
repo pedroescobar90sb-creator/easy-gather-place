@@ -23,7 +23,7 @@ import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 import { cn } from "@/lib/utils";
 
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
-import recepcaoNoite1 from "@/assets/recepcao-noite-1.webp";
+
 import recepcaoNoite2 from "@/assets/recepcao-noite-2.webp";
 import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
@@ -38,7 +38,7 @@ import quartoDuploAlt from "@/assets/quarto-duplo-varanda-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.webp";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.webp";
-import salaoJogos from "@/assets/salao-jogos-v2.jpg";
+
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
