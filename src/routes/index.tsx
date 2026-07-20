@@ -17,7 +17,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 
 import heroPousada from "@/assets/pousada-0.jpg";
 
-import recepcaoDia from "@/assets/recepcao-noite-1.webp";
+import recepcaoNoite from "@/assets/recepcao-noite-2.webp";
 import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
@@ -28,7 +28,6 @@ import piscinaEspreguicadeiras from "@/assets/piscina-azul-detalhe.jpg";
 import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
 
 
-import salaoJogos from "@/assets/salao-jogos-v2.jpg";
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
@@ -202,9 +201,9 @@ const ROOM_AMENITIES = [
 
 const GALLERY = [
   { src: fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
-  { src: piscinaNoite, caption: "Piscina", desc: "Piscina para refrescar o dia, a poucos passos do quarto." },
+  { src: piscinaHero, caption: "Piscina", desc: "Piscina de água cristalina, deck de madeira e coqueiros ao redor." },
   { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
-  { src: recepcaoDia, caption: "Recepção", desc: "Recepção iluminada à noite, com estrutura em madeira e clima acolhedor para o check-in." },
+  { src: recepcaoNoite, caption: "Recepção", desc: "Área de convivência da recepção, com estrutura em madeira e clima acolhedor." },
 ];
 
 const GALLERY_META = [
@@ -675,7 +674,6 @@ function HomePage() {
         <div className="mt-10 flex gap-4 overflow-x-auto pb-6 pl-4 sm:pl-[max(1rem,calc((100vw-72rem)/2+1rem))] pr-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {[
             { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
-            { src: salaoJogos, caption: "Salão de Jogos", desc: "Espaço reservado aos hóspedes, com clima leve e descontraído." },
             { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
           ].map((photo) => (
             <figure
