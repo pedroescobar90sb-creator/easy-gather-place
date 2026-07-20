@@ -264,6 +264,13 @@ function MosaicTile({
 /** Seção da piscina com alternância dia/noite — toggle por toque (não por hover, que não existe em touch). */
 function PiscinaSection() {
   const [time, setTime] = useState<"dia" | "noite">("dia");
+  // A foto de "noite" só entra no DOM na primeira vez que for selecionada — evita baixar
+  // as duas fotos grandes pra quem nunca troca de aba (era o achado do PRD de performance).
+  const [noiteLoaded, setNoiteLoaded] = useState(false);
+  const handleTime = (t: "dia" | "noite") => {
+    if (t === "noite") setNoiteLoaded(true);
+    setTime(t);
+  };
   const DETAILS = [
     { src: piscinaVistaCompleta, caption: "Vista completa" },
     { src: piscinaEspreguicadeiras, caption: "Espreguiçadeiras" },
@@ -289,7 +296,7 @@ function PiscinaSection() {
               <button
                 key={t}
                 type="button"
-                onClick={() => setTime(t)}
+                onClick={() => handleTime(t)}
                 className={cn(
                   "rounded-full px-5 py-2 text-sm font-semibold capitalize transition",
                   time === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
@@ -307,11 +314,13 @@ function PiscinaSection() {
             alt="Piscina da Pousada Ilha do Meio durante o dia"
             className={cn("absolute inset-0 h-full w-full object-cover object-[50%_72%] transition-opacity duration-700", time === "dia" ? "opacity-100" : "opacity-0")}
           />
-          <img
-            src={piscinaNoitePergola}
-            alt="Piscina da Pousada Ilha do Meio iluminada à noite"
-            className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700", time === "noite" ? "opacity-100" : "opacity-0")}
-          />
+          {noiteLoaded && (
+            <img
+              src={piscinaNoitePergola}
+              alt="Piscina da Pousada Ilha do Meio iluminada à noite"
+              className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700", time === "noite" ? "opacity-100" : "opacity-0")}
+            />
+          )}
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           <figcaption className="absolute bottom-4 left-4 text-sm font-medium uppercase tracking-[0.18em] text-white">
             {time === "dia" ? "Piscina · dia" : "Piscina · noite"}
