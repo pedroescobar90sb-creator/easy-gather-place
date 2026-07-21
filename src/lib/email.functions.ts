@@ -16,7 +16,7 @@ const fmtDate = (s: string) =>
 const fmtBRL = (n: number) =>
   n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
 
-const CNPJ = "45.688.734/0001-43";
+const CNPJ = "27.850.100/0001-63";
 const ADDRESS_LINE1 = "Rua Sítio Novo, 7 · Loteamento Santa Maria, Lote 8";
 const ADDRESS_LINE2 = "Itacimirim, Camaçari · BA · CEP 42823-000";
 const REPLY_TO = "reservas@pousadailhadomeio.com.br";

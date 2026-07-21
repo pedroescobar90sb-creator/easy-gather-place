@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPageLayout, LegalSection } from "@/components/LegalPageLayout";
 
-const CNPJ = "49.386.133/0001-37";
+const CNPJ = "27.850.100/0001-63";
 
 export const Route = createFileRoute("/privacidade")({
   head: () => ({

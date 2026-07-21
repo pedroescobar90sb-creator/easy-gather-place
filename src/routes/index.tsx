@@ -25,7 +25,6 @@ import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
 import piscinaHero from "@/assets/piscina-hero-clean.webp";
 import piscinaVistaCompleta from "@/assets/piscina-deck-espreguicadeiras.jpg";
 import piscinaEspreguicadeiras from "@/assets/piscina-azul-detalhe.jpg";
-import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
 
 
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
@@ -331,7 +330,6 @@ function PiscinaSection() {
   const DETAILS = [
     { src: piscinaVistaCompleta, caption: "Vista completa" },
     { src: piscinaEspreguicadeiras, caption: "Espreguiçadeiras" },
-    { src: piscinaMesaJardim, caption: "Área de estar" },
   ];
   return (
     <section className="bg-background">

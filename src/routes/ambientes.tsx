@@ -31,6 +31,7 @@ import piscinaHero from "@/assets/piscina-hero-clean.webp";
 import piscinaDeck from "@/assets/piscina-drone-aerea.jpg";
 import piscinaNoiteArvore from "@/assets/piscina-noite-arvore.webp";
 import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
+import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
@@ -99,6 +100,7 @@ const AMBIENTES: Ambiente[] = [
       { src: piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
       { src: piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
       { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
+      { src: piscinaMesaJardim, caption: "Área de estar", desc: "Mesa e cadeiras à beira da piscina, ideal para relaxar." },
     ],
     amenities: [
       { icon: Sunset, label: "Deck de madeira" },
