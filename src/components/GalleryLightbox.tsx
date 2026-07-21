@@ -19,7 +19,10 @@ type Props = {
   onOpenIndexChange?: (idx: number | null) => void;
 };
 
-const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+/** Curva de transição padrão do site pra troca de foto (dissolve lento e suave) · usada
+ * tanto nos carrosséis inline (fora) quanto na lightbox em tela cheia (dentro). */
+export const PHOTO_EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+const EASE = PHOTO_EASE;
 
 /** Carrossel embutido no próprio card · passa as fotos com setas, arraste (mouse/dedo) ou automaticamente, sem abrir tela cheia. */
 export function InlineCarousel({
@@ -114,7 +117,7 @@ export function InlineCarousel({
           draggable={false}
           aria-hidden={i !== idx}
           className={cn(
-            "absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-out",
+            "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
             i === idx ? "opacity-100" : "opacity-0",
             imgClassName,
           )}
@@ -127,7 +130,7 @@ export function InlineCarousel({
             onClick={go(-1)}
             disabled={!autoPlay && idx === 0}
             aria-label="Foto anterior"
-            className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
+            className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
           >
             <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
@@ -136,7 +139,7 @@ export function InlineCarousel({
             onClick={go(1)}
             disabled={!autoPlay && idx === items.length - 1}
             aria-label="Próxima foto"
-            className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
+            className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition disabled:opacity-0 disabled:pointer-events-none"
           >
             <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
@@ -194,7 +197,7 @@ function Slide({
     const showFallback = window.setTimeout(show, 80);
     // Rede de segurança pra travar a navegação: se transitionend nunca disparar
     // (mesmo cenário de aba oculta), libera de qualquer jeito depois do tempo da animação.
-    const settleFallback = window.setTimeout(fireSettled, 700);
+    const settleFallback = window.setTimeout(fireSettled, 950);
     return () => {
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
@@ -215,7 +218,7 @@ function Slide({
         // Sem filter/blur animado aqui de propósito: blur em transição é caro pro
         // navegador recalcular a cada frame e é a causa mais comum de travamento
         // ao abrir foto em celular mais fraco. opacity+transform rodam na GPU sem custo.
-        transition: `opacity 480ms ${EASE}, transform 480ms ${EASE}`,
+        transition: `opacity 700ms ${EASE}, transform 700ms ${EASE}`,
         willChange: "opacity, transform",
       }}
       onTransitionEnd={(e) => {

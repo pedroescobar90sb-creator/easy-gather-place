@@ -375,13 +375,13 @@ function PiscinaSection() {
           <img
             src={piscinaHero}
             alt="Piscina da Pousada Ilha do Meio durante o dia"
-            className={cn("absolute inset-0 h-full w-full object-cover object-[50%_72%] transition-opacity duration-700", time === "dia" ? "opacity-100" : "opacity-0")}
+            className={cn("absolute inset-0 h-full w-full object-cover object-[50%_72%] transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]", time === "dia" ? "opacity-100" : "opacity-0")}
           />
           {noiteLoaded && (
             <img
               src={piscinaNoitePergola}
               alt="Piscina da Pousada Ilha do Meio iluminada à noite"
-              className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700", time === "noite" ? "opacity-100" : "opacity-0")}
+              className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]", time === "noite" ? "opacity-100" : "opacity-0")}
             />
           )}
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
