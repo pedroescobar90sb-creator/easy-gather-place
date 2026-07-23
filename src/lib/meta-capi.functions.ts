@@ -28,13 +28,42 @@ function normalizePhone(raw: string): string {
   return digits;
 }
 
+async function sendToPixel(pixelId: string, accessToken: string, payload: unknown) {
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${accessToken}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      },
+    );
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      console.error("[meta-capi] graph api failed", pixelId, res.status, json);
+      return { ok: false, pixelId, error: json };
+    }
+    return { ok: true, pixelId, result: json };
+  } catch (e) {
+    console.error("[meta-capi] exception", pixelId, e);
+    return { ok: false, pixelId, error: e instanceof Error ? e.message : "unknown" };
+  }
+}
+
 export const sendMetaCapiEvent = createServerFn({ method: "POST" })
   .inputValidator((data: Input) => data)
   .handler(async ({ data }) => {
-    const pixelId = process.env.META_PIXEL_ID;
-    const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
-    if (!pixelId || !accessToken) {
-      console.warn("[meta-capi] META_PIXEL_ID/META_CAPI_ACCESS_TOKEN ausente · skipping send");
+    // Cada pixel tem seu próprio token de acesso (gerado no Events Manager),
+    // por isso os pares pixel/token são tratados como alvos independentes.
+    const targets = [
+      { pixelId: process.env.META_PIXEL_ID, accessToken: process.env.META_CAPI_ACCESS_TOKEN },
+      { pixelId: process.env.META_PIXEL_ID_2, accessToken: process.env.META_CAPI_ACCESS_TOKEN_2 },
+    ].filter(
+      (t): t is { pixelId: string; accessToken: string } => Boolean(t.pixelId && t.accessToken),
+    );
+
+    if (targets.length === 0) {
+      console.warn("[meta-capi] nenhum par pixelId/accessToken configurado · skipping send");
       return { ok: false, skipped: true };
     }
 
@@ -72,23 +101,8 @@ export const sendMetaCapiEvent = createServerFn({ method: "POST" })
       ...(testEventCode ? { test_event_code: testEventCode } : {}),
     };
 
-    try {
-      const res = await fetch(
-        `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${accessToken}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        },
-      );
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        console.error("[meta-capi] graph api failed", res.status, json);
-        return { ok: false, error: json };
-      }
-      return { ok: true, result: json };
-    } catch (e) {
-      console.error("[meta-capi] exception", e);
-      return { ok: false, error: e instanceof Error ? e.message : "unknown" };
-    }
+    const results = await Promise.all(
+      targets.map((t) => sendToPixel(t.pixelId, t.accessToken, payload)),
+    );
+    return { ok: results.every((r) => r.ok), results };
   });

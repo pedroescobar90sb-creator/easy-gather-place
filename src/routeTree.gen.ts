@@ -9,49 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AmbientesRouteImport } from './routes/ambientes'
-import { Route as ComoChegarRouteImport } from './routes/como-chegar'
-import { Route as DirecionamentoRouteImport } from './routes/direcionamento'
-import { Route as FaqRouteImport } from './routes/faq'
-import { Route as PrivacidadeRouteImport } from './routes/privacidade'
-import { Route as ReservarRouteImport } from './routes/reservar'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermosRouteImport } from './routes/termos'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ReservarRouteImport } from './routes/reservar'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as DirecionamentoRouteImport } from './routes/direcionamento'
+import { Route as ComoChegarRouteImport } from './routes/como-chegar'
+import { Route as AmbientesRouteImport } from './routes/ambientes'
+import { Route as IndexRouteImport } from './routes/index'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AmbientesRoute = AmbientesRouteImport.update({
-  id: '/ambientes',
-  path: '/ambientes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ComoChegarRoute = ComoChegarRouteImport.update({
-  id: '/como-chegar',
-  path: '/como-chegar',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DirecionamentoRoute = DirecionamentoRouteImport.update({
-  id: '/direcionamento',
-  path: '/direcionamento',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacidadeRoute = PrivacidadeRouteImport.update({
-  id: '/privacidade',
-  path: '/privacidade',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReservarRoute = ReservarRouteImport.update({
-  id: '/reservar',
-  path: '/reservar',
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -59,9 +29,39 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TermosRoute = TermosRouteImport.update({
-  id: '/termos',
-  path: '/termos',
+const ReservarRoute = ReservarRouteImport.update({
+  id: '/reservar',
+  path: '/reservar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DirecionamentoRoute = DirecionamentoRouteImport.update({
+  id: '/direcionamento',
+  path: '/direcionamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComoChegarRoute = ComoChegarRouteImport.update({
+  id: '/como-chegar',
+  path: '/como-chegar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmbientesRoute = AmbientesRouteImport.update({
+  id: '/ambientes',
+  path: '/ambientes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -149,53 +149,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ambientes': {
-      id: '/ambientes'
-      path: '/ambientes'
-      fullPath: '/ambientes'
-      preLoaderRoute: typeof AmbientesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/como-chegar': {
-      id: '/como-chegar'
-      path: '/como-chegar'
-      fullPath: '/como-chegar'
-      preLoaderRoute: typeof ComoChegarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/direcionamento': {
-      id: '/direcionamento'
-      path: '/direcionamento'
-      fullPath: '/direcionamento'
-      preLoaderRoute: typeof DirecionamentoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacidade': {
-      id: '/privacidade'
-      path: '/privacidade'
-      fullPath: '/privacidade'
-      preLoaderRoute: typeof PrivacidadeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reservar': {
-      id: '/reservar'
-      path: '/reservar'
-      fullPath: '/reservar'
-      preLoaderRoute: typeof ReservarRouteImport
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -205,11 +163,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/termos': {
-      id: '/termos'
-      path: '/termos'
-      fullPath: '/termos'
-      preLoaderRoute: typeof TermosRouteImport
+    '/reservar': {
+      id: '/reservar'
+      path: '/reservar'
+      fullPath: '/reservar'
+      preLoaderRoute: typeof ReservarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/direcionamento': {
+      id: '/direcionamento'
+      path: '/direcionamento'
+      fullPath: '/direcionamento'
+      preLoaderRoute: typeof DirecionamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/como-chegar': {
+      id: '/como-chegar'
+      path: '/como-chegar'
+      fullPath: '/como-chegar'
+      preLoaderRoute: typeof ComoChegarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ambientes': {
+      id: '/ambientes'
+      path: '/ambientes'
+      fullPath: '/ambientes'
+      preLoaderRoute: typeof AmbientesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
