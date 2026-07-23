@@ -1,4 +1,4 @@
-import { metaTrack, newMetaEventId, getFbCookie } from "@/lib/meta-pixel";
+import { metaTrack, newMetaEventId, getFbCookie, getOrBuildFbc } from "@/lib/meta-pixel";
 import { sendMetaCapiEvent } from "@/lib/meta-capi.functions";
 import { trackGoogleAdsContact } from "@/lib/google-ads";
 
@@ -15,7 +15,7 @@ export function trackWhatsAppLead(contentName: string, value?: number) {
       value,
       currency: value ? "BRL" : undefined,
       fbp: getFbCookie("_fbp"),
-      fbc: getFbCookie("_fbc"),
+      fbc: getOrBuildFbc(),
     },
   }).catch(() => {});
 }
