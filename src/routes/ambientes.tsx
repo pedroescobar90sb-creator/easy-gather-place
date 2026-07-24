@@ -31,7 +31,9 @@ import piscinaDeck from "@/assets/piscina-drone-aerea.jpg";
 import piscinaNoiteArvore from "@/assets/piscina-noite-arvore.webp";
 import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
 import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
-import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
+// Só a versão reduzida: essa foto é fundo do bloco final e fica atrás de uma camada
+// escura, então a original de 396 KB não acrescentava nada visível.
+import bgCoqueiros from "@/assets/thumbs/bg-coqueiros-escuro@960.webp";
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
 import quartoDuploAlt from "@/assets/quarto-duplo-varanda-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
@@ -300,8 +302,12 @@ function HeroAmbientes() {
   return (
     <section className="relative overflow-hidden border-b border-border/40 bg-card">
       <div aria-hidden className="absolute inset-0">
+        {/* Decorativa: fica em 40% de opacidade atrás de um degradê, então a versão
+            reduzida é indistinguível da original e economiza banda no primeiro carregamento. */}
         <img
-          src={fachadaNoite}
+          src={fachadaNoite960}
+          srcSet={`${fachadaNoite480} 480w, ${fachadaNoite960} 960w`}
+          sizes="100vw"
           alt=""
           className="h-full w-full object-cover opacity-40"
           loading="eager"
