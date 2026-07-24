@@ -20,12 +20,11 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { GalleryLightbox, type GalleryItem } from "@/components/GalleryLightbox";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
+import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
-
 import recepcaoNoite2 from "@/assets/recepcao-noite-2.webp";
-import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaHero from "@/assets/piscina-hero-clean.webp";
 import piscinaDeck from "@/assets/piscina-drone-aerea.jpg";
@@ -33,15 +32,65 @@ import piscinaNoiteArvore from "@/assets/piscina-noite-arvore.webp";
 import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
 import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
-
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
 import quartoDuploAlt from "@/assets/quarto-duplo-varanda-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.webp";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.webp";
-
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
+
+// Variantes reduzidas (geradas por scripts/gen-thumbs.py). As miniaturas do grid são
+// exibidas em ~240px, então baixar o original de até 1920x2560 era desperdício puro.
+import fachadaNoite480 from "@/assets/thumbs/acomodacoes-fachada-hd@480.webp";
+import fachadaNoite960 from "@/assets/thumbs/acomodacoes-fachada-hd@960.webp";
+import recepcaoNoite2_480 from "@/assets/thumbs/recepcao-noite-2@480.webp";
+import recepcaoNoite2_960 from "@/assets/thumbs/recepcao-noite-2@960.webp";
+import piscinaNoite480 from "@/assets/thumbs/piscina-noite@480.webp";
+import piscinaNoite960 from "@/assets/thumbs/piscina-noite@960.webp";
+import piscinaHero480 from "@/assets/thumbs/piscina-hero-clean@480.webp";
+import piscinaHero960 from "@/assets/thumbs/piscina-hero-clean@960.webp";
+import piscinaDeck480 from "@/assets/thumbs/piscina-drone-aerea@480.webp";
+import piscinaDeck960 from "@/assets/thumbs/piscina-drone-aerea@960.webp";
+import piscinaNoiteArvore480 from "@/assets/thumbs/piscina-noite-arvore@480.webp";
+import piscinaNoiteArvore960 from "@/assets/thumbs/piscina-noite-arvore@960.webp";
+import piscinaNoitePergola480 from "@/assets/thumbs/piscina-noite-pergola@480.webp";
+import piscinaNoitePergola960 from "@/assets/thumbs/piscina-noite-pergola@960.webp";
+import piscinaMesaJardim480 from "@/assets/thumbs/piscina-mesa-jardim@480.webp";
+import piscinaMesaJardim960 from "@/assets/thumbs/piscina-mesa-jardim@960.webp";
+import quartoDuplo480 from "@/assets/thumbs/quarto-duplo-cover-hd@480.webp";
+import quartoDuplo960 from "@/assets/thumbs/quarto-duplo-cover-hd@960.webp";
+import quartoDuploAlt480 from "@/assets/thumbs/quarto-duplo-varanda-hd@480.webp";
+import quartoDuploAlt960 from "@/assets/thumbs/quarto-duplo-varanda-hd@960.webp";
+import quartoQuadruplo480 from "@/assets/thumbs/quarto-quadruplo-1@480.webp";
+import quartoQuadruplo960 from "@/assets/thumbs/quarto-quadruplo-1@960.webp";
+import quartoQuadruplo2_480 from "@/assets/thumbs/quarto-quadruplo-2@480.webp";
+import quartoQuadruplo2_960 from "@/assets/thumbs/quarto-quadruplo-2@960.webp";
+import quartoQuadruplo3_480 from "@/assets/thumbs/quarto-quadruplo-3@480.webp";
+import quartoQuadruplo3_960 from "@/assets/thumbs/quarto-quadruplo-3@960.webp";
+import salaoJogosBilhar480 from "@/assets/thumbs/salao-jogos-bilhar@480.webp";
+import salaoJogosBilhar960 from "@/assets/thumbs/salao-jogos-bilhar@960.webp";
+import salaoJogosMesa480 from "@/assets/thumbs/salao-jogos-mesa-hd@480.webp";
+import salaoJogosMesa960 from "@/assets/thumbs/salao-jogos-mesa-hd@960.webp";
+
+/** Cada foto com suas variantes e as dimensões reais do original (evitam salto de layout). */
+const P = {
+  fachadaNoite: { src: fachadaNoite, thumb: fachadaNoite480, mid: fachadaNoite960, width: 1152, height: 928 },
+  quartoDuplo: { src: quartoDuplo, thumb: quartoDuplo480, mid: quartoDuplo960, width: 1200, height: 1600 },
+  quartoDuploAlt: { src: quartoDuploAlt, thumb: quartoDuploAlt480, mid: quartoDuploAlt960, width: 1200, height: 1600 },
+  quartoQuadruplo: { src: quartoQuadruplo, thumb: quartoQuadruplo480, mid: quartoQuadruplo960, width: 1500, height: 1000 },
+  quartoQuadruplo2: { src: quartoQuadruplo2, thumb: quartoQuadruplo2_480, mid: quartoQuadruplo2_960, width: 1200, height: 1600 },
+  quartoQuadruplo3: { src: quartoQuadruplo3, thumb: quartoQuadruplo3_480, mid: quartoQuadruplo3_960, width: 1200, height: 1600 },
+  piscinaDeck: { src: piscinaDeck, thumb: piscinaDeck480, mid: piscinaDeck960, width: 691, height: 858 },
+  piscinaHero: { src: piscinaHero, thumb: piscinaHero480, mid: piscinaHero960, width: 1600, height: 1600 },
+  piscinaNoitePergola: { src: piscinaNoitePergola, thumb: piscinaNoitePergola480, mid: piscinaNoitePergola960, width: 1200, height: 1600 },
+  piscinaNoiteArvore: { src: piscinaNoiteArvore, thumb: piscinaNoiteArvore480, mid: piscinaNoiteArvore960, width: 1200, height: 1600 },
+  piscinaNoite: { src: piscinaNoite, thumb: piscinaNoite480, mid: piscinaNoite960, width: 1920, height: 2560 },
+  piscinaMesaJardim: { src: piscinaMesaJardim, thumb: piscinaMesaJardim480, mid: piscinaMesaJardim960, width: 1200, height: 1600 },
+  salaoJogosBilhar: { src: salaoJogosBilhar, thumb: salaoJogosBilhar480, mid: salaoJogosBilhar960, width: 1200, height: 1600 },
+  salaoJogosMesa: { src: salaoJogosMesa, thumb: salaoJogosMesa480, mid: salaoJogosMesa960, width: 1400, height: 1867 },
+  recepcaoNoite2: { src: recepcaoNoite2, thumb: recepcaoNoite2_480, mid: recepcaoNoite2_960, width: 1200, height: 1600 },
+} as const;
 
 const WHATSAPP =
   "https://api.whatsapp.com/send/?phone=557191263096&text=" +
@@ -71,12 +120,12 @@ const AMBIENTES: Ambiente[] = [
       "Cabines com fachada amarela, varanda de madeira e ambiente acolhedor. Cama confortável, ar-condicionado silencioso e o clima de Itacimirim entrando pela janela.",
     cover: fachadaNoite,
     gallery: [
-      { src: fachadaNoite, caption: "Fachada das cabines", desc: "Fachada amarela iluminada em meio ao jardim." },
-      { src: quartoDuplo, caption: "Quarto duplo", desc: "Cama de casal, ar-condicionado, TV e frigobar." },
-      { src: quartoDuploAlt, caption: "Varanda privativa", desc: "Varanda em madeira, ideal pro café da manhã." },
-      { src: quartoQuadruplo, caption: "Quarto quádruplo", desc: "Ideal para famílias e grupos de amigos." },
-      { src: quartoQuadruplo2, caption: "Quarto quádruplo: detalhes", desc: "Espaço amplo, roupa de cama macia." },
-      { src: quartoQuadruplo3, caption: "Quarto quádruplo: vista", desc: "Vista para o jardim da pousada." },
+      { ...P.fachadaNoite, caption: "Fachada das cabines", desc: "Fachada amarela iluminada em meio ao jardim." },
+      { ...P.quartoDuplo, caption: "Quarto duplo", desc: "Cama de casal, ar-condicionado, TV e frigobar." },
+      { ...P.quartoDuploAlt, caption: "Varanda privativa", desc: "Varanda em madeira, ideal pro café da manhã." },
+      { ...P.quartoQuadruplo, caption: "Quarto quádruplo", desc: "Ideal para famílias e grupos de amigos." },
+      { ...P.quartoQuadruplo2, caption: "Quarto quádruplo: detalhes", desc: "Espaço amplo, roupa de cama macia." },
+      { ...P.quartoQuadruplo3, caption: "Quarto quádruplo: vista", desc: "Vista para o jardim da pousada." },
     ],
     amenities: [
       { icon: AirVent, label: "Ar-condicionado" },
@@ -95,12 +144,12 @@ const AMBIENTES: Ambiente[] = [
       "Piscina iluminada com deck em madeira, espreguiçadeiras e sombra dos coqueiros. A poucos passos da porta do quarto, perfeita pro fim de tarde.",
     cover: piscinaDeck,
     gallery: [
-      { src: piscinaDeck, caption: "Vista aérea da piscina", desc: "Vista de drone da piscina, deck de madeira e área de descanso." },
-      { src: piscinaHero, caption: "Piscina de dia", desc: "Água cristalina, deck de madeira e coqueiros ao redor." },
-      { src: piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
-      { src: piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
-      { src: piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
-      { src: piscinaMesaJardim, caption: "Área de estar", desc: "Mesa e cadeiras à beira da piscina, ideal para relaxar." },
+      { ...P.piscinaDeck, caption: "Vista aérea da piscina", desc: "Vista de drone da piscina, deck de madeira e área de descanso." },
+      { ...P.piscinaHero, caption: "Piscina de dia", desc: "Água cristalina, deck de madeira e coqueiros ao redor." },
+      { ...P.piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
+      { ...P.piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
+      { ...P.piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
+      { ...P.piscinaMesaJardim, caption: "Área de estar", desc: "Mesa e cadeiras à beira da piscina, ideal para relaxar." },
     ],
     amenities: [
       { icon: Sunset, label: "Deck de madeira" },
@@ -117,8 +166,8 @@ const AMBIENTES: Ambiente[] = [
       "Espaço ao ar livre pra descansar entre um passeio e outro. Quiosque com sombra, mesas para conversar e jardim que respira o clima da Bahia.",
     cover: salaoJogosBilhar,
     gallery: [
-      { src: salaoJogosBilhar, caption: "Mesa de bilhar", desc: "Diversão garantida em qualquer horário." },
-      { src: salaoJogosMesa, caption: "Salão: mesa central", desc: "Ambiente climatizado e aconchegante." },
+      { ...P.salaoJogosBilhar, caption: "Mesa de bilhar", desc: "Diversão garantida em qualquer horário." },
+      { ...P.salaoJogosMesa, caption: "Salão: mesa central", desc: "Ambiente climatizado e aconchegante." },
     ],
     amenities: [
       { icon: UtensilsCrossed, label: "Quiosque" },
@@ -135,7 +184,7 @@ const AMBIENTES: Ambiente[] = [
       "Recepção acolhedora e atendimento local que conhece Itacimirim de verdade. Dicas de praia, restaurantes e passeios, antes mesmo de você chegar.",
     cover: recepcaoNoite2,
     gallery: [
-      { src: recepcaoNoite2, caption: "Área de convivência da recepção", desc: "Mesas de madeira, lustres artesanais e decoração inspirada no mar." },
+      { ...P.recepcaoNoite2, caption: "Área de convivência da recepção", desc: "Mesas de madeira, lustres artesanais e decoração inspirada no mar." },
     ],
     amenities: [
       { icon: ShieldCheck, label: "Check-in fácil" },
@@ -307,8 +356,18 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
 
   const handleChange = React.useCallback((idx: number | null) => {
     setOpenIndex(idx);
-    if (idx === null) triggerRef.current?.focus?.();
+    // Devolve o foco pra foto que abriu a galeria, senão quem navega por teclado
+    // perde o lugar e volta pro topo da página. O adiamento é necessário: o diálogo
+    // ainda está desmontando e sobrescreveria um focus() chamado agora.
+    if (idx === null) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => triggerRef.current?.focus?.());
+      });
+    }
   }, []);
+
+  const revealGrid = useReveal<HTMLDivElement>();
+  const revealText = useReveal<HTMLDivElement>();
 
   const isSmallSet = gallery.length <= 2;
   // 1 tile grande + 4 pequenos preenche a grade 2x2 sem sobras; fotos extras seguem
@@ -320,6 +379,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
         {/* Mosaico de fotos · foco visual do bloco */}
         <div
+          ref={revealGrid.ref}
           className={cn(
             "grid grid-cols-2 gap-2.5 sm:gap-3",
             isSmallSet
@@ -336,10 +396,18 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
               className={cn(
                 "group relative block overflow-hidden rounded-2xl bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:rounded-3xl",
                 !isSmallSet && i === 0 && "col-span-2 row-span-2",
+                "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                revealGrid.shown ? "opacity-100 translate-y-0" : "opacity-5 translate-y-5",
               )}
+              // Escalonado só na entrada · na saída fica 0 pra nada sumir em cascata.
+              style={{ transitionDelay: revealGrid.shown ? `${Math.min(i, 4) * 90}ms` : "0ms" }}
             >
               <img
-                src={g.src}
+                src={g.thumb ?? g.src}
+                srcSet={g.thumb && g.mid ? `${g.thumb} 480w, ${g.mid} 960w, ${g.src} 1920w` : undefined}
+                sizes={!isSmallSet && i === 0 ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 640px) 25vw, 50vw"}
+                width={g.width}
+                height={g.height}
                 alt={g.desc}
                 loading="lazy"
                 decoding="async"
@@ -369,7 +437,10 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
         </div>
 
         {/* Legenda: texto compacto + amenidades + CTA */}
-        <div className="mt-6 grid gap-6 sm:mt-8 sm:grid-cols-[1.3fr_1fr] sm:gap-10">
+        <div
+          ref={revealText.ref}
+          className={cn(revealText.revealClass, "mt-6 grid gap-6 sm:mt-8 sm:grid-cols-[1.3fr_1fr] sm:gap-10")}
+        >
           <div>
             <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-primary">
               {index}. {title}

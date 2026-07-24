@@ -8,6 +8,8 @@ import { InlineCarousel } from "@/components/GalleryLightbox";
 import { Testimonials } from "@/components/Testimonials";
 import { CountUp } from "@/components/CountUp";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
+import { useReveal } from "@/hooks/use-reveal";
+import { preloadImage } from "@/lib/image-cache";
 import { cn } from "@/lib/utils";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
@@ -71,32 +73,7 @@ function GrainOverlay() {
  * transform+opacity rodam na GPU (sem travar a 60fps) e já respeitam "reduzir
  * movimento" via a regra global em styles.css.
  */
-function useReveal<T extends HTMLElement>() {
-  const ref = useRef<T | null>(null);
-  const [shown, setShown] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return {
-    ref,
-    revealClass: cn(
-      "transition-[opacity,transform] duration-700 ease-out will-change-[opacity,transform]",
-      shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
-    ),
-  };
-}
+// Implementação em src/hooks/use-reveal.ts · compartilhada com a página de ambientes.
 
 
 export const Route = createFileRoute("/")({
@@ -306,6 +283,14 @@ function PiscinaSection() {
     setTime(t);
   };
   const toggleTime = () => handleTime(time === "dia" ? "noite" : "dia");
+
+  // A foto da noite entra na fila logo depois que a página assenta: não disputa banda
+  // com o carregamento inicial, mas já está pronta quando a troca automática dispara
+  // aos 5s — sem isso a primeira troca engasgava esperando o download.
+  useEffect(() => {
+    const t = window.setTimeout(() => preloadImage(piscinaNoitePergola), 2500);
+    return () => window.clearTimeout(t);
+  }, []);
 
   // Troca sozinha entre dia/noite, pausando enquanto o visitante segura/arrasta a foto.
   const [paused, setPaused] = useState(false);

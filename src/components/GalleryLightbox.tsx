@@ -2,9 +2,21 @@ import * as React from "react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { decodeImage, preloadImage, preloadNeighbors } from "@/lib/image-cache";
 import lightboxBg from "@/assets/lightbox-bg.jpg";
 
-export type GalleryItem = { src: string; caption: string; desc: string };
+export type GalleryItem = {
+  src: string;
+  caption: string;
+  desc: string;
+  /** Variante 480w · usada nas miniaturas do grid e no fundo desfocado da lightbox. */
+  thumb?: string;
+  /** Variante 960w · degrau intermediário do srcset. */
+  mid?: string;
+  /** Dimensões reais do original · evitam salto de layout enquanto a foto carrega. */
+  width?: number;
+  height?: number;
+};
 
 type Props = {
   items: GalleryItem[];
@@ -56,6 +68,14 @@ export function InlineCarousel({
     const t = window.setInterval(() => setIdx((i) => (i + 1) % len), autoPlayInterval);
     return () => window.clearInterval(t);
   }, [autoPlay, autoPlayInterval, len, paused]);
+
+  // Aquece a próxima foto pra troca não esperar download · em loop, depois da última
+  // vem a primeira, então a vizinha é calculada com resto.
+  React.useEffect(() => {
+    if (len <= 1) return;
+    preloadImage(items[(idx + 1) % len]?.src ?? "");
+    preloadImage(items[(idx - 1 + len) % len]?.src ?? "");
+  }, [idx, items, len]);
 
   if (len === 0) return null;
 
@@ -160,86 +180,136 @@ export function InlineCarousel({
   );
 }
 
-/** Um slide da lightbox. Remonta a cada troca de foto (key=index) · o duplo rAF
- * garante que o navegador pinte o estado "não entrado" antes de animar pro estado final,
- * então a transição sempre dispara de verdade, sem depender de timeout adivinhado. */
-function Slide({
-  item,
-  dir,
+type LayerState = {
+  item: GalleryItem | null;
+  dir: 1 | -1;
+  /** Muda a cada entrada · é o gatilho da animação. Não é key do React de propósito. */
+  enterId: number;
+};
+
+const EMPTY_LAYER: LayerState = { item: null, dir: 1, enterId: 0 };
+
+/**
+ * Uma das duas camadas da lightbox.
+ *
+ * As duas ficam montadas o tempo todo e a troca de foto só escreve na camada inativa.
+ * Como a camada nunca remonta, a foto anterior continua visível por baixo enquanto a
+ * nova entra — é isso que dá o crossfade de verdade, sem o quadro vazio que aparecia
+ * quando cada troca destruía e recriava o slide.
+ *
+ * A animação é imperativa (useLayoutEffect + estilo direto) em vez de estado do React:
+ * assim entra e sai sem render extra, e o duplo requestAnimationFrame garante que o
+ * navegador pintou o estado inicial antes de animar.
+ */
+const Layer = React.memo(function Layer({
+  state,
+  isActive,
+  z,
   onSettled,
 }: {
-  item: GalleryItem;
-  dir: 1 | -1;
+  state: LayerState;
+  isActive: boolean;
+  z: number;
   onSettled: () => void;
 }) {
-  const [shown, setShown] = React.useState(false);
-  const settledRef = React.useRef(false);
-  const fireSettled = React.useCallback(() => {
-    if (settledRef.current) return;
-    settledRef.current = true;
-    onSettled();
-  }, [onSettled]);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { item, dir, enterId } = state;
+  // Lidos dentro do efeito sem entrar nas dependências: só o enterId dispara a animação.
+  const dirRef = React.useRef(dir);
+  dirRef.current = dir;
+  const settledRef = React.useRef(onSettled);
+  settledRef.current = onSettled;
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el || !enterId) return;
+
+    el.style.transition = "none";
+    el.style.opacity = "0";
+    el.style.transform = `translateX(${dirRef.current * 40}px) scale(1.015)`;
+    void el.offsetHeight; // reflow: garante que o estado inicial foi pintado
+
     let raf2 = 0;
-    let shownFlag = false;
-    const show = () => {
-      if (shownFlag) return;
-      shownFlag = true;
-      setShown(true);
+    let started = false;
+    const run = () => {
+      if (started) return;
+      started = true;
+      el.style.transition = `opacity 700ms ${EASE}, transform 700ms ${EASE}`;
+      el.style.opacity = "1";
+      el.style.transform = "translateX(0) scale(1)";
     };
-    // Caminho normal: 2 frames de animação garantem que o navegador pintou o estado
-    // inicial antes de animar. Rede de segurança: se a aba estiver oculta/sem foco
-    // (rAF não dispara nesse caso), o timeout garante que a foto apareça mesmo assim.
     const raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(show);
+      raf2 = requestAnimationFrame(run);
     });
-    const showFallback = window.setTimeout(show, 80);
-    // Rede de segurança pra travar a navegação: se transitionend nunca disparar
-    // (mesmo cenário de aba oculta), libera de qualquer jeito depois do tempo da animação.
-    const settleFallback = window.setTimeout(fireSettled, 950);
+    // Aba oculta não dispara rAF · o timeout garante que a foto apareça mesmo assim.
+    const showFallback = window.setTimeout(run, 80);
+    // E se transitionend nunca vier (mesmo cenário), libera a navegação de qualquer jeito.
+    const settleFallback = window.setTimeout(() => settledRef.current(), 950);
     return () => {
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
       window.clearTimeout(showFallback);
       window.clearTimeout(settleFallback);
     };
-  }, [fireSettled]);
+  }, [enterId]);
+
+  // Depois que o crossfade termina, apaga a camada que ficou atrás. Ela precisa
+  // continuar visível DURANTE a transição (é sobre ela que a nova foto aparece), mas
+  // deixá-la acesa pra sempre faria o navegador compor duas telas cheias à toa.
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || isActive || !enterId) return;
+    const t = window.setTimeout(() => {
+      el.style.transition = "none";
+      el.style.opacity = "0";
+    }, 760);
+    return () => window.clearTimeout(t);
+  }, [isActive, enterId]);
+
+  if (!item) return null;
+  // O fundo é desfocado de qualquer forma, então usa a miniatura: economiza baixar e
+  // decodificar a foto inteira só pra borrar, que era caro em celular mais fraco.
+  const bgSrc = item.thumb ?? item.src;
 
   return (
     <div
+      ref={ref}
       className="absolute inset-0"
+      style={{ zIndex: z, opacity: 0, willChange: isActive ? "opacity, transform" : "auto" }}
       role="group"
       aria-roledescription="slide"
-      aria-label={`${item.caption}`}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? "translateX(0) scale(1)" : `translateX(${dir * 56}px) scale(1.02)`,
-        // Sem filter/blur animado aqui de propósito: blur em transição é caro pro
-        // navegador recalcular a cada frame e é a causa mais comum de travamento
-        // ao abrir foto em celular mais fraco. opacity+transform rodam na GPU sem custo.
-        transition: `opacity 700ms ${EASE}, transform 700ms ${EASE}`,
-        willChange: "opacity, transform",
-      }}
+      aria-label={item.caption}
+      aria-hidden={!isActive}
       onTransitionEnd={(e) => {
-        if (e.propertyName === "transform") fireSettled();
+        if (e.propertyName === "transform") onSettled();
       }}
     >
       {/* Fundo desfocado: preenche a tela sem depender de nitidez, cobre as bordas do object-contain */}
       <img
         aria-hidden
-        src={item.src}
+        src={bgSrc}
         alt=""
+        decoding="async"
         className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
         draggable={false}
       />
-      {/* Foto principal: nunca estica além da resolução real (sem perda de nitidez) */}
-      <img src={item.src} alt={item.caption} className="relative z-10 w-full h-full object-contain select-none" draggable={false} />
+      {/* Foto principal: nunca estica além da resolução real (sem perda de nitidez).
+          decoding="sync" porque o bitmap já foi decodificado antes da troca — isso evita
+          o navegador adiar a pintura pro frame seguinte, que é onde nascia o pisca. */}
+      <img
+        src={item.src}
+        alt={item.caption}
+        decoding="sync"
+        width={item.width}
+        height={item.height}
+        className="relative z-10 w-full h-full object-contain select-none"
+        draggable={false}
+      />
       {/* subtle vignette so controls/caption stay legible */}
       <div aria-hidden className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
     </div>
   );
-}
+});
 
 export function GalleryLightbox({ items, className, gridClassName, trigger, initialIndex = 0, openIndex, onOpenIndexChange }: Props) {
   const controlled = openIndex !== undefined;
@@ -256,7 +326,6 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
     },
     [controlled, openIndex, onOpenIndexChange],
   );
-  const [slideDir, setSlideDir] = React.useState<1 | -1>(1);
   // Ref (não state) pra travar navegação · lido/escrito sincronamente, sem closure velha.
   const lockRef = React.useRef(false);
   const triggerRef = React.useRef<HTMLElement | null>(null);
@@ -265,17 +334,37 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
   const isFirst = openIdx === 0;
   const isLast = openIdx === items.length - 1;
 
+  // Duas camadas montadas o tempo todo · trocar de foto escreve na inativa e inverte.
+  const [layers, setLayers] = React.useState<[LayerState, LayerState]>([EMPTY_LAYER, EMPTY_LAYER]);
+  const [active, setActive] = React.useState<0 | 1>(0);
+  const activeRef = React.useRef<0 | 1>(0);
+  activeRef.current = active;
+  const dirRef = React.useRef<1 | -1>(1);
+  const enterSeq = React.useRef(0);
+  const openIdxRef = React.useRef<number | null>(null);
+  openIdxRef.current = openIdx;
+  const mountedRef = React.useRef(true);
+  React.useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
   const close = React.useCallback(() => {
     setOpenIdx(null);
-    // Restaura o foco pro elemento que abriu a lightbox (acessibilidade).
-    triggerRef.current?.focus?.();
+    // Restaura o foco pro elemento que abriu a lightbox (acessibilidade). Adiado de
+    // propósito: o diálogo ainda está desmontando e sobrescreveria um focus() imediato.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => triggerRef.current?.focus?.());
+    });
   }, [setOpenIdx]);
 
   const openAt = React.useCallback(
     (i: number, el?: HTMLElement) => {
       lockRef.current = false;
+      dirRef.current = 1;
       if (el) triggerRef.current = el;
-      setSlideDir(1);
       setOpenIdx(Math.max(0, Math.min(items.length - 1, i)));
     },
     [items.length, setOpenIdx],
@@ -284,14 +373,14 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
   const navigate = React.useCallback(
     (dir: 1 | -1) => {
       if (lockRef.current) return;
-      setOpenIdx((i) => {
-        if (i === null) return i;
-        const next = i + dir;
-        if (next < 0 || next > items.length - 1) return i;
-        lockRef.current = true;
-        setSlideDir(dir);
-        return next;
-      });
+      const cur = openIdxRef.current;
+      if (cur === null) return;
+      const next = cur + dir;
+      if (next < 0 || next > items.length - 1) return;
+      // Efeitos colaterais fora do updater · o setState recebe só um valor puro.
+      lockRef.current = true;
+      dirRef.current = dir;
+      setOpenIdx(next);
     },
     [items.length, setOpenIdx],
   );
@@ -303,6 +392,44 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
   const handleSlideSettled = React.useCallback(() => {
     lockRef.current = false;
   }, []);
+
+  const srcs = React.useMemo(() => items.map((i) => i.src), [items]);
+
+  // Orquestra abrir e navegar: espera o bitmap ficar pronto e só então troca de camada.
+  // É o que tira o download e a decodificação do frame do clique.
+  React.useEffect(() => {
+    if (openIdx === null) {
+      // Fechou: limpa as camadas pra soltar o bitmap grande da memória e pra próxima
+      // abertura não fazer crossfade a partir da foto antiga.
+      setLayers([EMPTY_LAYER, EMPTY_LAYER]);
+      lockRef.current = false;
+      return;
+    }
+    const item = items[openIdx];
+    if (!item) return;
+
+    let cancelled = false;
+    void (async () => {
+      await decodeImage(item.src);
+      if (cancelled || !mountedRef.current) return;
+      const incoming: 0 | 1 = activeRef.current === 0 ? 1 : 0;
+      const id = ++enterSeq.current;
+      setLayers((prev) => {
+        const next: [LayerState, LayerState] = [prev[0], prev[1]];
+        next[incoming] = { item, dir: dirRef.current, enterId: id };
+        return next;
+      });
+      setActive(incoming);
+      preloadNeighbors(srcs, openIdx);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [openIdx, items, srcs]);
+
+  // A legenda acompanha a camada visível, então troca junto com o crossfade.
+  const shownItem = layers[active].item ?? current;
 
   // Keyboard navigation
   React.useEffect(() => {
@@ -365,7 +492,10 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
 
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
         <DialogContent
-          className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100]"
+          // As variáveis de escala neutralizam o zoom-in-95 padrão do Dialog só aqui:
+          // escalar um container de tela cheia na abertura é caro e dava um estalo.
+          // Fica só o fade, que roda na GPU.
+          className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100] [--tw-enter-scale:1] [--tw-exit-scale:1] duration-300"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
           style={{
@@ -385,7 +515,18 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
               aria-roledescription="carrossel"
               aria-label="Galeria de ambientes"
             >
-              <Slide key={openIdx} item={current} dir={slideDir} onSettled={handleSlideSettled} />
+              <Layer
+                state={layers[0]}
+                isActive={active === 0}
+                z={active === 0 ? 2 : 1}
+                onSettled={handleSlideSettled}
+              />
+              <Layer
+                state={layers[1]}
+                isActive={active === 1}
+                z={active === 1 ? 2 : 1}
+                onSettled={handleSlideSettled}
+              />
 
               {/* Close */}
               <button
@@ -422,8 +563,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
               {/* Caption */}
               <div className="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-6 bg-gradient-to-t from-black/85 via-black/50 to-transparent text-white">
                 <div className="mx-auto max-w-3xl text-center">
-                  <div className="text-base sm:text-lg font-semibold">{current.caption}</div>
-                  <p className="mt-1 text-sm text-white/90">{current.desc}</p>
+                  <div className="text-base sm:text-lg font-semibold">{shownItem?.caption}</div>
+                  <p className="mt-1 text-sm text-white/90">{shownItem?.desc}</p>
                   {items.length > 1 && (
                     <div className="mt-3 flex items-center justify-center gap-1.5">
                       {items.length <= 10 ? (

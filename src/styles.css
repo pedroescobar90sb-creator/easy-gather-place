@@ -201,6 +201,10 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      /* Cobre também os delays escalonados aplicados por style inline (stagger do
+         mosaico de ambientes) · sem isso o conteúdo ainda entraria em cascata. */
+      transition-delay: 0ms !important;
+      animation-delay: 0ms !important;
       scroll-behavior: auto !important;
     }
   }
