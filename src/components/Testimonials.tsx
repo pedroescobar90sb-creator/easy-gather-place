@@ -7,7 +7,8 @@ import avatarCintia from "@/assets/avatar-cintia.png";
 import avatarFatima from "@/assets/avatar-fatima.png";
 import avatarDavid from "@/assets/avatar-david.png";
 import avatarJuliana from "@/assets/avatar-juliana.png";
-import palmBg1 from "@/assets/palm-bg-1.webp";
+// Fundo decorativo atrás de um degradê escuro · a variante reduzida é indistinguível.
+import palmBg1 from "@/assets/thumbs/palm-bg-1@960.webp";
 
 type Testimonial = {
   name: string;

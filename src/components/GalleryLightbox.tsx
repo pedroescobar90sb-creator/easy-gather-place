@@ -43,6 +43,7 @@ export function InlineCarousel({
   imgClassName,
   autoPlay = false,
   autoPlayInterval = 5000,
+  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
 }: {
   items: GalleryItem[];
   className?: string;
@@ -50,6 +51,8 @@ export function InlineCarousel({
   /** Avança sozinho, em loop, quando não há interação do usuário. */
   autoPlay?: boolean;
   autoPlayInterval?: number;
+  /** Largura que a foto ocupa no layout · alimenta o srcset. */
+  sizes?: string;
 }) {
   const [idx, setIdx] = React.useState(0);
   const [paused, setPaused] = React.useState(false);
@@ -130,7 +133,11 @@ export function InlineCarousel({
       {items.map((it, i) => (
         <img
           key={it.src}
-          src={it.src}
+          src={it.thumb ?? it.src}
+          srcSet={it.thumb && it.mid ? `${it.thumb} 480w, ${it.mid} 960w, ${it.src} 1600w` : undefined}
+          sizes={sizes}
+          width={it.width}
+          height={it.height}
           alt={it.caption}
           loading={i === 0 ? "eager" : "lazy"}
           decoding="async"
@@ -182,12 +189,11 @@ export function InlineCarousel({
 
 type LayerState = {
   item: GalleryItem | null;
-  dir: 1 | -1;
   /** Muda a cada entrada · é o gatilho da animação. Não é key do React de propósito. */
   enterId: number;
 };
 
-const EMPTY_LAYER: LayerState = { item: null, dir: 1, enterId: 0 };
+const EMPTY_LAYER: LayerState = { item: null, enterId: 0 };
 
 /**
  * Uma das duas camadas da lightbox.
@@ -205,28 +211,23 @@ const Layer = React.memo(function Layer({
   state,
   isActive,
   z,
-  onSettled,
 }: {
   state: LayerState;
   isActive: boolean;
   z: number;
-  onSettled: () => void;
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const { item, dir, enterId } = state;
-  // Lidos dentro do efeito sem entrar nas dependências: só o enterId dispara a animação.
-  const dirRef = React.useRef(dir);
-  dirRef.current = dir;
-  const settledRef = React.useRef(onSettled);
-  settledRef.current = onSettled;
-
+  const { item, enterId } = state;
+  // Lido dentro do efeito sem entrar nas dependências: só o enterId dispara a animação.
   React.useLayoutEffect(() => {
     const el = ref.current;
     if (!el || !enterId) return;
 
+    // Dissolve puro, sem deslocar a camada. Deslocar deixava uma faixa lateral onde só
+    // aparecia o fundo da foto anterior, e essa emenda escura era o "preto piscando na
+    // borda". Sem deslocamento a camada cobre o container inteiro do início ao fim.
     el.style.transition = "none";
     el.style.opacity = "0";
-    el.style.transform = `translateX(${dirRef.current * 40}px) scale(1.015)`;
     void el.offsetHeight; // reflow: garante que o estado inicial foi pintado
 
     let raf2 = 0;
@@ -234,22 +235,18 @@ const Layer = React.memo(function Layer({
     const run = () => {
       if (started) return;
       started = true;
-      el.style.transition = `opacity 700ms ${EASE}, transform 700ms ${EASE}`;
+      el.style.transition = `opacity 700ms ${EASE}`;
       el.style.opacity = "1";
-      el.style.transform = "translateX(0) scale(1)";
     };
     const raf1 = requestAnimationFrame(() => {
       raf2 = requestAnimationFrame(run);
     });
     // Aba oculta não dispara rAF · o timeout garante que a foto apareça mesmo assim.
     const showFallback = window.setTimeout(run, 80);
-    // E se transitionend nunca vier (mesmo cenário), libera a navegação de qualquer jeito.
-    const settleFallback = window.setTimeout(() => settledRef.current(), 950);
     return () => {
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
       window.clearTimeout(showFallback);
-      window.clearTimeout(settleFallback);
     };
   }, [enterId]);
 
@@ -275,14 +272,11 @@ const Layer = React.memo(function Layer({
     <div
       ref={ref}
       className="absolute inset-0"
-      style={{ zIndex: z, opacity: 0, willChange: isActive ? "opacity, transform" : "auto" }}
+      style={{ zIndex: z, opacity: 0, willChange: isActive ? "opacity" : "auto" }}
       role="group"
       aria-roledescription="slide"
       aria-label={item.caption}
       aria-hidden={!isActive}
-      onTransitionEnd={(e) => {
-        if (e.propertyName === "transform") onSettled();
-      }}
     >
       {/* Fundo desfocado: preenche a tela sem depender de nitidez, cobre as bordas do object-contain */}
       <img
@@ -326,8 +320,20 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
     },
     [controlled, openIndex, onOpenIndexChange],
   );
-  // Ref (não state) pra travar navegação · lido/escrito sincronamente, sem closure velha.
+  // Trava curta só pra absorver clique repetido · lido/escrito sincronamente, sem
+  // closure velha. Antes ela durava toda a animação (700ms), e um clique dado logo
+  // depois disso caía no vazio: o visitante clicava e nada acontecia. As duas camadas
+  // já lidam com trocas sobrepostas, então segurar o clique por muito tempo era só
+  // atrapalhar.
   const lockRef = React.useRef(false);
+  const lockTimer = React.useRef(0);
+  const unlockSoon = React.useCallback(() => {
+    window.clearTimeout(lockTimer.current);
+    lockTimer.current = window.setTimeout(() => {
+      lockRef.current = false;
+    }, 260);
+  }, []);
+  React.useEffect(() => () => window.clearTimeout(lockTimer.current), []);
   const triggerRef = React.useRef<HTMLElement | null>(null);
   const open = openIdx !== null;
   const current = open ? items[openIdx!] : null;
@@ -339,7 +345,6 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
   const [active, setActive] = React.useState<0 | 1>(0);
   const activeRef = React.useRef<0 | 1>(0);
   activeRef.current = active;
-  const dirRef = React.useRef<1 | -1>(1);
   const enterSeq = React.useRef(0);
   const openIdxRef = React.useRef<number | null>(null);
   openIdxRef.current = openIdx;
@@ -363,7 +368,6 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
   const openAt = React.useCallback(
     (i: number, el?: HTMLElement) => {
       lockRef.current = false;
-      dirRef.current = 1;
       if (el) triggerRef.current = el;
       setOpenIdx(Math.max(0, Math.min(items.length - 1, i)));
     },
@@ -379,19 +383,14 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
       if (next < 0 || next > items.length - 1) return;
       // Efeitos colaterais fora do updater · o setState recebe só um valor puro.
       lockRef.current = true;
-      dirRef.current = dir;
+      unlockSoon();
       setOpenIdx(next);
     },
-    [items.length, setOpenIdx],
+    [items.length, setOpenIdx, unlockSoon],
   );
 
   const goPrev = React.useCallback(() => navigate(-1), [navigate]);
   const goNext = React.useCallback(() => navigate(1), [navigate]);
-
-  // Libera a trava só quando a animação de fato termina (transitionend real, não timeout adivinhado).
-  const handleSlideSettled = React.useCallback(() => {
-    lockRef.current = false;
-  }, []);
 
   const srcs = React.useMemo(() => items.map((i) => i.src), [items]);
 
@@ -416,7 +415,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
       const id = ++enterSeq.current;
       setLayers((prev) => {
         const next: [LayerState, LayerState] = [prev[0], prev[1]];
-        next[incoming] = { item, dir: dirRef.current, enterId: id };
+        next[incoming] = { item, enterId: id };
         return next;
       });
       setActive(incoming);
@@ -515,18 +514,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
               aria-roledescription="carrossel"
               aria-label="Galeria de ambientes"
             >
-              <Layer
-                state={layers[0]}
-                isActive={active === 0}
-                z={active === 0 ? 2 : 1}
-                onSettled={handleSlideSettled}
-              />
-              <Layer
-                state={layers[1]}
-                isActive={active === 1}
-                z={active === 1 ? 2 : 1}
-                onSettled={handleSlideSettled}
-              />
+              <Layer state={layers[0]} isActive={active === 0} z={active === 0 ? 2 : 1} />
+              <Layer state={layers[1]} isActive={active === 1} z={active === 1 ? 2 : 1} />
 
               {/* Close */}
               <button

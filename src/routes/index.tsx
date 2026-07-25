@@ -48,6 +48,82 @@ import quartoTriploVista from "@/assets/quarto-triplo-vista-piscina.jpg";
 import bgCoqueiros from "@/assets/bg-coqueiros-escuro.jpg";
 import palmBg2 from "@/assets/palm-bg-2.webp";
 
+// Fundos decorativos usam a variante reduzida: todos ficam atrás de camada escura ou de
+// grão, então a original (de 253 a 474 KB cada) não acrescentava nada visível.
+import heroPousada960 from "@/assets/thumbs/pousada-0@960.webp";
+import bgCoqueiros960 from "@/assets/thumbs/bg-coqueiros-escuro@960.webp";
+import lazerDrone960 from "@/assets/thumbs/lazer-drone-piscina@960.webp";
+import palmBg2_960 from "@/assets/thumbs/palm-bg-2@960.webp";
+import piscinaNoite960 from "@/assets/thumbs/piscina-noite@960.webp";
+import piscinaHero480 from "@/assets/thumbs/piscina-hero-clean@480.webp";
+import piscinaHero960 from "@/assets/thumbs/piscina-hero-clean@960.webp";
+
+// Variantes reduzidas das fotos de galeria (geradas por scripts/gen-thumbs.py).
+import fachadaNoite_480 from "@/assets/thumbs/acomodacoes-fachada-hd@480.webp";
+import fachadaNoite_960 from "@/assets/thumbs/acomodacoes-fachada-hd@960.webp";
+import piscinaHero_480 from "@/assets/thumbs/piscina-hero-clean@480.webp";
+import piscinaHero_960 from "@/assets/thumbs/piscina-hero-clean@960.webp";
+import quiosqueJardim_480 from "@/assets/thumbs/quiosque-jardim@480.webp";
+import quiosqueJardim_960 from "@/assets/thumbs/quiosque-jardim@960.webp";
+import recepcaoNoite_480 from "@/assets/thumbs/recepcao-noite-2@480.webp";
+import recepcaoNoite_960 from "@/assets/thumbs/recepcao-noite-2@960.webp";
+import quartoDuplo_480 from "@/assets/thumbs/quarto-duplo-cover-hd@480.webp";
+import quartoDuplo_960 from "@/assets/thumbs/quarto-duplo-cover-hd@960.webp";
+import quartoDuploDetalhe_480 from "@/assets/thumbs/quarto-duplo-detalhe-hd@480.webp";
+import quartoDuploDetalhe_960 from "@/assets/thumbs/quarto-duplo-detalhe-hd@960.webp";
+import quartoDuploAlt2_480 from "@/assets/thumbs/quarto-duplo-varanda-hd@480.webp";
+import quartoDuploAlt2_960 from "@/assets/thumbs/quarto-duplo-varanda-hd@960.webp";
+import quartoTriplo1_480 from "@/assets/thumbs/quarto-triplo-1@480.webp";
+import quartoTriplo1_960 from "@/assets/thumbs/quarto-triplo-1@960.webp";
+import quartoTriplo2_480 from "@/assets/thumbs/quarto-triplo-2@480.webp";
+import quartoTriplo2_960 from "@/assets/thumbs/quarto-triplo-2@960.webp";
+import quartoTriploVaranda_480 from "@/assets/thumbs/quarto-triplo-varanda@480.webp";
+import quartoTriploVaranda_960 from "@/assets/thumbs/quarto-triplo-varanda@960.webp";
+import quartoTriploVista_480 from "@/assets/thumbs/quarto-triplo-vista-piscina@480.webp";
+import quartoTriploVista_960 from "@/assets/thumbs/quarto-triplo-vista-piscina@960.webp";
+import quartoQuadruplo_480 from "@/assets/thumbs/quarto-quadruplo-1@480.webp";
+import quartoQuadruplo_960 from "@/assets/thumbs/quarto-quadruplo-1@960.webp";
+import quartoQuadruplo2_480 from "@/assets/thumbs/quarto-quadruplo-2@480.webp";
+import quartoQuadruplo2_960 from "@/assets/thumbs/quarto-quadruplo-2@960.webp";
+import quartoQuadruploDetalhe_480 from "@/assets/thumbs/quarto-quadruplo-detalhe-hd@480.webp";
+import quartoQuadruploDetalhe_960 from "@/assets/thumbs/quarto-quadruplo-detalhe-hd@960.webp";
+import quartoQuadruplo3_480 from "@/assets/thumbs/quarto-quadruplo-3@480.webp";
+import quartoQuadruplo3_960 from "@/assets/thumbs/quarto-quadruplo-3@960.webp";
+import quartoQuadruploRede_480 from "@/assets/thumbs/quarto-quadruplo-rede-hd@480.webp";
+import quartoQuadruploRede_960 from "@/assets/thumbs/quarto-quadruplo-rede-hd@960.webp";
+import piscinaVistaCompleta_480 from "@/assets/thumbs/piscina-deck-espreguicadeiras@480.webp";
+import piscinaVistaCompleta_960 from "@/assets/thumbs/piscina-deck-espreguicadeiras@960.webp";
+import piscinaEspreguicadeiras_480 from "@/assets/thumbs/piscina-azul-detalhe@480.webp";
+import piscinaEspreguicadeiras_960 from "@/assets/thumbs/piscina-azul-detalhe@960.webp";
+import salaoJogosBilhar_480 from "@/assets/thumbs/salao-jogos-bilhar@480.webp";
+import salaoJogosBilhar_960 from "@/assets/thumbs/salao-jogos-bilhar@960.webp";
+import salaoJogosMesa_480 from "@/assets/thumbs/salao-jogos-mesa-hd@480.webp";
+import salaoJogosMesa_960 from "@/assets/thumbs/salao-jogos-mesa-hd@960.webp";
+
+/** Cada foto com suas variantes e as dimensões reais do original. */
+const P = {
+  fachadaNoite: { src: fachadaNoite, thumb: fachadaNoite_480, mid: fachadaNoite_960, width: 1152, height: 928 },
+  piscinaHero: { src: piscinaHero, thumb: piscinaHero_480, mid: piscinaHero_960, width: 1600, height: 1600 },
+  quiosqueJardim: { src: quiosqueJardim, thumb: quiosqueJardim_480, mid: quiosqueJardim_960, width: 1125, height: 2000 },
+  recepcaoNoite: { src: recepcaoNoite, thumb: recepcaoNoite_480, mid: recepcaoNoite_960, width: 1200, height: 1600 },
+  quartoDuplo: { src: quartoDuplo, thumb: quartoDuplo_480, mid: quartoDuplo_960, width: 1200, height: 1600 },
+  quartoDuploDetalhe: { src: quartoDuploDetalhe, thumb: quartoDuploDetalhe_480, mid: quartoDuploDetalhe_960, width: 1500, height: 1000 },
+  quartoDuploAlt2: { src: quartoDuploAlt2, thumb: quartoDuploAlt2_480, mid: quartoDuploAlt2_960, width: 1200, height: 1600 },
+  quartoTriplo1: { src: quartoTriplo1, thumb: quartoTriplo1_480, mid: quartoTriplo1_960, width: 1200, height: 1600 },
+  quartoTriplo2: { src: quartoTriplo2, thumb: quartoTriplo2_480, mid: quartoTriplo2_960, width: 1200, height: 1600 },
+  quartoTriploVaranda: { src: quartoTriploVaranda, thumb: quartoTriploVaranda_480, mid: quartoTriploVaranda_960, width: 900, height: 1600 },
+  quartoTriploVista: { src: quartoTriploVista, thumb: quartoTriploVista_480, mid: quartoTriploVista_960, width: 900, height: 1600 },
+  quartoQuadruplo: { src: quartoQuadruplo, thumb: quartoQuadruplo_480, mid: quartoQuadruplo_960, width: 1500, height: 1000 },
+  quartoQuadruplo2: { src: quartoQuadruplo2, thumb: quartoQuadruplo2_480, mid: quartoQuadruplo2_960, width: 1200, height: 1600 },
+  quartoQuadruploDetalhe: { src: quartoQuadruploDetalhe, thumb: quartoQuadruploDetalhe_480, mid: quartoQuadruploDetalhe_960, width: 1200, height: 1600 },
+  quartoQuadruplo3: { src: quartoQuadruplo3, thumb: quartoQuadruplo3_480, mid: quartoQuadruplo3_960, width: 1200, height: 1600 },
+  quartoQuadruploRede: { src: quartoQuadruploRede, thumb: quartoQuadruploRede_480, mid: quartoQuadruploRede_960, width: 1500, height: 1000 },
+  piscinaVistaCompleta: { src: piscinaVistaCompleta, thumb: piscinaVistaCompleta_480, mid: piscinaVistaCompleta_960, width: 1200, height: 1600 },
+  piscinaEspreguicadeiras: { src: piscinaEspreguicadeiras, thumb: piscinaEspreguicadeiras_480, mid: piscinaEspreguicadeiras_960, width: 1200, height: 1600 },
+  salaoJogosBilhar: { src: salaoJogosBilhar, thumb: salaoJogosBilhar_480, mid: salaoJogosBilhar_960, width: 1200, height: 1600 },
+  salaoJogosMesa: { src: salaoJogosMesa, thumb: salaoJogosMesa_480, mid: salaoJogosMesa_960, width: 1400, height: 1867 },
+} as const;
+
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
 const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
@@ -163,9 +239,9 @@ const ROOMS: RoomCard[] = [
     cta: "Quero reservar o Quarto Duplo",
     waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 400/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
-      { src: quartoDuplo, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
-      { src: quartoDuploDetalhe, caption: "Quarto Duplo · Outro ângulo", desc: "Cama de casal com TV, ar-condicionado e banheiro privativo." },
-      { src: quartoDuploAlt2, caption: "Quarto Duplo · Varanda com vista", desc: "Varanda privativa com rede, vista para o jardim e piscina." },
+      { ...P.quartoDuplo, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
+      { ...P.quartoDuploDetalhe, caption: "Quarto Duplo · Outro ângulo", desc: "Cama de casal com TV, ar-condicionado e banheiro privativo." },
+      { ...P.quartoDuploAlt2, caption: "Quarto Duplo · Varanda com vista", desc: "Varanda privativa com rede, vista para o jardim e piscina." },
     ],
   },
   {
@@ -177,10 +253,10 @@ const ROOMS: RoomCard[] = [
     cta: "Quero reservar o Quarto Triplo",
     waMsg: "Olá! Tenho interesse no Quarto Triplo (3 pessoas) da Pousada Ilha do Meio, a partir de R$ 550/noite. Pode confirmar disponibilidade para as minhas datas?",
     photos: [
-      { src: quartoTriplo1, caption: "Quarto Triplo · Vista geral", desc: "Cama de casal e cama de solteiro, espaço amplo para 3 pessoas." },
-      { src: quartoTriplo2, caption: "Quarto Triplo · Camas", desc: "Roupa de cama branca, frigobar e ambiente aconchegante." },
-      { src: quartoTriploVaranda, caption: "Quarto Triplo · Varanda com rede", desc: "Varanda privativa em madeira, rede e vista para os coqueiros." },
-      { src: quartoTriploVista, caption: "Quarto Triplo · Vista da piscina", desc: "Vista da varanda para a piscina e o verde ao redor." },
+      { ...P.quartoTriplo1, caption: "Quarto Triplo · Vista geral", desc: "Cama de casal e cama de solteiro, espaço amplo para 3 pessoas." },
+      { ...P.quartoTriplo2, caption: "Quarto Triplo · Camas", desc: "Roupa de cama branca, frigobar e ambiente aconchegante." },
+      { ...P.quartoTriploVaranda, caption: "Quarto Triplo · Varanda com rede", desc: "Varanda privativa em madeira, rede e vista para os coqueiros." },
+      { ...P.quartoTriploVista, caption: "Quarto Triplo · Vista da piscina", desc: "Vista da varanda para a piscina e o verde ao redor." },
     ],
   },
   {
@@ -192,11 +268,11 @@ const ROOMS: RoomCard[] = [
     cta: "Quero reservar o Quarto Quadruplo",
     waMsg: "Olá! Tenho interesse no Quarto Quadruplo (3 ou 4 pessoas) da Pousada Ilha do Meio, a partir de R$ 650/noite. Pode confirmar disponibilidade?",
     photos: [
-      { src: quartoQuadruplo, caption: "Quarto Quadruplo · Vista geral", desc: "Pensado para a família toda descansar junto, acomoda 3 ou 4 pessoas." },
-      { src: quartoQuadruplo2, caption: "Quarto Quadruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
-      { src: quartoQuadruploDetalhe, caption: "Quarto Quadruplo · Outro ângulo", desc: "Camas com acesso direto à área externa da pousada." },
-      { src: quartoQuadruplo3, caption: "Quarto Quadruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
-      { src: quartoQuadruploRede, caption: "Quarto Quadruplo · Rede na varanda", desc: "Rede privativa com vista aberta para o verde ao redor." },
+      { ...P.quartoQuadruplo, caption: "Quarto Quadruplo · Vista geral", desc: "Pensado para a família toda descansar junto, acomoda 3 ou 4 pessoas." },
+      { ...P.quartoQuadruplo2, caption: "Quarto Quadruplo · Camas", desc: "Camas bem dispostas, boa circulação e ambiente aconchegante." },
+      { ...P.quartoQuadruploDetalhe, caption: "Quarto Quadruplo · Outro ângulo", desc: "Camas com acesso direto à área externa da pousada." },
+      { ...P.quartoQuadruplo3, caption: "Quarto Quadruplo · Varanda", desc: "Varanda em madeira com vista para o jardim." },
+      { ...P.quartoQuadruploRede, caption: "Quarto Quadruplo · Rede na varanda", desc: "Rede privativa com vista aberta para o verde ao redor." },
     ],
   },
 ];
@@ -211,10 +287,10 @@ const ROOM_AMENITIES = [
 ];
 
 const GALLERY = [
-  { src: fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
-  { src: piscinaHero, caption: "Piscina", desc: "Piscina de água cristalina, deck de madeira e coqueiros ao redor." },
-  { src: quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
-  { src: recepcaoNoite, caption: "Recepção", desc: "Área de convivência da recepção, com estrutura em madeira e clima acolhedor." },
+  { ...P.fachadaNoite, caption: "Acomodações", desc: "Cabines com fachada amarela, varanda em madeira e clima acolhedor." },
+  { ...P.piscinaHero, caption: "Piscina", desc: "Piscina de água cristalina, deck de madeira e coqueiros ao redor." },
+  { ...P.quiosqueJardim, caption: "Área de Convivência", desc: "Espaço de convivência para relaxar entre um passeio e outro." },
+  { ...P.recepcaoNoite, caption: "Recepção", desc: "Área de convivência da recepção, com estrutura em madeira e clima acolhedor." },
 ];
 
 const GALLERY_META = [
@@ -313,8 +389,8 @@ function PiscinaSection() {
   };
 
   const DETAILS = [
-    { src: piscinaVistaCompleta, caption: "Vista completa" },
-    { src: piscinaEspreguicadeiras, caption: "Espreguiçadeiras" },
+    { ...P.piscinaVistaCompleta, caption: "Vista completa" },
+    { ...P.piscinaEspreguicadeiras, caption: "Espreguiçadeiras" },
   ];
   return (
     <section className="bg-background">
@@ -358,8 +434,13 @@ function PiscinaSection() {
           onTouchEnd={(e) => onDragEnd(e.changedTouches[0]?.clientX ?? 0)}
         >
           <img
-            src={piscinaHero}
+            src={piscinaHero960}
+            srcSet={`${piscinaHero480} 480w, ${piscinaHero960} 960w, ${piscinaHero} 1600w`}
+            sizes="(min-width: 640px) 60vw, 100vw"
+            width={1600}
+            height={1600}
             alt="Piscina da Pousada Ilha do Meio durante o dia"
+            decoding="async"
             className={cn("absolute inset-0 h-full w-full object-cover object-[50%_72%] transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]", time === "dia" ? "opacity-100" : "opacity-0")}
           />
           {noiteLoaded && (
@@ -546,7 +627,7 @@ function HomePage() {
       <section
         id="top"
         className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px] flex items-center"
-        style={{ backgroundImage: `url(${heroPousada})` }}
+        style={{ backgroundImage: `url(${heroPousada960})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <GrainOverlay />
@@ -602,7 +683,7 @@ function HomePage() {
         <div
           aria-hidden
           className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${bgCoqueiros})` }}
+          style={{ backgroundImage: `url(${bgCoqueiros960})` }}
         />
         {/* Overlays escuros para legibilidade */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-black/50" />
@@ -726,7 +807,7 @@ function HomePage() {
         <div
           aria-hidden
           className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${lazerDrone})` }}
+          style={{ backgroundImage: `url(${lazerDrone960})` }}
         />
         <div aria-hidden className="absolute inset-0 -z-10 bg-black/55" />
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/35 to-black/65" />
@@ -748,8 +829,8 @@ function HomePage() {
         {/* Filmstrip horizontal — arraste pro lado */}
         <div className="mt-10 flex gap-4 overflow-x-auto pb-6 pl-4 sm:pl-[max(1rem,calc((100vw-72rem)/2+1rem))] pr-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {[
-            { src: salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
-            { src: salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
+            { ...P.salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
+            { ...P.salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
           ].map((photo) => (
             <figure
               key={photo.src}
@@ -795,7 +876,7 @@ function HomePage() {
         <div
           aria-hidden
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${palmBg2})` }}
+          style={{ backgroundImage: `url(${palmBg2_960})` }}
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/68 to-card/85" />
         <div ref={revealReservar.ref} className={cn(revealReservar.revealClass, "relative mx-auto max-w-6xl px-4 py-14 sm:py-20")}>
@@ -1054,7 +1135,7 @@ function HomePage() {
       {/* FINAL CTA */}
       <section
         className="relative bg-cover bg-center bg-no-repeat min-h-[480px] sm:min-h-[560px] lg:min-h-[620px]"
-        style={{ backgroundImage: `url(${piscinaNoite})` }}
+        style={{ backgroundImage: `url(${piscinaNoite960})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-black/75" />
         <GrainOverlay />

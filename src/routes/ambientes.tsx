@@ -403,7 +403,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
                 "group relative block overflow-hidden rounded-2xl bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:rounded-3xl",
                 !isSmallSet && i === 0 && "col-span-2 row-span-2",
                 "transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
-                revealGrid.shown ? "opacity-100 translate-y-0" : "opacity-5 translate-y-5",
+                revealGrid.shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5",
               )}
               // Escalonado só na entrada · na saída fica 0 pra nada sumir em cascata.
               style={{ transitionDelay: revealGrid.shown ? `${Math.min(i, 4) * 90}ms` : "0ms" }}

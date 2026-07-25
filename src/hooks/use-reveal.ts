@@ -27,6 +27,15 @@ export function useReveal<T extends HTMLElement>() {
       setShown(true);
       return;
     }
+    // Se o elemento já está na tela quando monta, mostra na hora: fazer fade em algo que
+    // o visitante já está olhando só atrasa a leitura. Também serve de rede de segurança
+    // — se o observer não disparasse, o conteúdo ficaria invisível pra sempre.
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      setShown(true);
+      return;
+    }
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
