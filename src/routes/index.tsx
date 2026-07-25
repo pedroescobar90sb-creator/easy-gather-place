@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation, ChevronRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { HeroVideoBackground } from "@/components/HeroVideoBackground";
 import { SiteFooter } from "@/components/SiteFooter";
 import { InlineCarousel } from "@/components/GalleryLightbox";
 import { VideoTour } from "@/components/VideoTour";
@@ -641,6 +642,9 @@ function HomePage() {
         className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] flex items-center"
         style={{ backgroundImage: `url(${heroPousada960})` }}
       >
+        {/* Sobrevoo de drone da própria pousada, em loop mudo. Entra por cima da foto
+            depois que a página carrega — se não puder tocar, a foto continua ali. */}
+        <HeroVideoBackground src="/hero-pousada-loop.mp4" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <GrainOverlay />
         {/* Menos respiro vertical em telas grandes: com o cabeçalho fixo ocupando ~137px,
