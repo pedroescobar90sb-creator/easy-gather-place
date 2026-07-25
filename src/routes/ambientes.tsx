@@ -41,6 +41,7 @@ import quartoDuploAlt from "@/assets/quarto-duplo-varanda-hd.jpg";
 import quartoQuadruplo from "@/assets/quarto-quadruplo-1.webp";
 import quartoQuadruplo2 from "@/assets/quarto-quadruplo-2.webp";
 import quartoQuadruplo3 from "@/assets/quarto-quadruplo-3.webp";
+import quartoTriplo from "@/assets/quarto-triplo-2.jpg";
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
@@ -76,6 +77,8 @@ import quartoQuadruplo2_480 from "@/assets/thumbs/quarto-quadruplo-2@480.webp";
 import quartoQuadruplo2_960 from "@/assets/thumbs/quarto-quadruplo-2@960.webp";
 import quartoQuadruplo3_480 from "@/assets/thumbs/quarto-quadruplo-3@480.webp";
 import quartoQuadruplo3_960 from "@/assets/thumbs/quarto-quadruplo-3@960.webp";
+import quartoTriplo480 from "@/assets/thumbs/quarto-triplo-2@480.webp";
+import quartoTriplo960 from "@/assets/thumbs/quarto-triplo-2@960.webp";
 import salaoJogosBilhar480 from "@/assets/thumbs/salao-jogos-bilhar@480.webp";
 import salaoJogosBilhar960 from "@/assets/thumbs/salao-jogos-bilhar@960.webp";
 import salaoJogosMesa480 from "@/assets/thumbs/salao-jogos-mesa-hd@480.webp";
@@ -89,6 +92,7 @@ const P = {
   quartoQuadruplo: { src: quartoQuadruplo, thumb: quartoQuadruplo480, mid: quartoQuadruplo960, width: 1500, height: 1000 },
   quartoQuadruplo2: { src: quartoQuadruplo2, thumb: quartoQuadruplo2_480, mid: quartoQuadruplo2_960, width: 1200, height: 1600 },
   quartoQuadruplo3: { src: quartoQuadruplo3, thumb: quartoQuadruplo3_480, mid: quartoQuadruplo3_960, width: 1200, height: 1600 },
+  quartoTriplo: { src: quartoTriplo, thumb: quartoTriplo480, mid: quartoTriplo960, width: 1200, height: 1600 },
   piscinaDeck: { src: piscinaDeck, thumb: piscinaDeck480, mid: piscinaDeck960, width: 691, height: 858 },
   piscinaHero: { src: piscinaHero, thumb: piscinaHero480, mid: piscinaHero960, width: 1600, height: 1600 },
   piscinaNoitePergola: { src: piscinaNoitePergola, thumb: piscinaNoitePergola480, mid: piscinaNoitePergola960, width: 1200, height: 1600 },
@@ -124,7 +128,7 @@ const AMBIENTES: Ambiente[] = [
   {
     id: "suites",
     index: "01",
-    title: "Suítes em madeira",
+    title: "Suítes",
     subtitle: "Conforto e charme em cada detalhe",
     description:
       "Cabines com fachada amarela, varanda de madeira e ambiente acolhedor. Cama confortável, ar-condicionado silencioso e o clima de Itacimirim entrando pela janela.",
@@ -132,10 +136,13 @@ const AMBIENTES: Ambiente[] = [
     gallery: [
       { ...P.fachadaNoite, caption: "Fachada das cabines", desc: "Fachada amarela iluminada em meio ao jardim." },
       { ...P.quartoDuplo, caption: "Quarto duplo", desc: "Cama de casal, ar-condicionado, TV e frigobar." },
-      { ...P.quartoDuploAlt, caption: "Varanda privativa", desc: "Varanda em madeira, ideal pro café da manhã." },
+      // Os cinco primeiros itens são os que aparecem no mosaico · aqui só entram fotos de
+      // quarto, uma de cada tipo. A varanda foi pro fim: é foto da vista, não do quarto.
+      { ...P.quartoTriplo, caption: "Quarto triplo", desc: "Cama de casal e cama de solteiro no mesmo quarto, com frigobar." },
       { ...P.quartoQuadruplo, caption: "Quarto quádruplo", desc: "Ideal para famílias e grupos de amigos." },
       { ...P.quartoQuadruplo2, caption: "Quarto quádruplo: detalhes", desc: "Espaço amplo, roupa de cama macia." },
       { ...P.quartoQuadruplo3, caption: "Quarto quádruplo: vista", desc: "Vista para o jardim da pousada." },
+      { ...P.quartoDuploAlt, caption: "Varanda privativa", desc: "Varanda em madeira, ideal pro café da manhã." },
     ],
     amenities: [
       { icon: AirVent, label: "Ar-condicionado" },
@@ -215,7 +222,7 @@ export const Route = createFileRoute("/ambientes")({
       {
         name: "description",
         content:
-          "Conheça cada ambiente da Pousada Ilha do Meio em Itacimirim: suítes em madeira, piscina iluminada, área de convivência e recepção acolhedora.",
+          "Conheça cada ambiente da Pousada Ilha do Meio em Itacimirim: suítes, piscina iluminada, área de convivência e recepção acolhedora.",
       },
       { property: "og:title", content: "Ambientes · Pousada Ilha do Meio" },
       {
@@ -339,7 +346,7 @@ function HeroAmbientes() {
           <br className="hidden sm:block" /> em detalhe.
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Um tour visual pelos espaços da Pousada Ilha do Meio, das suítes em madeira à piscina iluminada. Toque em qualquer imagem para abrir a galeria em tela cheia.
+          Um tour visual pelos espaços da Pousada Ilha do Meio, das suítes à piscina iluminada. Toque em qualquer imagem para abrir a galeria em tela cheia.
         </p>
         <nav aria-label="Índice de ambientes" className="mt-8 flex flex-wrap gap-2">
           {AMBIENTES.map((a) => (

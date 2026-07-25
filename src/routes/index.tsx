@@ -731,7 +731,7 @@ function HomePage() {
 
         <div ref={revealTrust.ref} className={cn(revealTrust.revealClass, "relative mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3")}>
           {[
-            { n: "17", l: "Suítes em madeira" },
+            { n: "17", l: "Suítes" },
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
@@ -753,7 +753,7 @@ function HomePage() {
               <span className="italic opacity-90">uma ilha de sossego</span> entre coqueiros.
             </h2>
             <p className="mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed">
-              A Ilha do Meio não é um resort. São 17 suítes em madeira dispostas ao redor de um jardim
+              A Ilha do Meio não é um resort. São 17 suítes dispostas ao redor de um jardim
               com piscina, quiosque e salão de jogos separados por poucos passos. Fotografado sem retoque,
               como você vai encontrar.
             </p>
@@ -999,7 +999,7 @@ function HomePage() {
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III. Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
-            17 suítes em madeira.<br />
+            17 suítes.<br />
             <span className="italic opacity-90">Três configurações,</span> mesma tranquilidade.
           </h2>
           <div className="mt-4 flex items-baseline gap-1.5">
