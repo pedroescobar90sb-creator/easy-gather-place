@@ -10,17 +10,17 @@ type Clipe = {
   src: string;
   poster: string;
   titulo: string;
-  /** @usuário do Instagram · ausente quando o clipe é imagem da própria pousada. */
-  autor?: string;
+  /** @usuário do Instagram · a atribuição é o que sustenta a seção. */
+  autor: string;
   /** Nem todo clipe veio com som · sem isso, o botão de áudio apareceria sem função. */
   temAudio: boolean;
 };
 
-// Os três primeiros são stories de hóspedes que marcaram a pousada. Os arquivos vieram com
-// o story encaixado no meio de um fundo desfocado, ocupando só 71% da largura — foram
-// recortados no enquadramento do story (504x896, 9:16 exato). O recorte preserva de
-// propósito o cabeçalho com o @usuário e a legenda escrita pelo hóspede: são eles que
-// provam que o depoimento é de gente real, e não material da casa.
+// Só stories de hóspedes que marcaram a pousada · nada de material da casa aqui, senão a
+// seção deixa de ser depoimento. Os arquivos vieram com o story encaixado no meio de um
+// fundo desfocado, ocupando só 71% da largura — foram recortados no enquadramento do story
+// (504x896, 9:16 exato). O recorte preserva de propósito o cabeçalho com o @usuário e a
+// legenda escrita pelo hóspede: são eles que provam que o depoimento é de gente real.
 const CLIPES: Clipe[] = [
   {
     id: "jiselly",
@@ -44,13 +44,6 @@ const CLIPES: Clipe[] = [
     poster: "/depoimentos/milena.webp",
     titulo: "“Olha que delícia a noite”",
     autor: "@milenaolei",
-    temAudio: true,
-  },
-  {
-    id: "piscina",
-    src: "/depoimentos/piscina.mp4",
-    poster: "/depoimentos/piscina.webp",
-    titulo: "A piscina e o deck",
     temAudio: true,
   },
 ];
@@ -181,7 +174,7 @@ export function VideoTestimonials() {
           </h2>
           <p className="mt-4 text-white/80">
             Três stories publicados por hóspedes, do jeito que eles postaram — o @ de cada um
-            está no vídeo. O último clipe é nosso: a piscina. Toque para assistir.
+            está no vídeo. Toque para assistir.
           </p>
         </div>
 
@@ -193,13 +186,13 @@ export function VideoTestimonials() {
                 const estaTocando = tocando === c.id;
                 // Quem usa leitor de tela precisa saber de quem é o depoimento · sem o @,
                 // "Ganhou meu coração!" sozinho não diz que veio de uma hóspede.
-                const rotulo = c.autor ? `${c.titulo}, de ${c.autor}` : c.titulo;
+                const rotulo = `${c.titulo}, de ${c.autor}`;
                 return (
                   <div
                     key={c.id}
                     // 87% deixa o próximo cartão espiando na borda · é o que sinaliza,
                     // sem seta nem texto, que dá pra arrastar pro lado.
-                    className="min-w-0 shrink-0 grow-0 basis-[87%] sm:basis-[46%] lg:basis-1/4 px-2"
+                    className="min-w-0 shrink-0 grow-0 basis-[87%] sm:basis-[46%] lg:basis-1/3 px-2"
                   >
                     {/* aspect-[9/16] reserva a altura antes do vídeo existir · sem pulo de layout. */}
                     <div className="group relative aspect-[9/16] overflow-hidden rounded-3xl border border-white/15 bg-black/40 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)]">
@@ -223,19 +216,6 @@ export function VideoTestimonials() {
                         onPause={() => setTocando((t) => (t === c.id ? null : t))}
                         className="h-full w-full object-cover"
                       />
-
-                      {/* Degradê só no pé do cartão · dá contraste pro rótulo sem escurecer a
-                          imagem toda. Nos stories não entra: eles já trazem a legenda do
-                          hóspede escrita ali embaixo, e escurecer só atrapalharia a leitura. */}
-                      {!c.autor && (
-                        <div
-                          aria-hidden
-                          className={cn(
-                            "pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/75 to-transparent transition-opacity duration-300",
-                            estaTocando ? "opacity-0" : "opacity-100",
-                          )}
-                        />
-                      )}
 
                       <button
                         type="button"
@@ -266,19 +246,8 @@ export function VideoTestimonials() {
                         </button>
                       )}
 
-                      {/* Só o clipe da casa ganha rótulo escrito. Nos stories, o @usuário já
-                          está no topo da imagem e a frase do hóspede embaixo — repetir por
-                          cima cobriria justamente as palavras dele. */}
-                      {!c.autor && (
-                        <p
-                          className={cn(
-                            "pointer-events-none absolute inset-x-4 bottom-4 text-sm font-medium text-white transition-opacity duration-300",
-                            estaTocando ? "opacity-0" : "opacity-100",
-                          )}
-                        >
-                          {c.titulo}
-                        </p>
-                      )}
+                      {/* Sem rótulo escrito por cima: o @usuário já está no topo da imagem e a
+                          frase do hóspede embaixo · repetir cobriria as palavras dele. */}
                     </div>
                   </div>
                 );
@@ -302,7 +271,7 @@ export function VideoTestimonials() {
                   key={c.id}
                   type="button"
                   role="tab"
-                  aria-label={`Ir para ${c.autor ?? c.titulo}`}
+                  aria-label={`Ir para ${c.autor}`}
                   aria-selected={selecionado === i}
                   onClick={() => embla?.scrollTo(i)}
                   className={cn(
