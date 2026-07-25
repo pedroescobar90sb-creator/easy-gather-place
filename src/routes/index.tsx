@@ -5,7 +5,7 @@ import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { SiteFooter } from "@/components/SiteFooter";
 import { InlineCarousel } from "@/components/GalleryLightbox";
-import { Testimonials } from "@/components/Testimonials";
+import { VideoTour } from "@/components/VideoTour";
 import { CountUp } from "@/components/CountUp";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 import { useReveal } from "@/hooks/use-reveal";
@@ -1110,7 +1110,7 @@ function HomePage() {
       </section>
 
       {/* DEPOIMENTOS */}
-      <Testimonials />
+      <VideoTour />
 
       {/* FAQ INLINE */}
       <section id="faq" className="bg-background border-t border-border/60">
