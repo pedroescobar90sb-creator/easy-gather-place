@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, ChevronRight } from "lucide-react";
+import { MapPin, ChevronRight, Star } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
 
 import heroPousada from "@/assets/pousada-0.jpg";
+// Fundo em tela cheia atrás de um degradê escuro · a variante reduzida basta.
+import heroPousada960 from "@/assets/thumbs/pousada-0@960.webp";
 import logoHd from "@/assets/logo-oficial-branca-hd.png";
 
 const WHATSAPP = `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(
@@ -44,7 +46,7 @@ function DirecionamentoPage() {
   return (
     <div
       className="relative h-[100dvh] overflow-hidden bg-cover bg-center bg-no-repeat flex flex-col"
-      style={{ backgroundImage: `url(${heroPousada})` }}
+      style={{ backgroundImage: `url(${heroPousada960})` }}
     >
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/85" />
       <GrainOverlay />
@@ -61,7 +63,20 @@ function DirecionamentoPage() {
           className="mt-4 h-28 sm:h-36 w-auto object-contain drop-shadow-[0_8px_30px_rgba(0,0,0,0.45)]"
         />
 
-        <div className="mt-8 flex w-full max-w-xs flex-col gap-3 rounded-3xl border border-white/15 bg-black/25 p-5 backdrop-blur-md">
+        {/* Quem chega do Instagram não tinha motivo nenhum pra clicar: nem nota, nem
+            preço. Uma linha só, no mesmo tom da página. */}
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-[13px] text-white/85">
+          <span className="inline-flex items-center gap-1.5">
+            <Star className="h-4 w-4 shrink-0 fill-yellow-400 text-yellow-400" aria-hidden />
+            <strong className="font-semibold text-white">9,2</strong> de 10 · 204 avaliações
+          </span>
+          <span aria-hidden className="text-white/35">·</span>
+          <span>
+            diárias a partir de <strong className="font-semibold text-white">R$ 400</strong>
+          </span>
+        </div>
+
+        <div className="mt-5 flex w-full max-w-xs flex-col gap-3 rounded-3xl border border-white/15 bg-black/25 p-5 backdrop-blur-md">
           <a
             href={WHATSAPP}
             target="_blank"

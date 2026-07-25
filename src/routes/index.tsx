@@ -124,6 +124,15 @@ const P = {
   salaoJogosMesa: { src: salaoJogosMesa, thumb: salaoJogosMesa_480, mid: salaoJogosMesa_960, width: 1400, height: 1867 },
 } as const;
 
+/** Preços de referência do Quarto Duplo em baixa temporada.
+ *
+ * Ficam aqui, num lugar só, porque o mesmo número aparece na primeira tela, no
+ * comparativo com o Booking e na seção de acomodações. Espalhados pelo arquivo, um
+ * reajuste faria o site se contradizer sozinho. */
+const PRECO_DIRETO = 400;
+const PRECO_BOOKING = 530;
+const ECONOMIA = PRECO_BOOKING - PRECO_DIRETO;
+
 const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
 const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
 const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
@@ -626,53 +635,79 @@ function HomePage() {
       {/* HERO */}
       <section
         id="top"
-        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[760px] xl:min-h-[860px] flex items-center"
+        // A altura mínima em telas grandes era 860px, maior que a tela de um notebook
+        // comum (800px) — com o conteúdo centralizado, as notas de avaliação ficavam
+        // sempre cortadas embaixo. 740px mantém a sensação de imersão e cabe inteiro.
+        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] flex items-center"
         style={{ backgroundImage: `url(${heroPousada960})` }}
       >
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <GrainOverlay />
-        <div className="relative w-full mx-auto max-w-6xl px-4 py-16 sm:py-20 text-white">
+        {/* Menos respiro vertical em telas grandes: com o cabeçalho fixo ocupando ~137px,
+            o padding de 80px empurrava as notas de avaliação para fora da primeira tela
+            num notebook comum. */}
+        <div className="relative w-full mx-auto max-w-6xl px-4 py-16 sm:py-20 lg:py-12 text-white">
+          {/* Distância da praia em vez do CEP: a linha mais nobre da página precisa vender
+              algo, e "a 450m da praia" é o que o hóspede quer saber. */}
           <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.32em] opacity-90 font-medium">
             <MapPin className="h-3.5 w-3.5" />
-            Itacimirim, Bahia · CEP 42823-000
+            Itacimirim, Bahia · 450m da praia
           </div>
           <h1 className="mt-6 font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-3xl text-balance">
             Pousada Ilha do Meio.<br />
             <em className="italic font-normal opacity-95">Perto do mar.</em>
           </h1>
-          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2 text-sm text-white">
-            <span className="text-xs uppercase tracking-[0.2em] text-white/70">Diárias</span>
-            <span className="font-display text-lg leading-none">a partir de R$ 400</span>
-            <span className="text-xs text-white/70">/ noite · café incluso</span>
-          </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          {/* A economia da reserva direta é o argumento mais forte da pousada · estava
+              escondida no meio da página, agora abre a conversa. */}
+          <div className="mt-6 inline-flex flex-wrap items-center gap-x-3 gap-y-1 rounded-full border border-white/25 bg-white/10 backdrop-blur px-4 py-2.5 text-white">
+            <span className="font-display text-xl leading-none">R$ {PRECO_DIRETO}</span>
+            <span className="text-xs text-white/75">a diária direto com a casa</span>
+            <span className="text-xs text-white/50 line-through decoration-white/40">
+              R$ {PRECO_BOOKING} no Booking
+            </span>
+          </div>
+          <p className="mt-2 text-sm font-semibold text-white">
+            Economize R$ {ECONOMIA}/noite · café incluso
+          </p>
+
+          {/* Um só botão forte. O secundário virou link discreto que desce a própria
+              página: antes era um botão que levava pra outra rota, tirando o visitante
+              do caminho da reserva. */}
+          <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noopener"
-              onClick={() => trackWhatsAppLead("Hero - Ver disponibilidade")}
+              onClick={() => trackWhatsAppLead("Hero - Reservar pelo WhatsApp", PRECO_DIRETO)}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Ver disponibilidade
+              Reservar pelo WhatsApp
             </a>
-            <Link
-              to="/ambientes"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 backdrop-blur px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
+            <a
+              href="#acomodacoes"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-white/70"
             >
-              Conhecer a pousada
-              <ChevronRight className="h-4 w-4" aria-hidden />
-            </Link>
+              Ver fotos e quartos
+              <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </a>
           </div>
           <p className="mt-3 text-xs uppercase tracking-[0.24em] text-white/70">
             Resposta em minutos · Segunda a segunda
           </p>
 
+          {/* Duas fontes de nota somam 476 avaliações · antes só aparecia uma delas. */}
           <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-base text-white/90">
-            <li className="inline-flex items-center gap-2"><Star className="h-5 w-5 fill-yellow-400 text-yellow-400" /> 204 avaliações reais</li>
+            <li className="inline-flex items-center gap-2">
+              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <span><strong className="font-semibold">9,2</strong> de 10 · 204 avaliações</span>
+            </li>
+            <li className="inline-flex items-center gap-2">
+              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <span><strong className="font-semibold">4,6</strong> no Google · 272 avaliações</span>
+            </li>
             <li className="inline-flex items-center gap-2"><ShieldCheck className="h-5 w-5" /> Atendimento direto com a casa</li>
-            <li className="inline-flex items-center gap-2"><Check className="h-5 w-5" /> Melhor tarifa garantida</li>
           </ul>
         </div>
       </section>
@@ -906,7 +941,7 @@ function HomePage() {
               </div>
               <div className="mt-6 flex items-baseline gap-2 text-muted-foreground line-through decoration-2 decoration-red-500/70">
                 <span className="text-xs">R$</span>
-                <span className="font-display text-4xl sm:text-5xl tabular-nums">530</span>
+                <span className="font-display text-4xl sm:text-5xl tabular-nums">{PRECO_BOOKING}</span>
                 <span className="text-xs">/ noite</span>
               </div>
               <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
@@ -927,10 +962,10 @@ function HomePage() {
               </div>
               <div className="mt-6 flex items-baseline gap-2 text-foreground">
                 <span className="text-xs text-muted-foreground">R$</span>
-                <span className="font-display text-5xl sm:text-6xl tabular-nums text-primary">400</span>
+                <span className="font-display text-5xl sm:text-6xl tabular-nums text-primary">{PRECO_DIRETO}</span>
                 <span className="text-xs text-muted-foreground">/ noite</span>
               </div>
-              <p className="mt-1 text-xs font-semibold text-primary">Você economiza até R$ 130/noite</p>
+              <p className="mt-1 text-xs font-semibold text-primary">Você economiza até R$ {ECONOMIA}/noite</p>
               <ul className="mt-5 space-y-2 text-sm text-foreground/90">
                 <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Melhor tarifa garantida</li>
                 <li className="flex items-start gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Pagamento por PIX ou cartão</li>
@@ -965,7 +1000,7 @@ function HomePage() {
           </h2>
           <div className="mt-4 flex items-baseline gap-1.5">
             <span className="text-xs text-muted-foreground">Suítes a partir de</span>
-            <span className="text-primary text-2xl font-semibold tabular-nums">R$ 400</span>
+            <span className="text-primary text-2xl font-semibold tabular-nums">R$ {PRECO_DIRETO}</span>
             <span className="text-xs text-muted-foreground">/ noite</span>
           </div>
           <p className="mt-2 text-muted-foreground max-w-xl">
