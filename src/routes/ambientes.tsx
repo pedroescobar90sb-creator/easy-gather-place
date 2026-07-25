@@ -33,7 +33,6 @@ import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
 import piscinaMesaJardim from "@/assets/piscina-mesa-jardim.jpg";
 import piscinaPergolaDia from "@/assets/piscina-pergola-dia.jpg";
 import piscinaCoqueirosDia from "@/assets/piscina-coqueiros-dia.jpg";
-import piscinaAereaEntardecer from "@/assets/piscina-aerea-entardecer.jpg";
 // Só a versão reduzida: essa foto é fundo do bloco final e fica atrás de uma camada
 // escura, então a original de 396 KB não acrescentava nada visível.
 import bgCoqueiros from "@/assets/thumbs/bg-coqueiros-escuro@960.webp";
@@ -67,8 +66,6 @@ import piscinaPergolaDia480 from "@/assets/thumbs/piscina-pergola-dia@480.webp";
 import piscinaPergolaDia960 from "@/assets/thumbs/piscina-pergola-dia@960.webp";
 import piscinaCoqueirosDia480 from "@/assets/thumbs/piscina-coqueiros-dia@480.webp";
 import piscinaCoqueirosDia960 from "@/assets/thumbs/piscina-coqueiros-dia@960.webp";
-import piscinaAereaEntardecer480 from "@/assets/thumbs/piscina-aerea-entardecer@480.webp";
-import piscinaAereaEntardecer960 from "@/assets/thumbs/piscina-aerea-entardecer@960.webp";
 import quartoDuplo480 from "@/assets/thumbs/quarto-duplo-cover-hd@480.webp";
 import quartoDuplo960 from "@/assets/thumbs/quarto-duplo-cover-hd@960.webp";
 import quartoDuploAlt480 from "@/assets/thumbs/quarto-duplo-varanda-hd@480.webp";
@@ -100,7 +97,6 @@ const P = {
   piscinaMesaJardim: { src: piscinaMesaJardim, thumb: piscinaMesaJardim480, mid: piscinaMesaJardim960, width: 1200, height: 1600 },
   piscinaPergolaDia: { src: piscinaPergolaDia, thumb: piscinaPergolaDia480, mid: piscinaPergolaDia960, width: 1200, height: 1600 },
   piscinaCoqueirosDia: { src: piscinaCoqueirosDia, thumb: piscinaCoqueirosDia480, mid: piscinaCoqueirosDia960, width: 1200, height: 1600 },
-  piscinaAereaEntardecer: { src: piscinaAereaEntardecer, thumb: piscinaAereaEntardecer480, mid: piscinaAereaEntardecer960, width: 1600, height: 819 },
   salaoJogosBilhar: { src: salaoJogosBilhar, thumb: salaoJogosBilhar480, mid: salaoJogosBilhar960, width: 1200, height: 1600 },
   salaoJogosMesa: { src: salaoJogosMesa, thumb: salaoJogosMesa480, mid: salaoJogosMesa960, width: 1400, height: 1867 },
   recepcaoNoite2: { src: recepcaoNoite2, thumb: recepcaoNoite2_480, mid: recepcaoNoite2_960, width: 1200, height: 1600 },
@@ -162,11 +158,12 @@ const AMBIENTES: Ambiente[] = [
       { ...P.piscinaHero, caption: "Piscina de dia", desc: "Água cristalina, deck de madeira e coqueiros ao redor." },
       { ...P.piscinaNoitePergola, caption: "Pérgola e piscina iluminada", desc: "Pérgola com iluminação suave, mesas ao redor e piscina refletindo as luzes da pousada." },
       { ...P.piscinaNoiteArvore, caption: "Piscina sob a copa das árvores", desc: "Deck de madeira, luzes quentes e a copa da amendoeira emoldurando a piscina." },
-      { ...P.piscinaNoite, caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
+      // A água fica na faixa de baixo deste retrato · ancorar embaixo é o que faz a
+      // miniatura mostrar a piscina em vez de só céu e coqueiro.
+      { ...P.piscinaNoite, focus: "50% 100%", caption: "Piscina à noite", desc: "Piscina iluminada, ambiente romântico." },
       { ...P.piscinaMesaJardim, caption: "Área de estar", desc: "Mesa e cadeiras à beira da piscina, ideal para relaxar." },
       { ...P.piscinaPergolaDia, caption: "Pérgola de dia", desc: "Pérgola de madeira com mesas à sombra, jardim e os chalés ao fundo." },
       { ...P.piscinaCoqueirosDia, caption: "Piscina entre os coqueiros", desc: "Piscina de água azul cercada de coqueiros, com os chalés ao fundo." },
-      { ...P.piscinaAereaEntardecer, caption: "Fim de tarde visto de cima", desc: "Vista aérea no fim de tarde: piscina, espreguiçadeiras e deck de madeira." },
     ],
     amenities: [
       { icon: Sunset, label: "Deck de madeira" },
@@ -432,6 +429,7 @@ function AmbienteBlock({ ambiente }: { ambiente: Ambiente }) {
                 alt={g.desc}
                 loading="lazy"
                 decoding="async"
+                style={g.focus ? { objectPosition: g.focus } : undefined}
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
               />
               <div

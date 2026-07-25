@@ -16,6 +16,14 @@ export type GalleryItem = {
   /** Dimensões reais do original · evitam salto de layout enquanto a foto carrega. */
   width?: number;
   height?: number;
+  /**
+   * `object-position` da miniatura no mosaico. Só faz sentido quando o assunto não está
+   * no centro da foto: o tile é bem mais largo que alto, então o corte padrão come as
+   * pontas. Ex.: na piscina à noite a água ocupa só a faixa de baixo do retrato — sem
+   * isto o mosaico mostrava apenas o céu e os coqueiros. Não afeta a lightbox, que usa
+   * `object-contain` e mostra a foto inteira.
+   */
+  focus?: string;
 };
 
 type Props = {
@@ -478,6 +486,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                 alt={g.caption}
                 loading="lazy"
                 decoding="async"
+                style={g.focus ? { objectPosition: g.focus } : undefined}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-4">
