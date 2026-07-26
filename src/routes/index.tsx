@@ -338,9 +338,12 @@ function MosaicTile({
       hash={anchor}
       aria-label={`Ver ${item.caption}`}
       className={cn(
-        "group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-card sm:rounded-3xl",
-        "shadow-[0_18px_40px_-24px_rgba(0,0,0,0.45)] transition-shadow duration-500",
-        "hover:shadow-[0_28px_60px_-24px_rgba(0,0,0,0.55)]",
+        // Canto quase reto e 3:2 deitado · medidas tiradas da referência que o dono mandou
+        // (cartão de 302x201 com raio de ~4px). O arredondamento grande dava ar de app;
+        // o canto reto é o que faz o bloco ler como material impresso de hotel.
+        "group relative block aspect-[3/2] overflow-hidden rounded-[4px] bg-card",
+        "shadow-[0_10px_30px_-18px_rgba(0,0,0,0.40)] transition-shadow duration-500",
+        "hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.50)]",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       )}
     >
@@ -360,7 +363,6 @@ function MosaicTile({
       {/* O numerador some contra céu de meio-dia (foto da piscina) · esta sombra curta no
           topo é o que mantém os quatro rótulos com o mesmo peso de leitura. */}
       <div aria-hidden className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/45 to-transparent" />
-      <div aria-hidden className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 sm:rounded-3xl" />
 
       <div className="absolute inset-x-4 top-4 flex items-start justify-between gap-2">
         <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-sand">{meta.kicker}</span>
@@ -774,21 +776,26 @@ function HomePage() {
 
       {/* A POUSADA — apresentação editorial + acesso a /ambientes */}
       <section ref={revealPousada.ref} id="galeria" className={cn(revealPousada.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+        {/* items-center, e não items-end: com os cartões em 3:2 a grade encurtou, e o texto
+            ancorado na base deixava um vão solto no topo. */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-5">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">A casa</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Quatro ambientes,<br />
               <span className="italic opacity-90">uma ilha de sossego</span> entre coqueiros.
             </h2>
-            <p className="mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed">
+            {/* text-foreground/75 no lugar do muted: o cinza antigo ficava em ~3,9:1 sobre o
+                creme do fundo, abaixo do mínimo de 4,5:1 de contraste. E 15px em vez de 14
+                porque este é o parágrafo que explica a pousada — no celular ele era pequeno. */}
+            <p className="mt-5 text-[15px] sm:text-base text-foreground/75 leading-relaxed">
               A Ilha do Meio não é um resort. São 17 suítes dispostas ao redor de um jardim
               com piscina, quiosque e salão de jogos separados por poucos passos. Fotografado sem retoque,
               como você vai encontrar.
             </p>
             <Link
               to="/ambientes"
-              className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-foreground group"
+              className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-foreground group"
             >
               <span className="border-b-2 border-sand pb-1 group-hover:text-sand transition-colors">
                 Percorrer todos os ambientes
@@ -800,7 +807,7 @@ function HomePage() {
           <div className="lg:col-span-7">
             {/* Grade 2x2 no desktop, coluna única no celular · na ordem em que se conhece a
                 pousada: quarto, piscina, convivência, recepção. */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-[18px]">
               <MosaicTile item={GALLERY[0]} meta={GALLERY_META[0]} anchor="suites" destaque />
               <MosaicTile item={GALLERY[1]} meta={GALLERY_META[1]} anchor="piscina" />
               <MosaicTile item={GALLERY[2]} meta={GALLERY_META[2]} anchor="convivencia" />
