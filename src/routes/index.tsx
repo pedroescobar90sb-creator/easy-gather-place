@@ -25,9 +25,9 @@ import quiosqueJardim from "@/assets/quiosque-jardim.webp";
 import fachadaNoite from "@/assets/acomodacoes-fachada-hd.jpg";
 import piscinaNoite from "@/assets/piscina-noite.jpg";
 import piscinaNoitePergola from "@/assets/piscina-noite-pergola.webp";
+import piscinaNoitePergola480 from "@/assets/thumbs/piscina-noite-pergola@480.webp";
+import piscinaNoitePergola960 from "@/assets/thumbs/piscina-noite-pergola@960.webp";
 import piscinaHero from "@/assets/piscina-hero-clean.webp";
-import piscinaVistaCompleta from "@/assets/piscina-deck-espreguicadeiras.jpg";
-import piscinaEspreguicadeiras from "@/assets/piscina-azul-detalhe.jpg";
 
 
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
@@ -92,10 +92,6 @@ import quartoQuadruplo3_480 from "@/assets/thumbs/quarto-quadruplo-3@480.webp";
 import quartoQuadruplo3_960 from "@/assets/thumbs/quarto-quadruplo-3@960.webp";
 import quartoQuadruploRede_480 from "@/assets/thumbs/quarto-quadruplo-rede-hd@480.webp";
 import quartoQuadruploRede_960 from "@/assets/thumbs/quarto-quadruplo-rede-hd@960.webp";
-import piscinaVistaCompleta_480 from "@/assets/thumbs/piscina-deck-espreguicadeiras@480.webp";
-import piscinaVistaCompleta_960 from "@/assets/thumbs/piscina-deck-espreguicadeiras@960.webp";
-import piscinaEspreguicadeiras_480 from "@/assets/thumbs/piscina-azul-detalhe@480.webp";
-import piscinaEspreguicadeiras_960 from "@/assets/thumbs/piscina-azul-detalhe@960.webp";
 import salaoJogosBilhar_480 from "@/assets/thumbs/salao-jogos-bilhar@480.webp";
 import salaoJogosBilhar_960 from "@/assets/thumbs/salao-jogos-bilhar@960.webp";
 import salaoJogosMesa_480 from "@/assets/thumbs/salao-jogos-mesa-hd@480.webp";
@@ -119,8 +115,6 @@ const P = {
   quartoQuadruploDetalhe: { src: quartoQuadruploDetalhe, thumb: quartoQuadruploDetalhe_480, mid: quartoQuadruploDetalhe_960, width: 1200, height: 1600 },
   quartoQuadruplo3: { src: quartoQuadruplo3, thumb: quartoQuadruplo3_480, mid: quartoQuadruplo3_960, width: 1200, height: 1600 },
   quartoQuadruploRede: { src: quartoQuadruploRede, thumb: quartoQuadruploRede_480, mid: quartoQuadruploRede_960, width: 1500, height: 1000 },
-  piscinaVistaCompleta: { src: piscinaVistaCompleta, thumb: piscinaVistaCompleta_480, mid: piscinaVistaCompleta_960, width: 1200, height: 1600 },
-  piscinaEspreguicadeiras: { src: piscinaEspreguicadeiras, thumb: piscinaEspreguicadeiras_480, mid: piscinaEspreguicadeiras_960, width: 1200, height: 1600 },
   salaoJogosBilhar: { src: salaoJogosBilhar, thumb: salaoJogosBilhar_480, mid: salaoJogosBilhar_960, width: 1200, height: 1600 },
   salaoJogosMesa: { src: salaoJogosMesa, thumb: salaoJogosMesa_480, mid: salaoJogosMesa_960, width: 1400, height: 1867 },
 } as const;
@@ -405,7 +399,9 @@ function PiscinaSection() {
   // com o carregamento inicial, mas já está pronta quando a troca automática dispara
   // aos 5s — sem isso a primeira troca engasgava esperando o download.
   useEffect(() => {
-    const t = window.setTimeout(() => preloadImage(piscinaNoitePergola), 2500);
+    // Baixa a variante de 960, que é a que o srcset vai pedir na maioria das telas · o
+    // original de 1200 só entra em desktop grande, e aí o preload seria peso à toa.
+    const t = window.setTimeout(() => preloadImage(piscinaNoitePergola960), 2500);
     return () => window.clearTimeout(t);
   }, []);
 
@@ -429,10 +425,6 @@ function PiscinaSection() {
     setPaused(false);
   };
 
-  const DETAILS = [
-    { ...P.piscinaVistaCompleta, caption: "Vista completa" },
-    { ...P.piscinaEspreguicadeiras, caption: "Espreguiçadeiras" },
-  ];
   return (
     <section className="bg-background">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
@@ -465,8 +457,11 @@ function PiscinaSection() {
           </div>
         </div>
 
+        {/* Canto reto e sombra no lugar do anel · mesmo acabamento dos cartões de ambientes,
+            duas seções acima. Com o anel, a foto ganhava uma moldura que a página não usa em
+            mais lugar nenhum. */}
         <figure
-          className="mt-8 relative overflow-hidden rounded-2xl ring-1 ring-border/60 aspect-[4/5] sm:aspect-[16/10] cursor-grab active:cursor-grabbing touch-pan-y select-none"
+          className="mt-8 relative overflow-hidden rounded-[4px] shadow-[0_10px_30px_-18px_rgba(0,0,0,0.40)] aspect-[4/5] sm:aspect-[16/10] cursor-grab active:cursor-grabbing touch-pan-y select-none"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onMouseDown={(e) => onDragStart(e.clientX)}
@@ -477,7 +472,10 @@ function PiscinaSection() {
           <img
             src={piscinaHero960}
             srcSet={`${piscinaHero480} 480w, ${piscinaHero960} 960w, ${piscinaHero} 1600w`}
-            sizes="(min-width: 640px) 60vw, 100vw"
+            /* A figura ocupa a largura inteira do container (~1120px no desktop) · o "60vw"
+               que estava aqui fazia o navegador baixar a variante de 960 e esticar, deixando
+               a foto mole justamente no elemento maior da seção. */
+            sizes="(min-width: 1200px) 1120px, (min-width: 640px) 92vw, 100vw"
             width={1600}
             height={1600}
             alt="Piscina da Pousada Ilha do Meio durante o dia"
@@ -486,7 +484,13 @@ function PiscinaSection() {
           />
           {noiteLoaded && (
             <img
-              src={piscinaNoitePergola}
+              src={piscinaNoitePergola960}
+              srcSet={`${piscinaNoitePergola480} 480w, ${piscinaNoitePergola960} 960w, ${piscinaNoitePergola} 1200w`}
+              sizes="(min-width: 1200px) 1120px, (min-width: 640px) 92vw, 100vw"
+              width={1200}
+              height={1600}
+              loading="lazy"
+              decoding="async"
               alt="Piscina da Pousada Ilha do Meio iluminada à noite"
               className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]", time === "noite" ? "opacity-100" : "opacity-0")}
             />
@@ -496,14 +500,6 @@ function PiscinaSection() {
             {time === "dia" ? "Piscina · dia" : "Piscina · noite"}
           </figcaption>
         </figure>
-
-        <div className="mt-4 grid grid-cols-3 gap-4">
-          {DETAILS.map((d) => (
-            <figure key={d.src} className="relative overflow-hidden rounded-xl aspect-square ring-1 ring-border/60">
-              <img src={d.src} alt={d.caption} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
-            </figure>
-          ))}
-        </div>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <a
