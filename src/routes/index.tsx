@@ -361,26 +361,31 @@ function MosaicTile({
           topo é o que mantém os quatro rótulos com o mesmo peso de leitura. */}
       <div aria-hidden className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/45 to-transparent" />
 
-      <div className="absolute inset-x-4 top-4 flex items-start justify-between gap-2">
-        <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-sand">{meta.kicker}</span>
+      {/* Tudo escala junto com o cartão · no celular são dois por linha, então cada um tem
+          ~170px de largura e o mesmo conteúdo precisa caber sem virar sopa de letra. */}
+      <div className="absolute inset-x-2.5 top-2.5 flex items-start justify-between gap-1.5 sm:inset-x-4 sm:top-4 sm:gap-2">
+        <span className="text-[9px] font-medium uppercase tracking-[0.16em] text-sand sm:text-[10px] sm:tracking-[0.22em]">
+          {meta.kicker}
+        </span>
         {destaque && (
-          <span className="rounded-full bg-white/90 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground">
+          <span className="rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-semibold uppercase tracking-[0.12em] text-foreground sm:px-2.5 sm:text-[9px] sm:tracking-[0.18em]">
             Principal
           </span>
         )}
       </div>
 
-      <div className="absolute inset-x-4 bottom-4">
-        <div className="flex items-end justify-between gap-2">
-          <p className="font-display text-xl leading-tight text-white sm:text-2xl">{item.caption}</p>
+      <div className="absolute inset-x-2.5 bottom-2.5 sm:inset-x-4 sm:bottom-4">
+        <div className="flex items-end justify-between gap-1.5 sm:gap-2">
+          <p className="font-display text-[15px] leading-tight text-white sm:text-2xl">{item.caption}</p>
           <ChevronRight
-            className="h-5 w-5 shrink-0 text-white/80 transition-transform group-hover:translate-x-0.5"
+            className="hidden h-5 w-5 shrink-0 text-white/80 transition-transform group-hover:translate-x-0.5 sm:block"
             aria-hidden
           />
         </div>
         {/* Duas palavras do que existe ali · o suficiente pra diferenciar os cartões sem
-            transformar a grade num folheto. */}
-        <p className="mt-1 text-[11px] leading-none text-white/70">{meta.tags.slice(0, 2).join(" · ")}</p>
+            transformar a grade num folheto. Somem no celular: em 170px de largura elas
+            quebrariam em três linhas e comeriam a foto, que é o que se veio ver. */}
+        <p className="mt-1 hidden text-[11px] leading-none text-white/70 sm:block">{meta.tags.slice(0, 2).join(" · ")}</p>
       </div>
     </Link>
   );
@@ -666,10 +671,13 @@ function HomePage() {
       {/* HERO */}
       <section
         id="top"
-        // A altura mínima em telas grandes era 860px, maior que a tela de um notebook
-        // comum (800px) — com o conteúdo centralizado, as notas de avaliação ficavam
-        // sempre cortadas embaixo. 740px mantém a sensação de imersão e cabe inteiro.
-        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] flex items-center"
+        // Altura em svh com teto fixo, e não px puro. O px puro já cometeu os dois erros
+        // possíveis aqui: 860px cortava as notas de avaliação no notebook de 800px, e o
+        // 720px que veio depois deixava o sobrevoo pequeno em monitor grande. Com
+        // min(88svh,820px) a tela de cada um manda, e o teto impede que vire um hero sem
+        // fim em monitor de 1440. svh, e não vh, porque no celular o vh ignora a barra do
+        // navegador e empurra o conteúdo pra fora.
+        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[min(80svh,640px)] sm:min-h-[min(85svh,760px)] lg:min-h-[min(88svh,820px)] flex items-center"
         style={{ backgroundImage: `url(${heroPousada960})` }}
       >
         {/* Sobrevoo de drone da própria pousada, em loop mudo. Entra por cima da foto
@@ -747,7 +755,10 @@ function HomePage() {
       </section>
 
       {/* TRUST BAR */}
-      <section className="relative isolate overflow-hidden min-h-[280px] sm:min-h-[320px] lg:min-h-[360px]">
+      {/* A faixa tinha min-h de até 360px, mas o conteúdo dela ocupa ~190px · sobrava uma
+          tarja preta vazia embaixo dos números, que no desktop tomava meia tela à toa. Sem
+          a altura mínima, quem define o tamanho é o próprio conteúdo. */}
+      <section className="relative isolate overflow-hidden">
         {/* Wallpaper coqueiros — verde escuro, sem mar */}
         <div
           aria-hidden
@@ -765,7 +776,7 @@ function HomePage() {
             { n: "9,2", l: "Nota dos hóspedes (204 avaliações)" },
             { n: "Direto", l: "Sem intermediário" },
           ].map((s) => (
-            <div key={s.l} className="px-4 py-10 sm:py-14 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
+            <div key={s.l} className="px-4 py-10 sm:py-12 text-center border-b sm:border-b-0 sm:border-r border-white/10 last:border-0">
               <div className="font-display text-4xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">{s.n}</div>
               <div className="text-xs lg:text-sm xl:text-base text-white/90 font-medium mt-2 whitespace-nowrap drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">{s.l}</div>
             </div>
@@ -806,7 +817,7 @@ function HomePage() {
           <div className="lg:col-span-7">
             {/* Grade 2x2 no desktop, coluna única no celular · na ordem em que se conhece a
                 pousada: quarto, piscina, convivência, recepção. */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-[18px]">
+            <div className="grid grid-cols-2 gap-3 sm:gap-[18px]">
               <MosaicTile item={GALLERY[0]} meta={GALLERY_META[0]} anchor="suites" destaque />
               <MosaicTile item={GALLERY[1]} meta={GALLERY_META[1]} anchor="piscina" />
               <MosaicTile item={GALLERY[2]} meta={GALLERY_META[2]} anchor="convivencia" />
@@ -1117,10 +1128,14 @@ function HomePage() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-black/15" />
         <GrainOverlay />
 
-        <div ref={revealLocalizacao.ref} className={cn(revealLocalizacao.revealClass, "relative mx-auto max-w-6xl px-4 py-20 sm:py-28 grid md:grid-cols-2 gap-10 items-center")}>
-          {/* Cartão translúcido: é ele que sustenta a leitura, e é o que permite manter o
-              texto escuro exatamente como já estava aprovado — nenhuma cor mudou. */}
-          <div className="rounded-[4px] bg-background/85 p-6 backdrop-blur-md shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] sm:p-8">
+        <div ref={revealLocalizacao.ref} className={cn(revealLocalizacao.revealClass, "relative mx-auto max-w-6xl px-4 py-20 sm:py-28")}>
+          {/* Texto e mapa dentro de uma peça só, ocupando a largura inteira da seção · antes
+              eram dois blocos soltos boiando sobre a foto, cada um com sua borda e sua
+              sombra. Juntos, viram um painel: o endereço e o mapa passam a ser a mesma
+              informação, que é o que eles sempre foram. O cartão é quem sustenta a leitura
+              do texto sobre a foto, por isso nenhuma cor de texto precisou mudar. */}
+          <div className="grid overflow-hidden rounded-[4px] bg-background/85 backdrop-blur-md shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] md:grid-cols-[1.05fr_1fr]">
+            <div className="p-6 sm:p-10">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V. Onde fica</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Entre Guarajuba<br />
@@ -1147,26 +1162,28 @@ function HomePage() {
                 </div>
               ))}
             </dl>
+            </div>
+            {/* O mapa encosta nas bordas do painel · sem canto, sem sombra e sem moldura
+                própria, porque agora quem tem borda é o painel inteiro. No celular ele fica
+                embaixo do texto, na mesma peça. */}
+            <div className="relative min-h-[300px] border-t border-border/50 md:min-h-[460px] md:border-l md:border-t-0">
+              <iframe
+                title="Localização da Pousada Ilha do Meio no mapa"
+                src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
+                className="absolute inset-0 h-full w-full border-0 grayscale-[20%] contrast-[1.05] saturate-[0.9]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <button
+                type="button"
+                onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
+                className="absolute top-4 left-4 right-4 sm:right-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-xs font-semibold text-foreground shadow-lg backdrop-blur-md transition hover:bg-white sm:text-sm"
+              >
+                <MapPin className="h-4 w-4 text-primary" />
+                Abrir no Google Maps
+              </button>
+            </div>
           </div>
-          <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-[4px] shadow-xl shadow-black/25 ring-1 ring-white/20">
-            <iframe
-              title="Localização da Pousada Ilha do Meio no mapa"
-              src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
-              className="h-full w-full border-0 grayscale-[20%] contrast-[1.05] saturate-[0.9]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[4px] ring-1 ring-inset ring-black/10" />
-            <button
-              type="button"
-              onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
-              className="absolute top-4 left-4 right-4 sm:right-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-4 py-2.5 text-xs sm:text-sm font-semibold text-foreground shadow-lg hover:bg-white transition"
-            >
-              <MapPin className="h-4 w-4 text-primary" />
-              Abrir no Google Maps
-            </button>
-          </div>
-
         </div>
       </section>
 
