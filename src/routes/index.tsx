@@ -335,10 +335,13 @@ function MosaicTile({
       hash={anchor}
       aria-label={`Ver ${item.caption}`}
       className={cn(
-        // Canto quase reto e 3:2 deitado · medidas tiradas da referência que o dono mandou
-        // (cartão de 302x201 com raio de ~4px). O arredondamento grande dava ar de app;
-        // o canto reto é o que faz o bloco ler como material impresso de hotel.
-        "group relative block aspect-[3/2] overflow-hidden rounded-[4px] bg-card",
+        // Canto quase reto · medida tirada da referência que o dono mandou (cartão de
+        // 302x201 com raio de ~4px). O arredondamento grande dava ar de app; o canto reto
+        // é o que faz o bloco ler como material impresso de hotel.
+        // No celular o 3:2 deitado deixava cada foto com ~170x113px — pequena demais pra
+        // mostrar ambiente nenhum. O retrato 4:5 mantém os dois por linha (que é como ele
+        // pediu, igual ao desktop) e aumenta a área da foto em cerca de 60%.
+        "group relative block aspect-[4/5] overflow-hidden rounded-[4px] bg-card sm:aspect-[3/2]",
         "shadow-[0_10px_30px_-18px_rgba(0,0,0,0.40)] transition-shadow duration-500",
         "hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.50)]",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -818,9 +821,10 @@ function HomePage() {
           </div>
 
           <div className="lg:col-span-7">
-            {/* Grade 2x2 no desktop, coluna única no celular · na ordem em que se conhece a
-                pousada: quarto, piscina, convivência, recepção. */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-[18px]">
+            {/* Grade 2x2 no celular e no desktop · na ordem em que se conhece a pousada:
+                quarto, piscina, convivência, recepção. O vão menor no celular é o que
+                sobra de espaço pras fotos, que é onde ele quer o tamanho. */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-[18px]">
               <MosaicTile item={GALLERY[0]} meta={GALLERY_META[0]} anchor="suites" destaque />
               <MosaicTile item={GALLERY[1]} meta={GALLERY_META[1]} anchor="piscina" />
               <MosaicTile item={GALLERY[2]} meta={GALLERY_META[2]} anchor="convivencia" />
