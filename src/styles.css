@@ -167,7 +167,11 @@
   * {
     border-color: var(--color-border);
   }
-  html {
+  /* A rolagem suave não fica no html direto · assim ela valia também pra restauração de
+     posição feita ao recarregar, e a página abria deslizando sozinha até onde o visitante
+     tinha parado. A classe é posta pelo __root logo depois que a página monta: a abertura
+     acontece parada e os links de âncora continuam suaves. */
+  html.rolagem-suave {
     scroll-behavior: smooth;
   }
   body {

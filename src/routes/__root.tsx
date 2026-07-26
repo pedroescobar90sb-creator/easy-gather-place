@@ -163,6 +163,14 @@ function RootComponent() {
   // clica pra falar no WhatsApp. Roda uma vez e vale pro site inteiro.
   useEffect(() => {
     capturarOrigem();
+
+    // O site tem que abrir parado, na primeira tela. Duas coisas o faziam abrir rolando:
+    // a restauração do próprio navegador no F5 (desligada aqui; a do router saiu no
+    // router.tsx) e a rolagem suave global, que transformava essa restauração numa
+    // animação na frente do visitante. A suavidade volta logo em seguida, já com a
+    // página montada, pra que os links de âncora continuem deslizando como antes.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    document.documentElement.classList.add("rolagem-suave");
   }, []);
 
   // /direcionamento já tem o próprio botão de WhatsApp em destaque na página
