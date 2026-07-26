@@ -1,11 +1,14 @@
 /**
- * Carimba a conversa do WhatsApp com o anúncio que trouxe a pessoa.
+ * Identifica qual anúncio trouxe a pessoa.
  *
- * O problema que isto resolve: todo mundo chega no WhatsApp com a mesma frase, então o dono
- * não tem como saber qual anúncio pagou a reserva — nem pra decidir onde botar o orçamento.
- * Os anúncios carregam os parâmetros UTM na URL de destino (configurados no campo
+ * O problema que isto resolve: sem isso não há como saber qual anúncio pagou a reserva, nem
+ * onde botar o orçamento. Os anúncios carregam os parâmetros UTM na URL de destino (campo
  * "Parâmetros de URL" da Meta, com as macros {{ad.name}}, {{placement}} etc.); aqui a gente
- * lê esses parâmetros e devolve um código curto que vai no fim da mensagem.
+ * lê esses parâmetros e devolve um código curto.
+ *
+ * O código viaja no evento Lead (Pixel e CAPI), e não na mensagem do WhatsApp: o hóspede
+ * não tem nada a ver com controle interno, e um colchete técnico no meio do "olá" só
+ * atrapalha a conversa. Quem consulta isso é o dono, no Gerenciador de Eventos.
  *
  * A origem fica guardada por 30 dias porque o caminho real raramente é direto: a pessoa
  * clica no anúncio, navega, sai, volta pelo Google dois dias depois e só então chama no
@@ -105,43 +108,4 @@ export function codigoOrigem(): string | null {
   } catch {
     return null;
   }
-}
-
-/**
- * Acrescenta o carimbo ao texto de um link de WhatsApp já montado.
- * Devolve a própria URL, sem tocar, quando não há origem ou o carimbo já está lá.
- */
-export function carimbarLinkWhatsApp(href: string): string {
-  const codigo = codigoOrigem();
-  if (!codigo) return href;
-  try {
-    const url = new URL(href, window.location.origin);
-    const texto = url.searchParams.get("text");
-    if (!texto || texto.includes(`[${codigo}]`)) return href;
-    url.searchParams.set("text", `${texto} [${codigo}]`);
-    return url.toString();
-  } catch {
-    return href;
-  }
-}
-
-/**
- * Liga o carimbo em todo link de WhatsApp da página — inclusive os que ainda não existem.
- *
- * É um ouvinte único no documento em vez de mexer nos sete arquivos que montam esses links:
- * lá as URLs são constantes de módulo, criadas na importação, quando a origem ainda não foi
- * lida. Reescrever no clique também garante que qualquer link novo entre no esquema sozinho.
- */
-export function ligarCarimboNosLinks(): () => void {
-  const aoClicar = (e: MouseEvent) => {
-    const alvo = (e.target as HTMLElement | null)?.closest?.("a");
-    if (!alvo) return;
-    const href = alvo.getAttribute("href");
-    if (!href || !/(?:api\.whatsapp\.com|wa\.me)/.test(href)) return;
-    const carimbado = carimbarLinkWhatsApp(href);
-    if (carimbado !== href) alvo.setAttribute("href", carimbado);
-  };
-  // Fase de captura: o href precisa estar trocado antes de qualquer outro handler abrir a aba.
-  document.addEventListener("click", aoClicar, true);
-  return () => document.removeEventListener("click", aoClicar, true);
 }

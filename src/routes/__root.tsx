@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { WhatsAppFloating } from "@/components/WhatsAppFloating";
-import { capturarOrigem, ligarCarimboNosLinks } from "@/lib/origem-anuncio";
+import { capturarOrigem } from "@/lib/origem-anuncio";
 
 const fallbackQueryClient = new QueryClient();
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string | undefined;
@@ -159,11 +159,10 @@ function RootComponent() {
   const queryClient = ctx?.queryClient ?? fallbackQueryClient;
   const pathname = useLocation({ select: (loc) => loc.pathname });
 
-  // Guarda de qual anúncio a pessoa veio e carimba isso no fim da mensagem do WhatsApp,
-  // pra que a conversa chegue já identificada. Roda uma vez, vale pro site inteiro.
+  // Guarda de qual anúncio a pessoa veio · o código vai junto no evento Lead, quando ela
+  // clica pra falar no WhatsApp. Roda uma vez e vale pro site inteiro.
   useEffect(() => {
     capturarOrigem();
-    return ligarCarimboNosLinks();
   }, []);
 
   // /direcionamento já tem o próprio botão de WhatsApp em destaque na página

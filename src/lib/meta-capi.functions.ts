@@ -8,6 +8,8 @@ interface Input {
   actionSource?: "website";
   value?: number;
   currency?: string;
+  /** Código do anúncio que trouxe a pessoa (ver origem-anuncio.ts) · serve só pro relatório. */
+  origem?: string;
   email?: string;
   phone?: string;
   fbp?: string;
@@ -93,8 +95,15 @@ export const sendMetaCapiEvent = createServerFn({ method: "POST" })
           event_source_url: data.eventSourceUrl,
           action_source: data.actionSource ?? "website",
           user_data: userData,
-          ...(data.value !== undefined
-            ? { custom_data: { value: data.value, currency: data.currency ?? "BRL" } }
+          ...(data.value !== undefined || data.origem
+            ? {
+                custom_data: {
+                  ...(data.value !== undefined
+                    ? { value: data.value, currency: data.currency ?? "BRL" }
+                    : {}),
+                  ...(data.origem ? { origem_anuncio: data.origem } : {}),
+                },
+              }
             : {}),
         },
       ],
