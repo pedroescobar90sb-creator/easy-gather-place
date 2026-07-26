@@ -310,22 +310,27 @@ const GALLERY_META = [
   { kicker: "04. Recepção", tags: ["Check-in fácil", "Suporte local", "24h no WhatsApp"] },
 ];
 
-type MosaicItem = { src: string; caption: string; desc: string };
+type MosaicItem = { src: string; thumb?: string; mid?: string; caption: string; desc: string };
 type MosaicMeta = { kicker: string; tags: string[] };
 
-/** Um tile do mosaico "Quatro ambientes" — cada foto é sua própria entrada clicável pro ambiente correspondente. */
+/**
+ * Um cartão da grade "Quatro ambientes" — cada foto é a entrada clicável pro ambiente.
+ *
+ * Os quatro têm exatamente a mesma altura e o mesmo tratamento: a leitura que se quer é
+ * "são quatro espaços, todos importantes", e qualquer assimetria fazia os três menores
+ * parecerem rodapé do primeiro. O destaque das suítes ficou onde não quebra a simetria:
+ * uma tarja discreta de "Principal".
+ */
 function MosaicTile({
   item,
   meta,
   anchor,
-  className,
-  compact = false,
+  destaque = false,
 }: {
   item: MosaicItem;
   meta: MosaicMeta;
   anchor: string;
-  className?: string;
-  compact?: boolean;
+  destaque?: boolean;
 }) {
   return (
     <Link
@@ -333,26 +338,50 @@ function MosaicTile({
       hash={anchor}
       aria-label={`Ver ${item.caption}`}
       className={cn(
-        "group relative block overflow-hidden rounded-2xl sm:rounded-3xl bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        className,
+        "group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-card sm:rounded-3xl",
+        "shadow-[0_18px_40px_-24px_rgba(0,0,0,0.45)] transition-shadow duration-500",
+        "hover:shadow-[0_28px_60px_-24px_rgba(0,0,0,0.55)]",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-sand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       )}
     >
       <img
-        src={item.src}
+        src={item.mid ?? item.src}
+        srcSet={item.thumb && item.mid ? `${item.thumb} 480w, ${item.mid} 960w` : undefined}
+        sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 92vw"
         alt={item.desc}
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.04]"
       />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
-      <div className={cn("absolute left-3 top-3 sm:left-4 sm:top-4 text-[10px] font-medium uppercase tracking-[0.22em] text-sand", compact && "text-[9px]")}>
-        {meta.kicker}
+      {/* Véu constante + degradê embaixo: o texto precisa se sustentar em foto clara (piscina
+          ao meio-dia) e escura (recepção à noite) com o mesmo peso nos quatro cartões. */}
+      <div aria-hidden className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/0" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+      {/* O numerador some contra céu de meio-dia (foto da piscina) · esta sombra curta no
+          topo é o que mantém os quatro rótulos com o mesmo peso de leitura. */}
+      <div aria-hidden className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/45 to-transparent" />
+      <div aria-hidden className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 sm:rounded-3xl" />
+
+      <div className="absolute inset-x-4 top-4 flex items-start justify-between gap-2">
+        <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-sand">{meta.kicker}</span>
+        {destaque && (
+          <span className="rounded-full bg-white/90 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground">
+            Principal
+          </span>
+        )}
       </div>
-      <div className="absolute inset-x-3 bottom-3 sm:inset-x-4 sm:bottom-4 flex items-end justify-between gap-2">
-        <p className={cn("font-display text-white leading-tight", compact ? "text-sm sm:text-base" : "text-xl sm:text-3xl")}>
-          {item.caption}
-        </p>
-        <ChevronRight className={cn("text-white/80 shrink-0 transition-transform group-hover:translate-x-0.5", compact ? "h-3.5 w-3.5" : "h-5 w-5")} aria-hidden />
+
+      <div className="absolute inset-x-4 bottom-4">
+        <div className="flex items-end justify-between gap-2">
+          <p className="font-display text-xl leading-tight text-white sm:text-2xl">{item.caption}</p>
+          <ChevronRight
+            className="h-5 w-5 shrink-0 text-white/80 transition-transform group-hover:translate-x-0.5"
+            aria-hidden
+          />
+        </div>
+        {/* Duas palavras do que existe ali · o suficiente pra diferenciar os cartões sem
+            transformar a grade num folheto. */}
+        <p className="mt-1 text-[11px] leading-none text-white/70">{meta.tags.slice(0, 2).join(" · ")}</p>
       </div>
     </Link>
   );
@@ -769,13 +798,13 @@ function HomePage() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="flex gap-3 sm:gap-4 aspect-[4/5] sm:aspect-[16/11]">
-              <MosaicTile item={GALLERY[0]} meta={GALLERY_META[0]} anchor="suites" className="flex-[3]" />
-              <div className="flex flex-[2] flex-col gap-3 sm:gap-4">
-                <MosaicTile item={GALLERY[1]} meta={GALLERY_META[1]} anchor="piscina" className="flex-1" compact />
-                <MosaicTile item={GALLERY[2]} meta={GALLERY_META[2]} anchor="convivencia" className="flex-1" compact />
-                <MosaicTile item={GALLERY[3]} meta={GALLERY_META[3]} anchor="recepcao" className="flex-1" compact />
-              </div>
+            {/* Grade 2x2 no desktop, coluna única no celular · na ordem em que se conhece a
+                pousada: quarto, piscina, convivência, recepção. */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+              <MosaicTile item={GALLERY[0]} meta={GALLERY_META[0]} anchor="suites" destaque />
+              <MosaicTile item={GALLERY[1]} meta={GALLERY_META[1]} anchor="piscina" />
+              <MosaicTile item={GALLERY[2]} meta={GALLERY_META[2]} anchor="convivencia" />
+              <MosaicTile item={GALLERY[3]} meta={GALLERY_META[3]} anchor="recepcao" />
             </div>
           </div>
         </div>
