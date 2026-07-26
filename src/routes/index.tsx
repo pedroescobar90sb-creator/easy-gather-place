@@ -682,7 +682,10 @@ function HomePage() {
       >
         {/* Sobrevoo de drone da própria pousada, em loop mudo. Entra por cima da foto
             depois que a página carrega — se não puder tocar, a foto continua ali. */}
-        <HeroVideoBackground src="/hero-pousada-loop.mp4" />
+        <HeroVideoBackground
+          src="/hero-pousada-loop.mp4"
+          srcMobile="/hero-pousada-loop-mobile.mp4"
+        />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/80" />
         <GrainOverlay />
         {/* Menos respiro vertical em telas grandes: com o cabeçalho fixo ocupando ~137px,

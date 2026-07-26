@@ -16,9 +16,17 @@ import * as React from "react";
 
 type Props = {
   src: string;
-  /** Descrição só pra leitores de tela entenderem que existe um vídeo decorativo aqui. */
+  /**
+   * Versão leve pro celular (640x360, 886 KB contra 3,1 MB). No 4G o arquivo grande demora
+   * tanto que a pessoa rola a página antes de ele aparecer — e aí nunca vê o sobrevoo, só
+   * a foto. Em 390px de largura, 640 de resolução já sobra.
+   */
+  srcMobile?: string;
   className?: string;
 };
+
+/** A partir daqui vale a pena o arquivo grande. */
+const LARGURA_DESKTOP = 768;
 
 /** Conexões onde baixar 2,3 MB de enfeite seria abuso. */
 function deveEvitarVideo() {
@@ -32,34 +40,43 @@ function deveEvitarVideo() {
   return false;
 }
 
-export function HeroVideoBackground({ src, className }: Props) {
+export function HeroVideoBackground({ src, srcMobile, className }: Props) {
   const ref = React.useRef<HTMLVideoElement>(null);
-  const [carregar, setCarregar] = React.useState(false);
+  // Qual arquivo tocar só se decide depois que a página monta · medir a largura da tela no
+  // render faria o servidor e o navegador renderizarem coisas diferentes.
+  const [fonte, setFonte] = React.useState<string | null>(null);
   const [tocando, setTocando] = React.useState(false);
+  const [noCelular, setNoCelular] = React.useState(false);
 
   // Adia o download pro fim da fila. `requestIdleCallback` espera o navegador ficar
-  // ocioso; o setTimeout é o plano B pro Safari, que não tem essa API.
+  // ocioso; o setTimeout é o plano B pro Safari, que não tem essa API. Os prazos são
+  // curtos porque no celular o arquivo agora é três vezes menor — esperar 2,5s pra
+  // começar significava perder quem rola a página rápido.
   React.useEffect(() => {
     if (deveEvitarVideo()) return;
+    const celular = window.innerWidth < LARGURA_DESKTOP;
+    setNoCelular(celular);
+    const escolhido = celular && srcMobile ? srcMobile : src;
+
     let cancelado = false;
-    const ligar = () => { if (!cancelado) setCarregar(true); };
+    const ligar = () => { if (!cancelado) setFonte(escolhido); };
     const w = window as Window & {
       requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
       cancelIdleCallback?: (id: number) => void;
     };
     if (w.requestIdleCallback) {
-      const id = w.requestIdleCallback(ligar, { timeout: 2500 });
+      const id = w.requestIdleCallback(ligar, { timeout: 1200 });
       return () => { cancelado = true; w.cancelIdleCallback?.(id); };
     }
-    const t = window.setTimeout(ligar, 1200);
+    const t = window.setTimeout(ligar, 800);
     return () => { cancelado = true; window.clearTimeout(t); };
-  }, []);
+  }, [src, srcMobile]);
 
   // Pausa quando o hero sai da tela ou a aba vai pro fundo. Decodificar vídeo que
   // ninguém está vendo só gasta bateria — e em celular isso aquece o aparelho.
   React.useEffect(() => {
     const el = ref.current;
-    if (!el || !carregar) return;
+    if (!el || !fonte) return;
 
     let visivelNaTela = true;
     const sincronizar = () => {
@@ -79,9 +96,9 @@ export function HeroVideoBackground({ src, className }: Props) {
       io?.disconnect();
       document.removeEventListener("visibilitychange", sincronizar);
     };
-  }, [carregar]);
+  }, [fonte]);
 
-  if (!carregar) return null;
+  if (!fonte) return null;
 
   return (
     <video
@@ -89,12 +106,14 @@ export function HeroVideoBackground({ src, className }: Props) {
       // aria-hidden + sem legenda: é decoração, não conteúdo. Quem usa leitor de tela
       // não ganha nada sendo avisado de um vídeo mudo de fundo.
       aria-hidden
-      src={src}
+      src={fonte}
       autoPlay
       muted
       loop
       playsInline
-      preload="auto"
+      // "metadata" no celular: com "auto" o navegador puxa o arquivo inteiro de uma vez,
+      // que é o pior comportamento possível numa conexão móvel.
+      preload={noCelular ? "metadata" : "auto"}
       disablePictureInPicture
       // Só aparece depois que está de fato rodando. Se o autoplay for recusado, isso
       // nunca vira 1 e a foto de fundo permanece — sem tela preta, sem tranco.
