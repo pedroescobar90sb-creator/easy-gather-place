@@ -32,6 +32,9 @@ import piscinaHero from "@/assets/piscina-hero-clean.webp";
 
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
 import lazerDrone from "@/assets/lazer-drone-piscina.jpg";
+import aereaOrla from "@/assets/aerea-itacimirim-orla.jpg";
+import aereaOrla480 from "@/assets/thumbs/aerea-itacimirim-orla@480.webp";
+import aereaOrla960 from "@/assets/thumbs/aerea-itacimirim-orla@960.webp";
 import salaoJogosMesa from "@/assets/salao-jogos-mesa-hd.jpg";
 
 import quartoDuplo from "@/assets/quarto-duplo-cover-hd.jpg";
@@ -1093,9 +1096,31 @@ function HomePage() {
 
       {/* LOCALIZAÇÃO */}
 
-      <section className="bg-card border-y border-border/60">
-        <div ref={revealLocalizacao.ref} className={cn(revealLocalizacao.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center")}>
-          <div>
+      <section className="relative isolate overflow-hidden">
+        {/* Aérea da orla de Itacimirim atrás da seção · como <img> e não background de CSS
+            porque só assim existe srcset: o celular baixa 18 KB e o desktop 361 KB, em vez
+            do mesmo arquivo pra todo mundo. O enquadramento muda de tamanho pra tamanho —
+            a foto é panorâmica (2,43:1) e, cortada no centro no celular, ela perderia
+            justamente o mar, que é o motivo de existir aqui. */}
+        <img
+          src={aereaOrla960}
+          srcSet={`${aereaOrla480} 480w, ${aereaOrla960} 960w, ${aereaOrla} 1560w`}
+          sizes="100vw"
+          width={1560}
+          height={642}
+          alt="Vista aérea da orla de Itacimirim, com a praia, o mar e a lagoa ao lado da pousada"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 -z-10 h-full w-full object-cover object-[70%_33%] sm:object-center"
+        />
+        {/* Véu leve: não é pra escurecer a foto, é pra segurar o estouro do céu. */}
+        <div aria-hidden className="absolute inset-0 -z-10 bg-black/15" />
+        <GrainOverlay />
+
+        <div ref={revealLocalizacao.ref} className={cn(revealLocalizacao.revealClass, "relative mx-auto max-w-6xl px-4 py-20 sm:py-28 grid md:grid-cols-2 gap-10 items-center")}>
+          {/* Cartão translúcido: é ele que sustenta a leitura, e é o que permite manter o
+              texto escuro exatamente como já estava aprovado — nenhuma cor mudou. */}
+          <div className="rounded-[4px] bg-background/85 p-6 backdrop-blur-md shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] sm:p-8">
             <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V. Onde fica</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Entre Guarajuba<br />
@@ -1123,7 +1148,7 @@ function HomePage() {
               ))}
             </dl>
           </div>
-          <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl shadow-xl shadow-black/15 ring-1 ring-border/60">
+          <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-[4px] shadow-xl shadow-black/25 ring-1 ring-white/20">
             <iframe
               title="Localização da Pousada Ilha do Meio no mapa"
               src="https://www.google.com/maps?q=Pousada+Ilha+do+Meio+Itacimirim&output=embed"
@@ -1131,7 +1156,7 @@ function HomePage() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
-            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/10" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[4px] ring-1 ring-inset ring-black/10" />
             <button
               type="button"
               onClick={() => setPendingRedirect({ url: GOOGLE_MAPS_URL, label: "Google Maps" })}
