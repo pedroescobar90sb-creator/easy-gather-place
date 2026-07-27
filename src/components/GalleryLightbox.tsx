@@ -243,9 +243,17 @@ type LayerState = {
   foto: string;
   /** Muda a cada entrada · é o gatilho da animação. Não é key do React de propósito. */
   enterId: number;
+  /**
+   * `sync` só quando já existe foto na tela.
+   *
+   * Ao TROCAR de foto o bitmap já está decodificado, então o sync não custa nada e evita o
+   * pisca. Na PRIMEIRA abertura ele cai junto com a montagem do diálogo, bem na largada da
+   * animação de crescimento — e foi o que produziu um quadro de 52ms no celular.
+   */
+  decodificacao: "sync" | "async";
 };
 
-const EMPTY_LAYER: LayerState = { item: null, foto: "", enterId: 0 };
+const EMPTY_LAYER: LayerState = { item: null, foto: "", enterId: 0, decodificacao: "async" };
 
 /**
  * Uma das duas camadas da lightbox.
@@ -269,7 +277,7 @@ const Layer = React.memo(function Layer({
   z: number;
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const { item, foto, enterId } = state;
+  const { item, foto, enterId, decodificacao } = state;
   // Lido dentro do efeito sem entrar nas dependências: só o enterId dispara a animação.
   React.useLayoutEffect(() => {
     const el = ref.current;
@@ -316,9 +324,6 @@ const Layer = React.memo(function Layer({
   }, [isActive, enterId]);
 
   if (!item) return null;
-  // O fundo é desfocado de qualquer forma, então usa a miniatura: economiza baixar e
-  // decodificar a foto inteira só pra borrar, que era caro em celular mais fraco.
-  const bgSrc = item.thumb ?? item.src;
 
   return (
     <div
@@ -330,25 +335,14 @@ const Layer = React.memo(function Layer({
       aria-label={item.caption}
       aria-hidden={!isActive}
     >
-      {/* Fundo desfocado: preenche a tela sem depender de nitidez, cobre as bordas do object-contain */}
-      <img
-        aria-hidden
-        src={bgSrc}
-        alt=""
-        decoding="async"
-        className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-50 select-none"
-        draggable={false}
-      />
       {/* A caixa impede que a foto passe da resolução real do arquivo · em monitor grande,
           esticar um original de 1200px deixava tudo borrado. O que sobra ao redor é
-          preenchido pelo fundo desfocado, como nas galerias de hotel boas.
-          decoding="sync" porque o bitmap já foi decodificado antes da troca — isso evita
-          o navegador adiar a pintura pro frame seguinte, que é onde nascia o pisca. */}
+          preenchido pelo fundo desfocado, que fica fora deste bloco. */}
       <div className="absolute inset-0 z-10 flex items-center justify-center p-2 sm:p-6">
         <img
           src={foto}
           alt={item.caption}
-          decoding="sync"
+          decoding={decodificacao}
           width={item.width}
           height={item.height}
           style={{ maxWidth: item.width, maxHeight: item.height }}
@@ -422,7 +416,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
    * primeiro.
    */
   const origemRef = React.useRef<{ x: number; y: number } | null>(null);
+  /** Marca a primeira foto de cada abertura · zerada no fechamento, não em efeito. */
+  const primeiraRef = React.useRef(true);
   const [cromoVisivel, setCromoVisivel] = React.useState(false);
+  /** Fica `true` quando a animação de entrada terminou · libera o `will-change`. */
+  const [estabilizado, setEstabilizado] = React.useState(false);
   const [saindo, setSaindo] = React.useState(false);
   const timersRef = React.useRef<number[]>([]);
   const limparTimers = React.useCallback(() => {
@@ -441,6 +439,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
     // Sair é mais rápido que entrar · esperar pra fechar é o que mais irrita.
     const rapido = semMovimento();
     setCromoVisivel(false);
+    setEstabilizado(false);
+    primeiraRef.current = true;
     setSaindo(true);
     timersRef.current.push(
       window.setTimeout(() => {
@@ -489,10 +489,18 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
     if (!origemRef.current) origemRef.current = ultimoToque;
     limparTimers();
     setCromoVisivel(false);
+    setEstabilizado(false);
     // 320ms: a foto já cresceu o suficiente pra ser o assunto da tela.
     const t = window.setTimeout(() => setCromoVisivel(true), semMovimento() ? 60 : 320);
-    timersRef.current.push(t);
-    return () => window.clearTimeout(t);
+    // 520ms: a transição de crescimento (60ms de atraso + 420ms) já acabou · aqui o
+    // will-change some, porque manter uma camada de composição de tela cheia reservada
+    // pra sempre é justamente o que faz celular com pouca memória descartar camadas.
+    const t2 = window.setTimeout(() => setEstabilizado(true), semMovimento() ? 140 : 520);
+    timersRef.current.push(t, t2);
+    return () => {
+      window.clearTimeout(t);
+      window.clearTimeout(t2);
+    };
   }, [open, limparTimers]);
 
   // Vira `true` no quadro seguinte à montagem · é o que dá ao navegador um estado inicial
@@ -515,8 +523,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
   }, [open]);
 
   const estiloPalco = React.useMemo<React.CSSProperties>(() => {
+    // `will-change` é dica pontual, não atributo permanente: vale durante a animação e sai
+    // quando ela acaba.
+    const willChange = estabilizado && !saindo ? "auto" : "transform";
     if (semMovimento()) {
-      return { opacity: saindo || !entrou ? 0 : 1, transition: "opacity 120ms linear" };
+      return { opacity: saindo || !entrou ? 0 : 1, transition: "opacity 120ms linear", willChange };
     }
     // Lê o módulo direto, e não só o ref: no primeiro render o efeito ainda não rodou, e
     // uma origem que muda no meio da transição faz a foto dar um salto.
@@ -526,6 +537,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
       transformOrigin: o ? `${o.x}px ${o.y}px` : "50% 50%",
       transform: `scale(${saindo ? 0.96 : entrou ? 1 : 0.9})`,
       opacity: saindo || !entrou ? 0 : 1,
+      willChange,
       transition: saindo
         ? `transform 300ms ${EASE} 60ms, opacity 260ms ${EASE} 60ms`
         : `transform 420ms ${EASE} 60ms, opacity 300ms ${EASE} 60ms`,
@@ -533,7 +545,7 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
     // `open` entra nas dependências porque, sem ele, o estilo calculado com a galeria
     // fechada (quando ainda não havia miniatura tocada) era reaproveitado no primeiro
     // quadro da abertura — e a origem mudava no meio da transição, dando um salto.
-  }, [entrou, saindo, open]);
+  }, [entrou, saindo, open, estabilizado]);
 
   /** Classe do cromo · entra depois da foto e sai antes dela. */
   const classeCromo = cromoVisivel
@@ -595,9 +607,12 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
       setCarregando(false);
       const incoming: 0 | 1 = activeRef.current === 0 ? 1 : 0;
       const id = ++enterSeq.current;
+      // Primeira foto da sessão não decodifica de forma síncrona · ver LayerState.
+      const ehPrimeira = primeiraRef.current;
+      primeiraRef.current = false;
       setLayers((prev) => {
         const next: [LayerState, LayerState] = [prev[0], prev[1]];
-        next[incoming] = { item, foto, enterId: id };
+        next[incoming] = { item, foto, enterId: id, decodificacao: ehPrimeira ? "async" : "sync" };
         return next;
       });
       setActive(incoming);
@@ -745,13 +760,30 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
               aria-roledescription="carrossel"
               aria-label="Galeria de ambientes"
             >
+              {/* Fundo desfocado · preenche as bordas que o `object-contain` deixa vazias.
+                  Fica FORA do palco de propósito: escalar um elemento com desfoque obriga o
+                  navegador a refazer o borrão a cada quadro, e era isso que travava a
+                  abertura no celular. Aqui ele é rasterizado uma vez e só. Também é o certo
+                  visualmente — cenário não dá zoom junto com o assunto.
+                  Usa a miniatura (480w) porque vai ser borrado de qualquer jeito. */}
+              {shownItem && (
+                <img
+                  aria-hidden
+                  alt=""
+                  src={shownItem.thumb ?? shownItem.src}
+                  decoding="async"
+                  draggable={false}
+                  className="absolute inset-0 h-full w-full scale-110 select-none object-cover opacity-50 blur-xl"
+                />
+              )}
+
               {/* Palco · é este bloco que anda com o dedo E que cresce a partir da
                   miniatura na abertura. As setas e a legenda ficam de fora dele de
                   propósito: controle que escorrega junto com a foto some da tela no meio
                   do gesto. */}
               <div
                 ref={palcoRef}
-                className="absolute inset-0 will-change-transform"
+                className="absolute inset-0"
                 style={estiloPalco}
               >
                 <Layer state={layers[0]} isActive={active === 0} z={active === 0 ? 2 : 1} />
