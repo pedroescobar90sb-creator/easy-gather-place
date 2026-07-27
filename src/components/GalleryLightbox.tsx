@@ -213,6 +213,30 @@ export function InlineCarousel({
   );
 }
 
+/**
+ * Centro da última miniatura pressionada na página.
+ *
+ * É daqui que a lightbox cresce ao abrir. Um único ouvinte no módulo, e não um por galeria:
+ * a página de ambientes tem quatro galerias montadas ao mesmo tempo.
+ *
+ * Por que `pointerdown` e não o foco do elemento: botão clicado só recebe foco no Chrome e
+ * no Firefox. No Safari — logo, em todo iPhone — ele não recebe, e a origem cairia sempre
+ * no meio da tela. `pointerdown` acontece em qualquer navegador, antes do clique.
+ */
+let ultimoToque: { x: number; y: number } | null = null;
+if (typeof document !== "undefined") {
+  document.addEventListener(
+    "pointerdown",
+    (e) => {
+      const alvo = (e.target as HTMLElement | null)?.closest?.("button, a");
+      if (!alvo) return;
+      const r = alvo.getBoundingClientRect();
+      if (r.width > 0) ultimoToque = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    },
+    { capture: true, passive: true },
+  );
+}
+
 type LayerState = {
   item: GalleryItem | null;
   /** Arquivo escolhido por `escolherVariante` · é o mesmo que foi decodificado antes. */
@@ -385,23 +409,136 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
     };
   }, []);
 
+  /**
+   * Coreografia de abrir e fechar.
+   *
+   * O centro da miniatura clicada vira a origem da ampliação: a tela cheia cresce de onde o
+   * dedo tocou, em vez de nascer no meio da tela sem relação com nada. Escala uniforme de
+   * propósito — mapear o retângulo da miniatura ponto a ponto distorceria a foto, porque o
+   * tile é deitado e a tela cheia é em pé.
+   *
+   * O cromo (setas, legenda, filmstrip) entra DEPOIS da foto. Antes era o contrário: o botão
+   * de fechar aparecia aos 37ms e a foto aos 47ms — quem clicou pra ver a pousada via botão
+   * primeiro.
+   */
+  const origemRef = React.useRef<{ x: number; y: number } | null>(null);
+  const [cromoVisivel, setCromoVisivel] = React.useState(false);
+  const [saindo, setSaindo] = React.useState(false);
+  const timersRef = React.useRef<number[]>([]);
+  const limparTimers = React.useCallback(() => {
+    timersRef.current.forEach((t) => window.clearTimeout(t));
+    timersRef.current = [];
+  }, []);
+  React.useEffect(() => limparTimers, [limparTimers]);
+
+  /** Quem pediu menos movimento recebe só um fade curto, sem crescimento. */
+  const semMovimento = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
   const close = React.useCallback(() => {
-    setOpenIdx(null);
-    // Restaura o foco pro elemento que abriu a lightbox (acessibilidade). Adiado de
-    // propósito: o diálogo ainda está desmontando e sobrescreveria um focus() imediato.
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => triggerRef.current?.focus?.());
-    });
-  }, [setOpenIdx]);
+    limparTimers();
+    // Sair é mais rápido que entrar · esperar pra fechar é o que mais irrita.
+    const rapido = semMovimento();
+    setCromoVisivel(false);
+    setSaindo(true);
+    timersRef.current.push(
+      window.setTimeout(() => {
+        setSaindo(false);
+        // Zera pra próxima abertura medir a miniatura certa · sem isto, abrir a piscina
+        // depois das suítes cresceria a partir do lugar do clique anterior.
+        origemRef.current = null;
+        setOpenIdx(null);
+        // Restaura o foco pro elemento que abriu a lightbox (acessibilidade). Adiado de
+        // propósito: o diálogo ainda está desmontando e sobrescreveria um focus() imediato.
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => triggerRef.current?.focus?.());
+        });
+        // 300ms e não 380: o diálogo ainda faz o próprio fade de saída depois disto, e a
+        // soma passava de meio segundo pra fechar — tempo demais pra uma ação de sair.
+      }, rapido ? 120 : 300),
+    );
+  }, [setOpenIdx, limparTimers]);
 
   const openAt = React.useCallback(
     (i: number, el?: HTMLElement) => {
       lockRef.current = false;
-      if (el) triggerRef.current = el;
+      if (el) {
+        triggerRef.current = el;
+        const r = el.getBoundingClientRect();
+        origemRef.current = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      }
+      setSaindo(false);
       setOpenIdx(Math.max(0, Math.min(items.length - 1, i)));
     },
     [items.length, setOpenIdx],
   );
+
+  /**
+   * Dispara a coreografia toda vez que a lightbox abre — em qualquer um dos dois modos.
+   *
+   * Precisa morar aqui, e não no `openAt`: na página de ambientes a galeria roda em modo
+   * **controlado**, onde quem abre é o componente de fora e o `openAt` nunca é chamado.
+   * Amarrar a animação ao clique deixava a página de ambientes sem coreografia nenhuma.
+   *
+   * A origem também é recuperada aqui quando não veio do clique: logo após um clique, o
+   * botão que abriu ainda é o elemento com foco, então o retângulo dele é o da miniatura.
+   */
+  React.useEffect(() => {
+    if (!open) return;
+    if (!origemRef.current) origemRef.current = ultimoToque;
+    limparTimers();
+    setCromoVisivel(false);
+    // 320ms: a foto já cresceu o suficiente pra ser o assunto da tela.
+    const t = window.setTimeout(() => setCromoVisivel(true), semMovimento() ? 60 : 320);
+    timersRef.current.push(t);
+    return () => window.clearTimeout(t);
+  }, [open, limparTimers]);
+
+  // Vira `true` no quadro seguinte à montagem · é o que dá ao navegador um estado inicial
+  // pintado (pequeno e transparente) antes de animar. Sem os dois rAF, ele pula direto pro
+  // estado final e não há transição nenhuma.
+  const [entrou, setEntrou] = React.useState(false);
+  React.useEffect(() => {
+    if (!open) {
+      setEntrou(false);
+      return;
+    }
+    let r2 = 0;
+    const r1 = requestAnimationFrame(() => {
+      r2 = requestAnimationFrame(() => setEntrou(true));
+    });
+    return () => {
+      cancelAnimationFrame(r1);
+      cancelAnimationFrame(r2);
+    };
+  }, [open]);
+
+  const estiloPalco = React.useMemo<React.CSSProperties>(() => {
+    if (semMovimento()) {
+      return { opacity: saindo || !entrou ? 0 : 1, transition: "opacity 120ms linear" };
+    }
+    // Lê o módulo direto, e não só o ref: no primeiro render o efeito ainda não rodou, e
+    // uma origem que muda no meio da transição faz a foto dar um salto.
+    const o = origemRef.current ?? ultimoToque;
+    return {
+      // A origem é o centro da miniatura tocada: a foto cresce de onde a pessoa tocou.
+      transformOrigin: o ? `${o.x}px ${o.y}px` : "50% 50%",
+      transform: `scale(${saindo ? 0.96 : entrou ? 1 : 0.9})`,
+      opacity: saindo || !entrou ? 0 : 1,
+      transition: saindo
+        ? `transform 300ms ${EASE} 60ms, opacity 260ms ${EASE} 60ms`
+        : `transform 420ms ${EASE} 60ms, opacity 300ms ${EASE} 60ms`,
+    };
+    // `open` entra nas dependências porque, sem ele, o estilo calculado com a galeria
+    // fechada (quando ainda não havia miniatura tocada) era reaproveitado no primeiro
+    // quadro da abertura — e a origem mudava no meio da transição, dando um salto.
+  }, [entrou, saindo, open]);
+
+  /** Classe do cromo · entra depois da foto e sai antes dela. */
+  const classeCromo = cromoVisivel
+    ? "opacity-100 translate-y-0"
+    : "opacity-0 translate-y-1 pointer-events-none";
 
   const navigate = React.useCallback(
     (dir: 1 | -1) => {
@@ -576,12 +713,18 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
         </div>
       )}
 
-      <Dialog open={open} onOpenChange={(o) => !o && close()}>
+      {/* `open || saindo` mantém o diálogo montado durante a saída · sem isso o React
+          desmonta tudo no clique e a animação de fechamento nunca chega a rodar. */}
+      <Dialog open={open || saindo} onOpenChange={(o) => !o && !saindo && close()}>
         <DialogContent
+          // O véu padrão do diálogo fica transparente porque este conteúdo já cobre a tela
+          // inteira com fundo opaco: pintar e animar um segundo preto por baixo era
+          // trabalho de composição que ninguém via.
+          overlayClassName="bg-transparent"
           // As variáveis de escala neutralizam o zoom-in-95 padrão do Dialog só aqui:
-          // escalar um container de tela cheia na abertura é caro e dava um estalo.
-          // Fica só o fade, que roda na GPU.
-          className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100] [--tw-enter-scale:1] [--tw-exit-scale:1] duration-300"
+          // escalar um container de tela cheia na abertura é caro e dava um estalo. O
+          // crescimento a partir da miniatura acontece no palco, logo abaixo.
+          className="!max-w-none w-screen h-[100dvh] sm:h-screen p-0 border-0 bg-black sm:rounded-none overflow-hidden top-0 left-0 translate-x-0 translate-y-0 [&>button]:hidden z-[100] [--tw-enter-scale:1] [--tw-exit-scale:1] duration-200"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
@@ -602,10 +745,15 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
               aria-roledescription="carrossel"
               aria-label="Galeria de ambientes"
             >
-              {/* Palco · é este bloco que anda com o dedo. As setas e a legenda ficam de
-                  fora dele de propósito: controle que escorrega junto com a foto some da
-                  tela no meio do gesto. */}
-              <div ref={palcoRef} className="absolute inset-0 will-change-transform">
+              {/* Palco · é este bloco que anda com o dedo E que cresce a partir da
+                  miniatura na abertura. As setas e a legenda ficam de fora dele de
+                  propósito: controle que escorrega junto com a foto some da tela no meio
+                  do gesto. */}
+              <div
+                ref={palcoRef}
+                className="absolute inset-0 will-change-transform"
+                style={estiloPalco}
+              >
                 <Layer state={layers[0]} isActive={active === 0} z={active === 0 ? 2 : 1} />
                 <Layer state={layers[1]} isActive={active === 1} z={active === 1 ? 2 : 1} />
               </div>
@@ -627,7 +775,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                 type="button"
                 onClick={close}
                 aria-label="Fechar galeria"
-                className="absolute top-4 right-4 z-20 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className={cn(
+                  "absolute top-4 right-4 z-20 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                  "transition-all duration-200 ease-out",
+                  classeCromo,
+                )}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -640,7 +792,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                     type="button"
                     onClick={goPrev}
                     aria-label="Foto anterior"
-                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    className={cn(
+                      "absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                      "transition-all duration-200 ease-out",
+                      cromoVisivel ? "opacity-100" : "opacity-0 pointer-events-none",
+                    )}
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </button>
@@ -649,7 +805,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                     type="button"
                     onClick={goNext}
                     aria-label="Próxima foto"
-                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    className={cn(
+                      "absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                      "transition-all duration-200 ease-out",
+                      cromoVisivel ? "opacity-100" : "opacity-0 pointer-events-none",
+                    )}
                   >
                     <ChevronRight className="h-6 w-6" />
                   </button>
@@ -660,7 +820,15 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                   existia antes. Somada à vinheta da camada, aquela faixa lavava a base da
                   foto de preto; aqui o escuro fica só atrás do texto, onde é necessário
                   pra leitura. */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-3 px-4 pb-5 sm:pb-6">
+              <div
+                className={cn(
+                  "pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-3 px-4 pb-5 sm:pb-6",
+                  // A legenda entra um pouco antes das setas (240ms contra 200ms) e sobe
+                  // 4px · é o que dá a sensação de camadas em vez de tudo de uma vez.
+                  "transition-all duration-[240ms] ease-out",
+                  classeCromo,
+                )}
+              >
                 <div className="max-w-3xl rounded-2xl bg-black/45 px-5 py-2.5 text-center text-white backdrop-blur-md ring-1 ring-white/10">
                   <div className="text-base font-semibold sm:text-lg">{shownItem?.caption}</div>
                   <p className="mt-0.5 text-sm text-white/85">{shownItem?.desc}</p>

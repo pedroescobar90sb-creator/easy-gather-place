@@ -31,10 +31,18 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+    /**
+     * Classes extras pro véu de fundo. Existe pra quem já cobre a tela inteira com um
+     * fundo opaco (a lightbox da galeria): ali o véu padrão é pintado, animado e composto
+     * a cada abertura sem que ninguém jamais o veja. Passando `bg-transparent`, some o
+     * trabalho inútil. Aditiva de propósito — sem a prop, nada muda.
+     */
+    overlayClassName?: string;
+  }
+>(({ className, overlayClassName, children, ...props }, ref) => (
   <DialogPortal>
-    <DialogOverlay />
+    <DialogOverlay className={overlayClassName} />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
