@@ -1,14 +1,17 @@
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
+import { linkWhatsApp, useOfertaSemana } from "@/lib/whatsapp-link";
 
-const WHATSAPP_URL =
-  "https://api.whatsapp.com/send/?phone=557191263096&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Pousada%20Ilha%20do%20Meio%20e%20quero%20ver%20disponibilidade.";
+const MSG_PADRAO = "Olá! Vim pelo site da Pousada Ilha do Meio e quero ver disponibilidade.";
 
 /**
  * Sticky WhatsApp CTA em todas as páginas.
  * Pulse discreto + tooltip no desktop para reforçar convite.
  */
 export function WhatsAppFloating() {
+  // Este botão segue o visitante o site inteiro · se ele veio pelo anúncio de meio de
+  // semana, a mensagem tem que ser a mesma dos CTAs da home.
+  const WHATSAPP_URL = linkWhatsApp(MSG_PADRAO, useOfertaSemana());
   return (
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60] group">
       {/* Tooltip desktop */}

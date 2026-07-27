@@ -9,6 +9,7 @@ import { InlineCarousel } from "@/components/GalleryLightbox";
 import { VideoTestimonials } from "@/components/VideoTestimonials";
 import { CountUp } from "@/components/CountUp";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
+import { linkWhatsApp, useOfertaSemana } from "@/lib/whatsapp-link";
 import { useReveal } from "@/hooks/use-reveal";
 import { preloadImage } from "@/lib/image-cache";
 import { cn } from "@/lib/utils";
@@ -131,9 +132,10 @@ const PRECO_DIRETO = 400;
 const PRECO_BOOKING = 530;
 const ECONOMIA = PRECO_BOOKING - PRECO_DIRETO;
 
-const wa = (msg: string) => `https://api.whatsapp.com/send/?phone=557191263096&text=${encodeURIComponent(msg)}`;
-const WHATSAPP = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.");
-const WHATSAPP_CONFIRM = wa("Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?");
+// Só as mensagens · o link é montado dentro do componente, porque quem chega pelo anúncio
+// de meio de semana (`?oferta=semana`) envia um texto diferente. Ver whatsapp-link.ts.
+const MSG_DISPONIBILIDADE = "Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.";
+const MSG_CONFIRMAR = "Olá! Vim pelo site da Pousada Ilha do Meio e quero confirmar minha reserva. Pode me ajudar?";
 const GOOGLE_MAPS_URL = "https://www.google.com/maps/place/pousada+ilha+do+meio+bahia/data=!4m2!3m1!1s0x71653f7b2133acd:0x8a9713485778b80e?sa=X&ved=1t:242&ictx=111";
 
 /** Textura de grão sutil pras seções escuras full-bleed — evita o visual "gradiente flat genérico". */
@@ -396,6 +398,7 @@ function MosaicTile({
 
 /** Seção da piscina com alternância dia/noite — toggle por toque (não por hover, que não existe em touch). */
 function PiscinaSection() {
+  const ofertaSemana = useOfertaSemana();
   const [time, setTime] = useState<"dia" | "noite">("dia");
   // A foto de "noite" só entra no DOM na primeira vez que for selecionada — evita baixar
   // as duas fotos grandes pra quem nunca troca de aba (era o achado do PRD de performance).
@@ -514,7 +517,7 @@ function PiscinaSection() {
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <a
-            href={wa("Olá! Quero reservar na Pousada Ilha do Meio com vista pra piscina. Pode me passar disponibilidade e valores?")}
+            href={linkWhatsApp("Olá! Quero reservar na Pousada Ilha do Meio com vista pra piscina. Pode me passar disponibilidade e valores?", ofertaSemana)}
             target="_blank"
             rel="noopener"
             onClick={() => trackWhatsAppLead("Reservar com vista pra piscina")}
@@ -531,6 +534,10 @@ function PiscinaSection() {
 }
 
 function HomePage() {
+  // Quem chegou pelo anúncio de domingo a quinta manda outra mensagem · ver whatsapp-link.ts.
+  const ofertaSemana = useOfertaSemana();
+  const WHATSAPP = linkWhatsApp(MSG_DISPONIBILIDADE, ofertaSemana);
+  const WHATSAPP_CONFIRM = linkWhatsApp(MSG_CONFIRMAR, ofertaSemana);
   const [showHeader, setShowHeader] = useState(true);
   const [pendingRedirect, setPendingRedirect] = useState<{ url: string; label: string } | null>(null);
   useEffect(() => {
@@ -1093,7 +1100,7 @@ function HomePage() {
                 <p className="-mt-2 text-[11px] text-muted-foreground">Café da manhã e Wi-Fi inclusos.</p>
 
                 <a
-                  href={wa(r.waMsg)}
+                  href={linkWhatsApp(r.waMsg, ofertaSemana)}
                   target="_blank"
                   rel="noopener"
                   onClick={() => trackWhatsAppLead(r.name, Number(r.price.replace(/\D/g, "")))}
