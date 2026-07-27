@@ -161,6 +161,24 @@ function GrainOverlay() {
 // Implementação em src/hooks/use-reveal.ts · compartilhada com a página de ambientes.
 
 
+/**
+ * Perguntas frequentes · uma fonte só.
+ *
+ * Alimenta o acordeão da página **e** os dados estruturados `FAQPage` do `head`. Ficam
+ * juntas de propósito: FAQ que aparece no Google diferente do que está na página é o
+ * caminho mais rápido pra perder o resultado rico — e pra prometer o que a página não diz.
+ */
+const FAQ = [
+  { q: "Quais formas de pagamento vocês aceitam?", a: "PIX, cartão de crédito, cartão de débito e dinheiro. A recepção envia as instruções de pagamento assim que você confirma as datas pelo WhatsApp." },
+  { q: "Qual a política de cancelamento?", a: "Buscamos flexibilidade sempre que possível. As condições exatas dependem do período e da antecedência da reserva. A recepção informa tudo antes de você confirmar." },
+  { q: "Que horas é o check-in e check-out?", a: "Check-in das 13h às 22h. Check-out das 9h às 12h. Chegando fora do horário? Basta avisar a recepção com antecedência." },
+  { q: "Tem estacionamento?", a: "Sim, estacionamento privativo gratuito para hóspedes, sujeito à disponibilidade de vagas." },
+  { q: "O café da manhã está incluso?", a: "Sim, todas as diárias incluem café da manhã completo: frutas, pães, frios, sucos naturais, bolos e itens regionais servidos diariamente." },
+  { q: "A pousada aceita pets?", a: "No momento não recebemos animais de estimação, para preservar o conforto de todos os hóspedes." },
+  { q: "Crianças pagam?", a: "Crianças são bem-vindas. As condições variam com a idade e a configuração do quarto. Fale com a recepção pra montarmos a melhor acomodação para sua família." },
+  { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local: você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
+];
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -219,6 +237,22 @@ export const Route = createFileRoute("/")({
             "https://www.instagram.com/pousadailhadomeio/",
             "https://www.booking.com/hotel/br/pousada-ilha-do-meio.pt-br.html",
           ],
+        }),
+      },
+      {
+        // FAQPage · é o que faz o Google mostrar as perguntas direto no resultado de busca.
+        // Ocupa mais espaço na página de resultados e responde a dúvida antes do clique —
+        // pra uma pousada que fecha por WhatsApp, é presença de graça em quem pesquisa
+        // "pousada Itacimirim café da manhã" ou "aceita pets".
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQ.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: { "@type": "Answer", text: item.a },
+          })),
         }),
       },
     ],
@@ -444,7 +478,10 @@ function PiscinaSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">IV. Piscina</p>
+            {/* text-secondary, não text-sand · sobre o creme do fundo o sand dava 1,1:1 de
+                contraste (mínimo é 4,5:1) — o rótulo existia no HTML e não existia pro olho.
+                Nas seções de fundo escuro o sand continua, porque lá ele funciona. */}
+            <p className="text-[13px] uppercase tracking-[0.24em] text-secondary font-semibold">IV. Piscina</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Um mergulho de água azul<br />
               <span className="italic opacity-90">à sombra dos coqueiros.</span>
@@ -803,7 +840,7 @@ function HomePage() {
             ancorado na base deixava um vão solto no topo. */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-5">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">A casa</p>
+            <p className="text-[13px] uppercase tracking-[0.24em] text-secondary font-semibold">A casa</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Quatro ambientes,<br />
               <span className="italic opacity-90">uma ilha de sossego</span> entre coqueiros.
@@ -1057,7 +1094,7 @@ function HomePage() {
       {/* ACOMODAÇÕES */}
       <section ref={revealAcomodacoes.ref} id="acomodacoes" className={cn(revealAcomodacoes.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">III. Acomodações</p>
+          <p className="text-[13px] uppercase tracking-[0.24em] text-secondary font-semibold">III. Acomodações</p>
           <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
             17 suítes.<br />
             <span className="italic opacity-90">Três configurações,</span> mesma tranquilidade.
@@ -1150,7 +1187,7 @@ function HomePage() {
               do texto sobre a foto, por isso nenhuma cor de texto precisou mudar. */}
           <div className="grid overflow-hidden rounded-[4px] bg-background/85 backdrop-blur-md shadow-[0_18px_50px_-24px_rgba(0,0,0,0.45)] md:grid-cols-[1.05fr_1fr]">
             <div className="p-6 sm:p-10">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">V. Onde fica</p>
+            <p className="text-[13px] uppercase tracking-[0.24em] text-secondary font-semibold">V. Onde fica</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Entre Guarajuba<br />
               <span className="italic opacity-90">e Praia do Forte.</span>
@@ -1208,7 +1245,7 @@ function HomePage() {
       <section id="faq" className="bg-background border-t border-border/60">
         <div ref={revealFaq.ref} className={cn(revealFaq.revealClass, "mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">Perguntas frequentes</p>
+            <p className="text-[13px] uppercase tracking-[0.24em] text-secondary font-semibold">Perguntas frequentes</p>
             <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance">
               Antes de reservar,<br />
               <span className="italic opacity-90">tudo o que perguntam.</span>
@@ -1219,18 +1256,12 @@ function HomePage() {
           </div>
 
           <Accordion type="single" collapsible className="mt-8">
-            {[
-              { q: "Quais formas de pagamento vocês aceitam?", a: "PIX, cartão de crédito, cartão de débito e dinheiro. A recepção envia as instruções de pagamento assim que você confirma as datas pelo WhatsApp." },
-              { q: "Qual a política de cancelamento?", a: "Buscamos flexibilidade sempre que possível. As condições exatas dependem do período e da antecedência da reserva. A recepção informa tudo antes de você confirmar." },
-              { q: "Que horas é o check-in e check-out?", a: "Check-in das 13h às 22h. Check-out das 9h às 12h. Chegando fora do horário? Basta avisar a recepção com antecedência." },
-              { q: "Tem estacionamento?", a: "Sim, estacionamento privativo gratuito para hóspedes, sujeito à disponibilidade de vagas." },
-              { q: "O café da manhã está incluso?", a: "Sim, todas as diárias incluem café da manhã completo: frutas, pães, frios, sucos naturais, bolos e itens regionais servidos diariamente." },
-              { q: "A pousada aceita pets?", a: "No momento não recebemos animais de estimação, para preservar o conforto de todos os hóspedes." },
-              { q: "Crianças pagam?", a: "Crianças são bem-vindas. As condições variam com a idade e a configuração do quarto. Fale com a recepção pra montarmos a melhor acomodação para sua família." },
-              { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local: você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
-            ].map((item) => (
+            {FAQ.map((item) => (
               <AccordionItem key={item.q} value={item.q} className="border-border/60">
-                <AccordionTrigger className="text-left text-base sm:text-lg font-semibold py-5 hover:no-underline">
+                {/* 17/19px porque a pergunta agora sai em Inter · antes ela herdava a fonte
+                    de display do <h3> do Radix e, no mesmo 16px, parecia menor que a própria
+                    resposta logo abaixo. */}
+                <AccordionTrigger className="text-left text-[17px] sm:text-[19px] font-semibold py-5 hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-5">
@@ -1243,7 +1274,8 @@ function HomePage() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-border/60 bg-card px-5 py-5 sm:px-7 sm:py-6">
             <div className="text-center sm:text-left">
               <p className="font-semibold text-foreground">Ainda com dúvida?</p>
-              <p className="text-sm text-muted-foreground">A recepção responde em minutos, de segunda a segunda.</p>
+              {/* 16px · era 14, abaixo do mínimo de leitura no celular. */}
+              <p className="text-base text-muted-foreground">A recepção responde em minutos, de segunda a segunda.</p>
             </div>
             <a
               href={WHATSAPP}
