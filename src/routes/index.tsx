@@ -498,7 +498,10 @@ function PiscinaSection() {
                 type="button"
                 onClick={() => handleTime(t)}
                 className={cn(
-                  "rounded-full px-5 py-2 text-sm font-semibold capitalize transition",
+                  // py-3 e não py-2: com py-2 o botão ficava em 36px de altura, abaixo do
+                  // mínimo pro dedo. Aqui o botão pode crescer mesmo — é controle de
+                  // conteúdo e ganha em legibilidade.
+                  "rounded-full px-5 py-3 text-sm font-semibold capitalize transition",
                   time === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
                 )}
               >
@@ -619,7 +622,10 @@ function HomePage() {
             target="_blank"
             rel="noopener"
             onClick={() => trackWhatsAppLead("Barra topo - Fale conosco")}
-            className="inline-flex items-center gap-1.5 font-semibold hover:opacity-90 transition shrink-0"
+            /* min-h-11 e padding lateral: no celular o rótulo fica escondido e sobrava só o
+               ícone de 14px como alvo — praticamente impossível de acertar com o dedo. O
+               ícone continua do mesmo tamanho; só a área que recebe o toque cresceu. */
+            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1.5 -mx-2 px-2 font-semibold transition hover:opacity-90"
           >
             <WhatsAppIcon className="h-3.5 w-3.5" />
             <span className="hidden xs:inline sm:inline">Fale conosco</span>
@@ -652,7 +658,7 @@ function HomePage() {
           <DropdownMenu>
             <DropdownMenuTrigger
               aria-label="Abrir menu"
-              className="inline-flex items-center justify-center rounded-full border border-border/60 bg-background/70 hover:bg-background text-foreground h-10 w-10 transition shadow-sm"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/70 text-foreground shadow-sm transition hover:bg-background"
             >
               <MoreVertical className="h-5 w-5" />
             </DropdownMenuTrigger>
@@ -779,7 +785,7 @@ function HomePage() {
             </a>
             <a
               href="#acomodacoes"
-              className="group inline-flex items-center gap-1.5 text-sm font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-white/70"
+              className="group inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-white/70"
             >
               Ver fotos e quartos
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />

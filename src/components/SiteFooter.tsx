@@ -35,7 +35,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackWhatsAppLead("Rodapé - WhatsApp da recepção")}
-                className="group flex items-start gap-2.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="group flex min-h-11 items-center gap-2.5 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <WhatsAppIcon className="h-4 w-4 mt-0.5 shrink-0 text-primary" />
                 <span className="font-medium">WhatsApp da recepção</span>
@@ -44,7 +44,7 @@ export function SiteFooter() {
             <li>
               <a
                 href="tel:+557191263096"
-                className="flex items-start gap-2.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="flex min-h-11 items-center gap-2.5 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Phone className="h-4 w-4 mt-0.5 shrink-0 text-primary" />
                 <span className="tabular-nums font-medium">{PHONE_DISPLAY}</span>
@@ -55,7 +55,7 @@ export function SiteFooter() {
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start gap-2.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="flex min-h-11 items-center gap-2.5 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Instagram className="h-4 w-4 mt-0.5 shrink-0 text-primary" />
                 <span className="font-medium">@pousadailhadomeio</span>
@@ -87,11 +87,13 @@ export function SiteFooter() {
           <h4 className="font-display text-base font-semibold text-foreground tracking-tight">
             Informações
           </h4>
-          <ul className="space-y-3 text-[13px]">
+          {/* space-y menor porque cada link agora tem 44px de altura própria · a lista
+              ocupa quase o mesmo espaço de antes, mas cada alvo cabe no dedo. */}
+          <ul className="space-y-0 text-[13px]">
             <li>
               <Link
                 to="/como-chegar"
-                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+                className="inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 Como chegar
               </Link>
@@ -99,7 +101,7 @@ export function SiteFooter() {
             <li>
               <Link
                 to="/faq"
-                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+                className="inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 Perguntas frequentes
               </Link>
@@ -107,7 +109,7 @@ export function SiteFooter() {
             <li>
               <Link
                 to="/termos"
-                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+                className="inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 Termos de Uso
               </Link>
@@ -115,7 +117,7 @@ export function SiteFooter() {
             <li>
               <Link
                 to="/privacidade"
-                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+                className="inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground transition-colors font-medium"
               >
                 Política de Privacidade
               </Link>

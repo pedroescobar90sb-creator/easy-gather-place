@@ -240,7 +240,7 @@ export function VideoTestimonials() {
                           type="button"
                           onClick={alternarSom}
                           aria-label={semSom ? "Ativar som" : "Desativar som"}
-                          className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md ring-1 ring-white/25 transition hover:bg-black/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                          className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md ring-1 ring-white/25 transition hover:bg-black/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                         >
                           {semSom ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                         </button>
@@ -274,11 +274,19 @@ export function VideoTestimonials() {
                   aria-label={`Ir para ${c.autor}`}
                   aria-selected={selecionado === i}
                   onClick={() => embla?.scrollTo(i)}
-                  className={cn(
-                    "h-1.5 rounded-full transition-all",
-                    selecionado === i ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-foreground/30",
-                  )}
-                />
+                  /* O botão tem 44px de área e o pontinho continua com 6px · é a técnica
+                     padrão de paginação de carrossel. Antes o alvo era o próprio ponto:
+                     6x6 pixels, impossível de acertar com o dedo. */
+                  className="group -m-2 inline-flex h-11 w-11 items-center justify-center p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
+                >
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "block h-1.5 rounded-full transition-all",
+                      selecionado === i ? "w-6 bg-primary" : "w-1.5 bg-border group-hover:bg-foreground/30",
+                    )}
+                  />
+                </button>
               ))}
             </div>
             <button
