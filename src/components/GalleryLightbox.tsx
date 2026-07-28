@@ -645,6 +645,25 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
   // A legenda acompanha a camada visível, então troca junto com o crossfade.
   const shownItem = layers[active].item ?? current;
 
+  /**
+   * As duas camadas do fundo desfocado, espelhando as duas camadas de foto.
+   *
+   * Reaproveita o mesmo `layers` / `active` que o crossfade das fotos já usa — sem estado
+   * novo e sem risco de as duas coisas saírem de sincronia. Antes era uma `<img>` só que
+   * trocava de `src` de uma vez: as fotos faziam crossfade suave e o fundo cortava seco
+   * atrás delas.
+   *
+   * Usa a miniatura de 480px porque o resultado vai ser borrado de qualquer forma.
+   */
+  const fundos = React.useMemo(
+    () =>
+      layers.map((l) => ({
+        src: l.item ? (l.item.thumb ?? l.item.src) : "",
+      })),
+    [layers],
+  );
+  const fundoAtivo = active;
+
   // Keyboard navigation
   React.useEffect(() => {
     if (!open) return;
@@ -778,19 +797,44 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
               {/* Fundo desfocado · preenche as bordas que o `object-contain` deixa vazias.
                   Fica FORA do palco de propósito: escalar um elemento com desfoque obriga o
                   navegador a refazer o borrão a cada quadro, e era isso que travava a
-                  abertura no celular. Aqui ele é rasterizado uma vez e só. Também é o certo
-                  visualmente — cenário não dá zoom junto com o assunto.
-                  Usa a miniatura (480w) porque vai ser borrado de qualquer jeito. */}
-              {shownItem && (
-                <img
-                  aria-hidden
-                  alt=""
-                  src={shownItem.thumb ?? shownItem.src}
-                  decoding="async"
-                  draggable={false}
-                  className="absolute inset-0 h-full w-full scale-110 select-none object-cover opacity-50 blur-xl"
-                />
-              )}
+                  abertura no celular. Mas ele PRECISA entrar e sair junto com a foto — sem
+                  isso ele aparecia inteiro antes dela na abertura e, pior, ficava sozinho na
+                  tela por 300ms no fechamento, depois que a foto já tinha sumido. */}
+              <div
+                aria-hidden
+                className="absolute inset-0 overflow-hidden"
+                style={{
+                  opacity: saindo || !entrou ? 0 : 0.5,
+                  transition: semMovimento()
+                    ? "opacity 120ms linear"
+                    : `opacity ${saindo ? 220 : 240}ms ${EASE}`,
+                }}
+              >
+                {/* Só as camadas que já têm foto · `src=""` faz o navegador baixar a página
+                    inteira de novo, e as duas camadas nascem vazias. */}
+                {fundos.map((f, i) => !f.src ? null : (
+                  <img
+                    key={i}
+                    alt=""
+                    src={f.src}
+                    decoding="async"
+                    draggable={false}
+                    /* Borra a 25% do tamanho e amplia 4x: o resultado é igual a blur(24px)
+                       em tela cheia, mas o navegador borra um dezesseis avos da área. É a
+                       diferença entre rodar e engasgar em celular mediano. */
+                    style={{
+                      width: "25%",
+                      height: "25%",
+                      transformOrigin: "top left",
+                      transform: "scale(4.4)",
+                      filter: "blur(6px)",
+                      opacity: i === fundoAtivo ? 1 : 0,
+                      transition: `opacity 700ms ${EASE}`,
+                    }}
+                    className="absolute inset-0 select-none object-cover"
+                  />
+                ))}
+              </div>
 
               {/* Palco · é este bloco que anda com o dedo E que cresce a partir da
                   miniatura na abertura. As setas e a legenda ficam de fora dele de
@@ -823,8 +867,14 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                 onClick={close}
                 aria-label="Fechar galeria"
                 className={cn(
-                  "absolute top-4 right-4 z-20 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
-                  "transition-all duration-200 ease-out",
+                  // Sem backdrop-blur · eram cinco regiões de desfoque de fundo entrando ao
+                  // mesmo tempo sobre uma foto que ainda escalava. É dos efeitos mais caros
+                  // que existem em celular. O preto um pouco mais sólido dá a mesma leitura.
+                  "absolute top-4 right-4 z-20 inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full bg-black/60 text-white ring-1 ring-white/20 hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                  // Lista explícita em vez de `transition-all`: opacidade e transform são as
+                  // duas que a GPU compõe sozinha. `all` fazia o navegador vigiar toda
+                  // propriedade animável do elemento à toa.
+                  "transition-[opacity,transform] duration-200 ease-out",
                   classeCromo,
                 )}
               >
@@ -840,8 +890,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                     onClick={goPrev}
                     aria-label="Foto anterior"
                     className={cn(
-                      "absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
-                      "transition-all duration-200 ease-out",
+                      "absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/60 text-white ring-1 ring-white/20 hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                      "transition-opacity duration-200 ease-out",
                       cromoVisivel ? "opacity-100" : "opacity-0 pointer-events-none",
                     )}
                   >
@@ -853,8 +903,8 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                     onClick={goNext}
                     aria-label="Próxima foto"
                     className={cn(
-                      "absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md ring-1 ring-white/20 hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
-                      "transition-all duration-200 ease-out",
+                      "absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 inline-flex h-12 w-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-black/60 text-white ring-1 ring-white/20 hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                      "transition-opacity duration-200 ease-out",
                       cromoVisivel ? "opacity-100" : "opacity-0 pointer-events-none",
                     )}
                   >
@@ -872,11 +922,11 @@ export function GalleryLightbox({ items, className, gridClassName, trigger, init
                   "pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-3 px-4 pb-5 sm:pb-6",
                   // A legenda entra um pouco antes das setas (240ms contra 200ms) e sobe
                   // 4px · é o que dá a sensação de camadas em vez de tudo de uma vez.
-                  "transition-all duration-[240ms] ease-out",
+                  "transition-[opacity,transform] duration-[240ms] ease-out",
                   classeCromo,
                 )}
               >
-                <div className="max-w-3xl rounded-2xl bg-black/45 px-5 py-2.5 text-center text-white backdrop-blur-md ring-1 ring-white/10">
+                <div className="max-w-3xl rounded-2xl bg-black/60 px-5 py-2.5 text-center text-white ring-1 ring-white/10">
                   <div className="text-base font-semibold sm:text-lg">{shownItem?.caption}</div>
                   <p className="mt-0.5 text-sm text-white/85">{shownItem?.desc}</p>
                   {items.length > 1 && (
