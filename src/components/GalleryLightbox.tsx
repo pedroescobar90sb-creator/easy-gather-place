@@ -62,6 +62,16 @@ type Props = {
 export const PHOTO_EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 const EASE = PHOTO_EASE;
 
+/**
+ * Tempos do crossfade entre fotos.
+ *
+ * Eram 700ms de entrada, herança de quando as camadas eram opacas e a sobreposição não
+ * aparecia. Passar foto em galeria pede resposta rápida, e cada milissegundo a mais é mais
+ * tempo com duas imagens na tela.
+ */
+const ENTRADA_MS = 380;
+const SAIDA_MS = 320;
+
 /** Carrossel embutido no próprio card · passa as fotos com setas, arraste (mouse/dedo) ou automaticamente, sem abrir tela cheia. */
 export function InlineCarousel({
   items,
@@ -310,7 +320,7 @@ const Layer = React.memo(function Layer({
     const run = () => {
       if (started) return;
       started = true;
-      el.style.transition = `opacity 700ms ${EASE}`;
+      el.style.transition = `opacity ${ENTRADA_MS}ms ${EASE}`;
       el.style.opacity = "1";
     };
     const raf1 = requestAnimationFrame(() => {
@@ -325,17 +335,27 @@ const Layer = React.memo(function Layer({
     };
   }, [enterId]);
 
-  // Depois que o crossfade termina, apaga a camada que ficou atrás. Ela precisa
-  // continuar visível DURANTE a transição (é sobre ela que a nova foto aparece), mas
-  // deixá-la acesa pra sempre faria o navegador compor duas telas cheias à toa.
+  /**
+   * A camada que sai desaparece ENQUANTO a nova aparece.
+   *
+   * Antes ela ficava parada em opacidade 1 e era cortada de uma vez aos 760ms. Isso
+   * funcionava enquanto cada camada carregava o próprio fundo desfocado de tela cheia: a
+   * de cima era opaca de ponta a ponta e escondia a de baixo por completo.
+   *
+   * Quando o fundo saiu de dentro das camadas — para tirar o travamento no celular —, cada
+   * uma passou a conter só a foto nítida, que usa `object-contain` e não preenche a tela.
+   * A camada virou transparente em volta da foto, e as duas fotos apareceram ao mesmo
+   * tempo: a nova na frente, a anterior em volta dela.
+   *
+   * Sai um pouco mais rápido do que a nova entra, de propósito: assim a foto antiga já
+   * sumiu quando a nova termina de chegar. O que se vê no meio do caminho é o fundo
+   * desfocado, que está atrás das duas e não se mexe — a função dele é exatamente essa.
+   */
   React.useEffect(() => {
     const el = ref.current;
     if (!el || isActive || !enterId) return;
-    const t = window.setTimeout(() => {
-      el.style.transition = "none";
-      el.style.opacity = "0";
-    }, 760);
-    return () => window.clearTimeout(t);
+    el.style.transition = `opacity ${SAIDA_MS}ms ${EASE}`;
+    el.style.opacity = "0";
   }, [isActive, enterId]);
 
   if (!item) return null;
