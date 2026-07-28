@@ -26,7 +26,10 @@ export function WhatsAppFloating() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar no WhatsApp com a Pousada Ilha do Meio"
-        className="relative inline-flex items-center justify-center rounded-full bg-[#128C7E] text-white h-12 w-12 sm:h-14 sm:w-14 shadow-2xl shadow-black/30 hover:scale-105 hover:bg-[#0f7a6e] active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+        /* `hover:scale-105` só vale onde existe mouse · em celular o navegador simula hover
+           no toque e o botão ficava crescido depois do clique. `active` é o estado que o
+           dedo realmente produz. */
+        className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#128C7E] text-white shadow-2xl shadow-black/30 transition-transform duration-200 motion-safe:active:scale-95 hover:bg-[#0f7a6e] sm:h-14 sm:w-14 sm:hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
         onClick={() => trackWhatsAppLead("Botão flutuante")}
       >
         <span

@@ -53,8 +53,11 @@ export function useReveal<T extends HTMLElement>() {
     ref,
     shown,
     revealClass: cn(
-      "transition-[opacity,transform] duration-700 ease-out",
-      shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
+      // 560ms e 14px, não 700ms e 24px · no celular a rolagem é rápida e, com a distância
+      // e a duração antigas, o conteúdo parecia chegar de longe e atrasado — a pessoa já
+      // tinha passado quando ele terminava de se assentar.
+      "transition-[opacity,transform] duration-[560ms] ease-out",
+      shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3.5",
       // will-change só enquanto falta animar: deixar dezenas de camadas de GPU
       // permanentes é justamente o que faz celular fraco engasgar no scroll.
       !shown && "will-change-[opacity,transform]",

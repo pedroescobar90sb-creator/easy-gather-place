@@ -561,7 +561,7 @@ function PiscinaSection() {
             target="_blank"
             rel="noopener"
             onClick={() => trackWhatsAppLead("Reservar com vista pra piscina")}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-6 py-3 text-sm font-semibold transition"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground motion-safe:active:scale-[0.97] hover:opacity-90 px-6 py-3 text-sm font-semibold transition"
           >
             <WhatsAppIcon className="h-4 w-4" />
             Reservar com vista pra piscina
@@ -778,7 +778,7 @@ function HomePage() {
               target="_blank"
               rel="noopener"
               onClick={() => trackWhatsAppLead("Hero - Reservar pelo WhatsApp", PRECO_DIRETO)}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground motion-safe:active:scale-[0.97] hover:opacity-90 px-7 py-4 text-base font-semibold shadow-2xl shadow-black/30 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Reservar pelo WhatsApp
@@ -1089,7 +1089,7 @@ function HomePage() {
                 target="_blank"
                 rel="noopener"
                 onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto", 400)}
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground motion-safe:active:scale-[0.97] hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 Reservar direto pelo WhatsApp
@@ -1153,7 +1153,7 @@ function HomePage() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => trackWhatsAppLead(r.name, Number(r.price.replace(/\D/g, "")))}
-                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
+                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground motion-safe:active:scale-[0.97] hover:opacity-90 px-5 py-3 text-sm font-semibold transition"
                 >
                   <WhatsAppIcon className="h-4 w-4" />
                   {r.cta}
@@ -1294,7 +1294,7 @@ function HomePage() {
               target="_blank"
               rel="noopener"
               onClick={() => trackWhatsAppLead("FAQ - Tirar dúvida")}
-              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition shrink-0"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground motion-safe:active:scale-[0.97] hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition shrink-0"
             >
               <WhatsAppIcon className="h-4 w-4" />
               Falar com a recepção
@@ -1325,7 +1325,7 @@ function HomePage() {
               target="_blank"
               rel="noopener"
               onClick={() => trackWhatsAppLead("CTA final - Confirmar reserva")}
-              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground hover:brightness-110 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40 transition"
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground motion-safe:active:scale-[0.97] hover:brightness-110 px-8 py-4 text-base font-semibold shadow-2xl shadow-black/40 transition"
             >
               <WhatsAppIcon className="h-5 w-5" />
               Falar com a recepção
