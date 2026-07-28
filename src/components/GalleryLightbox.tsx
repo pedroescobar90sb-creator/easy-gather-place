@@ -69,7 +69,11 @@ export function InlineCarousel({
   imgClassName,
   autoPlay = false,
   autoPlayInterval = 5000,
-  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
+  // Larguras reais do cartão · o padrão anterior dizia "100vw" no celular, e num aparelho
+  // de densidade 3x isso faz o navegador pedir ~1170px e escolher o arquivo ORIGINAL.
+  // O cartão de quarto tem ~360px em qualquer tamanho de tela: uma coluna no celular,
+  // três dentro de 1152px no desktop.
+  sizes = "(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw",
 }: {
   items: GalleryItem[];
   className?: string;
@@ -100,10 +104,17 @@ export function InlineCarousel({
 
   // Aquece a próxima foto pra troca não esperar download · em loop, depois da última
   // vem a primeira, então a vizinha é calculada com resto.
+  //
+  // Aquece a variante de 960, NUNCA o original. Antes aquecia `it.src`: a <img> mostrava a
+  // versão de 480 e o pré-carregamento baixava o arquivo cheio de 400 a 580 KB por trás.
+  // Com troca automática a cada 4,5s e quatro cartões de quarto na home, isso passeava pelo
+  // catálogo inteiro baixando originais — era a maior fatia dos 4,6 MB de imagem da página.
   React.useEffect(() => {
     if (len <= 1) return;
-    preloadImage(items[(idx + 1) % len]?.src ?? "");
-    preloadImage(items[(idx - 1 + len) % len]?.src ?? "");
+    const proxima = items[(idx + 1) % len];
+    const anterior = items[(idx - 1 + len) % len];
+    preloadImage(proxima?.mid ?? proxima?.src ?? "");
+    preloadImage(anterior?.mid ?? anterior?.src ?? "");
   }, [idx, items, len]);
 
   if (len === 0) return null;
@@ -160,7 +171,11 @@ export function InlineCarousel({
         <img
           key={it.src}
           src={it.thumb ?? it.src}
-          srcSet={it.thumb && it.mid ? `${it.thumb} 480w, ${it.mid} 960w, ${it.src} 1600w` : undefined}
+          // Sem o original entre os candidatos · o cartão tem ~360px, então nem em tela de
+          // densidade 3x a versão de 960 fica curta. Oferecer o arquivo cheio só dava ao
+          // navegador a chance de escolher 400 KB para preencher 360 pixels. É o mesmo
+          // critério que o mosaico da home já usa.
+          srcSet={it.thumb && it.mid ? `${it.thumb} 480w, ${it.mid} 960w` : undefined}
           sizes={sizes}
           width={it.width}
           height={it.height}

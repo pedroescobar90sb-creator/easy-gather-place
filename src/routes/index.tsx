@@ -972,8 +972,14 @@ function HomePage() {
               key={photo.src}
               className="relative shrink-0 w-[78vw] sm:w-[420px] aspect-[4/5] overflow-hidden rounded-3xl bg-background ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] snap-center"
             >
+              {/* As variantes existiam e estavam importadas · esta img ignorava as duas e
+                  baixava o original (400 e 581 KB) para uma caixa de ~305px. */}
               <img
-                src={photo.src}
+                src={photo.mid ?? photo.src}
+                srcSet={photo.thumb && photo.mid ? `${photo.thumb} 480w, ${photo.mid} 960w` : undefined}
+                sizes="(min-width: 640px) 420px, 78vw"
+                width={photo.width}
+                height={photo.height}
                 alt={photo.desc}
                 loading="lazy"
                 decoding="async"
