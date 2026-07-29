@@ -68,6 +68,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      // Ícone do site. Sem estas linhas o navegador e o Google mostram o globo cinza —
+      // era o caso até aqui: `public/favicon.ico` existia, mas ninguém apontava para ele.
+      // O Google rastreia o favicon separadamente da página e só o exibe (busca orgânica e
+      // resultado patrocinado) depois de indexar; leva de dias a semanas.
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
+      { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       // Rastreamento: abre a conexão em paralelo com o resto do carregamento, em vez de
