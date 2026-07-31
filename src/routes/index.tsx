@@ -19,7 +19,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 
-import heroPousada from "@/assets/pousada-0.jpg";
+// Recorte vertical da mesma piscina ensolarada, só para o hero de celular. A original é
+// quadrada (1600×1600): para cobrir uma tela vertical ela teria que ser **ampliada 1,375×**,
+// e aí o hero — a primeira coisa que o visitante do anúncio vê — abre macio. O recorte
+// 900×1600 cobre a mesma altura sem ampliar nada.
+import piscinaHeroMobile960 from "@/assets/thumbs/piscina-hero-mobile@960.webp";
+import piscinaHeroMobile480 from "@/assets/thumbs/piscina-hero-mobile@480.webp";
 
 import recepcaoNoite from "@/assets/recepcao-noite-2.webp";
 import quiosqueJardim from "@/assets/quiosque-jardim.webp";
@@ -55,7 +60,6 @@ import palmBg2 from "@/assets/palm-bg-2.webp";
 
 // Fundos decorativos usam a variante reduzida: todos ficam atrás de camada escura ou de
 // grão, então a original (de 253 a 474 KB cada) não acrescentava nada visível.
-import heroPousada960 from "@/assets/thumbs/pousada-0@960.webp";
 import bgCoqueiros960 from "@/assets/thumbs/bg-coqueiros-escuro@960.webp";
 import lazerDrone960 from "@/assets/thumbs/lazer-drone-piscina@960.webp";
 import palmBg2_960 from "@/assets/thumbs/palm-bg-2@960.webp";
@@ -186,8 +190,11 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
       { property: "og:title", content: "Pousada Ilha do Meio · Itacimirim, Bahia. Reserve pelo WhatsApp" },
       { property: "og:description", content: "Pousada em Itacimirim (BA), perto do mar, entre Guarajuba e Praia do Forte. Reserva direta com a casa, melhor tarifa garantida. Fale agora no WhatsApp." },
-      { property: "og:image", content: heroPousada },
-      { name: "twitter:image", content: heroPousada },
+      // Mesma foto do hero. Quando o link cai num grupo de WhatsApp, a prévia e a página
+      // precisam mostrar a mesma coisa — prévia diferente do que a pessoa encontra ao
+      // clicar é o tipo de detalhe que derruba confiança antes da primeira mensagem.
+      { property: "og:image", content: piscinaHero },
+      { name: "twitter:image", content: piscinaHero },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://pousadailhadomeio.com.br/" },
     ],
@@ -203,7 +210,7 @@ export const Route = createFileRoute("/")({
           description:
             "Pousada boutique em Itacimirim (Bahia), perto do mar, entre Guarajuba e Praia do Forte. 17 quartos, café da manhã, piscina e atendimento direto com a casa.",
           url: "https://pousadailhadomeio.com.br/",
-          image: heroPousada,
+          image: piscinaHero,
           telephone: "+55-71-9126-3096",
           priceRange: "R$ 400 – R$ 650",
           checkinTime: "13:00",
@@ -730,9 +737,38 @@ function HomePage() {
         // min(88svh,820px) a tela de cada um manda, e o teto impede que vire um hero sem
         // fim em monitor de 1440. svh, e não vh, porque no celular o vh ignora a barra do
         // navegador e empurra o conteúdo pra fora.
-        className="relative overflow-hidden bg-cover bg-center bg-no-repeat min-h-[min(80svh,640px)] sm:min-h-[min(85svh,760px)] lg:min-h-[min(88svh,820px)] flex items-center"
-        style={{ backgroundImage: `url(${heroPousada960})` }}
+        className="relative overflow-hidden min-h-[min(80svh,640px)] sm:min-h-[min(85svh,760px)] lg:min-h-[min(88svh,820px)] flex items-center"
       >
+        {/* Foto de fundo do hero · era `background-image` no CSS e virou `<picture>` por dois
+            motivos:
+
+            1. **Enquadramento.** A foto é quadrada. No celular, cobrir uma tela vertical exige
+               ampliá-la; no desktop, o recorte vertical perde a piscina e sobra grade e mato.
+               Nenhum arquivo único serve aos dois — cada um pede o seu.
+            2. **Velocidade.** Imagem de fundo em CSS só é descoberta depois que o navegador
+               baixa e processa o CSS. Esta é a maior imagem da primeira tela, ou seja, é o
+               LCP; como `<img fetchpriority="high">` ela entra na fila já na leitura do HTML.
+
+            `<picture>` com `<source media>`, e não duas `<img>` com `hidden`/`sm:block`:
+            classe que esconde não impede o download. Com `hidden` o celular pagaria pelas
+            duas versões e usaria uma. */}
+        <picture aria-hidden>
+          <source
+            media="(min-width: 640px)"
+            srcSet={`${piscinaHero960} 960w, ${piscinaHero} 1600w`}
+            sizes="100vw"
+          />
+          <img
+            src={piscinaHeroMobile960}
+            srcSet={`${piscinaHeroMobile480} 480w, ${piscinaHeroMobile960} 900w`}
+            sizes="100vw"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
+
         {/* Sobrevoo de drone da própria pousada, em loop mudo. Entra por cima da foto
             depois que a página carrega — se não puder tocar, a foto continua ali. */}
         <HeroVideoBackground
