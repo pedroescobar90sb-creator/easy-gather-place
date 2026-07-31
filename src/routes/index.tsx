@@ -183,6 +183,9 @@ const FAQ = [
   { q: "É seguro reservar direto pela pousada?", a: "Sim. Somos administração local: você fala direto com quem opera a pousada. Emitimos comprovante de pagamento e enviamos confirmação por escrito antes da estadia." },
 ];
 
+/** Origem do site, para as tags que exigem URL absoluta (og:image, schema.org). */
+const SITE = "https://pousadailhadomeio.com.br";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -193,8 +196,15 @@ export const Route = createFileRoute("/")({
       // Mesma foto do hero. Quando o link cai num grupo de WhatsApp, a prévia e a página
       // precisam mostrar a mesma coisa — prévia diferente do que a pessoa encontra ao
       // clicar é o tipo de detalhe que derruba confiança antes da primeira mensagem.
-      { property: "og:image", content: piscinaHero },
-      { name: "twitter:image", content: piscinaHero },
+      //
+      // URL **absoluta**, obrigatoriamente. O import do Vite devolve `/assets/...`, e
+      // caminho relativo em og:image não é resolvido pelos rastreadores do WhatsApp e do
+      // Facebook — o link sai sem imagem nenhuma. Estava assim desde antes desta troca:
+      // a prévia nunca funcionou, e ninguém percebeu porque o defeito é silencioso.
+      { property: "og:image", content: `${SITE}${piscinaHero}` },
+      { property: "og:image:width", content: "1600" },
+      { property: "og:image:height", content: "1600" },
+      { name: "twitter:image", content: `${SITE}${piscinaHero}` },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://pousadailhadomeio.com.br/" },
     ],
@@ -210,7 +220,7 @@ export const Route = createFileRoute("/")({
           description:
             "Pousada boutique em Itacimirim (Bahia), perto do mar, entre Guarajuba e Praia do Forte. 17 quartos, café da manhã, piscina e atendimento direto com a casa.",
           url: "https://pousadailhadomeio.com.br/",
-          image: piscinaHero,
+          image: `${SITE}${piscinaHero}`,
           telephone: "+55-71-9126-3096",
           priceRange: "R$ 400 – R$ 650",
           checkinTime: "13:00",
