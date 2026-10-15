@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, ChevronRight, Star } from "lucide-react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { trackWhatsAppLead } from "@/lib/whatsapp-lead";
+import { PRECO_DIRETO } from "@/lib/pricing";
 
 import heroPousada from "@/assets/pousada-0.jpg";
 // Fundo em tela cheia atrás de um degradê escuro · a variante reduzida basta.
@@ -72,7 +73,7 @@ function DirecionamentoPage() {
           </span>
           <span aria-hidden className="text-white/35">·</span>
           <span>
-            diárias a partir de <strong className="font-semibold text-white">R$ 400</strong>
+            diárias a partir de <strong className="font-semibold text-white">R$ {PRECO_DIRETO}</strong>
           </span>
         </div>
 

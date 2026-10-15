@@ -13,6 +13,7 @@ import { linkWhatsApp, useOfertaSemana } from "@/lib/whatsapp-link";
 import { useReveal } from "@/hooks/use-reveal";
 import { preloadImage } from "@/lib/image-cache";
 import { cn } from "@/lib/utils";
+import { PRECO_DIRETO, PRECO_BOOKING, ECONOMIA } from "@/lib/pricing";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -127,15 +128,6 @@ const P = {
   salaoJogosMesa: { src: salaoJogosMesa, thumb: salaoJogosMesa_480, mid: salaoJogosMesa_960, width: 1400, height: 1867 },
 } as const;
 
-/** Preços de referência do Quarto Duplo em baixa temporada.
- *
- * Ficam aqui, num lugar só, porque o mesmo número aparece na primeira tela, no
- * comparativo com o Booking e na seção de acomodações. Espalhados pelo arquivo, um
- * reajuste faria o site se contradizer sozinho. */
-const PRECO_DIRETO = 400;
-const PRECO_BOOKING = 530;
-const ECONOMIA = PRECO_BOOKING - PRECO_DIRETO;
-
 // Só as mensagens · o link é montado dentro do componente, porque quem chega pelo anúncio
 // de meio de semana (`?oferta=semana`) envia um texto diferente. Ver whatsapp-link.ts.
 const MSG_DISPONIBILIDADE = "Olá! Vim pelo site da Pousada Ilha do Meio e quero ver a disponibilidade e os valores.";
@@ -222,7 +214,7 @@ export const Route = createFileRoute("/")({
           url: "https://pousadailhadomeio.com.br/",
           image: `${SITE}${piscinaHero}`,
           telephone: "+55-71-9126-3096",
-          priceRange: "R$ 400 – R$ 650",
+          priceRange: `R$ ${PRECO_DIRETO} – R$ 650`,
           checkinTime: "13:00",
           checkoutTime: "12:00",
           numberOfRooms: 17,
@@ -293,11 +285,11 @@ const ROOMS: RoomCard[] = [
   {
     name: "Quarto Duplo · para o casal",
     capacity: "Cama de casal, ar-condicionado, frigobar e café da manhã incluso. Perto da praia.",
-    price: "R$ 400",
+    price: `R$ ${PRECO_DIRETO}`,
     image: quartoDuplo,
     alt: "Quarto Duplo da Pousada Ilha do Meio",
     cta: "Quero reservar o Quarto Duplo",
-    waMsg: "Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ 400/noite. Pode confirmar disponibilidade para as minhas datas?",
+    waMsg: `Olá! Tenho interesse no Quarto Duplo (2 pessoas) da Pousada Ilha do Meio, a partir de R$ ${PRECO_DIRETO}/noite. Pode confirmar disponibilidade para as minhas datas?`,
     photos: [
       { ...P.quartoDuplo, caption: "Quarto Duplo · Vista geral", desc: "Ambiente confortável, ideal para casais." },
       { ...P.quartoDuploDetalhe, caption: "Quarto Duplo · Outro ângulo", desc: "Cama de casal com TV, ar-condicionado e banheiro privativo." },
@@ -1134,7 +1126,7 @@ function HomePage() {
                 href={WHATSAPP}
                 target="_blank"
                 rel="noopener"
-                onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto", 400)}
+                onClick={() => trackWhatsAppLead("Comparativo Booking vs Direto", PRECO_DIRETO)}
                 className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground motion-safe:active:scale-[0.97] hover:brightness-110 px-5 py-3 text-sm font-semibold shadow-lg shadow-primary/20 transition"
               >
                 <WhatsAppIcon className="h-4 w-4" />
