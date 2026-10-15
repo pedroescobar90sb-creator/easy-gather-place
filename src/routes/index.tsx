@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Wifi, UtensilsCrossed, Gamepad2, Users, Sunset, Sofa, MoreVertical, Instagram, Navigation, ChevronRight } from "lucide-react";
+import { MapPin, Star, ShieldCheck, Check, ExternalLink, AirVent, MonitorPlay, Refrigerator, Wifi, UtensilsCrossed, MoreVertical, Instagram, Navigation, ChevronRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { HeroVideoBackground } from "@/components/HeroVideoBackground";
@@ -38,7 +38,6 @@ import piscinaHero from "@/assets/piscina-hero-clean.webp";
 
 
 import salaoJogosBilhar from "@/assets/salao-jogos-bilhar.jpg";
-import lazerDrone from "@/assets/lazer-drone-piscina.jpg";
 import aereaOrla from "@/assets/aerea-itacimirim-orla.jpg";
 import aereaOrla480 from "@/assets/thumbs/aerea-itacimirim-orla@480.webp";
 import aereaOrla960 from "@/assets/thumbs/aerea-itacimirim-orla@960.webp";
@@ -62,7 +61,6 @@ import palmBg2 from "@/assets/palm-bg-2.webp";
 // Fundos decorativos usam a variante reduzida: todos ficam atrás de camada escura ou de
 // grão, então a original (de 253 a 474 KB cada) não acrescentava nada visível.
 import bgCoqueiros960 from "@/assets/thumbs/bg-coqueiros-escuro@960.webp";
-import lazerDrone960 from "@/assets/thumbs/lazer-drone-piscina@960.webp";
 import palmBg2_960 from "@/assets/thumbs/palm-bg-2@960.webp";
 import piscinaNoite960 from "@/assets/thumbs/piscina-noite@960.webp";
 import piscinaHero480 from "@/assets/thumbs/piscina-hero-clean@480.webp";
@@ -981,79 +979,67 @@ function HomePage() {
         </div>
       </section>
 
-      {/* LAZER — SALÃO DE JOGOS */}
-      <section id="lazer" className="relative isolate overflow-hidden">
-        {/* Wallpaper: vista aérea da piscina, preenche o fundo da seção */}
+      {/* LAZER */}
+      <section id="lazer" aria-labelledby="lazer-title" className="scroll-mt-28 bg-background sm:scroll-mt-32">
         <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${lazerDrone960})` }}
-        />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-black/55" />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/35 to-black/65" />
-        <GrainOverlay />
-
-        <div ref={revealLazer.ref} className={cn(revealLazer.revealClass, "relative mx-auto max-w-6xl px-4 py-16 sm:py-24")}>
-          <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-sand font-medium">II. Lazer</p>
-            <h2 className="mt-3 font-display text-3xl sm:text-5xl leading-[1.02] text-balance text-white">
-              Bilhar, quiosque, rede.<br />
-              <span className="italic opacity-90">Tudo a três passos do quarto.</span>
+          ref={revealLazer.ref}
+          className={cn(revealLazer.revealClass, "mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:py-20 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-24")}
+        >
+          <div className="lg:col-span-4">
+            <p className="text-sm font-medium text-muted-foreground">Lazer</p>
+            <h2 id="lazer-title" className="mt-3 font-display text-4xl leading-tight text-foreground sm:text-5xl">
+              Salão de jogos
             </h2>
-            <p className="mt-4 text-white/80 leading-relaxed max-w-md">
-              O salão de jogos é o ponto de encontro entre famílias, casais e grupos de amigos: espaço pensado para relaxar entre um passeio e outro, com clima leve e descontraído.
+            <p className="mt-5 max-w-md text-base leading-relaxed text-foreground">
+              Bilhar, pebolim e tênis de mesa em um salão coberto, aberto para o jardim.
             </p>
-          </div>
-        </div>
-
-        {/* Filmstrip horizontal — arraste pro lado */}
-        <div className="mt-10 flex gap-4 overflow-x-auto pb-6 pl-4 sm:pl-[max(1rem,calc((100vw-72rem)/2+1rem))] pr-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {[
-            { ...P.salaoJogosBilhar, caption: "Mesa de Bilhar", desc: "Sinuca em ambiente coberto, com vista para o jardim." },
-            { ...P.salaoJogosMesa, caption: "Mesa de jogos", desc: "Sinuca, pebolim e jogos de mesa para todas as idades." },
-          ].map((photo) => (
-            <figure
-              key={photo.src}
-              className="relative shrink-0 w-[78vw] sm:w-[420px] aspect-[4/5] overflow-hidden rounded-3xl bg-background ring-1 ring-border/60 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.35)] snap-center"
+            <p className="mt-3 text-sm text-muted-foreground">
+              Uso exclusivo dos hóspedes.
+            </p>
+            <Link
+              to="/ambientes"
+              className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:text-foreground hover:decoration-current active:text-muted-foreground"
             >
-              {/* As variantes existiam e estavam importadas · esta img ignorava as duas e
-                  baixava o original (400 e 581 KB) para uma caixa de ~305px. */}
-              <img
-                src={photo.mid ?? photo.src}
-                srcSet={photo.thumb && photo.mid ? `${photo.thumb} 480w, ${photo.mid} 960w` : undefined}
-                sizes="(min-width: 640px) 420px, 78vw"
-                width={photo.width}
-                height={photo.height}
-                alt={photo.desc}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <figcaption className="absolute bottom-4 left-4 right-4 font-display text-lg text-white">
-                {photo.caption}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+              Ver todos os ambientes
+              <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+            </Link>
+          </div>
 
-        <div className="mx-auto max-w-6xl px-4 pb-16 sm:pb-24">
-          <ul className="flex flex-wrap gap-3 text-sm text-foreground/90">
-            {[
-              { icon: Gamepad2, label: "Sinuca, pebolim e jogos de mesa" },
-              { icon: Users, label: "Ambiente reservado para hóspedes" },
-              { icon: Sunset, label: "Ideal para finais de tarde e noites" },
-              { icon: Sofa, label: "Próximo à área de convivência" },
-            ].map(({ icon: Icon, label }) => (
-              <li
-                key={label}
-                className="inline-flex items-center gap-2.5 rounded-full border border-border/60 bg-background px-4 py-2.5"
-              >
-                <Icon className="h-4 w-4 text-primary shrink-0" strokeWidth={1.8} />
-                {label}
-              </li>
-            ))}
-          </ul>
+          <div className="grid min-w-0 gap-6 sm:grid-cols-5 lg:col-span-8">
+            <figure className="min-w-0 sm:col-span-3">
+              <div className="aspect-[4/3] overflow-hidden rounded-xl bg-muted sm:aspect-[3/4]">
+                <img
+                  src={P.salaoJogosBilhar.mid}
+                  srcSet={`${P.salaoJogosBilhar.thumb} 480w, ${P.salaoJogosBilhar.mid} 960w`}
+                  sizes="(min-width: 64rem) 27rem, (min-width: 40rem) 60vw, calc(100vw - 2rem)"
+                  width={P.salaoJogosBilhar.width}
+                  height={P.salaoJogosBilhar.height}
+                  alt="Mesa de bilhar no salão coberto, com o jardim ao fundo"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover object-[center_65%] sm:object-center"
+                />
+              </div>
+              <figcaption className="mt-3 text-sm text-muted-foreground">Bilhar durante o dia</figcaption>
+            </figure>
+
+            <figure className="min-w-0 sm:col-span-2 sm:mt-12 lg:mt-16">
+              <div className="aspect-[3/2] overflow-hidden rounded-xl bg-muted sm:aspect-[3/4]">
+                <img
+                  src={P.salaoJogosMesa.mid}
+                  srcSet={`${P.salaoJogosMesa.thumb} 480w, ${P.salaoJogosMesa.mid} 960w`}
+                  sizes="(min-width: 64rem) 18rem, (min-width: 40rem) 40vw, calc(100vw - 2rem)"
+                  width={P.salaoJogosMesa.width}
+                  height={P.salaoJogosMesa.height}
+                  alt="Salão de jogos à noite, com mesas de bilhar, pebolim e tênis de mesa"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover object-[center_70%] sm:object-center"
+                />
+              </div>
+              <figcaption className="mt-3 text-sm text-muted-foreground">Salão ao anoitecer</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
